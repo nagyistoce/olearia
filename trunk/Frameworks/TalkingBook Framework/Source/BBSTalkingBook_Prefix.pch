@@ -1,0 +1,13 @@
+//
+//  Olearia_Prefix.pch
+//  Olearia
+//
+//  Created by Kieren Eaton on 4/05/08.
+//  BrainBender Software 2008.
+//
+
+// Prefix header for all source files of the 'Olearia' target in the 'Olearia' project
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
