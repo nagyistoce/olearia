@@ -28,14 +28,19 @@
 	NSDictionary	*guide;	
 	NSArray			*spine;
 	NSArray			*tour;
+	NSXMLNode		*metaDataNode;
+	
+	
 	
 	NSString		*bookTitle;
 	NSString		*bookSubject;
 	NSString		*bookTotalTime;
+	NSInteger		bookType;
+	NSInteger		bookMediaFormat;
+	
 	NSString		*ncxFilename;
 	
-	TalkingBookType			bookType;
-	TalkingBookMediaFormat	bookMediaFormat;
+
 
 	NSString		*OPFBookTypeString;
 	NSString		*OPFMediaFormatString;
@@ -45,7 +50,6 @@
 }
 
 - (id)initWithURL:(NSURL *)aURL;
-
 
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
@@ -58,11 +62,10 @@
 @property (readonly, retain) NSString *bookTitle;
 @property (readonly, retain) NSString *bookSubject;
 @property (readonly, retain) NSString *bookTotalTime;
+@property (readonly) NSInteger bookType;
+@property (readonly) NSInteger bookMediaFormat;
+
 @property (readonly, retain) NSString *ncxFilename;
-
-@property (readonly) TalkingBookType bookType;
-@property (readonly) TalkingBookMediaFormat bookMediaFormat;
-
 @property (readonly) NSInteger	currentPosInSpine;
 
 @end
