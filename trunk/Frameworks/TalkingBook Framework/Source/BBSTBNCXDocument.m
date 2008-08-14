@@ -19,6 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <Foundation/Foundation.h>
+#import "BBSTBControlDoc.h"
 #import "BBSTBNCXDocument.h"
 #import "BBSTBSMILDocument.h"
 #import "BBSTalkingBookTypes.h"
@@ -33,11 +34,13 @@
 @property (readwrite, retain) NSDictionary *documentTitleDict;
 @property (readwrite, retain) NSDictionary *documentAuthorDict;
 @property (readwrite, retain) NSDictionary *segmentAttributes;
+@property (readwrite, retain) NSString *bookTitle;
 
 @property (readwrite, retain) NSString *documentUID;
 @property (readwrite, retain) NSString *segmentTitle;
 @property (readwrite) NSInteger totalPages;
 @property (readwrite) NSInteger totalTargetPages;
+@property (readwrite) NSInteger currentLevel;
 
 @property (readwrite, retain) NSXMLElement	*ncxRootElement;
 @property (readwrite, retain) NSXMLNode		*currentNavPoint;
@@ -53,10 +56,10 @@
 - (NSDictionary *)processDocAuthor;
 - (NSArray *)processNavMap; 
 - (void)processSmilFile:(NSString *)smilFilename;
-- (NSUInteger)navPointsOnCurrentLevel;
-- (NSUInteger)navPointIndexOnCurrentLevel;
+//- (NSUInteger)navPointsOnCurrentLevel;
+//- (NSUInteger)navPointIndexOnCurrentLevel;
 
-- (TalkingBookType)documentVersion;
+- (NSInteger)documentVersion;
 - (NSString *)filenameFromID:(NSString *)anIdString;
 - (NSString *)nextSegmentFilename;
 - (NSString *)previousSegmentFilename;
@@ -76,8 +79,9 @@
 @synthesize navTargets; 
 @synthesize currentNavPoint;
 @synthesize segmentTitle;
+@synthesize bookTitle;
 
-@dynamic maxLevels, totalPages, totalTargetPages,documentUID;
+@dynamic totalPages, totalTargetPages,documentUID;
 
 
 - (id)initWithURL:(NSURL *)aURL
@@ -90,7 +94,6 @@
 		shouldUseNavmap = NO;
 		self.loadFromCurrentLevel = NO;
 		isFirstRun = YES;
-		isAtPhraseLevel = NO;
 		self.ncxDoc = nil;
 		self.ncxDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 				
@@ -111,7 +114,7 @@
 				self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
 			}
 			 
-			currentLevel = 1;
+			self.currentLevel = 1;
 			currentPlayIndex = -1;
 		}
 		else  
@@ -225,7 +228,6 @@
 {
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
 	
-#pragma mark remOVE Once we parse the xmlcontent properly	
 	NSInteger inc = 0; // 
 	
 	NSArray *smilChapters = [smilDoc chapterMarkers];
@@ -253,7 +255,7 @@
 }
 
 
-
+/*
 - (BOOL)canGoNext
 {
 	// return YES if we can go forward in the navmap
@@ -277,6 +279,7 @@
 	// return YES if there are navPoint Nodes below this level
 	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
 }
+*/
 
 - (NSString *)goDownALevel
 {
@@ -428,6 +431,7 @@
 
 - (NSDictionary *)processMetadata
 {
+	
 	self.versionString = [[ncxRootElement attributeForName:@"version"] stringValue];
 	
 	// get the head element , there will only ever be one.
@@ -475,6 +479,7 @@
 		if([[anElement name] isEqualToString:@"text"])
 		{
 			[tempData setObject:[anElement stringValue] forKey:@"text"];
+			self.bookTitle = [anElement stringValue];
 		}
 		else if([[anElement name] isEqualToString:@"audio"])
 		{
@@ -533,14 +538,14 @@
 	self.smilDoc = [[BBSTBSMILDocument alloc] initWithURL:smilURL];
 }
 
-- (TalkingBookType)documentVersion
+- (NSInteger)documentVersion
 {
 	// check for an earlier than 2005 version string
 	if([versionString hasPrefix:@"1.1."])
-		return DaisyTalkingBook2002Type;
+		return DTB2002Type;
 	
 	// return the default
-	return DaisyTalkingBook2005Type;
+	return DTB2005Type;
 }
 
 - (NSArray *)processNavMap
@@ -558,7 +563,7 @@
 	
 	return tempNavMapPoints;
 }
-
+/*
 - (NSUInteger)navPointsOnCurrentLevel
 {
 	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
@@ -569,6 +574,7 @@
 	// returns an index of the current navPoint relative to the other navPoints on the same level
 	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
 }
+*/
 
 #pragma mark -
 #pragma mark Dynamic Accessors
