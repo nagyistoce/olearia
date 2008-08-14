@@ -20,10 +20,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BBSTBControlDoc.h"
 
 @class BBSTBSMILDocument;
 
-@interface BBSTBNCXDocument : NSObject 
+@interface BBSTBNCXDocument : BBSTBControlDoc 
 {
 
 	BBSTBSMILDocument	*smilDoc;
@@ -37,25 +38,26 @@
 	BOOL				shouldUseNavmap;
 	BOOL				isFirstRun;
 	BOOL				loadFromCurrentLevel;
-	BOOL				isAtPhraseLevel;
+	//BOOL				isAtPhraseLevel;
 	
 	NSXMLDocument		*ncxDoc;
 	
 	NSXMLElement		*ncxRootElement;
-	NSXMLNode			*currentNavPoint;
+	//NSXMLNode			*currentNavPoint;
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
 	
 	NSInteger			maxNavPointsAtThisLevel;
 	NSInteger			currentPlayIndex;
-	NSInteger			currentLevel;
+	//NSInteger			currentLevel;
 	//NSInteger			maxLevels;			// dtb:depth
-	NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
-	NSInteger			totalTargetPages;	// dtb:totalPageCount
-	NSString			*documentUID;		// dtb:uid
+	//NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
+	//NSInteger			totalTargetPages;	// dtb:totalPageCount
+	//NSString			*documentUID;		// dtb:uid
 	NSString			*versionString;
 	NSString			*parentFolderPath;
-	NSString			*segmentTitle;
+	//NSString			*segmentTitle;
+	//NSString			*bookTitle;
 	
 
 	
@@ -64,28 +66,32 @@
 - (id)initWithURL:(NSURL *)aURL;
 - (NSString *)nextSegmentAudioFilePath;
 - (NSString *)previousSegmentAudioFilePath;
-
+/*
 - (BOOL)canGoNext;
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
 - (BOOL)canGoDownLevel;
+*/
+ 
 - (NSString *)goUpALevel;
 - (NSString *)goDownALevel;
+
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
 @property (readwrite, assign) BOOL loadFromCurrentLevel;
 @property (readonly, retain) NSDictionary *metaData;
 @property (readonly, retain) NSDictionary *documentTitleDict;
+
 @property (readonly, retain) NSDictionary *documentAuthorDict;
+//@property (readonly, retain) NSString	*bookTitle;
 @property (readonly, retain) NSDictionary *smilCustomTest;
 @property (readonly, retain) NSDictionary *segmentAttributes;
 
-@property (readonly) NSInteger currentLevel;
-@property (readonly) NSInteger maxLevels;
-@property (readonly) NSInteger totalPages;
-@property (readonly) NSInteger totalTargetPages;
-@property (readonly, retain) NSString *documentUID;
-@property (readonly, retain) NSString *segmentTitle;
+//@property (readonly) NSInteger currentLevel;
+//@property (readonly) NSInteger totalPages;
+//@property (readonly) NSInteger totalTargetPages;
+//@property (readonly, retain) NSString *documentUID;
+//@property (readonly, retain) NSString *segmentTitle;
 
 @end

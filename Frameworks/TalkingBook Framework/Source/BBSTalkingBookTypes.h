@@ -32,10 +32,10 @@
 
 typedef enum 
 {
-	DTBPre2002Type = 10,
 	DTB2002Type = 20,
 	DTB2005Type = 21,
-	BookshareType = 30,
+	BookshareType = 22,
+	DTBPre2002Type = 30,
 	NIMASType = 40,
 	UnknownBookType = 99
 } TalkingBookType;

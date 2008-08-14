@@ -50,6 +50,8 @@
 		EE1808760E13800400AEE163 /* BBSTalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */; };
 		EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
+		EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
+		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
 		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
@@ -150,6 +152,8 @@
 		EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBTextDocument.m; path = Source/BBSTBTextDocument.m; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
+		EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBControlDoc.h; path = Source/BBSTBControlDoc.h; sourceTree = "<group>"; };
+		EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBControlDoc.m; path = Source/BBSTBControlDoc.m; sourceTree = "<group>"; };
 		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement-BBSExtensions.h"; sourceTree = "<group>"; };
 		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
@@ -164,7 +168,7 @@
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
 		EEC1AA960E3C7C160000512D /* gplv3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gplv3.tiff; sourceTree = "<group>"; };
 		EEC1AB770E3C91F50000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
-		EEC1AB850E3C93FF0000512D /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		EEC1AB850E3C93FF0000512D /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Preferences.xib; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +356,8 @@
 				EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */,
 				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
 				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
+				EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */,
+				EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -404,6 +410,7 @@
 				EE1808690E137F9700AEE163 /* BBSTBTextDocument.h in Headers */,
 				EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */,
 				EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */,
+				EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,6 +577,7 @@
 				EE18086A0E137F9700AEE163 /* BBSTBTextDocument.m in Sources */,
 				EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */,
 				EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */,
+				EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
