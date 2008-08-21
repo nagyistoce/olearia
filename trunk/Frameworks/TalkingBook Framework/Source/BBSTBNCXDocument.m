@@ -470,25 +470,31 @@
 
 - (NSDictionary *)processDocTitle
 {
-	// get the doctitle element , there will only ever be one.
-	NSXMLNode *docTitleElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"docTitle"]] objectAtIndex:0];
-	NSArray *elements = [NSArray arrayWithArray:[docTitleElement children]];
 	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	for(NSXMLElement *anElement in elements)
+	// get the doctitle element , there will only ever be one.
+	NSArray *titleElementArray = [ncxRootElement elementsForName:@"docTitle"];
+	if([titleElementArray count]  > 0)
 	{
-		if([[anElement name] isEqualToString:@"text"])
+		NSXMLNode *docTitleElement = [titleElementArray objectAtIndex:0];
+		NSArray *elements = [NSArray arrayWithArray:[docTitleElement children]];
+		
+		for(NSXMLElement *anElement in elements)
 		{
-			[tempData setObject:[anElement stringValue] forKey:@"text"];
-			self.bookTitle = [anElement stringValue];
-		}
-		else if([[anElement name] isEqualToString:@"audio"])
-		{
-			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-			for(NSXMLNode *aNode in attribs)
+			if([[anElement name] isEqualToString:@"text"])
 			{
-				[tempData setObject:[aNode stringValue] forKey:[aNode name]];
+				[tempData setObject:[anElement stringValue] forKey:@"text"];
+				self.bookTitle = [anElement stringValue];
+			}
+			else if([[anElement name] isEqualToString:@"audio"])
+			{
+				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
+				for(NSXMLNode *aNode in attribs)
+				{
+					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
+				}
 			}
 		}
+		
 	}
 	
 	// check if the dict is empty
@@ -501,27 +507,33 @@
 
 - (NSDictionary *)processDocAuthor
 {
-	
-	// get the docAuthor element , there will only ever be one.
-	NSXMLElement *DocAuthorElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"docAuthor"]] objectAtIndex:0];
-	NSArray *elements = [NSArray arrayWithArray:[DocAuthorElement children]];
 	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	for(NSXMLElement *anElement in elements)
+	// get the docAuthor element , there will only ever be one.
+	NSArray *authElementsArray = [ncxRootElement elementsForName:@"docAuthor"];
+	if([authElementsArray count] > 0)
 	{
-		if([[anElement name] isEqualToString:@"text"])
+		NSXMLElement *DocAuthorElement = [authElementsArray objectAtIndex:0];
+		
+		NSArray *elements = [NSArray arrayWithArray:[DocAuthorElement children]];
+		
+		for(NSXMLElement *anElement in elements)
 		{
-			[tempData setObject:[anElement stringValue] forKey:@"text"];
-		}
-		else if([[anElement name] isEqualToString:@"audio"])
-		{
-			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-			for(NSXMLNode *aNode in attribs)
+			if([[anElement name] isEqualToString:@"text"])
 			{
-				[tempData setObject:[aNode stringValue] forKey:[aNode name]];
+				[tempData setObject:[anElement stringValue] forKey:@"text"];
+			}
+			else if([[anElement name] isEqualToString:@"audio"])
+			{
+				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
+				for(NSXMLNode *aNode in attribs)
+				{
+					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
+				}
 			}
 		}
+		
 	}
-	// check if the dict is empty
+		// check if the dict is empty
 	if([tempData count] == 0)
 		return nil;
 
