@@ -324,7 +324,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 		{
 			case DTB2005Type:
 			case DTB2002Type:
-				self.packageDoc = [[BBSTBOPFDocument alloc] init];
+				packageDoc = [[BBSTBOPFDocument alloc] init];
 				break;
 			case BookshareType:
 				
