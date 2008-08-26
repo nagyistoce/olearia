@@ -279,6 +279,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 				[self setupAudioNotifications];
 
 			self.bookTitle = [packageDoc bookTitle];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 		}
 		//setup the notifications for the changing values on the documents
 		[self updateForPosInBook];		
@@ -405,6 +406,8 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 		// get the filename of the next audio file to play from the ncx file
 		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
 		self.sectionTitle = [controlDoc segmentTitle];
+		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		
 	}
 	
 	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
@@ -634,10 +637,9 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 					{
 						totalChapters = [currentAudioFile chapterCount];
 						currentChapterIndex = 0;
-						//[self sendChapterNotifications];
-						[self updateForPosInBook];
 					}
 				}
+				[self updateForPosInBook];
 			}
 		}
 		else

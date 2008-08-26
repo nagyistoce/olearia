@@ -28,7 +28,7 @@
 
 - (id) init
 {
-	if (!(self=[super init])) return nil;
+	if (![super initWithWindowNibName:@"Preferences"]) return nil;
 
 	availableVoices = [NSSpeechSynthesizer availableVoices];
 			
