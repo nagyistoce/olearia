@@ -42,19 +42,6 @@
 	
 }
 
-//- (BOOL)openFileWithURL:(NSURL *)aURL;
-//- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-
-//- (BOOL)canGoNext;
-//- (BOOL)canGoPrev;
-//- (BOOL)canGoUpLevel;
-//- (BOOL)canGoDownLevel;
-
-
-//- (NSString *)goUpALevel;
-//- (NSString *)goDownALevel;
-
-
 @property (readonly) TalkingBookMediaFormat bookFormat;
 @property (readonly, retain) NSString	*bookTitle;
 @property (readonly) NSInteger currentLevel;
