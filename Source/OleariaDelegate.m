@@ -26,9 +26,6 @@
 
 @interface OleariaDelegate ()
 
-- (void)enableLevelButtons:(BOOL)aState;
-- (void)enableToolButtons:(BOOL)aState;
-- (void)disableAllControls;
 
 @end
 
@@ -64,7 +61,7 @@
 
 - (void) awakeFromNib
 {
-	[toolsView addSubview:volumeRateView];
+	//[toolsView addSubview:volumeRateView];
 	
 	// 0x0020 is the space character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
@@ -124,7 +121,7 @@
 		
 		[talkingBook pauseAudio];
 		
-		[self disableAllControls];
+		//[self disableAllControls];
 		[playPauseMenuItem setEnabled:YES];
 		[playPauseButton setEnabled:YES];
 	}
@@ -295,9 +292,10 @@
 
 - (IBAction)toggleToolBox:(NSButton *)sender
 {
+	/*
 	// get the size of the window
 	NSRect windowRect = [mainWindow frame];
-	NSRect toolboxrect = [toolBox frame];
+	//NSRect toolboxrect = [toolBox frame];
 	NSRect discFrame = [toolBoxDisclosure frame];
 	// start the grouped animation set
 	[NSAnimationContext beginGrouping];
@@ -310,22 +308,22 @@
 		windowRect.size.height = windowRect.size.height + (toolBoxOrigSize.size.height - 26);
 		windowRect.origin.y = windowRect.origin.y -  (toolBoxOrigSize.size.height - 26);
 
-		toolboxrect.size.height = toolBoxOrigSize.size.height;
+		//toolboxrect.size.height = toolBoxOrigSize.size.height;
 
 		discFrame.origin.y =  discFrame.origin.y + (toolBoxOrigSize.size.height - 26);
 	}
 	else // collapsing
 	{
-		windowRect.origin.y = windowRect.origin.y + (toolboxrect.size.height -  26);
+		//windowRect.origin.y = windowRect.origin.y + (toolboxrect.size.height -  26);
 		windowRect.size.height = windowRect.size.height - (toolboxrect.size.height -  26);
-		toolboxrect.size.height = 26;
+		//toolboxrect.size.height = 26;
 		discFrame.origin.y =  discFrame.origin.y - (toolBoxOrigSize.size.height - 26);
 	}
 	[[toolBoxDisclosure animator] setFrame:discFrame];
 	[[toolBox animator] setFrame:toolboxrect];
 	[[mainWindow animator] setFrame:windowRect display:NO animate:YES];
 	[NSAnimationContext endGrouping];
-	
+	*/
 }
 
 #pragma mark -

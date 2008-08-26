@@ -100,8 +100,7 @@
 	BOOL isOK = NO;
 	
 		NSError *theError;
-
-
+	
 		self.ncxDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 				
 		if(ncxDoc != nil)
@@ -291,7 +290,7 @@
 	NSString *audioFilename = nil;
 	
 	if([self canGoDownLevel]) // first check if we can go down a level
-	{	currentLevel++; // increment the level index
+	{	self.currentLevel++; // increment the level index
 		self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
 		// set the segment attributes for the current navPoint
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
@@ -324,7 +323,7 @@
 	
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
-		currentLevel--; // decrement the level index
+		self.currentLevel--; // decrement the level index
 		self.currentNavPoint = [currentNavPoint parent];
 		// set the segment attributes for the current navPoint
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
@@ -401,7 +400,7 @@
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
 				self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				currentLevel++; // increment the level index
+				self.currentLevel++; // increment the level index
 			}
 			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
 				self.currentNavPoint = [currentNavPoint nextSibling];
@@ -412,7 +411,7 @@
 					// get the parent then its sibling as we have already played 
 					// the parent before dropping into this level
 					self.currentNavPoint = [[currentNavPoint parent] nextSibling];
-					currentLevel--; // decrement the current level
+					self.currentLevel--; // decrement the current level
 				}
 			}
 		}

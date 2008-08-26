@@ -33,12 +33,12 @@ extern NSString * const BBSTBUseVoiceForPlayback;
 
 typedef enum 
 {
-	levelNavigationMode,
-	pageNavigationMode,
-	phraseNavigationMode,
-	sentenceNavigationMode,
-	wordNavigationMode
-} levelNavControlMode;
+	levelNavigationControlMode,
+	pageNavigationControlMode,
+	phraseNavigationControlMode,
+	sentenceNavigationControlMode,
+	wordNavigationControlMode
+} levelControlMode;
 
 @interface BBSTalkingBook : NSObject 
 {
@@ -48,7 +48,7 @@ typedef enum
 	NSString				*bookTitle;
 	NSString				*sectionTitle;
 	TalkingBookType			controlMode;
-	levelNavControlMode		navigationMode;
+	levelControlMode		levelNavConMode;
 	NSInteger				maxLevels;
 	NSInteger				totalChapters;
 	NSInteger				currentLevelIndex;
@@ -126,15 +126,12 @@ typedef enum
 - (BOOL)nextSegment;
 - (BOOL)previousSegment;
 
-- (BOOL)hasNextFile;
-- (BOOL)hasPrevFile;
 - (BOOL)hasChapters;
 
 - (void)upOneLevel;
 - (void)downOneLevel;
-- (NSInteger)currentLevelIndex;
 
-- (void)sendNotificationsForPosInBook;
+
 
 - (void)nextChapter;
 - (void)previousChapter;

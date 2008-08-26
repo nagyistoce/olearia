@@ -27,7 +27,7 @@
 
 //- (NSUInteger)navPointsOnCurrentLevel;
 //- (NSUInteger)navPointIndexOnCurrentLevel;
-- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
+//- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
 
 @end
 
