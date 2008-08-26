@@ -72,7 +72,7 @@
 	
 }
 
-- (IBAction)displayVolumeRateView:(id)sender;
+//- (IBAction)displayVolumeRateView:(id)sender;
 - (IBAction)displayPrefsPanel:(id)sender;
 - (IBAction)open:(id)sender;
 - (IBAction)PlayPause:(id)sender;

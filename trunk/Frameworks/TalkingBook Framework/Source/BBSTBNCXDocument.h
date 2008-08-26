@@ -67,12 +67,12 @@
 //- (id)initWithURL:(NSURL *)aURL;
 - (NSString *)nextSegmentAudioFilePath;
 - (NSString *)previousSegmentAudioFilePath;
-/*
+
 - (BOOL)canGoNext;
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
 - (BOOL)canGoDownLevel;
-*/
+
  
 - (NSString *)goUpALevel;
 - (NSString *)goDownALevel;

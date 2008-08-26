@@ -42,7 +42,7 @@
 	
 }
 
-- (BOOL)openFileWithURL:(NSURL *)aURL;
+//- (BOOL)openFileWithURL:(NSURL *)aURL;
 //- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
 
 //- (BOOL)canGoNext;
