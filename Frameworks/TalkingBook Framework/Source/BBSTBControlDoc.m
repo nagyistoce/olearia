@@ -3,8 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 14/08/08.
-//  2008 BrainBender Software.
-//
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,62 +21,83 @@
 
 
 #import "BBSTBControlDoc.h"
+#import "BBSTBNCXDocument.h"
 
 @interface BBSTBControlDoc()
 
-- (NSUInteger)navPointsOnCurrentLevel;
-- (NSUInteger)navPointIndexOnCurrentLevel;
+//- (NSUInteger)navPointsOnCurrentLevel;
+//- (NSUInteger)navPointIndexOnCurrentLevel;
+- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
 
 @end
 
 
 @implementation BBSTBControlDoc
 
-@synthesize bookFormat, currentLevel, totalPages, totalTargetPages;
-@synthesize bookTitle, segmentTitle, documentUID;
-
-- (BOOL)canGoNext
-{
-	// return YES if we can go forward in the navmap
-	return ([self navPointIndexOnCurrentLevel] < ([self navPointsOnCurrentLevel] - 1)) ? YES : NO; 
-}
-
-- (BOOL)canGoPrev
-{
-	// return YES if we can go backwards in the navMap
-	return ([self navPointIndexOnCurrentLevel] > 0) ? YES : NO;
-}
-
-- (BOOL)canGoUpLevel
-{
-	// return Yes if we are at a lower level
-	return (currentLevel > 1) ? YES : NO;
-}
-
-- (BOOL)canGoDownLevel
-{
-	// return YES if there are navPoint Nodes below this level
-	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
-}
-
-- (NSUInteger)navPointsOnCurrentLevel
-{
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
-}
-
-- (NSUInteger)navPointIndexOnCurrentLevel
-{
-	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
-}
 /*
-- (NSString *)goUpALevel
+- (BOOL)openFileWithURL:(NSURL *)aURL
 {
+	BOOL fileOK = NO;
 	
-}
-- (NSString *)goDownALevel
-{
+	TalkingBookControlDocType docType = [self typeOfControlDoc:aURL];
+
+	if(ncxControlDocType == docType)
+	{
+		controlDocument = [[BBSTBNCXDocument alloc] initWithURL:aURL];
+		  
+	}
+	else if(nccControlDocType == docType)
+	{
+		// open the ncc file here
+	}
+	
+	if( nil != controlDocument)
+	{	
+		fileOK = YES;
+		// bind the values for easy updating when changed in the subclass
+	
+	}
+	
+	return fileOK;
 	
 }
 */
+
+#pragma mark -
+#pragma mark Dynamic Methods
+
+- (TalkingBookMediaFormat)bookFormat
+{
+	return [controlDocument bookFormat];
+}
+
+- (NSString	*)bookTitle
+{
+	return [controlDocument bookTitle];
+}
+
+- (NSInteger)currentLevel
+{
+	return [controlDocument currentLevel];
+}
+
+- (NSInteger)totalPages
+{
+	return [controlDocument totalPages];
+}
+
+- (NSInteger)totalTargetPages
+{
+	return [controlDocument totalTargetPages];
+}
+
+- (NSString *)documentUID
+{
+	return [controlDocument documentUID];
+}
+
+- (NSString *)segmentTitle
+{
+	return [controlDocument segmentTitle];
+}
 @end

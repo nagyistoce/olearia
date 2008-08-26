@@ -1,8 +1,8 @@
 //
-//  BBSTBTextDocument.h
+//  BBSTBPackageDoc.h
 //  BBSTalkingBook
 //
-//  Created by Kieren Eaton on 14/05/08.
+//  Created by Kieren Eaton on 25/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,29 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BBSTalkingBookTypes.h"
 
-@interface BBSTBTextDocument : NSObject 
+@interface BBSTBPackageDoc : NSObject 
 {
-	BOOL			isFullText;
-	NSXMLDocument	*textDoc;
+
+	NSString				*bookTitle;
+	NSString				*bookSubject;
+	NSString				*bookTotalTime;
+	TalkingBookType			bookType;
+	TalkingBookMediaFormat	bookMediaFormat;
+	
+	NSString				*ncxFilename;
+	
 	
 }
 
+@property (readonly, retain) NSString *bookTitle;
+@property (readonly, retain) NSString *bookSubject;
+@property (readonly, retain) NSString *bookTotalTime;
+@property (readonly) TalkingBookType bookType;
+@property (readonly) TalkingBookMediaFormat bookMediaFormat;
+
+@property (readonly, retain) NSString *ncxFilename;
 
 
 @end

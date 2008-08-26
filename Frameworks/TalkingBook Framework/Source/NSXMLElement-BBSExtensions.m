@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 3/07/08.
-//  2008 BrainBender Software.
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

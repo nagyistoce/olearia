@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 5/05/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,39 +17,54 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 
 #import <Cocoa/Cocoa.h>
 #import "BBSTalkingBookTypes.h"
 
-@class BBSTBOPFDocument, BBSTBNCXDocument, BBSTBSMILDocument, BBSTBTextDocument;
+@class BBSTBSMILDocument, BBSTBTextDocument;
+@class BBSTBControlDoc, BBSTBPackageDoc;
 @class QTMovie;
 
-extern NSString * const BBSTBCanGoNextFileNotification;
-extern NSString * const BBSTBCanGoPrevFileNotification;
-extern NSString * const BBSTBCanGoUpLevelNotification;
-extern NSString * const BBSTBCanGoDownLevelNotification;
-extern NSString * const BBSTBhasNextChapterNotification;
-extern NSString * const BBSTBhasPrevChapterNotification;
+extern NSString * const BBSTBPlaybackVolume;
+extern NSString * const BBSTBPlaybackRate;
+extern NSString * const BBSTBPlaybackVoice;
+extern NSString * const BBSTBUseVoiceForPlayback;
 
+typedef enum 
+{
+	levelNavigationMode,
+	pageNavigationMode,
+	phraseNavigationMode,
+	sentenceNavigationMode,
+	wordNavigationMode
+} levelNavControlMode;
 
 @interface BBSTalkingBook : NSObject 
 {
-
-	
+	NSString				*preferredVoice;
+	NSSpeechSynthesizer		*speechSynth;
 	
 	NSString				*bookTitle;
 	NSString				*sectionTitle;
+	TalkingBookType			controlMode;
+	levelNavControlMode		navigationMode;
 	NSInteger				maxLevels;
 	NSInteger				totalChapters;
 	NSInteger				currentLevelIndex;
+	NSString				*currentLevelString;
 	NSInteger				currentPageIndex;
 	NSInteger				currentChapterIndex;
+	NSInteger				bookFormatType;
+	NSInteger				currentLevel;
 	float					currentPlaybackRate;
 	float					currentPlaybackVolume;
 	
+
+	id						controlDoc;
+	id						packageDoc;
 	
-	BBSTBOPFDocument		*opfDoc;
-	BBSTBNCXDocument		*ncxDoc;
+
 	BBSTBTextDocument		*textDoc;
 	BBSTBSMILDocument		*smilDoc;
 	
@@ -62,28 +77,48 @@ extern NSString * const BBSTBhasPrevChapterNotification;
 
 
 	BOOL					didLoadOK;
-	BOOL					hasOPFFile;
-	BOOL					hasNCXFile;
+	BOOL					hasPackageFile;
+	BOOL					hasControlFile;
 	BOOL					isPlaying;
-	BOOL					isFastForwarding;
-	BOOL					isFastRewinding;
+	BOOL					canPlay;
+	BOOL					hasNextChapter;
+	BOOL					hasPreviousChapter;
+	BOOL					hasLevelUp;
+	BOOL					hasLevelDown;
+	BOOL					hasNextSegment;
+	BOOL					hasPreviousSegment;
+	
 
 	QTMovie					*currentAudioFile;
 }
+
+@property (readwrite, retain) BBSTBControlDoc *controlDoc;
+@property (readwrite, retain) BBSTBPackageDoc *packageDoc;
+
+@property (readwrite,retain) NSString	*preferredVoice;
 
 @property (readonly,retain)	NSString	*bookTitle;
 @property (readonly,retain) NSString	*sectionTitle;
 
 @property (readonly)		NSInteger	maxLevels;
-@property (readonly)		NSInteger	currentLevelIndex;
+
+@property (readonly, retain) NSString *currentLevelString;
+
 @property (readonly)		NSInteger	currentPageIndex;
 
-@property (retain,readwrite)	BBSTBOPFDocument		*opfDoc;
-@property (retain,readwrite)	BBSTBNCXDocument		*ncxDoc;
 @property (retain,readonly)		BBSTBTextDocument		*textDoc;
 
+@property (readonly) BOOL		canPlay;
+@property (readonly) BOOL		isPlaying;
+@property (readonly) BOOL		hasNextChapter;
+@property (readonly) BOOL		hasPreviousChapter;
+@property (readonly) BOOL		hasLevelUp;
+@property (readonly) BOOL		hasLevelDown;
+@property (readonly) BOOL		hasNextSegment;
+@property (readonly) BOOL		hasPreviousSegment;
 
-- (id)initWithFile:(NSURL *)aURL;
+
+- (BOOL)openWithFile:(NSURL *)aURL;
 - (void)playAudio;
 - (void)pauseAudio;
 

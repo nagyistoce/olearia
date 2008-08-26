@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 15/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@
 
 
 
-//- (NSDictionary *)extractChaptersFromDocument:(NSXMLDocument *)anXmlDocument;
 - (NSString *)extractXmlContentFilename:(NSString *)contentString;
 - (NSString *)extractIdString:(NSString *)contentString;
 - (NSArray *)processData:(NSXMLDocument *)aDoc;
@@ -51,6 +50,14 @@
 
 @synthesize smilContent, smilChapterData;
 @synthesize xmlContentFilename, filename;
+
+- (id) init
+{
+	if (!(self=[super init])) return nil;
+	
+	return self;
+}
+
 
 - (id)initWithURL:(NSURL *)aURL 
 {

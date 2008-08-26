@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 5/05/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #import "BBSTalkingBook.h"
+#import "BBSTBControlDoc.h"
+#import "BBSTBPackageDoc.h"
 #import "BBSTBOPFDocument.h"
 #import "BBSTBNCXDocument.h"
 #import "BBSTBSMILDocument.h"
@@ -28,22 +29,28 @@
 
 //@class BBSTBTextDocument;
 
-NSString * const BBSTBCanGoNextFileNotification = @"BBSTBCanGoNextFile";
-NSString * const BBSTBCanGoPrevFileNotification = @"BBSTBCanGoPrevFile";
-NSString * const BBSTBCanGoUpLevelNotification = @"BBSTBCanGoUpLevel";
-NSString * const BBSTBCanGoDownLevelNotification = @"BBSTBCanGoDownLevel";
-NSString * const BBSTBhasNextChapterNotification = @"BBSTBhasNextChapter";
-NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
+NSString * const BBSTBPlaybackVolume = @"TBPlaybackVolume";
+NSString * const BBSTBPlaybackRate = @"TBPlaybackRate";
+NSString * const BBSTBPlaybackVoice = @"TBPlaybackVoice"; 
+NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 @interface BBSTalkingBook ()
 
+@property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
+
+@property (readwrite,retain)	NSString	*bookTitle;
+@property (readwrite,retain) NSString	*sectionTitle;
+
 @property (readwrite) NSInteger	maxLevels;
 @property (readwrite) NSInteger totalChapters;
-@property (readwrite) NSInteger	currentLevelIndex;
-@property (readwrite) NSInteger	currentPageIndex;
+
 @property (readwrite) NSInteger currentChapterIndex;
+@property (readwrite) TalkingBookType controlMode;
 @property (readwrite) float		currentPlaybackRate;
 @property (readwrite) float		currentPlaybackVolume;
+
+@property (readwrite)		NSInteger	currentLevelIndex;
+@property (readwrite, retain) NSString *currentLevelString;
 
 @property (readwrite, retain) QTMovie *currentAudioFile;
 
@@ -52,9 +59,16 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 @property (readwrite, retain) NSString *bookPath;
 @property (readwrite, retain) NSString *segmentFilename;
 
+@property (readwrite) BOOL		canPlay;
+@property (readwrite) BOOL		isPlaying;
+@property (readwrite) BOOL		hasNextChapter;
+@property (readwrite) BOOL		hasPreviousChapter;
+@property (readwrite) BOOL		hasLevelUp;
+@property (readwrite) BOOL		hasLevelDown;
+@property (readwrite) BOOL		hasNextSegment;
+@property (readwrite) BOOL		hasPreviousSegment;
+
 - (void)sendChapterNotifications;
-- (BOOL)openOpfDocument:(NSURL *)fileURL;
-- (BOOL)openNcxDocument:(NSURL *)fileURL;
 
 - (void)audioFileDidEnd:(NSNotification *)aNote;
 
@@ -62,6 +76,7 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 - (BOOL)hasSubLevel;
 - (BOOL)hasParentLevel;
 
+- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
 - (void)setPreferredAudioAttributes;
 - (BOOL)updateAudioFile:(NSString *)pathToFile;
 
@@ -70,45 +85,112 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 
 @implementation BBSTalkingBook
 
-@dynamic bookTitle, sectionTitle; 
+@synthesize controlDoc,packageDoc;
+
+@synthesize speechSynth, preferredVoice;
+
+@synthesize bookTitle, sectionTitle; 
 @synthesize currentPlaybackRate, currentPlaybackVolume;
-@synthesize maxLevels, currentPageIndex, currentLevelIndex, currentChapterIndex, totalChapters;
-@synthesize opfDoc, ncxDoc, textDoc, smilDoc;
+@synthesize maxLevels, currentPageIndex, currentChapterIndex, totalChapters;
+@synthesize controlMode;
+@synthesize textDoc, smilDoc;
 @synthesize bookPath, segmentFilename;
+@synthesize currentLevelString;
 
 @synthesize currentAudioFile;
+@synthesize currentLevelIndex;
 
-- (id)initWithFile:(NSURL *)aURL
+@synthesize canPlay, isPlaying;
+@synthesize hasNextChapter, hasPreviousChapter;
+@synthesize hasLevelUp, hasLevelDown;
+@synthesize hasNextSegment, hasPreviousSegment;
+
++ (void)initialize
 {
-	self = [super init];
-	if (self != nil) 
-	{
-		isPlaying = NO;
-		hasOPFFile = NO;
-		hasNCXFile = NO;
-		self.opfDoc = nil;
-		self.ncxDoc = nil;
-		self.textDoc = nil;
-		currentAudioFile = nil;
-		currentPlaybackVolume = 1.0; 
-		currentPlaybackRate = 1.0;
-		totalChapters = 0;
+	// Create a dictionary
+    NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+	
+    // Put defaults in the dictionary
+	[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:BBSTBPlaybackVolume];
+	[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:BBSTBPlaybackRate];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:BBSTBUseVoiceForPlayback];
+	[defaultValues setObject:[NSSpeechSynthesizer defaultVoice] forKey:BBSTBPlaybackVoice];
+    
+	// Register the dictionary of defaults
+    [[NSUserDefaults standardUserDefaults] registerDefaults: defaultValues];
+}
+
+
+- (id) init
+{
+
+	if (!(self=[super init])) return nil;
+	
+	
+	
+	hasPackageFile = NO;
+	hasControlFile = NO;
+	navigationMode = levelNavigationMode;
+	controlMode = UnknownBookType;
+	
+	self.textDoc = nil;
+	
+	currentAudioFile = nil;
+	
+	totalChapters = 0;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	self.currentPlaybackVolume = [defaults floatForKey:BBSTBPlaybackVolume]; 
+	self.currentPlaybackRate = [defaults floatForKey:BBSTBPlaybackRate];
+	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:[defaults valueForKey:BBSTBPlaybackVoice]];
+	
+	
+	self.bookPath = [[NSString alloc] init];
+	
+	return self;
+}
+
+
+- (BOOL)openWithFile:(NSURL *)aURL
+{
+	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
+
+	// set up the defaults for the book
+	self.canPlay = NO;
+	self.isPlaying = NO;
+	self.hasNextChapter = NO;
+	self.hasPreviousChapter = NO;
+	self.hasLevelUp = NO;
+	self.hasLevelDown = NO;
+	self.hasNextSegment = NO;
+	self.hasPreviousSegment = NO;
+	
+	self.bookTitle = [[NSString alloc] initWithString:@"Olearia"];
+	self.currentLevelString = @"";
+	
+	if(controlDoc) controlDoc = nil;
+	if(packageDoc) packageDoc = nil;
 		
-		TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
-		
+		// set the check flags
+	hasPackageFile = NO;
+	hasControlFile = NO;
+		BOOL fileOpenedOK = NO;
+	
 		// check for a OPF, NCX or NCC.html file first
-		BOOL fileOpenedOK = NO;	
-		
 		// get the parent folder path as a string
+	
 		self.bookPath = [[aURL path] stringByDeletingLastPathComponent];
-		
+	
+		// when we do zip files we will check internally for one of the package or control files
+	
 		NSURL *fileURL; 
-		
-		// do a sanity check to see if the user chose a NCX file and there 
-		// is actually an OPF file available
 		// check the extension first
 		NSString *filename = [[NSString alloc] initWithString:[aURL path]];
-		if([[filename pathExtension] compare:@"ncx" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+	
+		// do a sanity check to see if the user chose a NCX file and there 
+		// is actually an OPF file available
+		
+		// currently this method assumes that the opf file has the same filename as the ncx file sans extension
+		if([self typeOfControlDoc:aURL] == ncxControlDocType)
 		{
 			NSFileManager *fm = [NSFileManager defaultManager];
 			// delete the extension from the NCX filename
@@ -120,109 +202,145 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 			{	
 				// it exists so make a url of it
 				fileURL = [[NSURL alloc] initFileURLWithPath:opfFilePath];
-				
-				if([self openOpfDocument:fileURL])
-				{	
-					hasOPFFile = YES;
-					fileOpenedOK = YES;
-					// now open the ncx file
-					
+				packageDoc = [[BBSTBOPFDocument alloc] init];
+				if(nil != packageDoc)
+				{
+					hasPackageFile = [packageDoc openFileWithURL:fileURL];
+					fileOpenedOK = hasPackageFile;
+					if(hasPackageFile)
+					{	
+						controlDoc = [[BBSTBNCXDocument alloc] init];
+						if(nil != controlDoc)
+						{
+							// successfully opened the opf document so get the ncx filename from it
+							NSString *ncxPathString = [[NSString alloc] initWithString:[bookPath stringByAppendingPathComponent:[packageDoc ncxFilename]]];
+							
+							// make a URL of the full path
+							NSURL *ncxURL = [[NSURL alloc] initFileURLWithPath:ncxPathString];
+							
+							// open the ncx control file
+							hasControlFile = [controlDoc openFileWithURL:ncxURL];
+						}
+					}
+					else // package file failed opening so drop back to the NCX file 
+					{	
+						controlDoc = [[BBSTBNCXDocument alloc] init];
+						if(nil != controlDoc)
+						{
+							// open the ncx control file
+							hasControlFile = [controlDoc openFileWithURL:aURL];
+							fileOpenedOK = hasControlFile;
+						}
+					}
 				}
-				else
-				{	
-					
-					// open the ncxfile here
-				}
-				
 			}
-			else
+			else // no opf file found -- this should never happen
 			{	
-				// open the NCX File here
-				
+				controlDoc = [[BBSTBNCXDocument alloc] init];
+				if(nil != controlDoc)
+				{
+					// open the ncx control file
+					hasControlFile = [controlDoc openFileWithURL:aURL];
+					fileOpenedOK = hasControlFile;
+				}
 			}
 		}
 		else
 		{	
 			// we have chosen some other sort of file so open and process it.
+			// check if its an OPF package file
 			if([[filename pathExtension] compare:@"opf" options:NSCaseInsensitiveSearch] == NSOrderedSame)
 			{
-				hasOPFFile = [self openOpfDocument:aURL];
-				if(hasOPFFile == YES)
-				{	
-					fileOpenedOK = YES;
-					// successfully opened the opf document so get the ncx filename from it
-					NSString *ncxPathString = [NSString stringWithString:[bookPath stringByAppendingPathComponent:[opfDoc ncxFilename]]];
+				self.packageDoc = [[BBSTBOPFDocument alloc] init];
+				if(nil != packageDoc)
+				{
+					hasPackageFile = [packageDoc openFileWithURL:aURL];
+					fileOpenedOK = hasPackageFile;
 					
-					NSURL *ncxURL = [[NSURL alloc] initFileURLWithPath:ncxPathString];
-					// open the ncx file
-					if([self openNcxDocument:ncxURL])
+					if(YES == hasPackageFile)
 					{	
-						hasNCXFile = YES;
+						// get the book type so we know how to control acces to it
+						self.controlMode = [packageDoc bookType];
 						
+						controlDoc = [[BBSTBNCXDocument alloc] init];
+						if(nil != controlDoc)
+						{
+							// successfully opened the opf document so get the ncx filename from it
+							NSString *ncxPathString = [[NSString alloc] initWithString:[bookPath stringByAppendingPathComponent:[packageDoc ncxFilename]]];
+							
+							// make a URL of the full path
+							NSURL *ncxURL = [[NSURL alloc] initFileURLWithPath:ncxPathString];
+							// open the ncx file
+							hasControlFile = [controlDoc openFileWithURL:ncxURL];
+						}
 					}
-					
 				}
 				else
 				{	// we failed to open the opf file 
 					//fileOpenedOK = NO;
 					// send an error to the user that the file couldnt be opened
 				}
-					
-			}
-			//check for other other types of control files like NCX, NCC.html etc  
-			else if([[filename pathExtension] compare:@"ncx" options:NSCaseInsensitiveSearch] == NSOrderedSame)
-			{
-				if([self openNcxDocument:aURL])
-				{	
-					hasNCXFile = YES;
-					fileOpenedOK = YES;
-				}
-				else
-				{	
-					// send a message to the user that the file did not load correctly
-				}
 			}
 			
+			else //check for NCX control file
+			{
+				if([self typeOfControlDoc:aURL] == ncxControlDocType)
+				{
+					controlDoc = [[BBSTBNCXDocument alloc] init];
+					if(nil != controlDoc)
+					{	
+						hasControlFile = [controlDoc openFileWithURL:aURL];
+						fileOpenedOK = hasControlFile;
+					}
+					else
+					{	
+						// send a message to the user that the file did not load correctly
+					}
+				}
+				else // check for an ncc.html file
+					if([self typeOfControlDoc:aURL] == nccControlDocType)
+					{
+						// open the ncc.html control file
+					}
+			}
 		}
 		
 		
 		if (fileOpenedOK)
 		{
-			//setup the notification type if we need to
-			if(hasOPFFile)
+			self.canPlay = YES;
+			//setup the notifications for the changing values on the documents
+			if(hasPackageFile)
 			{
 				// check that we have some sort of audio media in the file
-				if(([opfDoc bookMediaFormat] != TextNCXMediaFormat))
+				if((TextNCXMediaFormat != [packageDoc bookMediaFormat]))
 					[self setupAudioNotifications];
+				[packageDoc addObserver:self forKeyPath:@"bookTitle" options:NSKeyValueObservingOptionNew context:nil];
+				self.bookTitle = [packageDoc bookTitle];
 			}
-			else if(hasNCXFile)
+			if(hasControlFile)
 			{
+				if(!hasPackageFile)
+				{
+					// use the control document for title etc. 
+				}
+				[controlDoc addObserver:self forKeyPath:@"segmentTitle" options:NSKeyValueObservingOptionNew context:nil];
+				self.sectionTitle = [controlDoc segmentTitle];
+				[controlDoc addObserver:self forKeyPath:@"currentLevel" options:NSKeyValueObservingOptionNew context:nil];
+				self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+				
 				// setup audionotifications as per the media format of the ncx file.
 			}
 			
 			
 		}
 		
-		if(fileOpenedOK == NO)
-			return nil;
-	}
-		
-	
-	
-	return self;
+
+	return fileOpenedOK;
+
 }
 
-/*
-- (void) dealloc
-{
-	[opfDoc release];
-	[ncxDoc release];
-	
-	[TalkingBookNotificationCenter removeObserver:self];
-	
-	[super dealloc];
-}
-*/
+
 
 #pragma mark -
 #pragma mark Play Methods
@@ -235,21 +353,21 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 		{
 			[self sendNotificationsForPosInBook];
 			[currentAudioFile play];
-			isPlaying = YES;
+			self.isPlaying = YES;
 		}
 	}
 	else // isPlaying == YES
 	{
 		[self sendNotificationsForPosInBook];
 		[currentAudioFile play];
-		isPlaying = YES;
+		self.isPlaying = YES;
 	}
 }
 
 - (void)pauseAudio
 {	
 	[currentAudioFile stop];
-	isPlaying = NO;
+	self.isPlaying = NO;
 	
 }
 
@@ -260,8 +378,8 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	BOOL isAFileAfterThis = NO;
 	
-	if(hasNCXFile)
-		isAFileAfterThis = [ncxDoc canGoNext]; 
+	if(hasControlFile)
+		isAFileAfterThis = [controlDoc canGoNext]; 
 	
 	return isAFileAfterThis;
 }
@@ -270,8 +388,8 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	BOOL isAFileBeforeThis = NO;
 
-	if(hasNCXFile)
-		isAFileBeforeThis = [ncxDoc canGoPrev];
+	if(hasControlFile)
+		isAFileBeforeThis = [controlDoc canGoPrev];
 	
 	return isAFileBeforeThis;
 }
@@ -281,10 +399,11 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	NSString *audioSegmentFilename;
 	BOOL	fileDidUpdate = NO;
-	if(YES == hasNCXFile)
+	if(YES == hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [ncxDoc nextSegmentAudioFilePath];
+		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
+		self.sectionTitle = [controlDoc segmentTitle];
 	}
 	
 	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
@@ -296,11 +415,11 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	NSString *audioSegmentFilename = nil;
 	BOOL fileDidUpdate = NO;
-	if(YES == hasNCXFile)
+	if(YES == hasControlFile)
 	{	
 		// get the filename of the next file to play from the ncx file
-		[ncxDoc setLoadFromCurrentLevel:YES];
-		audioSegmentFilename = [ncxDoc nextSegmentAudioFilePath];
+		[controlDoc setLoadFromCurrentLevel:YES];
+		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
 	}
 	
 	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
@@ -312,10 +431,10 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	NSString *audioSegmentFilename = nil;
 	BOOL	fileDidUpdate = NO;
-	if(YES == hasNCXFile)
+	if(YES == hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [ncxDoc previousSegmentAudioFilePath];
+		audioSegmentFilename = [controlDoc previousSegmentAudioFilePath];
 	}
 	
 	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
@@ -325,20 +444,30 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 
 - (void)upOneLevel
 {
-	if(self.ncxDoc)
+	if(hasControlFile)
 	{
-		NSString *audioFilePath = [ncxDoc goUpALevel];
+		NSString *audioFilePath = [controlDoc goUpALevel];
 		[self updateAudioFile:audioFilePath];
+		
+		//self.currentLevelIndex = [controlDoc currentLevel];
+		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		
 	}
 		
 }
 
 - (void)downOneLevel
 {
-	if(self.ncxDoc)
+	if(hasControlFile)
 	{
-		NSString *audioFilePath = [ncxDoc goDownALevel];
+		NSString *audioFilePath = [controlDoc goDownALevel];
 		[self updateAudioFile:audioFilePath];
+		//[self willChangeValueForKey:@"currentLevelIndex"];
+		self.currentLevelIndex = [controlDoc currentLevel];
+		self.currentLevelString = [NSString stringWithFormat:@"%d",currentLevelIndex];
+
+		NSLog(@"current level is %d",currentLevelIndex);
+		
 	}
 	
 }
@@ -354,7 +483,7 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 	{
 		currentChapterIndex++;
 		[currentAudioFile setCurrentTime:[currentAudioFile startTimeOfChapter:currentChapterIndex]];
-		//[self sendNotificationsForPosInBook];
+
 	}
 }
 
@@ -364,7 +493,7 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 	{
 		currentChapterIndex--;
 		[currentAudioFile setCurrentTime:[currentAudioFile startTimeOfChapter:currentChapterIndex]];
-		//[self sendNotificationsForPosInBook];
+
 	}
 }
 
@@ -375,17 +504,23 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 
 #pragma mark -
 #pragma mark Information Methods
-
+/*
 - (NSInteger)currentLevelIndex
 {
 	NSInteger level;
-	if(hasNCXFile)
-		 level = [ncxDoc currentLevel];
+	if(hasControlFile)
+	{	
+		 
+		level = [ncxDoc currentLevel];
+		[self willChangeValueForKey:@"currentLevelIndex"];
+		self.currentLevelIndex = level;
+		[self didChangeValueForKey:@"currentLevelIndex"];
+	}
 	
 	return level;
 }
 
-
+*/
 - (NSDictionary *)getBookInfo
 {
 	
@@ -396,29 +531,6 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 {
 	
 }
-
-- (NSString *)bookTitle
-{
-	NSString *titleString;
-	if(hasOPFFile == YES)
-		titleString = [NSString stringWithString:[opfDoc bookTitle]];
-	else 
-		titleString = [NSString stringWithString:@"No Title"];
-	
-	return titleString; 
-}
-
-- (NSString *)sectionTitle
-{
-	NSString *titleString;
-	if(hasNCXFile)
-	{
-		titleString = [ncxDoc segmentTitle];
-	}
-	
-	return (titleString != nil) ? titleString : @"";
-}
-
 #pragma mark -
 #pragma mark Attribute Methods
 
@@ -439,9 +551,50 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 		[currentAudioFile setVolume:currentPlaybackVolume];
 	}
 }
-	
+/*
+- (void)setCurrentLevelIndex:(NSInteger)anIndex
+{
+	currentLevelIndex = anIndex;
+	self.currentLevelString = [NSString stringWithFormat:@"%d",anIndex]; 
+}
+*/
+
 #pragma mark -
 #pragma mark Private Methods
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if(hasPackageFile || hasControlFile)
+	{
+		if([keyPath isEqualToString:@"bookTitle"])
+			self.bookTitle = ((hasPackageFile) ? [packageDoc bookTitle] : [controlDoc bookTitle]);
+		if([keyPath isEqualToString:@"currentLevel"])
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		//if([keyPath isEqualToString:@"sect
+	}
+		   
+}
+
+- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL
+{
+	// set the default 
+	TalkingBookControlDocType type = unknownControlDocType;
+	
+	NSString *filename = [aURL path];
+	// check for an ncx extension
+	if([[filename pathExtension] compare:@"ncx" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+	{
+		type = ncxControlDocType;
+	}
+	// check for an ncc.html file
+	else if([[filename lastPathComponent] compare:@"ncc.html" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+	{
+		type = nccControlDocType;
+	}
+	
+	return type;
+}
+
 
 - (BOOL)updateAudioFile:(NSString *)pathToFile
 {
@@ -459,13 +612,14 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 		currentAudioFile = [[QTMovie alloc] initWithQuickTimeMovie:[audioOnlyMovie quickTimeMovie] disposeWhenDone:YES error:&theError];
 		if(currentAudioFile != nil)
 		{
-			// make the file editable
+			// make the file editable and set the timescale for it to that of the audio track
 			[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
-						
-			if(hasNCXFile)
+			[currentAudioFile setAttribute:[NSNumber numberWithLong:1000] forKey:QTMovieTimeScaleAttribute];
+			[self setPreferredAudioAttributes];
+			if(hasControlFile)
 			{
 				// populate the chapters array with a default timescale of 1ms
-				NSArray *chaptersArray = [NSArray arrayWithArray:[ncxDoc chaptersForSegmentWithTimescale:(long)1000]];
+				NSArray *chaptersArray = [NSArray arrayWithArray:[controlDoc chaptersForSegmentWithTimescale:(long)1000]];
 				if([chaptersArray count] > 0) // check we have some chapters to add
 				{
 					// get the track the chapter will be associated with
@@ -499,7 +653,7 @@ NSString * const BBSTBhasPrevChapterNotification = @"BBSTBhasPrevChapter";
 		return NO;
 	
 	
-	[self setPreferredAudioAttributes];
+	
 	
 	return YES;
 BAIL:
@@ -515,12 +669,14 @@ BAIL:
 
 - (BOOL)hasSubLevel
 {
-	return (hasNCXFile) ? [ncxDoc canGoDownLevel] : NO;
+	// check the type of control file  
+	//if(controlMode < DTBPre2002Type)
+	return (hasControlFile) ? [controlDoc canGoDownLevel] : NO;
 }
 
 - (BOOL)hasParentLevel
 {
-	return (hasNCXFile) ? [ncxDoc canGoUpLevel] : NO; // add opf check maybe?
+	return (hasControlFile) ? [controlDoc canGoUpLevel] : NO; // add opf check maybe?
 }
 	
 
@@ -528,19 +684,17 @@ BAIL:
 {
 	//NSLog(@" current Vol : %f    Current Rate : %f",currentPlaybackVolume,currentPlaybackRate);
 	
-	[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
+	//[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
 	
 	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackVolume] forKey:QTMoviePreferredVolumeAttribute];
 	[currentAudioFile setVolume:currentPlaybackVolume];
 	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackRate] forKey:QTMoviePreferredRateAttribute];
 	[currentAudioFile setDelegate:self];
-	//[currentAudioFile setRate:self.currentPlaybackRate];
-	//NSLog(@"BBSTB PREFAUDIOATTS currentaudiofile atts: \n%@",[currentAudioFile movieAttributes]);
 	
 }
 
 
-
+/*
 - (BOOL)openOpfDocument:(NSURL *)fileURL
 {
 	BOOL fileOK = NO;
@@ -552,8 +706,8 @@ BAIL:
 	return fileOK;
 
 }
-
-
+*/
+/*
 - (BOOL)openNcxDocument:(NSURL *)fileURL
 {
 	BOOL fileOK = NO;
@@ -564,7 +718,7 @@ BAIL:
 	
 	return fileOK;
 }
-
+*/
 - (void)setupAudioNotifications
 {
 	[TalkingBookNotificationCenter addObserver:self 
@@ -580,11 +734,11 @@ BAIL:
 
 - (void)sendChapterNotifications
 {
-	BOOL aState;
-	NSMutableDictionary *stateDict = [[NSMutableDictionary alloc] init];
+	//BOOL aState;
+	//NSMutableDictionary *stateDict = [[NSMutableDictionary alloc] init];
 	
 	currentChapterIndex = [currentAudioFile chapterIndexForTime:[currentAudioFile currentTime]];
-		
+	/*	
 	aState = (currentChapterIndex < (totalChapters - 1)) ? YES : NO;
 	[stateDict setObject:[NSNumber numberWithBool:aState] forKey:@"state"];
 	[TalkingBookNotificationCenter postNotificationName:BBSTBhasNextChapterNotification object:self userInfo:stateDict];
@@ -592,11 +746,15 @@ BAIL:
 	aState = (currentChapterIndex > 0) ? YES : NO;
 	[stateDict setObject:[NSNumber numberWithBool:aState] forKey:@"state"];
 	[TalkingBookNotificationCenter postNotificationName:BBSTBhasPrevChapterNotification object:self userInfo:stateDict];
+
+	 */
+	 
 }
 
 
 - (void)sendNotificationsForPosInBook
 {
+	/*
 	BOOL aState;
 	NSMutableDictionary *stateDict = [[NSMutableDictionary alloc] init];
 	
@@ -615,6 +773,8 @@ BAIL:
 	aState = [self hasSubLevel];
 	[stateDict setObject:[NSNumber numberWithBool:aState] forKey:@"state"];
 	[TalkingBookNotificationCenter postNotificationName:BBSTBCanGoDownLevelNotification object:self userInfo:stateDict];
+	*/
+	
 	
 	if([currentAudioFile hasChapters])
 	{

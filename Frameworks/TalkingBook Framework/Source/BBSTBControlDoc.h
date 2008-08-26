@@ -3,8 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 14/08/08.
-//  2008 BrainBender Software. 
-//
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,9 +24,12 @@
 #import "BBSTalkingBookTypes.h"
 
 
+
+
+
 @interface BBSTBControlDoc : NSObject 
 {
-	NSInteger			bookFormat;
+	TalkingBookMediaFormat			bookFormat;
 	NSInteger			currentLevel;
 	
 	NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
@@ -35,20 +37,25 @@
 	NSString			*documentUID;		// dtb:uid
 	NSString			*segmentTitle;
 	NSString			*bookTitle;
-	
-	NSXMLNode			*currentNavPoint;
+
+	id					controlDocument;
 	
 }
 
-- (BOOL)canGoNext;
-- (BOOL)canGoPrev;
-- (BOOL)canGoUpLevel;
-- (BOOL)canGoDownLevel;
+- (BOOL)openFileWithURL:(NSURL *)aURL;
+//- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
+
+//- (BOOL)canGoNext;
+//- (BOOL)canGoPrev;
+//- (BOOL)canGoUpLevel;
+//- (BOOL)canGoDownLevel;
+
+
 //- (NSString *)goUpALevel;
 //- (NSString *)goDownALevel;
 
 
-@property (readonly) NSInteger bookFormat;
+@property (readonly) TalkingBookMediaFormat bookFormat;
 @property (readonly, retain) NSString	*bookTitle;
 @property (readonly) NSInteger currentLevel;
 @property (readonly) NSInteger totalPages;

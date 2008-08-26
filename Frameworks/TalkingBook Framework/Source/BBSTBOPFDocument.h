@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 15/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,8 +21,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "BBSTalkingBookTypes.h"
+#import "BBSTBPackageDoc.h"
 
-@interface BBSTBOPFDocument : NSObject 
+@interface BBSTBOPFDocument : BBSTBPackageDoc 
 {
 	NSDictionary	*manifest;
 	NSDictionary	*guide;	
@@ -30,26 +31,11 @@
 	NSArray			*tour;
 	NSXMLNode		*metaDataNode;
 	
-	
-	
-	NSString		*bookTitle;
-	NSString		*bookSubject;
-	NSString		*bookTotalTime;
-	NSInteger		bookType;
-	NSInteger		bookMediaFormat;
-	
-	NSString		*ncxFilename;
-	
-
-
-	NSString		*OPFBookTypeString;
-	NSString		*OPFMediaFormatString;
-	
 	NSInteger		currentPosInSpine;
 	
 }
 
-- (id)initWithURL:(NSURL *)aURL;
+- (BOOL)openFileWithURL:(NSURL *)aURL;
 
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
@@ -59,13 +45,13 @@
 @property (readonly, retain) NSArray *spine;
 @property (readonly, retain) NSArray *tour;
 
+@property (readonly, retain) NSString *ncxFilename;
 @property (readonly, retain) NSString *bookTitle;
 @property (readonly, retain) NSString *bookSubject;
 @property (readonly, retain) NSString *bookTotalTime;
-@property (readonly) NSInteger bookType;
-@property (readonly) NSInteger bookMediaFormat;
+@property (readonly) TalkingBookType bookType;
+@property (readonly) TalkingBookMediaFormat bookMediaFormat;
 
-@property (readonly, retain) NSString *ncxFilename;
 @property (readonly) NSInteger	currentPosInSpine;
 
 @end
