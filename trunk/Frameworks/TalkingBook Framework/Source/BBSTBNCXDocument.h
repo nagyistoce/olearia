@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 15/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,17 +38,18 @@
 	BOOL				shouldUseNavmap;
 	BOOL				isFirstRun;
 	BOOL				loadFromCurrentLevel;
+	
 	//BOOL				isAtPhraseLevel;
 	
 	NSXMLDocument		*ncxDoc;
 	
 	NSXMLElement		*ncxRootElement;
-	//NSXMLNode			*currentNavPoint;
+	NSXMLNode			*currentNavPoint;
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
 	
 	NSInteger			maxNavPointsAtThisLevel;
-	NSInteger			currentPlayIndex;
+	//NSInteger			currentPlayIndex;
 	//NSInteger			currentLevel;
 	//NSInteger			maxLevels;			// dtb:depth
 	//NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
@@ -63,7 +64,7 @@
 	
 }
 
-- (id)initWithURL:(NSURL *)aURL;
+//- (id)initWithURL:(NSURL *)aURL;
 - (NSString *)nextSegmentAudioFilePath;
 - (NSString *)previousSegmentAudioFilePath;
 /*
@@ -84,14 +85,15 @@
 @property (readonly, retain) NSDictionary *documentTitleDict;
 
 @property (readonly, retain) NSDictionary *documentAuthorDict;
-//@property (readonly, retain) NSString	*bookTitle;
+
 @property (readonly, retain) NSDictionary *smilCustomTest;
 @property (readonly, retain) NSDictionary *segmentAttributes;
 
-//@property (readonly) NSInteger currentLevel;
-//@property (readonly) NSInteger totalPages;
-//@property (readonly) NSInteger totalTargetPages;
-//@property (readonly, retain) NSString *documentUID;
-//@property (readonly, retain) NSString *segmentTitle;
+@property (readonly, retain) NSString	*bookTitle;
+@property (readonly) NSInteger currentLevel;
+@property (readonly) NSInteger totalPages;
+@property (readonly) NSInteger totalTargetPages;
+@property (readonly, retain) NSString *documentUID;
+@property (readonly, retain) NSString *segmentTitle;
 
 @end

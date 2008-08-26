@@ -1,8 +1,8 @@
 //
-//  BBSTBTextDocument.h
-//  BBSTalkingBook
+//  OleariaPrefsController.h
+//  Olearia
 //
-//  Created by Kieren Eaton on 14/05/08.
+//  Created by Kieren Eaton on 21/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,15 +19,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
 
-@interface BBSTBTextDocument : NSObject 
+#import <Cocoa/Cocoa.h>
+
+
+@interface OleariaPrefsController : NSWindowController 
 {
-	BOOL			isFullText;
-	NSXMLDocument	*textDoc;
+	NSArray					*availableVoices;
+	
+	IBOutlet NSPopUpButton	*voicesPopup;
+	IBOutlet NSButton		*overrideAudioCheckBox;
+	
+	IBOutlet NSWindow		*prefsWindow;
+	IBOutlet NSView			*soundPrefsView;
+	IBOutlet NSView			*textPrefsView;
 	
 }
 
-
+- (IBAction)displaySoundPrefsView:(id)sender;
+- (IBAction)displayTextPrefsView:(id)sender;
+- (IBAction)toggleAudioOverride:(id)sender;
+- (IBAction)setSelectedPlaybackVoice:(id)sender;
 
 @end

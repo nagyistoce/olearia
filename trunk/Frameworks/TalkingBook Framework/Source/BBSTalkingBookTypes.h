@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 16/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,3 +51,11 @@ typedef enum
 	TextOnlyMediaFormat,
 	unknownMediaFormat = 99
 } TalkingBookMediaFormat;
+
+typedef enum
+{
+	ncxControlDocType = 10,
+	bookshareNcxControlDocType = 11,
+	nccControlDocType = 20,
+	unknownControlDocType = 99
+} TalkingBookControlDocType;

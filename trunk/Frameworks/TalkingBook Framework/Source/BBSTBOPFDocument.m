@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 15/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 
 @interface BBSTBOPFDocument ()
 
+
+
 @property (readwrite, retain) NSDictionary *manifest; 	
 @property (readwrite, retain) NSDictionary *guide;
 @property (readwrite, retain) NSArray *spine;
@@ -36,8 +38,9 @@
 @property (readwrite, retain) NSString *bookTitle;
 @property (readwrite, retain) NSString *bookSubject;
 @property (readwrite, retain) NSString *bookTotalTime;
-@property (readwrite) NSInteger bookType;
-@property (readwrite) NSInteger bookMediaFormat;
+@property (readwrite) TalkingBookType bookType;
+@property (readwrite) TalkingBookMediaFormat bookMediaFormat;
+@property (readwrite, retain) NSString *ncxFilename;
 
 @property (readwrite) NSInteger	currentPosInSpine;
 
@@ -64,54 +67,54 @@
 @synthesize metaDataNode;
 @synthesize bookType,bookMediaFormat;
 @synthesize bookTitle,bookTotalTime,bookSubject;
+@synthesize ncxFilename;
 
-@dynamic ncxFilename;
-
-
-- (id)initWithURL:(NSURL *)opfURL
+- (id) init
 {
-	self = [super init];
-	if (self != nil) 
-	{
-		NSError *theError;
+	if (!(self=[super init])) return nil;
 		
-		// open the validated opf URL
-		NSXMLDocument	*xmlOpfDoc = [[NSXMLDocument alloc] initWithContentsOfURL:opfURL options:NSXMLDocumentTidyXML error:&theError];
-			
-		if(xmlOpfDoc != nil)
-		{
-				// get the root element of the tree
-			NSXMLElement *opfRoot = [xmlOpfDoc rootElement];
-			//NSLog(@"opf URI \n%@",[xmlOpfDoc URI]);
-			
-			// check we have any valid metadata before adding the rest.
-			if([self processMetadataSection:opfRoot])
-			{
-				//[metaDataNode detach];
-				self.manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
-				self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
-				self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
-				currentPosInSpine = -1;
-			}
-			else
-			{
-				return nil;
-			}
-
-		}
-		else // we got a nil return so display the error to the user
-		{
-			NSAlert *theAlert = [NSAlert alertWithError:theError];
-			[theAlert runModal]; // ignore return value
-			return nil;
-		}
-		
-					
-		
-	}
 	return self;
 }
 
+
+- (BOOL)openFileWithURL:(NSURL *)aURL;
+{
+	BOOL isOK = NO;
+	
+	NSError *theError;
+	
+	// open the validated opf URL
+	NSXMLDocument	*xmlOpfDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+	
+	if(xmlOpfDoc != nil)
+	{
+		// get the root element of the tree
+		NSXMLElement *opfRoot = [xmlOpfDoc rootElement];
+		
+		// check we have any valid metadata before adding the rest.
+		if([self processMetadataSection:opfRoot])
+		{
+			self.manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
+			self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
+			self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
+			currentPosInSpine = -1;
+			self.ncxFilename = [manifest valueForKeyPath:@"ncx.href"];
+			isOK = YES;
+		}
+	}
+	else // we got a nil return so display the error to the user
+	{
+		NSAlert *theAlert = [NSAlert alertWithError:theError];
+		[theAlert runModal]; // ignore return value
+	
+	}
+	
+	
+	return isOK;
+}
+
+
+/*
 - (void) dealloc
 {	
 	// cleanup nice
@@ -129,6 +132,7 @@
 	
 	[super dealloc];
 }
+*/
 
 #pragma mark -
 #pragma mark Private Methods
@@ -152,7 +156,7 @@
 	if(newPos == currentPosInSpine)
 		return nil; // we are at the end of the spine
 	
-	currentPosInSpine = newPos;
+	self.currentPosInSpine = newPos;
 	return [spine objectAtIndex:currentPosInSpine];
 }
 
@@ -162,7 +166,7 @@
 	if(newPos == currentPosInSpine)
 		return nil; // we are at the beginning of the spine
 	
-	currentPosInSpine = newPos;
+	self.currentPosInSpine = newPos;
 	return [spine objectAtIndex:currentPosInSpine];
 }
 
@@ -177,7 +181,7 @@
 	NSInteger newPos = [self nextSpinePos];
 	if(newPos > currentPosInSpine)
 	{	
-		currentPosInSpine = newPos;
+		self.currentPosInSpine = newPos;
 		//spineId = [NSString stringWithString:[spine objectAtIndex:currentPosInSpine]];
 	
 		// check if we got an ID ref back
@@ -201,7 +205,7 @@
 	NSInteger newPos = [self prevSpinePos];
 	if(newPos < currentPosInSpine)
 	{	
-		currentPosInSpine = newPos;
+		self.currentPosInSpine = newPos;
 		//spineId = [NSString stringWithString:[spine objectAtIndex:currentPosInSpine]];
 	
 		// check if we got an 
@@ -234,6 +238,7 @@
 #pragma mark -
 #pragma mark Dynamic Methods
 
+/*
 // get the name of the ncx file as stored in the manifest
 - (NSString *)ncxFilename
 {
@@ -245,7 +250,7 @@
 	
 	return ncxFile;
 }
-
+*/
  
 #pragma mark -
 #pragma mark Private Methods
@@ -272,38 +277,38 @@
 			if([metaDataNode objectsForXQuery:@"//dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
 			{
 				// change the book type to Bookshare
-				bookType = BookshareType;
+				self.bookType = BookshareType;
 			}
 			else
 			{
 				// set the type to DTB 2002
-				bookType = DTB2002Type;
+				self.bookType = DTB2002Type;
 			}
 			
 		}
 		// check for DTB 2005 spec identifier
 		else if([bookFormatString compare:@"ANSI/NISO Z39.86-2005" options:NSCaseInsensitiveSearch] == NSOrderedSame)
 		{
-			bookType = DTB2005Type;
+			self.bookType = DTB2005Type;
 		}
 		else
 		{
 			// we dont know what type it is so set the unknown type
-			bookType = UnknownBookType;
+			self.bookType = UnknownBookType;
 		}
 		
 		// sanity check to see that we know what type of book we are opening
-		if(bookType != UnknownBookType)
+		if(self.bookType != UnknownBookType)
 		{
 			// set the book title
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Title)" error:nil]];
-			bookTitle = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Title"; 
+			self.bookTitle = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Title"; 
 		
 			// set the subject
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Subject)" error:nil]];
-			bookSubject =  ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Subject";
+			self.bookSubject =  ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Subject";
 
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//x-metadata/meta[@name=\"dtb:multimediaType\"]/data(@content)" error:nil]];
@@ -311,23 +316,23 @@
 			if(mediaStr != nil)
 			{
 				if([mediaStr isEqualToString:@"audioFullText"] == YES)
-					bookMediaFormat = AudioFullTextMediaFormat;
+					self.bookMediaFormat = AudioFullTextMediaFormat;
 				else if([mediaStr isEqualToString:@"audioPartText"] == YES)
-					bookMediaFormat = AudioPartialTextMediaFormat;
+					self.bookMediaFormat = AudioPartialTextMediaFormat;
 				else if([mediaStr isEqualToString:@"audioOnly"] == YES)
-					bookMediaFormat = AudioOnlyMediaFormat;
+					self.bookMediaFormat = AudioOnlyMediaFormat;
 				else if([mediaStr isEqualToString:@"audioNCX"] == YES)
-					bookMediaFormat = AudioNCXMediaFormat;
+					self.bookMediaFormat = AudioNCXMediaFormat;
 				else if([mediaStr isEqualToString:@"textPartAudio"] == YES)
-					bookMediaFormat = TextPartialAudioMediaFormat;
+					self.bookMediaFormat = TextPartialAudioMediaFormat;
 				else if([mediaStr isEqualToString:@"textNCX"] == YES)
-					bookMediaFormat = TextNCXMediaFormat;
+					self.bookMediaFormat = TextNCXMediaFormat;
 				else 
-					bookMediaFormat = unknownMediaFormat;
+					self.bookMediaFormat = unknownMediaFormat;
 			}
 			else
 			{
-				bookMediaFormat = unknownMediaFormat;
+				self.bookMediaFormat = unknownMediaFormat;
 			}
 			
 		}

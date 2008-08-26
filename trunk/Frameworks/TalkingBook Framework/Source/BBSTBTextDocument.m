@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 14/05/08.
-//  BrainBender Software. All rights reserved.
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,5 +23,12 @@
 
 
 @implementation BBSTBTextDocument
+
+- (id) init
+{
+	if (!(self=[super init])) return nil;
+	
+	return self;
+}
 
 @end

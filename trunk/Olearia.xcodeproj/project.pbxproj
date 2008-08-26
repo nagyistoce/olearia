@@ -31,10 +31,6 @@
 		EE0A74B60E3B5E11001CF3C2 /* UpArrow.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74B20E3B5E11001CF3C2 /* UpArrow.icns */; };
 		EE0A74BC0E3B5ECC001CF3C2 /* gotoPage.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74BB0E3B5ECC001CF3C2 /* gotoPage.icns */; };
 		EE0A74BE0E3B5EFA001CF3C2 /* info.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74BD0E3B5EFA001CF3C2 /* info.icns */; };
-		EE0A74C10E3B5FAB001CF3C2 /* FastBack.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74BF0E3B5FAB001CF3C2 /* FastBack.icns */; };
-		EE0A74C20E3B5FAB001CF3C2 /* FastForward.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74C00E3B5FAB001CF3C2 /* FastForward.icns */; };
-		EE0A74C50E3B6051001CF3C2 /* Pause.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74C30E3B6051001CF3C2 /* Pause.icns */; };
-		EE0A74C60E3B6051001CF3C2 /* Play.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74C40E3B6051001CF3C2 /* Play.icns */; };
 		EE1808600E137F9700AEE163 /* BBSTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808550E137F9700AEE163 /* BBSTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE1808610E137F9700AEE163 /* BBSTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1808560E137F9700AEE163 /* BBSTalkingBook.m */; };
 		EE1808620E137F9700AEE163 /* BBSTalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */; settings = {ATTRIBUTES = (); }; };
@@ -53,11 +49,19 @@
 		EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
 		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
 		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
+		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
+		EE66492F0E5DB1750096304D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE66492E0E5DB1750096304D /* QuartzCore.framework */; };
+		EE74F5EA0E594BEF00FAB7DD /* SoundPref.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
+		EEA665CC0E5A900D002BEF0F /* bookmark.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEA665CB0E5A900D002BEF0F /* bookmark.icns */; };
+		EEB11E5A0E63EBB500D8CECC /* button-foward.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E560E63EBB500D8CECC /* button-foward.icns */; };
+		EEB11E5B0E63EBB500D8CECC /* button-pause.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E570E63EBB500D8CECC /* button-pause.icns */; };
+		EEB11E5C0E63EBB500D8CECC /* button-play.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E580E63EBB500D8CECC /* button-play.icns */; };
+		EEB11E5D0E63EBB500D8CECC /* button-rewind.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E590E63EBB500D8CECC /* button-rewind.icns */; };
 		EEB892380E38D73600580375 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB892360E38D73600580375 /* RegexKitLite.h */; };
 		EEB892390E38D73600580375 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB892370E38D73600580375 /* RegexKitLite.m */; };
 		EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB893000E3A160100580375 /* NSString-BBSAdditions.h */; };
@@ -67,6 +71,8 @@
 		EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA960E3C7C160000512D /* gplv3.tiff */; };
 		EEC1AB780E3C91F50000512D /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB760E3C91F50000512D /* About.xib */; };
 		EEC1AB860E3C93FF0000512D /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB850E3C93FF0000512D /* Preferences.xib */; };
+		EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */; };
+		EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,14 +140,10 @@
 		EE0A74B20E3B5E11001CF3C2 /* UpArrow.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UpArrow.icns; sourceTree = "<group>"; };
 		EE0A74BB0E3B5ECC001CF3C2 /* gotoPage.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gotoPage.icns; sourceTree = "<group>"; };
 		EE0A74BD0E3B5EFA001CF3C2 /* info.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = info.icns; sourceTree = "<group>"; };
-		EE0A74BF0E3B5FAB001CF3C2 /* FastBack.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FastBack.icns; sourceTree = "<group>"; };
-		EE0A74C00E3B5FAB001CF3C2 /* FastForward.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FastForward.icns; sourceTree = "<group>"; };
-		EE0A74C30E3B6051001CF3C2 /* Pause.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Pause.icns; sourceTree = "<group>"; };
-		EE0A74C40E3B6051001CF3C2 /* Play.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Play.icns; sourceTree = "<group>"; };
 		EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BBSTalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE1808550E137F9700AEE163 /* BBSTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTalkingBook.h; path = Source/BBSTalkingBook.h; sourceTree = "<group>"; };
 		EE1808560E137F9700AEE163 /* BBSTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTalkingBook.m; path = Source/BBSTalkingBook.m; sourceTree = "<group>"; };
-		EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTalkingBookTypes.h; path = Source/BBSTalkingBookTypes.h; sourceTree = "<group>"; };
+		EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBookTypes.h; sourceTree = "<group>"; };
 		EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBNCXDocument.h; path = Source/BBSTBNCXDocument.h; sourceTree = "<group>"; };
 		EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBNCXDocument.m; path = Source/BBSTBNCXDocument.m; sourceTree = "<group>"; };
 		EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBOPFDocument.h; path = Source/BBSTBOPFDocument.h; sourceTree = "<group>"; };
@@ -155,11 +157,20 @@
 		EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBControlDoc.h; path = Source/BBSTBControlDoc.h; sourceTree = "<group>"; };
 		EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBControlDoc.m; path = Source/BBSTBControlDoc.m; sourceTree = "<group>"; };
 		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
+		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
+		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement-BBSExtensions.h"; sourceTree = "<group>"; };
 		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
 		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
 		EE5FEC210E15F5B700B1E0F4 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = info.plist; path = Resources/info.plist; sourceTree = "<group>"; };
+		EE66492E0E5DB1750096304D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SoundPref.icns; sourceTree = "<group>"; };
 		EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		EEA665CB0E5A900D002BEF0F /* bookmark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bookmark.icns; sourceTree = "<group>"; };
+		EEB11E560E63EBB500D8CECC /* button-foward.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "button-foward.icns"; sourceTree = "<group>"; };
+		EEB11E570E63EBB500D8CECC /* button-pause.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "button-pause.icns"; sourceTree = "<group>"; };
+		EEB11E580E63EBB500D8CECC /* button-play.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "button-play.icns"; sourceTree = "<group>"; };
+		EEB11E590E63EBB500D8CECC /* button-rewind.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "button-rewind.icns"; sourceTree = "<group>"; };
 		EEB892360E38D73600580375 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		EEB892370E38D73600580375 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		EEB893000E3A160100580375 /* NSString-BBSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-BBSAdditions.h"; sourceTree = "<group>"; };
@@ -169,6 +180,8 @@
 		EEC1AA960E3C7C160000512D /* gplv3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gplv3.tiff; sourceTree = "<group>"; };
 		EEC1AB770E3C91F50000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
 		EEC1AB850E3C93FF0000512D /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Preferences.xib; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
+		EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBPackageDoc.h; path = Source/BBSTBPackageDoc.h; sourceTree = "<group>"; };
+		EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBPackageDoc.m; path = Source/BBSTBPackageDoc.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +191,7 @@
 			files = (
 				EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				EE66492F0E5DB1750096304D /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +212,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE66492E0E5DB1750096304D /* QuartzCore.framework */,
 				EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
@@ -275,10 +290,12 @@
 		EE0A74840E3B509E001CF3C2 /* Button Images */ = {
 			isa = PBXGroup;
 			children = (
-				EE0A74C30E3B6051001CF3C2 /* Pause.icns */,
-				EE0A74C40E3B6051001CF3C2 /* Play.icns */,
-				EE0A74BF0E3B5FAB001CF3C2 /* FastBack.icns */,
-				EE0A74C00E3B5FAB001CF3C2 /* FastForward.icns */,
+				EEB11E560E63EBB500D8CECC /* button-foward.icns */,
+				EEB11E570E63EBB500D8CECC /* button-pause.icns */,
+				EEB11E580E63EBB500D8CECC /* button-play.icns */,
+				EEB11E590E63EBB500D8CECC /* button-rewind.icns */,
+				EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */,
+				EEA665CB0E5A900D002BEF0F /* bookmark.icns */,
 				EE0A74BD0E3B5EFA001CF3C2 /* info.icns */,
 				EE0A74BB0E3B5ECC001CF3C2 /* gotoPage.icns */,
 				EE0A74AF0E3B5E11001CF3C2 /* BackArrow.icns */,
@@ -327,6 +344,8 @@
 			children = (
 				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
 				EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */,
+				EE436AE40E5D500F00276672 /* OleariaPrefsController.h */,
+				EE436AE50E5D500F00276672 /* OleariaPrefsController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -345,19 +364,8 @@
 		EE5FEC1F0E15F50B00B1E0F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				EE1808550E137F9700AEE163 /* BBSTalkingBook.h */,
-				EE1808560E137F9700AEE163 /* BBSTalkingBook.m */,
-				EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */,
-				EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */,
-				EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */,
-				EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */,
-				EE18085B0E137F9700AEE163 /* BBSTBOPFDocument.m */,
-				EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */,
-				EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */,
-				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
-				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
-				EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */,
-				EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */,
+				EEDC2C010E62D75E00432F2D /* Controllers */,
+				EEDC2C000E62D71200432F2D /* Documents */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -373,6 +381,7 @@
 		EE5FEC230E15F5F600B1E0F4 /* Other Source */ = {
 			isa = PBXGroup;
 			children = (
+				EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */,
 				EEB892360E38D73600580375 /* RegexKitLite.h */,
 				EEB892370E38D73600580375 /* RegexKitLite.m */,
 				EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */,
@@ -393,6 +402,50 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		EEDC2C000E62D71200432F2D /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				EEDC2C130E62D7A600432F2D /* Package Doc Classes */,
+				EEDC2C120E62D79000432F2D /* Control Doc Classes */,
+				EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */,
+				EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */,
+				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
+				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
+			);
+			name = Documents;
+			sourceTree = "<group>";
+		};
+		EEDC2C010E62D75E00432F2D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EE1808550E137F9700AEE163 /* BBSTalkingBook.h */,
+				EE1808560E137F9700AEE163 /* BBSTalkingBook.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		EEDC2C120E62D79000432F2D /* Control Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */,
+				EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */,
+				EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */,
+				EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */,
+			);
+			name = "Control Doc Classes";
+			sourceTree = "<group>";
+		};
+		EEDC2C130E62D7A600432F2D /* Package Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */,
+				EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */,
+				EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */,
+				EE18085B0E137F9700AEE163 /* BBSTBOPFDocument.m */,
+			);
+			name = "Package Doc Classes";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -411,6 +464,7 @@
 				EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */,
 				EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */,
 				EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */,
+				EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,15 +557,17 @@
 				EE0A74B60E3B5E11001CF3C2 /* UpArrow.icns in Resources */,
 				EE0A74BC0E3B5ECC001CF3C2 /* gotoPage.icns in Resources */,
 				EE0A74BE0E3B5EFA001CF3C2 /* info.icns in Resources */,
-				EE0A74C10E3B5FAB001CF3C2 /* FastBack.icns in Resources */,
-				EE0A74C20E3B5FAB001CF3C2 /* FastForward.icns in Resources */,
-				EE0A74C50E3B6051001CF3C2 /* Pause.icns in Resources */,
-				EE0A74C60E3B6051001CF3C2 /* Play.icns in Resources */,
 				EEC1AA8A0E3C7A3D0000512D /* Credits.html in Resources */,
 				EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */,
 				EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */,
 				EEC1AB780E3C91F50000512D /* About.xib in Resources */,
 				EEC1AB860E3C93FF0000512D /* Preferences.xib in Resources */,
+				EE74F5EA0E594BEF00FAB7DD /* SoundPref.icns in Resources */,
+				EEA665CC0E5A900D002BEF0F /* bookmark.icns in Resources */,
+				EEB11E5A0E63EBB500D8CECC /* button-foward.icns in Resources */,
+				EEB11E5B0E63EBB500D8CECC /* button-pause.icns in Resources */,
+				EEB11E5C0E63EBB500D8CECC /* button-play.icns in Resources */,
+				EEB11E5D0E63EBB500D8CECC /* button-rewind.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +618,7 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */,
+				EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +635,7 @@
 				EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */,
 				EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */,
 				EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */,
+				EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,7 +3,7 @@
 //  BBSTalkingBook
 //
 //  Created by Kieren Eaton on 15/04/08.
-//  BrainBender Software. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 
 #import <Foundation/Foundation.h>
 #import "BBSTBControlDoc.h"
@@ -56,8 +57,8 @@
 - (NSDictionary *)processDocAuthor;
 - (NSArray *)processNavMap; 
 - (void)processSmilFile:(NSString *)smilFilename;
-//- (NSUInteger)navPointsOnCurrentLevel;
-//- (NSUInteger)navPointIndexOnCurrentLevel;
+- (NSUInteger)navPointsOnCurrentLevel;
+- (NSUInteger)navPointIndexOnCurrentLevel;
 
 - (NSInteger)documentVersion;
 - (NSString *)filenameFromID:(NSString *)anIdString;
@@ -81,20 +82,26 @@
 @synthesize segmentTitle;
 @synthesize bookTitle;
 
-@dynamic totalPages, totalTargetPages,documentUID;
+@synthesize totalPages, totalTargetPages,documentUID;
 
-
-- (id)initWithURL:(NSURL *)aURL
+- (id) init
 {
+	if (!(self=[super init])) return nil;
 	
-	self = [super init];
-	if (self != nil) 
-	{
+	shouldUseNavmap = NO;
+	self.loadFromCurrentLevel = NO;
+	isFirstRun = YES;
+	
+	return self;
+}
+
+- (BOOL)openFileWithURL:(NSURL *)aURL
+{
+	BOOL isOK = NO;
+	
 		NSError *theError;
-		shouldUseNavmap = NO;
-		self.loadFromCurrentLevel = NO;
-		isFirstRun = YES;
-		self.ncxDoc = nil;
+
+
 		self.ncxDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 				
 		if(ncxDoc != nil)
@@ -115,18 +122,16 @@
 			}
 			 
 			self.currentLevel = 1;
-			currentPlayIndex = -1;
+			isOK = YES;
 		}
 		else  
 		{	
 			// there was a problem opening the NCX document
 			NSAlert *theAlert = [NSAlert alertWithError:theError];
 			[theAlert runModal]; // ignore return value
-
-			return nil;
 		}
-	}
-	return self;
+	
+	return isOK;
 }
 
 /*
@@ -345,6 +350,42 @@
 
 	return audioFilename;
 }
+
+- (BOOL)canGoNext
+{
+	// return YES if we can go forward in the navmap
+	return ([self navPointIndexOnCurrentLevel] < ([self navPointsOnCurrentLevel] - 1)) ? YES : NO; 
+}
+
+- (BOOL)canGoPrev
+{
+	// return YES if we can go backwards in the navMap
+	return ([self navPointIndexOnCurrentLevel] > 0) ? YES : NO;
+}
+
+- (BOOL)canGoUpLevel
+{
+	// return Yes if we are at a lower level
+	return (currentLevel > 1) ? YES : NO;
+}
+
+- (BOOL)canGoDownLevel
+{
+	// return YES if there are navPoint Nodes below this level
+	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
+}
+
+- (NSUInteger)navPointsOnCurrentLevel
+{
+	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
+}
+
+- (NSUInteger)navPointIndexOnCurrentLevel
+{
+	// returns an index of the current navPoint relative to the other navPoints on the same level
+	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
+}
+
 
 #pragma mark -
 #pragma mark Private Methods

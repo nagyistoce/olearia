@@ -3,7 +3,7 @@
 //  Olearia
 //
 //  Created by Kieren Eaton on 4/05/08.
-//  BrainBender Software 2008. 
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,24 +22,26 @@
 #import <Cocoa/Cocoa.h>
 #import <AppKit/AppKit.h>
 
-@class BBSTalkingBook;
+@class BBSTalkingBook, OleariaPrefsController;
 
 @interface OleariaDelegate : NSObject
 {
-
 	NSArray				*validFileTypes;
 	BBSTalkingBook		*talkingBook;
+	
+	OleariaPrefsController *prefsController;
 	
 	BOOL				isPlaying;
 
 	NSRect				navBoxOrigSize;
 	NSRect				toolBoxOrigSize;
 	
-	IBOutlet NSWindow	*documentWindow;
+	IBOutlet NSWindow	*mainWindow;
 	
+	IBOutlet NSView			*soundView;
 	IBOutlet NSButton		*toolBoxDisclosure;
 	IBOutlet NSBox			*navBox;
-	IBOutlet NSBox			*toolBox;
+	IBOutlet NSBox			*toolsBox;
 	IBOutlet NSButton		*playPauseButton;
 	IBOutlet NSButton		*nextButton;
 	IBOutlet NSButton		*prevButton;
@@ -68,9 +70,10 @@
 	IBOutlet NSMenuItem		*fastForwardMenuItem;
 	IBOutlet NSMenuItem		*fastBackMenuItem;
 	
-	
 }
 
+- (IBAction)displayVolumeRateView:(id)sender;
+- (IBAction)displayPrefsPanel:(id)sender;
 - (IBAction)open:(id)sender;
 - (IBAction)PlayPause:(id)sender;
 - (IBAction)upLevel:(id)sender;
@@ -92,7 +95,6 @@
 - (IBAction)toggleNavigationBox:(NSButton *)sender;
 - (IBAction)toggleToolBox:(NSButton *)sender;
 
-//@property (retain,readonly) NSArray				*validFieTypes;
 @property (readwrite,retain) BBSTalkingBook *talkingBook;
 
 @end
