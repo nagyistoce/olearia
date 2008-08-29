@@ -36,10 +36,24 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 @interface BBSTalkingBook ()
 
+
+- (void)audioFileDidEnd:(NSNotification *)aNote;
+- (void)setDisplayDefaults;
+
+- (void)setupAudioNotifications;
+
+- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
+- (void)setPreferredAudioAttributes;
+- (BOOL)updateAudioFile:(NSString *)pathToFile;
+- (void)updateForPosInBook;
+- (void)updateChapterIndex;
+
+- (BOOL)openControlDocument:(NSURL *)aDocUrl;
+- (BOOL)openPackageDocument:(NSURL *)aDocUrl asType:(TalkingBookType)aType;
+
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
 
-@property (readwrite,retain)	NSString	*bookTitle;
-@property (readwrite,retain) NSString	*sectionTitle;
+
 
 @property (readwrite) NSInteger	maxLevels;
 @property (readwrite) NSInteger totalChapters;
@@ -58,6 +72,9 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 @property (readwrite, retain) NSString *bookPath;
 @property (readwrite, retain) NSString *segmentFilename;
 
+@property (readwrite, retain) NSString	*bookTitle;
+@property (readwrite, retain) NSString	*currentSectionTitle;
+@property (readwrite, retain) NSString	*currentPageString;
 @property (readwrite) BOOL		canPlay;
 @property (readwrite) BOOL		isPlaying;
 @property (readwrite) BOOL		hasNextChapter;
@@ -67,42 +84,10 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 @property (readwrite) BOOL		hasNextSegment;
 @property (readwrite) BOOL		hasPreviousSegment;
 
-- (void)audioFileDidEnd:(NSNotification *)aNote;
-
-- (void)setupAudioNotifications;
-
-- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-- (void)setPreferredAudioAttributes;
-- (BOOL)updateAudioFile:(NSString *)pathToFile;
-- (void)updateForPosInBook;
-- (void)updateChapterIndex;
-
-- (BOOL)openControlDocument:(NSURL *)aDocUrl;
-- (BOOL)openPackageDocument:(NSURL *)aDocUrl asType:(TalkingBookType)aType;
-
-
 @end
 
 @implementation BBSTalkingBook
 
-@synthesize controlDoc,packageDoc;
-
-@synthesize speechSynth, preferredVoice;
-
-@synthesize bookTitle, sectionTitle; 
-@synthesize currentPlaybackRate, currentPlaybackVolume;
-@synthesize maxLevels, currentPageIndex, currentChapterIndex, totalChapters;
-@synthesize controlMode;
-@synthesize textDoc, smilDoc;
-@synthesize bookPath, segmentFilename;
-@synthesize currentLevelString;
-
-@synthesize currentAudioFile;
-
-@synthesize canPlay, isPlaying;
-@synthesize hasNextChapter, hasPreviousChapter;
-@synthesize hasLevelUp, hasLevelDown;
-@synthesize hasNextSegment, hasPreviousSegment;
 
 + (void)initialize
 {
@@ -126,22 +111,29 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	if (!(self=[super init])) return nil;
 	
 	hasPackageFile = NO;
+	packageDoc = nil;
 	hasControlFile = NO;
-	levelNavConMode = levelNavigationControlMode;
-	controlMode = UnknownBookType;
+	controlDoc = nil;
+	smilDoc = nil;
+	textDoc = nil;
+	levelNavConMode = levelNavigationControlMode; // set the default level mode
+	maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
+	controlMode = UnknownBookType; // set the default book type
 	
 	self.textDoc = nil;
 	
 	currentAudioFile = nil;
 	
 	totalChapters = 0;
+	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	self.currentPlaybackVolume = [defaults floatForKey:BBSTBPlaybackVolume]; 
 	self.currentPlaybackRate = [defaults floatForKey:BBSTBPlaybackRate];
 	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:[defaults valueForKey:BBSTBPlaybackVoice]];
 	
-	
 	self.bookPath = [[NSString alloc] init];
+
+	[self setDisplayDefaults];
 	
 	return self;
 }
@@ -152,26 +144,21 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
 	
 	// set up the defaults for opening the book
-	self.canPlay = NO;
-	self.isPlaying = NO;
-	self.hasNextChapter = NO;
-	self.hasPreviousChapter = NO;
-	self.hasLevelUp = NO;
-	self.hasLevelDown = NO;
-	self.hasNextSegment = NO;
-	self.hasPreviousSegment = NO;
+	[self setDisplayDefaults];
 	
-	self.bookTitle = [[NSString alloc] initWithString:@"Olearia"];
-	self.currentLevelString = @"";
-	
-	if(controlDoc) controlDoc = nil;
-	if(packageDoc) packageDoc = nil;
+	if(hasControlFile) 
+	{
+		controlDoc = nil;
+		hasControlFile = NO;
+	}
+	if(hasPackageFile) 
+	{
+		packageDoc = nil;
+		hasPackageFile;
+	}
 	if(smilDoc) smilDoc = nil;
 	if(textDoc) textDoc = nil;
 	
-	// set the check flags
-	hasPackageFile = NO;
-	hasControlFile = NO;
 	BOOL fileOpenedOK = NO;
 	
 	// check for a OPF, NCX or NCC.html file first
@@ -405,7 +392,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	{	
 		// get the filename of the next audio file to play from the ncx file
 		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
-		self.sectionTitle = [controlDoc segmentTitle];
+		self.currentSectionTitle = [controlDoc segmentTitle];
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 		
 	}
@@ -531,13 +518,14 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 */
 - (NSDictionary *)getBookInfo
 {
-	
+
+	return nil;
 }
 
 
 - (NSDictionary *)getCurrentPageInfo
 {
-	
+	return nil;
 }
 #pragma mark -
 #pragma mark Attribute Methods
@@ -563,6 +551,23 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 #pragma mark -
 #pragma mark Private Methods
+
+- (void)setDisplayDefaults
+{
+	self.bookTitle = @"Olearia";
+	self.currentLevelString = @"";
+	self.currentPageString = @"";
+	self.canPlay = NO;
+	self.isPlaying = NO;
+	self.hasNextChapter = NO;
+	self.hasPreviousChapter = NO;
+	self.hasLevelUp = NO;
+	self.hasLevelDown = NO;
+	self.hasNextSegment = NO;
+	self.hasPreviousSegment = NO;
+	
+}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -746,9 +751,12 @@ BAIL:
 {
 	if(hasControlFile)
 	{	
-		self.sectionTitle = [controlDoc segmentTitle];
+		self.currentSectionTitle = [controlDoc segmentTitle];
 		self.hasLevelUp = (([controlDoc canGoUpLevel]) || (levelNavConMode > levelNavigationControlMode)) ? YES : NO;
-		self.hasLevelDown = (([controlDoc canGoDownLevel]) || (levelNavConMode < wordNavigationControlMode)) ? YES : NO;
+		if ([controlDoc canGoDownLevel]) // check regular level down first
+			self.hasLevelDown = YES;
+		else // We have reached the bottom of the current levels so check if we have other forms of nagigation below this
+			self.hasLevelDown = (levelNavConMode < maxLevelConMode) ? YES : NO;
 		self.hasNextSegment = [controlDoc canGoNext];
 		self.hasPreviousSegment = [controlDoc canGoPrev];
 		self.hasNextChapter = (currentChapterIndex < (totalChapters - 1)) ? YES : NO;
@@ -772,4 +780,27 @@ BAIL:
 			 
 }
 
- @end
+#pragma mark -
+#pragma mark Synthesized iVars
+
+@synthesize controlDoc,packageDoc;
+
+@synthesize speechSynth, preferredVoice;
+
+@synthesize currentPlaybackRate, currentPlaybackVolume;
+@synthesize maxLevels, currentPageIndex, currentChapterIndex, totalChapters;
+@synthesize controlMode;
+@synthesize textDoc, smilDoc;
+@synthesize bookPath, segmentFilename;
+
+@synthesize currentAudioFile;
+
+// bindings related
+@synthesize bookTitle, currentSectionTitle;
+@synthesize currentLevelString, currentPageString;
+@synthesize canPlay, isPlaying;
+@synthesize hasNextChapter, hasPreviousChapter;
+@synthesize hasLevelUp, hasLevelDown;
+@synthesize hasNextSegment, hasPreviousSegment;
+
+@end

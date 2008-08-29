@@ -45,14 +45,14 @@ typedef enum
 	NSString				*preferredVoice;
 	NSSpeechSynthesizer		*speechSynth;
 	
-	NSString				*bookTitle;
-	NSString				*sectionTitle;
+	
 	TalkingBookType			controlMode;
 	levelControlMode		levelNavConMode;
+	levelControlMode		maxLevelConMode;
 	NSInteger				maxLevels;
 	NSInteger				totalChapters;
 	NSInteger				currentLevelIndex;
-	NSString				*currentLevelString;
+	
 	NSInteger				currentPageIndex;
 	NSInteger				currentChapterIndex;
 	NSInteger				bookFormatType;
@@ -77,8 +77,15 @@ typedef enum
 
 
 	BOOL					didLoadOK;
+	
 	BOOL					hasPackageFile;
 	BOOL					hasControlFile;
+	
+	// bindings ivars
+	NSString				*bookTitle;
+	NSString				*currentSectionTitle;
+	NSString				*currentLevelString;
+	NSString				*currentPageString;
 	BOOL					isPlaying;
 	BOOL					canPlay;
 	BOOL					hasNextChapter;
@@ -91,31 +98,6 @@ typedef enum
 
 	QTMovie					*currentAudioFile;
 }
-
-@property (readwrite, retain) BBSTBControlDoc *controlDoc;
-@property (readwrite, retain) BBSTBPackageDoc *packageDoc;
-
-@property (readwrite,retain) NSString	*preferredVoice;
-
-@property (readonly,retain)	NSString	*bookTitle;
-@property (readonly,retain) NSString	*sectionTitle;
-
-@property (readonly)		NSInteger	maxLevels;
-
-@property (readonly, retain) NSString *currentLevelString;
-
-@property (readonly)		NSInteger	currentPageIndex;
-
-@property (retain,readonly)		BBSTBTextDocument		*textDoc;
-
-@property (readonly) BOOL		canPlay;
-@property (readonly) BOOL		isPlaying;
-@property (readonly) BOOL		hasNextChapter;
-@property (readonly) BOOL		hasPreviousChapter;
-@property (readonly) BOOL		hasLevelUp;
-@property (readonly) BOOL		hasLevelDown;
-@property (readonly) BOOL		hasNextSegment;
-@property (readonly) BOOL		hasPreviousSegment;
 
 
 - (BOOL)openWithFile:(NSURL *)aURL;
@@ -143,6 +125,30 @@ typedef enum
 - (void)setNewVolumeLevel:(float)aLevel;
 - (void)setNewPlaybackRate:(float)aRate;
 
+@property (readwrite, retain) BBSTBControlDoc *controlDoc;
+@property (readwrite, retain) BBSTBPackageDoc *packageDoc;
+
+@property (readwrite,retain) NSString	*preferredVoice;
+
+@property (readonly)		NSInteger	maxLevels;
+
+@property (readonly)		NSInteger	currentPageIndex;
+
+@property (retain,readonly)		BBSTBTextDocument		*textDoc;
+
+// bindings ivars
+@property (readonly,retain)	NSString	*bookTitle;
+@property (readonly,retain) NSString	*currentSectionTitle;
+@property (readonly, retain) NSString	*currentLevelString;
+@property (readonly,retain) NSString	*currentPageString;
+@property (readonly) BOOL		canPlay;
+@property (readonly) BOOL		isPlaying;
+@property (readonly) BOOL		hasNextChapter;
+@property (readonly) BOOL		hasPreviousChapter;
+@property (readonly) BOOL		hasLevelUp;
+@property (readonly) BOOL		hasLevelDown;
+@property (readonly) BOOL		hasNextSegment;
+@property (readonly) BOOL		hasPreviousSegment;
 
 
 @end
