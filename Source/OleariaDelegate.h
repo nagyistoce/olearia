@@ -39,9 +39,9 @@
 	IBOutlet NSWindow	*mainWindow;
 	
 	IBOutlet NSView			*soundView;
-	IBOutlet NSButton		*toolBoxDisclosure;
-	IBOutlet NSBox			*navBox;
+	IBOutlet NSView			*toolsView;
 	IBOutlet NSBox			*toolsBox;
+	
 	IBOutlet NSButton		*playPauseButton;
 	IBOutlet NSButton		*nextButton;
 	IBOutlet NSButton		*prevButton;
@@ -74,7 +74,8 @@
 
 //- (IBAction)displayVolumeRateView:(id)sender;
 - (IBAction)displayPrefsPanel:(id)sender;
-- (IBAction)open:(id)sender;
+
+- (IBAction)openDocument:(id)sender;
 - (IBAction)PlayPause:(id)sender;
 - (IBAction)upLevel:(id)sender;
 - (IBAction)downLevel:(id)sender;
@@ -90,10 +91,6 @@
 - (IBAction)setPlaybackVolume:(NSSlider *)sender;
 
 - (IBAction)showBookmarks:(id)sender;
-
-
-- (IBAction)toggleNavigationBox:(NSButton *)sender;
-- (IBAction)toggleToolBox:(NSButton *)sender;
 
 @property (readwrite,retain) BBSTalkingBook *talkingBook;
 
