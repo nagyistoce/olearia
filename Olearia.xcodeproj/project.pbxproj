@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -50,6 +49,7 @@
 		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
 		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
+		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
@@ -57,6 +57,8 @@
 		EE74F5EA0E594BEF00FAB7DD /* SoundPref.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
+		EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79940E6628F5006AC5F8 /* MainMenu.xib */; };
+		EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79960E662903006AC5F8 /* Preferences.xib */; };
 		EEA665CC0E5A900D002BEF0F /* bookmark.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEA665CB0E5A900D002BEF0F /* bookmark.icns */; };
 		EEB11E5A0E63EBB500D8CECC /* button-foward.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E560E63EBB500D8CECC /* button-foward.icns */; };
 		EEB11E5B0E63EBB500D8CECC /* button-pause.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEB11E570E63EBB500D8CECC /* button-pause.icns */; };
@@ -70,7 +72,6 @@
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
 		EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA960E3C7C160000512D /* gplv3.tiff */; };
 		EEC1AB780E3C91F50000512D /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB760E3C91F50000512D /* About.xib */; };
-		EEC1AB860E3C93FF0000512D /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB850E3C93FF0000512D /* Preferences.xib */; };
 		EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */; };
 		EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */; };
 /* End PBXBuildFile section */
@@ -113,7 +114,7 @@
 		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		1DDD58150DA1D0A300B32029 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -159,6 +160,8 @@
 		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
+		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
+		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
 		EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement-BBSExtensions.h"; sourceTree = "<group>"; };
 		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
 		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
@@ -179,7 +182,7 @@
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
 		EEC1AA960E3C7C160000512D /* gplv3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gplv3.tiff; sourceTree = "<group>"; };
 		EEC1AB770E3C91F50000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
-		EEC1AB850E3C93FF0000512D /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Preferences.xib; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
+		EEC1AB850E3C93FF0000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBPackageDoc.h; path = Source/BBSTBPackageDoc.h; sourceTree = "<group>"; };
 		EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBPackageDoc.m; path = Source/BBSTBPackageDoc.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -270,9 +273,9 @@
 				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				EE9F79940E6628F5006AC5F8 /* MainMenu.xib */,
 				EEC1AB760E3C91F50000512D /* About.xib */,
-				EEC1AB850E3C93FF0000512D /* Preferences.xib */,
+				EE9F79960E662903006AC5F8 /* Preferences.xib */,
 			);
 			name = "Olearia Resources";
 			path = Resources;
@@ -342,6 +345,8 @@
 		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EE4406000E666380002DEDBB /* ExpandingViewController.h */,
+				EE4406010E666380002DEDBB /* ExpandingViewController.m */,
 				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
 				EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */,
 				EE436AE40E5D500F00276672 /* OleariaPrefsController.h */,
@@ -536,7 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */,
 				EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */,
 				EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */,
 				EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */,
@@ -561,7 +566,7 @@
 				EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */,
 				EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */,
 				EEC1AB780E3C91F50000512D /* About.xib in Resources */,
-				EEC1AB860E3C93FF0000512D /* Preferences.xib in Resources */,
+				EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */,
 				EE74F5EA0E594BEF00FAB7DD /* SoundPref.icns in Resources */,
 				EEA665CC0E5A900D002BEF0F /* bookmark.icns in Resources */,
 				EEB11E5A0E63EBB500D8CECC /* button-foward.icns in Resources */,
@@ -619,6 +624,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */,
 				EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */,
+				EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,12 +664,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+		EE9F79940E6628F5006AC5F8 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1DDD58150DA1D0A300B32029 /* MainMenu.xib */,
+				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		EE9F79960E662903006AC5F8 /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEC1AB850E3C93FF0000512D /* English */,
+			);
+			name = Preferences.xib;
 			sourceTree = "<group>";
 		};
 		EEC1AB760E3C91F50000512D /* About.xib */ = {
