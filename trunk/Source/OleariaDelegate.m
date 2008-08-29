@@ -72,7 +72,7 @@
 #pragma mark -
 #pragma mark Actions
 
-- (IBAction)open:(id)sender
+- (IBAction)openDocument:(id)sender
 {
 	NSOpenPanel *panel = [NSOpenPanel openPanel];
 	[panel setCanChooseDirectories:YES];
@@ -214,25 +214,73 @@
 { 
 	if(returnCode == NSOKButton)
 	{	
-		// load the talking book package or control file 
-		if([talkingBook openWithFile:[openPanel URL]])
-		{
-			[talkingBook nextSegment]; // load the first segment ready for play
-		}
-		else
-		{
-			
-			// put up a dialog saying that the file chosen was not a valid control document for the book.
-			NSAlert *alert = [[NSAlert alloc] init];
-			[alert addButtonWithTitle:@"OK"];
-	
-			[alert setMessageText:@"Invalid File"];
-			[alert setInformativeText:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
-			[alert setAlertStyle:NSWarningAlertStyle];
+		NSFileManager *fm = [NSFileManager defaultManager];
+		BOOL isDir, bookLoaded = NO;
 		
-			[alert runModal];
+		// first check that the file exists
+		if ([fm fileExistsAtPath:[[openPanel URL] path] isDirectory:&isDir])
+		{
+			// check if its a folder
+			if(NO == isDir)
+			{
+				// load the talking book package or control file
+				bookLoaded = [talkingBook openWithFile:[openPanel URL]];
+				if(bookLoaded)
+				{
+					[talkingBook nextSegment]; // load the first segment ready for play
+				}
+				else
+				{
+					// put up a dialog saying that the file chosen was not a valid control document for the book.
+					NSAlert *alert = [[NSAlert alloc] init];
+					[alert addButtonWithTitle:@"OK"];
+					
+					[alert setMessageText:@"Invalid File"];
+					[alert setInformativeText:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
+					[alert setAlertStyle:NSWarningAlertStyle];
+					
+					[alert runModal];
+					
+					alert = nil;
+				}
+			}
+			else // the path is a directory
+			{
+				NSString *pathStr = [[NSString alloc] initWithString:[[openPanel URL] path]];
+				NSArray *folderContents = [fm contentsOfDirectoryAtPath:pathStr error:nil];
+				
+				for(NSString *file in folderContents)
+				{
+					NSString *extension = [NSString stringWithString:[[file pathExtension] lowercaseString]];
+					if([extension isEqualToString:@"opf"] || [[file lowercaseString] isEqualToString:@"ncc.html"])
+					{
+						NSURL *validFileURL = [[NSURL alloc] initFileURLWithPath:[pathStr stringByAppendingPathComponent:file]];
+						// load the talking book package or control file
+						bookLoaded = [talkingBook openWithFile:validFileURL];
+						if(bookLoaded)
+						{
+							[talkingBook nextSegment]; // load the first segment ready for play
+							break;
+						}
+						else
+						{
+							// put up a dialog saying that the folder chosen did not a valid document for opening the book.
+							NSAlert *alert = [[NSAlert alloc] init];
+							[alert addButtonWithTitle:@"OK"];
+							
+							[alert setMessageText:@"Invalid Folder"];
+							[alert setInformativeText:@"The Folder you chose to open did not contain a valid Package (OPF) or Control (NCC.html) Document."];
+							[alert setAlertStyle:NSWarningAlertStyle];
+							
+							[alert runModal];
+							
+							alert = nil;
+							break;
+						}
+					}
+				}
+			}
 			
-			alert = nil;
 		}
 	}
 	
@@ -244,96 +292,12 @@
 	return YES;
 }
 
-#pragma mark -
-#pragma mark Private Methods
 
-- (IBAction)toggleNavigationBox:(NSButton *)sender
-{
-	// get the size of the window
-	NSRect windowRect = [mainWindow frame];
-	NSRect navBoxRect = [navBox frame];
-	NSPoint navBoxOrigin = navBoxRect.origin;
-	 
-	
-	
-	// start the grouped animation set
-	[NSAnimationContext beginGrouping];
-	// set the length of the animation 
-	[[NSAnimationContext currentContext] setDuration:0.4];
-	
-	//[[documentWindow contentView] setWantsLayer:YES];
-	// check what we are doing
-	if([sender state] == NSOnState) // expanding
-	{
-		
-		
-		windowRect.size.height = windowRect.size.height + (navBoxOrigSize.size.height - 26);
-		windowRect.origin.y = windowRect.origin.y - (navBoxOrigSize.size.height - 26);
-		navBoxRect.size.height = navBoxOrigSize.size.height;
-		navBoxOrigin.y = navBoxOrigin.y - (26);
-	}
-	else // collapsing
-	{
-		//[upLevelButton setAlphaValue:0.0];
-		windowRect.origin.y = windowRect.origin.y + (navBoxOrigSize.size.height - 26);
-		windowRect.size.height = windowRect.size.height - (navBoxOrigSize.size.height - 26);
-		navBoxRect.size.height = 26;
-		navBoxOrigin.y = navBoxOrigin.y + (navBoxOrigSize.size.height - 26);
-	}
-	[[navBox animator] setFrameOrigin:navBoxOrigin]; //:navBoxRect];
-	[[navBox animator] setFrameSize:navBoxRect.size];
-	//[[documentWindow animator] setFrame:windowRect.size];
-	//[[documentWindow animator] setFrameOrigin:windowRect.origin];
-	[[mainWindow animator] setFrame:windowRect display:YES animate:YES];
-	//[[documentWindow contentView] setWantsLayer:NO];
-	[NSAnimationContext endGrouping];
-
-}
-
-- (IBAction)toggleToolBox:(NSButton *)sender
-{
-	/*
-	// get the size of the window
-	NSRect windowRect = [mainWindow frame];
-	//NSRect toolboxrect = [toolBox frame];
-	NSRect discFrame = [toolBoxDisclosure frame];
-	// start the grouped animation set
-	[NSAnimationContext beginGrouping];
-	// set the length of the animation 
-	[[NSAnimationContext currentContext] setDuration:0.3];
-	
-	// check what we are doing
-	if([sender state] == NSOnState) // expanding
-	{
-		windowRect.size.height = windowRect.size.height + (toolBoxOrigSize.size.height - 26);
-		windowRect.origin.y = windowRect.origin.y -  (toolBoxOrigSize.size.height - 26);
-
-		//toolboxrect.size.height = toolBoxOrigSize.size.height;
-
-		discFrame.origin.y =  discFrame.origin.y + (toolBoxOrigSize.size.height - 26);
-	}
-	else // collapsing
-	{
-		//windowRect.origin.y = windowRect.origin.y + (toolboxrect.size.height -  26);
-		windowRect.size.height = windowRect.size.height - (toolboxrect.size.height -  26);
-		//toolboxrect.size.height = 26;
-		discFrame.origin.y =  discFrame.origin.y - (toolBoxOrigSize.size.height - 26);
-	}
-	[[toolBoxDisclosure animator] setFrame:discFrame];
-	[[toolBox animator] setFrame:toolboxrect];
-	[[mainWindow animator] setFrame:windowRect display:NO animate:YES];
-	[NSAnimationContext endGrouping];
-	*/
-}
 
 #pragma mark -
 #pragma mark View Display Methods
 
-- (IBAction)displaySoundView:(id)sender
-{
-	
 
-}
 
 - (IBAction)displayPrefsPanel:(id)sender
 {
