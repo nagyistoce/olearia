@@ -216,6 +216,7 @@
 	{	
 		NSFileManager *fm = [NSFileManager defaultManager];
 		BOOL isDir, bookLoaded = NO;
+		NSString *shortErrorMsg, *fullErrorMsg;
 		
 		// first check that the file exists
 		if ([fm fileExistsAtPath:[[openPanel URL] path] isDirectory:&isDir])
@@ -231,17 +232,8 @@
 				}
 				else
 				{
-					// put up a dialog saying that the file chosen was not a valid control document for the book.
-					NSAlert *alert = [[NSAlert alloc] init];
-					[alert addButtonWithTitle:@"OK"];
-					
-					[alert setMessageText:@"Invalid File"];
-					[alert setInformativeText:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
-					[alert setAlertStyle:NSWarningAlertStyle];
-					
-					[alert runModal];
-					
-					alert = nil;
+					shortErrorMsg = [NSString stringWithString:@"Invalid File"];
+					fullErrorMsg = [NSString stringWithString:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
 				}
 			}
 			else // the path is a directory
@@ -264,23 +256,40 @@
 						}
 						else
 						{
-							// put up a dialog saying that the folder chosen did not a valid document for opening the book.
-							NSAlert *alert = [[NSAlert alloc] init];
-							[alert addButtonWithTitle:@"OK"];
-							
-							[alert setMessageText:@"Invalid Folder"];
-							[alert setInformativeText:@"The Folder you chose to open did not contain a valid Package (OPF) or Control (NCC.html) Document."];
-							[alert setAlertStyle:NSWarningAlertStyle];
-							
-							[alert runModal];
-							
-							alert = nil;
 							break;
 						}
 					}
 				}
+				if(NO == bookLoaded)
+				{
+					shortErrorMsg = [NSString stringWithString:@"Invalid Folder"];
+					fullErrorMsg = [NSString stringWithString:@"The Folder you chose to open did not contain a valid Package (OPF) or Control (NCC.html) Document."];
+				}
+				
 			}
 			
+			// check if we failed loading at all
+			if(NO == bookLoaded)
+			{
+				// close the panel before we show the error dialog
+				[openPanel close];
+				
+				// put up a dialog saying that the folder chosen did not a valid document for opening the book.
+				NSAlert *alert = [[NSAlert alloc] init];
+
+				[alert addButtonWithTitle:@"OK"];
+				
+				[alert setMessageText:shortErrorMsg];
+				[alert setInformativeText:fullErrorMsg];
+				[alert setAlertStyle:NSWarningAlertStyle];
+				
+				// we dont need a response from the user so set all options except window to nil;
+				[alert beginSheetModalForWindow:mainWindow 
+								  modalDelegate:nil 
+								 didEndSelector:nil 
+									contextInfo:nil];
+				alert = nil;
+			}
 		}
 	}
 	
