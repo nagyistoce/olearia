@@ -38,7 +38,7 @@
 
 - (IBAction)displaySoundView:(id)sender
 {
-	CGFloat windowDelta = 0, view;
+	CGFloat windowDelta = 0;
 	
 	
 	// get the current window frame
