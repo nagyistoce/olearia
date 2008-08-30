@@ -32,6 +32,7 @@
 	TalkingBookMediaFormat	bookMediaFormat;
 	
 	NSString				*ncxFilename;
+	NSString				*xmlContentFilename;
 	
 	
 }
@@ -43,6 +44,6 @@
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 
 @property (readonly, retain) NSString *ncxFilename;
-
+@property (readonly, retain) NSString *xmlContentFilename;
 
 @end

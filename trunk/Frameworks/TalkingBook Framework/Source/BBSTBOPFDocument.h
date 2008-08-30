@@ -46,6 +46,8 @@
 @property (readonly, retain) NSArray *tour;
 
 @property (readonly, retain) NSString *ncxFilename;
+@property (readonly, retain) NSString *xmlContentFilename;
+
 @property (readonly, retain) NSString *bookTitle;
 @property (readonly, retain) NSString *bookSubject;
 @property (readonly, retain) NSString *bookTotalTime;
