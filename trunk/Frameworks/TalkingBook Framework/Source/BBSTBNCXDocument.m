@@ -110,6 +110,10 @@
 			// these all may be nil depending on the type of book we are reading
 			self.ncxRootElement = [ncxDoc rootElement];
 			self.metaData = [self processMetadata]; 
+			
+			totalTargetPages = [metaData valueForKey:@"dtb:totalPageCount"];
+			totalPages = [metaData valueForKey:@"dtb:maxPageNumber"];
+			
 			self.documentTitleDict = [self processDocTitle];
 			self.documentAuthorDict = [self processDocAuthor];
 

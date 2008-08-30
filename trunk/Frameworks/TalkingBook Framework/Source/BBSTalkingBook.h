@@ -77,9 +77,13 @@ typedef enum
 
 
 	BOOL					didLoadOK;
-	
 	BOOL					hasPackageFile;
 	BOOL					hasControlFile;
+	BOOL					hasPageNavigation;
+	BOOL					hasPhraseNavigation;
+	BOOL					hasSentenceNavigation;
+	BOOL					hasWordNavigation;
+	
 	
 	// bindings ivars
 	NSString				*bookTitle;

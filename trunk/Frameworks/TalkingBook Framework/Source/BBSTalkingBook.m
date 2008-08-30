@@ -53,8 +53,6 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
 
-
-
 @property (readwrite) NSInteger	maxLevels;
 @property (readwrite) NSInteger totalChapters;
 
@@ -143,19 +141,26 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 {
 	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
 	
-	// set up the defaults for opening the book
+	// set up the defaults for the bindings when opening the book
 	[self setDisplayDefaults];
+	
+	hasPageNavigation = NO;
+	hasPhraseNavigation = NO;
+	hasSentenceNavigation = NO;
+	hasWordNavigation = NO;
 	
 	if(hasControlFile) 
 	{
 		controlDoc = nil;
 		hasControlFile = NO;
 	}
+	
 	if(hasPackageFile) 
 	{
 		packageDoc = nil;
 		hasPackageFile;
 	}
+	
 	if(smilDoc) smilDoc = nil;
 	if(textDoc) textDoc = nil;
 	
@@ -267,7 +272,23 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 			self.bookTitle = [packageDoc bookTitle];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+						
+				
 		}
+		if(hasControlFile)
+		{
+			if((0 == [controlDoc totalPages]) && (0 ==[controlDoc totalTargetPages]))
+			{
+				self.currentPageString = @"No Page Numbers";
+			}
+			else
+			{
+				self.currentPageString = @"To Be Set...";
+				hasPageNavigation = YES;
+			}
+
+		}
+		
 		//setup the notifications for the changing values on the documents
 		[self updateForPosInBook];		
 		
