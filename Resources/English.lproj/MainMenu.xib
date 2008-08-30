@@ -8,7 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="21"/>
+			<integer value="956"/>
+			<integer value="2"/>
 			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -636,7 +637,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSTextField" id="545486584">
 							<reference key="NSNextResponder" ref="865623825"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{64, 352}, {209, 17}}</string>
+							<string key="NSFrame">{{64, 352}, {229, 17}}</string>
 							<reference key="NSSuperview" ref="865623825"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="129713746">
@@ -683,7 +684,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSTextField" id="571463815">
 							<reference key="NSNextResponder" ref="865623825"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{317, 352}, {45, 17}}</string>
+							<string key="NSFrame">{{309, 352}, {45, 17}}</string>
 							<reference key="NSSuperview" ref="865623825"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1055977801">
@@ -699,7 +700,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSTextField" id="559037786">
 							<reference key="NSNextResponder" ref="865623825"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{364, 352}, {109, 17}}</string>
+							<string key="NSFrame">{{356, 352}, {117, 17}}</string>
 							<reference key="NSSuperview" ref="865623825"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="529263165">
@@ -1411,7 +1412,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1666,6 +1667,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -2979,7 +2981,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string key="NSKeyPath">selection.talkingBook.currentSectionTitle</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<integer value="0" key="NS.object.0" id="6"/>
+								<reference key="NS.object.0" ref="8"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -2999,7 +3001,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string key="NSKeyPath">selection.talkingBook.currentPageString</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="6"/>
+								<reference key="NS.object.0" ref="8"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -4117,8 +4119,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>{{146, 298}, {490, 423}}</string>
 					<reference ref="1404"/>
 					<reference ref="1404"/>
-					<reference ref="6"/>
-					<reference ref="6"/>
+					<reference ref="8"/>
+					<reference ref="8"/>
 					<string>{400, 627}</string>
 					<string>{400, 423}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
