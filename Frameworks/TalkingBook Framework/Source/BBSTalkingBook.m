@@ -158,7 +158,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	if(hasPackageFile) 
 	{
 		packageDoc = nil;
-		hasPackageFile;
+		hasPackageFile = NO;
 	}
 	
 	if(smilDoc) smilDoc = nil;
@@ -172,6 +172,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	self.bookPath = [[aURL path] stringByDeletingLastPathComponent];
 	
 	// when we do zip files we will check internally for one of the package or control files
+	// also direct loading of .iso files would be good too
 	
 	NSURL *fileURL; 
 	// check the extension first

@@ -111,8 +111,8 @@
 			self.ncxRootElement = [ncxDoc rootElement];
 			self.metaData = [self processMetadata]; 
 			
-			totalTargetPages = [metaData valueForKey:@"dtb:totalPageCount"];
-			totalPages = [metaData valueForKey:@"dtb:maxPageNumber"];
+			totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
+			totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
 			
 			self.documentTitleDict = [self processDocTitle];
 			self.documentAuthorDict = [self processDocAuthor];
