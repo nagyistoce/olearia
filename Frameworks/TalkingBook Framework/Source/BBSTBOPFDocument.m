@@ -40,7 +40,9 @@
 @property (readwrite, retain) NSString *bookTotalTime;
 @property (readwrite) TalkingBookType bookType;
 @property (readwrite) TalkingBookMediaFormat bookMediaFormat;
+
 @property (readwrite, retain) NSString *ncxFilename;
+@property (readwrite, retain) NSString *xmlContentFilename;
 
 @property (readwrite) NSInteger	currentPosInSpine;
 
@@ -67,7 +69,7 @@
 @synthesize metaDataNode;
 @synthesize bookType,bookMediaFormat;
 @synthesize bookTitle,bookTotalTime,bookSubject;
-@synthesize ncxFilename;
+@synthesize ncxFilename, xmlContentFilename;
 
 - (id) init
 {
@@ -75,6 +77,19 @@
 		
 	return self;
 }
+
+/*
+ xpath / xquery statements
+ 
+ get the xml filename 
+ //manifest/item[@media-type="application/x-dtbook+xml"]/data(@href)
+ get the ncx filename
+ //manifest/item[@media-type="application/x-dtbncx+xml"]/data(@href)
+
+ 
+ 
+ 
+ */
 
 
 - (BOOL)openFileWithURL:(NSURL *)aURL;
@@ -98,7 +113,24 @@
 			self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
 			self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
 			currentPosInSpine = -1;
-			self.ncxFilename = [manifest valueForKeyPath:@"ncx.href"];
+			
+			NSMutableArray *tempData = [[NSMutableArray alloc] init];
+			
+			// get the ncx filename
+			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"//manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" error:nil]]; 
+			// there will only ever be 1 ncx file
+			self.ncxFilename = ([tempData count] == 1) ? [tempData objectAtIndex:0] : nil;
+			
+			[tempData removeAllObjects];
+			// get the xml content filename
+			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"//manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" error:nil]];
+			// there will only be one xml content file
+			self.xmlContentFilename = ([tempData count] == 1) ? [tempData objectAtIndex:0] : nil;
+			
+			// release the tempdata array
+			tempData = nil;
+			
+			NSLog(@" manifest = \n%@",[manifest allKeysForObject:@"application/x-dtbook+xml"]);
 			isOK = YES;
 		}
 	}

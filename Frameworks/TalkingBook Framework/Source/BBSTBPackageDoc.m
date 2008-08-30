@@ -12,7 +12,7 @@
 
 @synthesize bookTitle, bookSubject, bookTotalTime;
 @synthesize bookMediaFormat, bookType;
-@synthesize ncxFilename;
+@synthesize ncxFilename,xmlContentFilename;
 
 
 @end
