@@ -58,6 +58,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackVolume];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
 	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
     
 	// set them in the standard user defaults
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValuesDict];

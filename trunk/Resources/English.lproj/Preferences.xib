@@ -8,9 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="178"/>
 			<integer value="34"/>
 			<integer value="115"/>
+			<integer value="178"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -36,13 +36,13 @@
 					<object class="NSTextField" id="660195632">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{114, 255}, {161, 17}}</string>
+						<string key="NSFrame">{{40, 255}, {235, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="669979057">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Chapter Skip Increment :</string>
+							<string key="NSContents">Level Mode Chapter Skip Increment :</string>
 							<object class="NSFont" key="NSSupport" id="759661860">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">1.300000e+01</double>
@@ -72,13 +72,13 @@
 					<object class="NSTextField" id="547996328">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{280, 253}, {25, 22}}</string>
+						<string key="NSFrame">{{280, 253}, {45, 22}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="916950937">
 							<int key="NSCellFlags">-1804468671</int>
-							<int key="NSCellFlags2">272630784</int>
-							<integer value="1" key="NSContents" id="9"/>
+							<int key="NSCellFlags2">-2009070592</int>
+							<string key="NSContents">0.5</string>
 							<reference key="NSSupport" ref="759661860"/>
 							<object class="NSNumberFormatter" key="NSFormatter" id="355422573">
 								<object class="NSMutableDictionary" key="NS.attributes">
@@ -90,24 +90,34 @@
 										<string>formatterBehavior</string>
 										<string>generatesDecimalNumbers</string>
 										<string>maximum</string>
+										<string>maximumFractionDigits</string>
 										<string>maximumIntegerDigits</string>
 										<string>minimum</string>
+										<string>minimumFractionDigits</string>
 										<string>negativeFormat</string>
 										<string>numberStyle</string>
 										<string>positiveFormat</string>
+										<string>roundingIncrement</string>
+										<string>roundingMode</string>
+										<string>usesGroupingSeparator</string>
 									</object>
 									<object class="NSMutableArray" key="dict.values">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<integer value="0" id="8"/>
-										<reference ref="8"/>
+										<integer value="1" id="5"/>
+										<reference ref="5"/>
 										<integer value="1040" id="823564969"/>
-										<reference ref="8"/>
-										<real value="9.900000e+01" id="556508380"/>
-										<integer value="2"/>
-										<reference ref="9"/>
+										<integer value="0" id="6"/>
+										<real value="6.000000e+01" id="13637106"/>
+										<integer value="2" id="10"/>
+										<reference ref="10"/>
+										<real value="1.000000e-02" id="883078725"/>
+										<integer value="1" id="9"/>
 										<string/>
 										<reference ref="9"/>
 										<string>#0</string>
+										<real value="1.000000e-01"/>
+										<integer value="0" id="8"/>
+										<reference ref="6"/>
 									</object>
 								</object>
 								<string key="NS.positiveformat">#0</string>
@@ -132,10 +142,10 @@
 										</object>
 									</object>
 								</object>
-								<reference key="NS.min" ref="9"/>
-								<reference key="NS.max" ref="556508380"/>
+								<reference key="NS.min" ref="883078725"/>
+								<reference key="NS.max" ref="13637106"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
-									<int key="NS.roundingmode">3</int>
+									<int key="NS.roundingmode">2</int>
 									<bool key="NS.raise.overflow">YES</bool>
 									<bool key="NS.raise.underflow">YES</bool>
 									<bool key="NS.raise.dividebyzero">YES</bool>
@@ -144,7 +154,7 @@
 								<string key="NS.thousand">,</string>
 								<bool key="NS.hasthousands">NO</bool>
 								<bool key="NS.localized">YES</bool>
-								<bool key="NS.allowsfloats">NO</bool>
+								<bool key="NS.allowsfloats">YES</bool>
 							</object>
 							<reference key="NSControlView" ref="547996328"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -168,13 +178,13 @@
 					<object class="NSTextField" id="18170339">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{328, 255}, {38, 17}}</string>
+						<string key="NSFrame">{{345, 255}, {54, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="885648320">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Min</string>
+							<string key="NSContents">Minutes</string>
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="18170339"/>
 							<reference key="NSBackgroundColor" ref="507501508"/>
@@ -216,16 +226,17 @@
 					<object class="NSStepper" id="440600343">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{307, 250}, {19, 27}}</string>
+						<string key="NSFrame">{{324, 250}, {19, 27}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSStepperCell" key="NSCell" id="531543464">
 							<int key="NSCellFlags">917024</int>
 							<int key="NSCellFlags2">0</int>
 							<reference key="NSControlView" ref="440600343"/>
-							<double key="NSValue">1.000000e+00</double>
-							<double key="NSMaxValue">9.900000e+01</double>
-							<double key="NSIncrement">1.000000e+00</double>
+							<double key="NSValue">5.000000e-01</double>
+							<double key="NSMinValue">5.000000e-02</double>
+							<double key="NSMaxValue">6.000000e+01</double>
+							<double key="NSIncrement">5.000000e-01</double>
 							<bool key="NSAutorepeat">YES</bool>
 						</object>
 					</object>
@@ -519,13 +530,6 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="577670496">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>OleariaDefaultVolumeLevel</string>
-					<string>OleariaDefaultPlaybackSpeed</string>
-					<string>OleariaUseVoiceForPlayback</string>
-					<string>OleariaChapterSkipIncrement</string>
-				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="482730712">
@@ -906,8 +910,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="0" id="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -935,8 +939,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -964,8 +968,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -986,7 +990,7 @@
 							<string key="NSKeyPath">values.OleariaDefaultPlaybackSpeed</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="6"/>
+								<reference key="NS.object.0" ref="8"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -1006,7 +1010,7 @@
 							<string key="NSKeyPath">values.OleariaDefaultVolumeLevel</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="6"/>
+								<reference key="NS.object.0" ref="8"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -1033,8 +1037,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -1062,8 +1066,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -1108,8 +1112,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="660195632"/>
 							<reference ref="547996328"/>
-							<reference ref="18170339"/>
-							<reference ref="440600343"/>
 							<reference ref="361443780"/>
 							<reference ref="651102264"/>
 							<reference ref="262457721"/>
@@ -1119,6 +1121,8 @@
 							<reference ref="447716765"/>
 							<reference ref="1043423304"/>
 							<reference ref="868835360"/>
+							<reference ref="440600343"/>
+							<reference ref="18170339"/>
 						</object>
 						<reference key="parent" ref="1002"/>
 						<string key="objectName">SoundView</string>
