@@ -21,10 +21,9 @@
 
 
 #import "OleariaPrefsController.h"
-#import "BBSTalkingBook.h"
+#import "OleariaDelegate.h"
 
 @implementation OleariaPrefsController
-
 
 - (id) init
 {
@@ -47,7 +46,7 @@
 		[voicesPopup addItemWithTitle:[voiceAttribs objectForKey:NSVoiceName]];
 	}
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[voicesPopup selectItemWithTitle:[defaults objectForKey:BBSTBPlaybackVoice]];
+	[voicesPopup selectItemWithTitle:[defaults objectForKey:OleariaPlaybackVoice]];
 
 }
 
@@ -87,7 +86,8 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	[defaults setObject:[sender titleOfSelectedItem] forKey:BBSTBPlaybackVoice];
+	[defaults setObject:[availableVoices objectAtIndex:[sender indexOfSelectedItem]] forKey:OleariaPlaybackVoice];
+	[defaults synchronize];
 }
 
 @end

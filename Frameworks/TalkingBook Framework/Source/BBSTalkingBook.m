@@ -29,10 +29,7 @@
 
 //@class BBSTBTextDocument;
 
-NSString * const BBSTBPlaybackVolume = @"TBPlaybackVolume";
-NSString * const BBSTBPlaybackRate = @"TBPlaybackRate";
-NSString * const BBSTBPlaybackVoice = @"TBPlaybackVoice"; 
-NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
+
 
 @interface BBSTalkingBook ()
 
@@ -87,21 +84,6 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 @implementation BBSTalkingBook
 
 
-+ (void)initialize
-{
-	// Create a dictionary
-    NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
-	
-    // Put defaults in the dictionary
-	[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:BBSTBPlaybackVolume];
-	[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:BBSTBPlaybackRate];
-	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:BBSTBUseVoiceForPlayback];
-	[defaultValues setObject:[NSSpeechSynthesizer defaultVoice] forKey:BBSTBPlaybackVoice];
-    
-	// Register the dictionary of defaults
-    [[NSUserDefaults standardUserDefaults] registerDefaults: defaultValues];
-}
-
 
 - (id) init
 {
@@ -124,11 +106,8 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	
 	totalChapters = 0;
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	self.currentPlaybackVolume = [defaults floatForKey:BBSTBPlaybackVolume]; 
-	self.currentPlaybackRate = [defaults floatForKey:BBSTBPlaybackRate];
-	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:[defaults valueForKey:BBSTBPlaybackVoice]];
-	
+	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
+		
 	self.bookPath = [[NSString alloc] init];
 
 	[self setDisplayDefaults];
@@ -274,11 +253,10 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 			self.bookTitle = [packageDoc bookTitle];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 						
-				
 		}
 		if(hasControlFile)
 		{
-			if((0 == [controlDoc totalPages]) && (0 ==[controlDoc totalTargetPages]))
+			if((0 == [controlDoc totalPages]) && (0 == [controlDoc totalTargetPages]))
 			{
 				self.currentPageString = @"No Page Numbers";
 			}
@@ -286,6 +264,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 			{
 				self.currentPageString = @"To Be Set...";
 				hasPageNavigation = YES;
+				maxLevelConMode = pageNavigationControlMode;
 			}
 
 		}
@@ -473,11 +452,15 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 {
 	if(hasControlFile)
 	{
-		NSString *audioFilePath = [controlDoc goDownALevel];
-		[self updateAudioFile:audioFilePath];
-		
-
-		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		if([controlDoc canGoDownLevel])
+		{	NSString *audioFilePath = [controlDoc goDownALevel];
+			[self updateAudioFile:audioFilePath];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		}
+		else if(hasPageNavigation)
+		{
+			
+		}
 
 	
 		
@@ -521,23 +504,7 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 
 #pragma mark -
 #pragma mark Information Methods
-/*
-- (NSInteger)currentLevelIndex
-{
-	NSInteger level;
-	if(hasControlFile)
-	{	
-		 
-		level = [ncxDoc currentLevel];
-		[self willChangeValueForKey:@"currentLevelIndex"];
-		self.currentLevelIndex = level;
-		[self didChangeValueForKey:@"currentLevelIndex"];
-	}
-	
-	return level;
-}
 
-*/
 - (NSDictionary *)getBookInfo
 {
 
@@ -549,10 +516,11 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 {
 	return nil;
 }
+
 #pragma mark -
 #pragma mark Attribute Methods
 
-- (void)setNewPlaybackRate:(float)aRate
+- (void)setPlaybackRate:(float)aRate
 {
 	if(aRate != self.currentPlaybackRate)
 	{
@@ -561,13 +529,19 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	}
 }
 
-- (void)setNewVolumeLevel:(float)aLevel
+- (void)setVolumeLevel:(float)aLevel
 {
 	if(aLevel != self.currentPlaybackVolume)
 	{
 		self.currentPlaybackVolume = aLevel;
 		[currentAudioFile setVolume:currentPlaybackVolume];
 	}
+}
+
+- (void)setPlaybackVoice:(NSString *)aVoiceID;
+{
+	[speechSynth setVoice:aVoiceID];
+
 }
 
 
@@ -590,9 +564,10 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	
 }
 
-
+/*
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+	
 	if(hasPackageFile || hasControlFile)
 	{
 		if([keyPath isEqualToString:@"currentLevel"])
@@ -604,7 +579,8 @@ NSString * const BBSTBUseVoiceForPlayback = @"TBUseVoiceForPlayback";
 	}
 		   
 }
-
+*/
+ 
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL
 {
 	// set the default 
@@ -697,26 +673,9 @@ BAIL:
 
 }
 
-/*
-- (BOOL)hasSubLevel
-{
-	// check the type of control file  
-	//if(controlMode < DTBPre2002Type)
-	return (hasControlFile) ? [controlDoc canGoDownLevel] : NO;
-}
-
-- (BOOL)hasParentLevel
-{
-	return (hasControlFile) ? [controlDoc canGoUpLevel] : NO; // add opf check maybe?
-}
-*/	
-
 - (void)setPreferredAudioAttributes
 {
-	//NSLog(@" current Vol : %f    Current Rate : %f",currentPlaybackVolume,currentPlaybackRate);
-	
-	//[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
-	
+	[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
 	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackVolume] forKey:QTMoviePreferredVolumeAttribute];
 	[currentAudioFile setVolume:currentPlaybackVolume];
 	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackRate] forKey:QTMoviePreferredRateAttribute];
@@ -725,38 +684,15 @@ BAIL:
 }
 
 
-/*
-- (BOOL)openOpfDocument:(NSURL *)fileURL
-{
-	BOOL fileOK = NO;
-	
-	opfDoc = [[BBSTBOPFDocument alloc] initWithURL:fileURL];
-	if(opfDoc != nil)
-		fileOK = YES;
-	
-	return fileOK;
-
-}
-*/
-/*
-- (BOOL)openNcxDocument:(NSURL *)fileURL
-{
-	BOOL fileOK = NO;
-	
-	ncxDoc = [[BBSTBNCXDocument alloc] initWithURL:fileURL];
-	if(opfDoc != nil)
-		fileOK = YES;
-	
-	return fileOK;
-}
-*/
 - (void)setupAudioNotifications
 {
+	// start watching for notifications for reaching the end of the audio file
 	[TalkingBookNotificationCenter addObserver:self 
 									  selector:@selector(audioFileDidEnd:) 
 										  name:QTMovieDidEndNotification 
 										object:self.currentAudioFile];
 
+	// watch for chapter change notifications
 	[TalkingBookNotificationCenter addObserver:self 
 									  selector:@selector(updateChapterIndex) 
 										  name:QTMovieChapterDidChangeNotification 

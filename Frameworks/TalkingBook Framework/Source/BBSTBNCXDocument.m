@@ -105,10 +105,15 @@
 				
 		if(ncxDoc != nil)
 		{
+			
+			
+			
 			// get the root path for later use with smil and xmlcontent files
 			self.parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
 			// these all may be nil depending on the type of book we are reading
 			self.ncxRootElement = [ncxDoc rootElement];
+			[ncxRootElement detach];
+			self.ncxDoc = nil;
 			self.metaData = [self processMetadata]; 
 			
 			totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];

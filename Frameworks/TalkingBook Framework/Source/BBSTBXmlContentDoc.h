@@ -1,8 +1,8 @@
 //
-//  BBSTBTextDocument.h
+//  BBSTBXmlContentDoc.h
 //  BBSTalkingBook
 //
-//  Created by Kieren Eaton on 14/05/08.
+//  Created by Kieren Eaton on 31/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
-#import "BBSTBXmlContentDoc.h"
+#import <Cocoa/Cocoa.h>
 
-@interface BBSTBTextDocument : BBSTBXmlContentDoc 
+
+@interface BBSTBXmlContentDoc : NSObject 
 {
-	BOOL			isFullText;
-	NSXMLDocument	*textDoc;
-	
+
 }
-
-
 
 @end

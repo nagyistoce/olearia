@@ -54,6 +54,8 @@
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
 		EE66492F0E5DB1750096304D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE66492E0E5DB1750096304D /* QuartzCore.framework */; };
+		EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */; };
+		EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */; };
 		EE74F5EA0E594BEF00FAB7DD /* SoundPref.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
@@ -167,6 +169,8 @@
 		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
 		EE5FEC210E15F5B700B1E0F4 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = info.plist; path = Resources/info.plist; sourceTree = "<group>"; };
 		EE66492E0E5DB1750096304D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBXmlContentDoc.h; path = Source/BBSTBXmlContentDoc.h; sourceTree = "<group>"; };
+		EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBXmlContentDoc.m; path = Source/BBSTBXmlContentDoc.m; sourceTree = "<group>"; };
 		EE74F5E90E594BEF00FAB7DD /* SoundPref.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SoundPref.icns; sourceTree = "<group>"; };
 		EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		EEA665CB0E5A900D002BEF0F /* bookmark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bookmark.icns; sourceTree = "<group>"; };
@@ -395,6 +399,17 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		EE670F5D0E6A1B950011DAAF /* Xml Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */,
+				EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */,
+				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
+				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
+			);
+			name = "Xml Doc Classes";
+			sourceTree = "<group>";
+		};
 		EE69EB8A0E19E9BB00067F4A /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,12 +425,11 @@
 		EEDC2C000E62D71200432F2D /* Documents */ = {
 			isa = PBXGroup;
 			children = (
+				EE670F5D0E6A1B950011DAAF /* Xml Doc Classes */,
 				EEDC2C130E62D7A600432F2D /* Package Doc Classes */,
 				EEDC2C120E62D79000432F2D /* Control Doc Classes */,
 				EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */,
 				EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */,
-				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
-				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
 			);
 			name = Documents;
 			sourceTree = "<group>";
@@ -470,6 +484,7 @@
 				EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */,
 				EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */,
 				EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */,
+				EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +657,7 @@
 				EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */,
 				EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */,
 				EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */,
+				EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
