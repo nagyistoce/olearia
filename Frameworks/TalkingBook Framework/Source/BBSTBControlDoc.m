@@ -23,81 +23,12 @@
 #import "BBSTBControlDoc.h"
 #import "BBSTBNCXDocument.h"
 
-@interface BBSTBControlDoc()
-
-//- (NSUInteger)navPointsOnCurrentLevel;
-//- (NSUInteger)navPointIndexOnCurrentLevel;
-//- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-
-@end
-
-
 @implementation BBSTBControlDoc
 
-/*
-- (BOOL)openFileWithURL:(NSURL *)aURL
-{
-	BOOL fileOK = NO;
-	
-	TalkingBookControlDocType docType = [self typeOfControlDoc:aURL];
+@synthesize levelNavChapterIncrement;
+@synthesize currentLevel, totalPages, totalTargetPages;
+@synthesize bookFormat;
+@synthesize segmentTitle, bookTitle, documentUID;
 
-	if(ncxControlDocType == docType)
-	{
-		controlDocument = [[BBSTBNCXDocument alloc] initWithURL:aURL];
-		  
-	}
-	else if(nccControlDocType == docType)
-	{
-		// open the ncc file here
-	}
-	
-	if( nil != controlDocument)
-	{	
-		fileOK = YES;
-		// bind the values for easy updating when changed in the subclass
-	
-	}
-	
-	return fileOK;
-	
-}
-*/
 
-#pragma mark -
-#pragma mark Dynamic Methods
-
-- (TalkingBookMediaFormat)bookFormat
-{
-	return [controlDocument bookFormat];
-}
-
-- (NSString	*)bookTitle
-{
-	return [controlDocument bookTitle];
-}
-
-- (NSInteger)currentLevel
-{
-	return [controlDocument currentLevel];
-}
-
-- (NSInteger)totalPages
-{
-	return [controlDocument totalPages];
-}
-
-- (NSInteger)totalTargetPages
-{
-	return [controlDocument totalTargetPages];
-}
-
-- (NSString *)documentUID
-{
-	return [controlDocument documentUID];
-}
-
-- (NSString *)segmentTitle
-{
-	return [controlDocument segmentTitle];
-}
 @end

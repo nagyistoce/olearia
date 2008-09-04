@@ -9,8 +9,8 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="29"/>
-			<integer value="2"/>
 			<integer value="956"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1688,8 +1688,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>talkingBook.hasLevelDown</string>
 					<string>talkingBook.currentSectionTitle</string>
 					<string>talkingBook.currentPageString</string>
-					<string>talkingBook.currentPlaybackVolume</string>
-					<string>talkingBook.currentPlaybackRate</string>
+					<string>talkingBook.playbackRate</string>
+					<string>talkingBook.playbackVolume</string>
 				</object>
 				<bool key="NSEditable">YES</bool>
 				<bool key="NSAutomaticallyPreparesContent">YES</bool>
@@ -3068,15 +3068,15 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.talkingBook.currentPlaybackVolume</string>
+						<string key="label">value: selection.talkingBook.playbackVolume</string>
 						<reference key="source" ref="379381253"/>
 						<reference key="destination" ref="564195892"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="379381253"/>
 							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.talkingBook.currentPlaybackVolume</string>
+							<string key="NSLabel">value: selection.talkingBook.playbackVolume</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.talkingBook.currentPlaybackVolume</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackVolume</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
 								<integer value="0" key="NS.object.0" id="6"/>
@@ -3084,19 +3084,19 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1154</int>
+					<int key="connectionID">1157</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.talkingBook.currentPlaybackRate</string>
+						<string key="label">value: selection.talkingBook.playbackRate</string>
 						<reference key="source" ref="116136054"/>
 						<reference key="destination" ref="564195892"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="116136054"/>
 							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.talkingBook.currentPlaybackRate</string>
+							<string key="NSLabel">value: selection.talkingBook.playbackRate</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.talkingBook.currentPlaybackRate</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackRate</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
 								<reference key="NS.object.0" ref="6"/>
@@ -3104,7 +3104,23 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1156</int>
+					<int key="connectionID">1158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setPlaybackVolume:</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="399801161"/>
+					</object>
+					<int key="connectionID">1159</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setPlaybackSpeed:</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="758452174"/>
+					</object>
+					<int key="connectionID">1160</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4736,7 +4752,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1156</int>
+			<int key="maxID">1160</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

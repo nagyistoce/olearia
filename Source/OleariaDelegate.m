@@ -89,9 +89,9 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 		
 		// set the defaults before any book is loaded
 		// these defaults will change after the book is loaded
-		[talkingBook setPlaybackRate:[userDefaults floatForKey:OleariaPlaybackRate]];
-		[talkingBook setVolumeLevel:[userDefaults floatForKey:OleariaPlaybackVolume]];
-		[talkingBook setPlaybackVoice:[userDefaults valueForKey:OleariaPlaybackVoice]];
+		talkingBook.playbackRate = [userDefaults floatForKey:OleariaPlaybackRate];
+		talkingBook.playbackVolume = [userDefaults floatForKey:OleariaPlaybackVolume];
+		talkingBook.preferredVoice = [userDefaults valueForKey:OleariaPlaybackVoice];
 		
 		isPlaying = NO;
 		
@@ -250,25 +250,26 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 		
 }
 
+#pragma mark  TODO add reference to recent doc not userdefaults
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
 	float newRate = [sender floatValue];
 	if(newRate != [userDefaults floatForKey:OleariaPlaybackRate])
 	{
-		[talkingBook setPlaybackRate:newRate]; 
+		talkingBook.playbackRate = newRate; 
 		[userDefaults setFloat:newRate forKey:OleariaPlaybackRate];
 		[userDefaults synchronize];
 	}
 	
 
 }
-
+#pragma mark  TODO add reference to recent doc not userdefaults
 - (IBAction)setPlaybackVolume:(NSSlider *)sender
 {
 	float newVolume = [sender floatValue];
 	if(newVolume != [userDefaults floatForKey:OleariaPlaybackVolume])
 	{
-		[talkingBook setVolumeLevel:newVolume]; 
+		talkingBook.playbackVolume = newVolume; 
 		[userDefaults setFloat:newVolume forKey:OleariaPlaybackVolume];
 		[userDefaults synchronize];
 	}
@@ -318,7 +319,11 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 						bookLoaded = [talkingBook openWithFile:validFileURL];
 						if(bookLoaded)
 						{
+							// setup the user saved settings for playback
+							talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
+							// we will get the settings from the recent documents dict if required
 							[talkingBook nextSegment]; // load the first segment ready for play
+							
 							break;
 						}
 						else

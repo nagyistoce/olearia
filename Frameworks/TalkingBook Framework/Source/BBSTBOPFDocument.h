@@ -45,15 +45,6 @@
 @property (readonly, retain) NSArray *spine;
 @property (readonly, retain) NSArray *tour;
 
-@property (readonly, retain) NSString *ncxFilename;
-@property (readonly, retain) NSString *xmlContentFilename;
-
-@property (readonly, retain) NSString *bookTitle;
-@property (readonly, retain) NSString *bookSubject;
-@property (readonly, retain) NSString *bookTotalTime;
-@property (readonly) TalkingBookType bookType;
-@property (readonly) TalkingBookMediaFormat bookMediaFormat;
-
 @property (readonly) NSInteger	currentPosInSpine;
 
 @end
