@@ -37,6 +37,8 @@
 	NSString			*documentUID;		// dtb:uid
 	NSString			*segmentTitle;
 	NSString			*bookTitle;
+	float				levelNavChapterIncrement;
+	
 
 	id					controlDocument;
 	
@@ -47,6 +49,7 @@
 @property (readonly) NSInteger currentLevel;
 @property (readonly) NSInteger totalPages;
 @property (readonly) NSInteger totalTargetPages;
+@property (readwrite) float levelNavChapterIncrement;
 @property (readonly, retain) NSString *documentUID;
 @property (readonly, retain) NSString *segmentTitle;
 

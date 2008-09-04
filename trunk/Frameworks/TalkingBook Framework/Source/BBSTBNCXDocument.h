@@ -49,22 +49,13 @@
 	NSArray				*navTargets;
 	
 	NSInteger			maxNavPointsAtThisLevel;
-	//NSInteger			currentPlayIndex;
-	//NSInteger			currentLevel;
-	//NSInteger			maxLevels;			// dtb:depth
-	//NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
-	//NSInteger			totalTargetPages;	// dtb:totalPageCount
-	//NSString			*documentUID;		// dtb:uid
+
 	NSString			*versionString;
 	NSString			*parentFolderPath;
-	//NSString			*segmentTitle;
-	//NSString			*bookTitle;
-	
-
 	
 }
 
-//- (id)initWithURL:(NSURL *)aURL;
+
 - (NSString *)nextSegmentAudioFilePath;
 - (NSString *)previousSegmentAudioFilePath;
 
@@ -88,12 +79,5 @@
 
 @property (readonly, retain) NSDictionary *smilCustomTest;
 @property (readonly, retain) NSDictionary *segmentAttributes;
-
-@property (readonly, retain) NSString	*bookTitle;
-@property (readonly) NSInteger currentLevel;
-@property (readonly) NSInteger totalPages;
-@property (readonly) NSInteger totalTargetPages;
-@property (readonly, retain) NSString *documentUID;
-@property (readonly, retain) NSString *segmentTitle;
 
 @end

@@ -55,8 +55,6 @@
 
 @property (readwrite) NSInteger currentChapterIndex;
 @property (readwrite) TalkingBookType controlMode;
-@property (readwrite) float		currentPlaybackRate;
-@property (readwrite) float		currentPlaybackVolume;
 
 @property (readwrite, retain) NSString *currentLevelString;
 
@@ -518,32 +516,35 @@
 }
 
 #pragma mark -
-#pragma mark Attribute Methods
+#pragma mark Overridden Attribute Methods
 
 - (void)setPlaybackRate:(float)aRate
 {
-	if(aRate != self.currentPlaybackRate)
+	if(aRate != playbackRate)
 	{
-		self.currentPlaybackRate = aRate;
-		[currentAudioFile setRate:currentPlaybackRate];
+		playbackRate = aRate;
+		[currentAudioFile setRate:playbackRate];
 	}
 }
 
-- (void)setVolumeLevel:(float)aLevel
+- (void)setPlaybackVolume:(float)aLevel
 {
-	if(aLevel != self.currentPlaybackVolume)
+	if(aLevel != playbackVolume)
 	{
-		self.currentPlaybackVolume = aLevel;
-		[currentAudioFile setVolume:currentPlaybackVolume];
+		playbackVolume = aLevel;
+		[currentAudioFile setVolume:playbackVolume];
 	}
 }
 
-- (void)setPlaybackVoice:(NSString *)aVoiceID;
+- (void)setPreferredVoice:(NSString *)aVoiceID;
 {
 	[speechSynth setVoice:aVoiceID];
 
 }
-
+- (void)setChapterSkipIncrement:(float)anIncrement;
+{
+	[controlDoc setLevelNavChapterIncrement:anIncrement];
+}
 
 #pragma mark -
 #pragma mark Private Methods
@@ -676,9 +677,9 @@ BAIL:
 - (void)setPreferredAudioAttributes
 {
 	[currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
-	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackVolume] forKey:QTMoviePreferredVolumeAttribute];
-	[currentAudioFile setVolume:currentPlaybackVolume];
-	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.currentPlaybackRate] forKey:QTMoviePreferredRateAttribute];
+	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackVolume] forKey:QTMoviePreferredVolumeAttribute];
+	[currentAudioFile setVolume:playbackVolume];
+	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
 	[currentAudioFile setDelegate:self];
 	
 }
@@ -745,7 +746,7 @@ BAIL:
 
 @synthesize speechSynth, preferredVoice;
 
-@synthesize currentPlaybackRate, currentPlaybackVolume;
+@synthesize playbackRate, playbackVolume, chapterSkipIncrement;
 @synthesize maxLevels, currentPageIndex, currentChapterIndex, totalChapters;
 @synthesize controlMode;
 @synthesize textDoc, smilDoc;

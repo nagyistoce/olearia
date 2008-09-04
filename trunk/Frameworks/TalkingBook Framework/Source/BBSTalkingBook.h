@@ -54,8 +54,9 @@ typedef enum
 	NSInteger				currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
-	float					currentPlaybackRate;
-	float					currentPlaybackVolume;
+	float					playbackRate;
+	float					playbackVolume;
+	float					chapterSkipIncrement;
 	
 
 	id						controlDoc;
@@ -114,8 +115,6 @@ typedef enum
 - (void)upOneLevel;
 - (void)downOneLevel;
 
-
-
 - (void)nextChapter;
 - (void)previousChapter;
 
@@ -123,14 +122,14 @@ typedef enum
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 
-- (void)setVolumeLevel:(float)aLevel;
-- (void)setPlaybackRate:(float)aRate;
-- (void)setPlaybackVoice:(NSString *)aVoiceID;
 
 @property (readwrite, retain) BBSTBControlDoc *controlDoc;
 @property (readwrite, retain) BBSTBPackageDoc *packageDoc;
 
 @property (readwrite,retain) NSString	*preferredVoice;
+@property (readwrite) float		playbackRate;
+@property (readwrite) float		playbackVolume;
+@property (readwrite) float		chapterSkipIncrement;
 
 @property (readonly)		NSInteger	maxLevels;
 

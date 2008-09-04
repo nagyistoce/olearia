@@ -70,20 +70,6 @@
 
 @implementation BBSTBNCXDocument
 
-@synthesize smilDoc, parentFolderPath;
-@synthesize loadFromCurrentLevel;
-@synthesize ncxDoc, ncxRootElement, navListNode;
-@synthesize currentLevel;
-@synthesize metaData, smilCustomTest, documentTitleDict, documentAuthorDict;
-@synthesize segmentAttributes;
-@synthesize versionString;
-@synthesize navTargets; 
-@synthesize currentNavPoint;
-@synthesize segmentTitle;
-@synthesize bookTitle;
-
-@synthesize totalPages, totalTargetPages,documentUID;
-
 - (id) init
 {
 	if (!(self=[super init])) return nil;
@@ -142,22 +128,6 @@
 	return isOK;
 }
 
-/*
-- (void) dealloc
-{
-	// nice cleanup
-	[ncxDoc release];
-	[ncxRootElement release];
-	[metaData release];
-	[documentTitleDict release];
-	[documentAuthorDict release];
-	[versionString release];
-	[smilCustomTest release];
-	[documentUID release];
-	
-	[super dealloc];
-}
-*/
 
 #pragma mark -
 #pragma mark Public Methods
@@ -675,5 +645,19 @@
 	return nil;
 	
 }
+
+@synthesize smilDoc, parentFolderPath;
+@synthesize loadFromCurrentLevel;
+@synthesize ncxDoc, ncxRootElement, navListNode;
+@synthesize currentLevel;
+@synthesize metaData, smilCustomTest, documentTitleDict, documentAuthorDict;
+@synthesize segmentAttributes;
+@synthesize versionString;
+@synthesize navTargets; 
+@synthesize currentNavPoint;
+@synthesize segmentTitle;
+@synthesize bookTitle;
+
+@synthesize totalPages, totalTargetPages,documentUID;
 
 @end
