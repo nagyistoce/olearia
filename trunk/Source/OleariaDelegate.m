@@ -20,19 +20,60 @@
 //
 
 #import "OleariaDelegate.h"
-#import <Cocoa/Cocoa.h>
 #import "BBSTalkingBook.h"
 #import "OleariaPrefsController.h"
 
-@interface OleariaDelegate ()
 
+NSString * const OleariaPlaybackVolume = @"OleariaPlaybackVolume";
+NSString * const OleariaPlaybackRate = @"OleariaPlaybackRate";
+NSString * const OleariaPlaybackVoice = @"OleariaPlaybackVoice"; 
+NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
+NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
+
+@interface OleariaDelegate (Private)
+
++ (void)setupDefaults;
 
 @end
+
 
 
 @implementation OleariaDelegate
 
 @synthesize talkingBook;
+
++ (void) initialize
+{
+	[self setupDefaults];
+}
+
++ (void)setupDefaults
+{
+    NSMutableDictionary *defaultValuesDict = [NSMutableDictionary dictionary];
+	NSDictionary *initialValuesDict;
+	NSArray *resettableKeys;
+	
+	// setup the default values for our prefs keys
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackRate];
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackVolume];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
+	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
+    
+	// set them in the standard user defaults
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValuesDict];
+	
+	// set the keys for the resetable prefs -- these make a subset of the entire userdefaults dict
+    resettableKeys=[NSArray arrayWithObjects:OleariaPlaybackRate, 
+					OleariaPlaybackVoice, 
+					OleariaPlaybackVolume, 
+					OleariaUseVoiceForPlayback, 
+					OleariaChapterSkipIncrement,
+					nil];
+    // get the values for the specified keys
+	initialValuesDict=[defaultValuesDict dictionaryWithValuesForKeys:resettableKeys];
+    // Set the initial values in the shared user defaults controller
+    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
+}
 
 
 - (id) init
@@ -40,7 +81,16 @@
 	self = [super init];
 	if (self != nil) 
 	{
+		// get the defaults
+		userDefaults = [NSUserDefaults standardUserDefaults];
+		// init the book object
 		talkingBook = [[BBSTalkingBook alloc] init];
+		
+		// set the defaults before any book is loaded
+		// these defaults will change after the book is loaded
+		[talkingBook setPlaybackRate:[userDefaults floatForKey:OleariaPlaybackRate]];
+		[talkingBook setVolumeLevel:[userDefaults floatForKey:OleariaPlaybackVolume]];
+		[talkingBook setPlaybackVoice:[userDefaults valueForKey:OleariaPlaybackVoice]];
 		
 		isPlaying = NO;
 		
@@ -65,6 +115,12 @@
 	
 	// 0x0020 is the space character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
+	
+	// set the sliders to default values
+	// these values will change once the book is loaded if it has settings
+	[playbackVolumeSlider setFloatValue:[userDefaults floatForKey:OleariaPlaybackVolume]];
+	[playbackSpeedSlider setFloatValue:[userDefaults floatForKey:OleariaPlaybackRate]];
+	
 }
 
 
@@ -195,18 +251,28 @@
 
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
-	[playbackSpeedTextfield setFloatValue:[sender floatValue]];
-	[talkingBook setNewPlaybackRate:[sender floatValue]];
+	float newRate = [sender floatValue];
+	if(newRate != [userDefaults floatForKey:OleariaPlaybackRate])
+	{
+		[talkingBook setPlaybackRate:newRate]; 
+		[userDefaults setFloat:newRate forKey:OleariaPlaybackRate];
+		[userDefaults synchronize];
+	}
+	
+
 }
 
 - (IBAction)setPlaybackVolume:(NSSlider *)sender
 {
-	[playbackVolumeTextfield setFloatValue:[sender floatValue]];
-	[talkingBook setNewVolumeLevel:[sender floatValue]]; 
-}
+	float newVolume = [sender floatValue];
+	if(newVolume != [userDefaults floatForKey:OleariaPlaybackVolume])
+	{
+		[talkingBook setVolumeLevel:newVolume]; 
+		[userDefaults setFloat:newVolume forKey:OleariaPlaybackVolume];
+		[userDefaults synchronize];
+	}
 
-#pragma mark -
-#pragma mark Delegate Methods
+}
 
 - (void)openPanelDidEnd:(NSOpenPanel *)openPanel 
              returnCode:(int)returnCode 

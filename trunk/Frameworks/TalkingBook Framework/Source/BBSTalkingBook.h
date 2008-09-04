@@ -26,10 +26,7 @@
 @class BBSTBControlDoc, BBSTBPackageDoc;
 @class QTMovie;
 
-extern NSString * const BBSTBPlaybackVolume;
-extern NSString * const BBSTBPlaybackRate;
-extern NSString * const BBSTBPlaybackVoice;
-extern NSString * const BBSTBUseVoiceForPlayback;
+
 
 typedef enum 
 {
@@ -126,8 +123,9 @@ typedef enum
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 
-- (void)setNewVolumeLevel:(float)aLevel;
-- (void)setNewPlaybackRate:(float)aRate;
+- (void)setVolumeLevel:(float)aLevel;
+- (void)setPlaybackRate:(float)aRate;
+- (void)setPlaybackVoice:(NSString *)aVoiceID;
 
 @property (readwrite, retain) BBSTBControlDoc *controlDoc;
 @property (readwrite, retain) BBSTBPackageDoc *packageDoc;

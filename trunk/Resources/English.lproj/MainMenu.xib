@@ -8,9 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="956"/>
-			<integer value="2"/>
 			<integer value="29"/>
+			<integer value="2"/>
+			<integer value="956"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1688,6 +1688,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>talkingBook.hasLevelDown</string>
 					<string>talkingBook.currentSectionTitle</string>
 					<string>talkingBook.currentPageString</string>
+					<string>talkingBook.currentPlaybackVolume</string>
+					<string>talkingBook.currentPlaybackRate</string>
 				</object>
 				<bool key="NSEditable">YES</bool>
 				<bool key="NSAutomaticallyPreparesContent">YES</bool>
@@ -3015,6 +3017,94 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="697057443"/>
 					</object>
 					<int key="connectionID">1144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.talkingBook.canPlay</string>
+						<reference key="source" ref="758452174"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="758452174"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled: selection.talkingBook.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.talkingBook.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1146</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.talkingBook.canPlay</string>
+						<reference key="source" ref="399801161"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="399801161"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled: selection.talkingBook.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.talkingBook.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1147</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">playbackVolumeSlider</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="399801161"/>
+					</object>
+					<int key="connectionID">1148</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">playbackSpeedSlider</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="758452174"/>
+					</object>
+					<int key="connectionID">1149</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.currentPlaybackVolume</string>
+						<reference key="source" ref="379381253"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="379381253"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.currentPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.currentPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<integer value="0" key="NS.object.0" id="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1154</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.currentPlaybackRate</string>
+						<reference key="source" ref="116136054"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="116136054"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.currentPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.currentPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<reference key="NS.object.0" ref="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1156</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4646,7 +4736,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1144</int>
+			<int key="maxID">1156</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

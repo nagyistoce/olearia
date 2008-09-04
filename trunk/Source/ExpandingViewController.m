@@ -44,12 +44,13 @@
 	// get the current window frame
     NSRect newWindowFrame = [[toolsBoxView window] frame];
 	
+	
 	if(isExpanded)
 		windowDelta -= [toolsBoxView convertSize:[toolsBoxView frame].size toView:nil].height;
 	else
 		windowDelta += [toolsBoxView convertSize:[toolsBoxView frame].size toView:nil].height;
 		//[toolsBoxView setHidden:NO];
-	[[NSAnimationContext currentContext] setDuration:0.5];
+	//[[NSAnimationContext currentContext] setDuration:0.5];
 	[NSAnimationContext beginGrouping];
 	
 	//if([toolsBoxView frame].size.height > [soundView frame].size.height)
