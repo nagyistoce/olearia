@@ -92,6 +92,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 		talkingBook.playbackRate = [userDefaults floatForKey:OleariaPlaybackRate];
 		talkingBook.playbackVolume = [userDefaults floatForKey:OleariaPlaybackVolume];
 		talkingBook.preferredVoice = [userDefaults valueForKey:OleariaPlaybackVoice];
+		talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
 		
 		isPlaying = NO;
 		
@@ -296,6 +297,9 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 				bookLoaded = [talkingBook openWithFile:[openPanel URL]];
 				if(bookLoaded)
 				{
+					// setup the user saved settings (if Any) for playback
+					talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
+					
 					[talkingBook nextSegment]; // load the first segment ready for play
 				}
 				else

@@ -21,6 +21,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "BBSTalkingBookTypes.h"
+#import <QTKit/QTKit.h>
 
 @class BBSTBSMILDocument, BBSTBTextDocument;
 @class BBSTBControlDoc, BBSTBPackageDoc;
@@ -43,20 +44,21 @@ typedef enum
 	NSSpeechSynthesizer		*speechSynth;
 	
 	
-	TalkingBookType			controlMode;
-	levelControlMode		levelNavConMode;
-	levelControlMode		maxLevelConMode;
+	TalkingBookType			_controlMode;
+	levelControlMode		_levelNavConMode;
+	levelControlMode		_maxLevelConMode;
 	NSInteger				maxLevels;
-	NSInteger				totalChapters;
-	NSInteger				currentLevelIndex;
+	NSInteger				_totalChapters;
+	NSInteger				_currentLevelIndex;
 	
 	NSInteger				currentPageIndex;
-	NSInteger				currentChapterIndex;
+	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
 	float					playbackRate;
 	float					playbackVolume;
 	float					chapterSkipIncrement;
+	QTTime					_skipDuration;
 	
 
 	id						controlDoc;
@@ -67,21 +69,21 @@ typedef enum
 	BBSTBSMILDocument		*smilDoc;
 	
 	
-	NSString				*bookPath;
-	NSString				*segmentFilename;
+	NSString				*_bookPath;
+	NSString				*_segmentFilename;
 	
 	
 	NSNotificationCenter	*TalkingBookNotificationCenter;
 
 
-	BOOL					didLoadOK;
-	BOOL					hasPackageFile;
-	BOOL					hasControlFile;
-	BOOL					hasPageNavigation;
-	BOOL					hasPhraseNavigation;
-	BOOL					hasSentenceNavigation;
-	BOOL					hasWordNavigation;
-	
+	BOOL					_didLoadOK;
+	BOOL					_hasPackageFile;
+	BOOL					_hasControlFile;
+	BOOL					_hasPageNavigation;
+	BOOL					_hasPhraseNavigation;
+	BOOL					_hasSentenceNavigation;
+	BOOL					_hasWordNavigation;
+	QTMovie					*_currentAudioFile;
 	
 	// bindings ivars
 	NSString				*bookTitle;
@@ -98,7 +100,7 @@ typedef enum
 	BOOL					hasPreviousSegment;
 	
 
-	QTMovie					*currentAudioFile;
+	
 }
 
 
@@ -126,13 +128,12 @@ typedef enum
 @property (readwrite, retain) BBSTBControlDoc *controlDoc;
 @property (readwrite, retain) BBSTBPackageDoc *packageDoc;
 
-@property (readwrite,retain) NSString	*preferredVoice;
-@property (readwrite) float		playbackRate;
-@property (readwrite) float		playbackVolume;
-@property (readwrite) float		chapterSkipIncrement;
+@property (readwrite,retain)	NSString	*preferredVoice;
+@property (readwrite)			float		playbackRate;
+@property (readwrite)			float		playbackVolume;
+@property (readwrite)			float		chapterSkipIncrement;
 
 @property (readonly)		NSInteger	maxLevels;
-
 @property (readonly)		NSInteger	currentPageIndex;
 
 @property (retain,readonly)		BBSTBTextDocument		*textDoc;
