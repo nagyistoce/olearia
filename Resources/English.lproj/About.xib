@@ -29,12 +29,13 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">83</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 29}, {450, 511}}</string>
+				<string key="NSWindowRect">{{94, 258}, {450, 511}}</string>
 				<int key="NSWTFlags">1879049216</int>
 				<string key="NSWindowTitle">About</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
-				<string key="NSWindowContentMaxSize">{10000, 10000}</string>
+				<string key="NSWindowContentMaxSize">{450, 511}</string>
+				<string key="NSWindowContentMinSize">{450, 511}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -150,7 +151,7 @@
 						</object>
 						<object class="NSScrollView" id="1010636592">
 							<reference key="NSNextResponder" ref="1006"/>
-							<int key="NSvFlags">256</int>
+							<int key="NSvFlags">274</int>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSClipView" id="837741579">
@@ -175,7 +176,7 @@
 														<bool key="EncodedWithXMLCoder">YES</bool>
 														<reference ref="405973014"/>
 													</object>
-													<int key="NSLMFlags">134</int>
+													<int key="NSLMFlags">6</int>
 													<nil key="NSDelegate"/>
 												</object>
 												<reference key="NSTextView" ref="404341359"/>
@@ -183,7 +184,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">264461</int>
+												<int key="NSFlags">264453</int>
 												<object class="NSColor" key="NSBackgroundColor" id="849388426">
 													<int key="NSColorSpace">3</int>
 													<bytes key="NSWhite">MQA</bytes>
@@ -345,8 +346,9 @@
 					<string key="NSFrameSize">{450, 511}</string>
 					<reference key="NSSuperview"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSMinSize">{450, 527}</string>
+				<string key="NSMaxSize">{450, 527}</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -400,6 +402,22 @@
 					</object>
 					<int key="connectionID">38</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">47</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="404341359"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">48</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -449,9 +467,9 @@
 							<reference ref="989910066"/>
 							<reference ref="367282267"/>
 							<reference ref="577111545"/>
-							<reference ref="1010636592"/>
 							<reference ref="839456039"/>
 							<reference ref="240911067"/>
+							<reference ref="1010636592"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -603,16 +621,16 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{297, 185}, {450, 511}}</string>
+					<string>{{94, 258}, {450, 511}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{297, 185}, {450, 511}}</string>
+					<string>{{94, 258}, {450, 511}}</string>
 					<integer value="0"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
-					<integer value="0" id="6"/>
-					<reference ref="6"/>
-					<string>{450, 450}</string>
-					<string>{450, 450}</string>
+					<integer value="1" id="5"/>
+					<reference ref="5"/>
+					<string>{450, 511}</string>
+					<string>{450, 511}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
@@ -648,7 +666,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">42</int>
+			<int key="maxID">48</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
