@@ -22,6 +22,7 @@
 #import "OleariaDelegate.h"
 #import "BBSTalkingBook.h"
 #import "OleariaPrefsController.h"
+#import "AboutBoxController.h"
 
 
 NSString * const OleariaPlaybackVolume = @"OleariaPlaybackVolume";
@@ -393,6 +394,15 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 	}
 	[prefsController showWindow:self];
 
+}
+
+- (IBAction)displayAboutPanel:(id)sender
+{
+	if(!aboutController)
+	{
+		aboutController = [[AboutBoxController alloc] init];
+	}
+	[aboutController showWindow:self];
 }
 
 @end
