@@ -22,7 +22,7 @@
 #import <Cocoa/Cocoa.h>
 //#import <AppKit/AppKit.h>
 
-@class BBSTalkingBook, OleariaPrefsController;
+@class BBSTalkingBook, OleariaPrefsController, AboutBoxController;
 
 extern NSString * const OleariaPlaybackVolume;
 extern NSString * const OleariaPlaybackRate;
@@ -36,6 +36,7 @@ extern NSString * const OleariaChapterSkipIncrement;
 	BBSTalkingBook		*talkingBook;
 	
 	OleariaPrefsController *prefsController;
+	AboutBoxController	*aboutController;
 	NSUserDefaults		*userDefaults;
 	
 	BOOL				isPlaying;
@@ -79,8 +80,8 @@ extern NSString * const OleariaChapterSkipIncrement;
 	
 }
 
-//- (IBAction)displayVolumeRateView:(id)sender;
 - (IBAction)displayPrefsPanel:(id)sender;
+- (IBAction)displayAboutPanel:(id)sender;
 
 - (IBAction)openDocument:(id)sender;
 - (IBAction)PlayPause:(id)sender;
