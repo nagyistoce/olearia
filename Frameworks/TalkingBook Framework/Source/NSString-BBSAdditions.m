@@ -71,7 +71,6 @@
 			else if(YES == [scaleStr isEqualToString:@"min"]) // minutes
 			{
 				// 60 seconds in a minute
-				
 				totalTimeInSeconds = (60 * value) + fractions;
 				fractions = 0; // we have added the seconds to the total time so set this to 0
 			}
@@ -94,10 +93,9 @@
 				fractions = (int)((value * 10) % 1000) + (int)(fractions * 10); // leftover milliseconds 
 			}
 		}
-		hours = totalTimeInSeconds % 3600; // 60 secs * 60 mins
-		totalTimeInSeconds = totalTimeInSeconds - (hours * 3600);
-		minutes = totalTimeInSeconds % 60; // 60 seconds
-		seconds = totalTimeInSeconds - (minutes * 60);
+		hours = totalTimeInSeconds / 3600; 
+		minutes = (totalTimeInSeconds / 3600) % 60; 
+		seconds = totalTimeInSeconds % 60;
 	}
 	else 
 	{	
