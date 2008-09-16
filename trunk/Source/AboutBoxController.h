@@ -35,12 +35,13 @@
     IBOutlet NSTextField *copyrightField;
     IBOutlet NSTextView *creditsView;
     IBOutlet NSTextField *versionField;
-    NSTimer *scrollTimer;
+   /*
+	NSTimer *scrollTimer;
     float currentPosition;
     float maxScrollHeight;
     NSTimeInterval startTime;
     BOOL restartAtTop;
-	
+	*/
 }
 
 @end
