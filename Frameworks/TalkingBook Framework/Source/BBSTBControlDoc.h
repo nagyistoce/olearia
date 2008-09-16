@@ -23,13 +23,9 @@
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
 
-
-
-
-
 @interface BBSTBControlDoc : NSObject 
 {
-	TalkingBookMediaFormat			bookFormat;
+	TalkingBookMediaFormat			bookMediaFormat;
 	NSInteger			currentLevel;
 	
 	NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
@@ -39,12 +35,12 @@
 	NSString			*bookTitle;
 	float				levelNavChapterIncrement;
 	
-
 	id					controlDocument;
 	
 }
 
-@property (readonly) TalkingBookMediaFormat bookFormat;
+
+@property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly, retain) NSString	*bookTitle;
 @property (readonly) NSInteger currentLevel;
 @property (readonly) NSInteger totalPages;

@@ -20,14 +20,41 @@
 //
 
 
+
+
 #import "BBSTBControlDoc.h"
 #import "BBSTBNCXDocument.h"
 
 @implementation BBSTBControlDoc
 
+- (id) init
+{
+	if (!(self=[super init])) return nil;
+	
+	segmentTitle = @"";
+	bookTitle = @"";
+	totalPages = 0;
+	totalTargetPages = 0;
+	currentLevel = 0;
+	documentUID = @"";
+	bookMediaFormat = unknownMediaFormat;
+	
+	
+	return self;
+}
+
+- (void)finalize
+{
+	documentUID = nil;
+	segmentTitle = nil;
+	bookTitle = nil;
+	
+	[super finalize];
+}
+
 @synthesize levelNavChapterIncrement;
 @synthesize currentLevel, totalPages, totalTargetPages;
-@synthesize bookFormat;
+@synthesize bookMediaFormat;
 @synthesize segmentTitle, bookTitle, documentUID;
 
 
