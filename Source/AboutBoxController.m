@@ -31,11 +31,11 @@
 {
 	if (![super initWithWindowNibName:@"About"]) return nil;
 	
-	
+	/*
 	currentPosition = 0;
 	restartAtTop = NO;
 	startTime = [NSDate timeIntervalSinceReferenceDate] + 3.0;
-	
+	*/
 	
 	
 	return self;
@@ -72,19 +72,18 @@
 	
 	
 	
-	maxScrollHeight = [[creditsView string] length];
- 
-	
-}
+	//maxScrollHeight = [[creditsView string] length];
 
+}
+/*
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
+
     scrollTimer = [NSTimer scheduledTimerWithTimeInterval:1/4 
 												   target:self 
 												 selector:@selector(scrollCredits:) 
 												 userInfo:nil 
 												  repeats:YES];
-	
 	
 }
 
@@ -120,14 +119,15 @@
         }
         else
         {
+			
             // Scroll to the position
-            [creditsView scrollPoint:NSMakePoint( 0, currentPosition )];
+            [[creditsView animator] scrollPoint:NSMakePoint( 0, currentPosition )];
             
             // Increment the scroll position
             currentPosition += 0.005;
         }
     }
 }
-
+*/
 
 @end

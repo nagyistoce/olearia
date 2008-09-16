@@ -76,7 +76,7 @@
 						<object class="NSTextField" id="367282267">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{126, 366}, {197, 16}}</string>
+							<string key="NSFrame">{{79, 366}, {302, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="903160850">
@@ -465,11 +465,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="293708800"/>
 							<reference ref="989910066"/>
-							<reference ref="367282267"/>
 							<reference ref="577111545"/>
 							<reference ref="839456039"/>
 							<reference ref="240911067"/>
 							<reference ref="1010636592"/>
+							<reference ref="367282267"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -627,8 +627,8 @@
 					<integer value="0"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
-					<integer value="1" id="5"/>
-					<reference ref="5"/>
+					<reference ref="9"/>
+					<reference ref="9"/>
 					<string>{450, 511}</string>
 					<string>{450, 511}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -666,7 +666,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">48</int>
+			<int key="maxID">49</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -681,6 +681,7 @@
 							<string>aboutPanel</string>
 							<string>appNameField</string>
 							<string>copyrightField</string>
+							<string>creditsScrollView</string>
 							<string>creditsView</string>
 							<string>versionField</string>
 						</object>
@@ -689,6 +690,7 @@
 							<string>NSPanel</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
+							<string>NSScrollView</string>
 							<string>NSTextView</string>
 							<string>NSTextField</string>
 						</object>
