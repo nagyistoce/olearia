@@ -24,6 +24,7 @@
 #import "BBSTBPackageDoc.h"
 #import "BBSTBOPFDocument.h"
 #import "BBSTBNCXDocument.h"
+#import "BBSTBNCCDocument.h"
 #import "BBSTBSMILDocument.h"
 #import <QTKit/QTKit.h>
 
@@ -93,8 +94,8 @@
 	_hasPackageFile = NO;
 	packageDoc = nil;
 	_hasControlFile = NO;
-	
 	controlDoc = nil;
+	
 	smilDoc = nil;
 	textDoc = nil;
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
@@ -161,9 +162,10 @@
 	// do a sanity check to see if the user chose a NCX file and there 
 	// is actually an OPF file available
 	
-	// currently this method assumes that the opf file has the same filename as the ncx file sans extension
+	// check for an ncx file first
 	if([self typeOfControlDoc:aURL] == ncxControlDocType)
 	{
+		// currently this method assumes that the opf file has the same filename as the ncx file sans extension
 		NSFileManager *fm = [NSFileManager defaultManager];
 		// delete the extension from the NCX filename
 		NSMutableString *opfFilePath = [[NSMutableString alloc] initWithString:[filename stringByDeletingPathExtension]];
@@ -295,6 +297,7 @@
 				break;
 			case bookshareNcxControlDocType:
 			case nccControlDocType:
+				controlDoc = [[BBSTBNCCDocument alloc] init];
 			default:
 				break;
 		}
@@ -421,6 +424,8 @@
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 		
 	}
+	
+	[self updateForPosInBook];
 		
 }
 
@@ -432,6 +437,7 @@
 		{	NSString *audioFilePath = [controlDoc goDownALevel];
 			[self updateAudioFile:audioFilePath];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+			
 		}
 		else if(_hasPageNavigation)
 		{
@@ -439,6 +445,7 @@
 		}
 
 	
+		[self updateForPosInBook];
 		
 	}
 	

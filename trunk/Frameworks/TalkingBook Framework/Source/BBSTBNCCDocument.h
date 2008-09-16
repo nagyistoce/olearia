@@ -1,8 +1,8 @@
 //
-//  BBSTBNCXDocument.h
-//  BBSTalkingBook
+//  BBSTBNCCDocument.h
+//  Olearia
 //
-//  Created by Kieren Eaton on 15/04/08.
+//  Created by Kieren Eaton on 11/09/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,39 +19,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+
 #import <Foundation/Foundation.h>
 #import "BBSTBControlDoc.h"
 
 @class BBSTBSMILDocument;
 
-@interface BBSTBNCXDocument : BBSTBControlDoc 
+@interface BBSTBNCCDocument : BBSTBControlDoc
 {
 
-	BBSTBSMILDocument	*smilDoc;
-	
 	NSDictionary		*metaData;
-	NSDictionary		*smilCustomTest;
-	NSDictionary		*documentTitleDict;
-	NSDictionary		*documentAuthorDict;
 	NSDictionary		*segmentAttributes;
 	
-	BOOL				shouldUseNavmap;
-	BOOL				isFirstRun;
-	BOOL				loadFromCurrentLevel;
+	NSXMLElement		*nccRootElement;
 	
-	//BOOL				isAtPhraseLevel;
+	BBSTBSMILDocument   *smilDoc;
 	
-	NSXMLDocument		*ncxDoc;
+	NSString *parentFolderPath;
 	
-	NSXMLElement		*ncxRootElement;
-	NSXMLNode			*currentNavPoint;
-	NSXMLNode			*navListNode;
-	NSArray				*navTargets;
-	
-	NSInteger			maxNavPointsAtThisLevel;
-
-	NSString			*versionString;
-	NSString			*parentFolderPath;
+	BOOL loadFromCurrentLevel;
 	
 }
 
@@ -63,20 +49,21 @@
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
 - (BOOL)canGoDownLevel;
- 
+
 - (NSString *)goUpALevel;
 - (NSString *)goDownALevel;
 
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
-@property (readwrite, assign) BOOL loadFromCurrentLevel;
-@property (readonly, retain) NSDictionary *metaData;
-@property (readonly, retain) NSDictionary *documentTitleDict;
 
-@property (readonly, retain) NSDictionary *documentAuthorDict;
+@property (readwrite) BOOL loadFromCurrentLevel;
+//@property (readonly, retain) NSDictionary *metaData;
+//@property (readonly, retain) NSDictionary *documentTitleDict;
 
-@property (readonly, retain) NSDictionary *smilCustomTest;
+//@property (readonly, retain) NSDictionary *documentAuthorDict;
+
+//@property (readonly, retain) NSDictionary *smilCustomTest;
 @property (readonly, retain) NSDictionary *segmentAttributes;
 
 @end

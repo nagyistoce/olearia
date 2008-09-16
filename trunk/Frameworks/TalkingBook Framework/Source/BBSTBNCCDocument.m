@@ -1,8 +1,8 @@
 //
-//  BBSTBNCXDocument.m
-//  BBSTalkingBook
+//  BBSTBNCCDocument.m
+//  Olearia
 //
-//  Created by Kieren Eaton on 15/04/08.
+//  Created by Kieren Eaton on 11/09/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,22 +19,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
-#import "BBSTBControlDoc.h"
-#import "BBSTBNCXDocument.h"
+#import <Cocoa/Cocoa.h>
+#import "BBSTBNCCDocument.h"
 #import "BBSTBSMILDocument.h"
-#import "BBSTalkingBookTypes.h"
-#import "NSXMLElement-BBSExtensions.h"
-#import <QTKit/QTKit.h>
 
-@interface BBSTBNCXDocument ()
+
+#import "NSXMLElement-BBSExtensions.h"
+
+
+
+@interface BBSTBNCCDocument ()
 
 @property (readwrite, retain) BBSTBSMILDocument *smilDoc;
+
 @property (readwrite, retain) NSString *parentFolderPath;
-@property (readwrite, retain) NSDictionary *smilCustomTest;
-@property (readwrite, retain) NSDictionary *documentTitleDict;
-@property (readwrite, retain) NSDictionary *documentAuthorDict;
-@property (readwrite, retain) NSDictionary *segmentAttributes;
 
 @property (readwrite, retain) NSString *bookTitle;
 @property (readwrite, retain) NSString *documentUID;
@@ -43,90 +41,77 @@
 @property (readwrite) NSInteger totalTargetPages;
 @property (readwrite) NSInteger currentLevel;
 
-@property (readwrite, retain) NSXMLElement	*ncxRootElement;
-@property (readwrite, retain) NSXMLNode		*currentNavPoint;
-@property (readwrite, retain) NSXMLNode		*navListNode;
-@property (readwrite, retain) NSArray		*navTargets;
+@property (readwrite, retain) NSXMLElement	*nccRootElement;
 
-@property (readwrite, retain) NSString *versionString;
-@property (readwrite, retain) NSXMLDocument	*ncxDoc;
-@property (readwrite, retain) NSDictionary *metaData;
-
-- (NSDictionary *)processMetadata;
-- (NSDictionary *)processDocTitle;
-- (NSDictionary *)processDocAuthor;
-- (NSArray *)processNavMap; 
-- (void)processSmilFile:(NSString *)smilFilename;
-- (NSUInteger)navPointsOnCurrentLevel;
-- (NSUInteger)navPointIndexOnCurrentLevel;
-
-- (NSInteger)documentVersion;
 - (NSString *)filenameFromID:(NSString *)anIdString;
 - (void)nextSegment;
 - (void)previousSegment;
 - (NSString *)currentSegmentFilename;
 
+- (void)processMetadata:(NSXMLElement *)rootElement;
+
 @end
 
 
-@implementation BBSTBNCXDocument 
+
+@implementation BBSTBNCCDocument
 
 - (id) init
 {
 	if (!(self=[super init])) return nil;
 	
-	shouldUseNavmap = NO;
-	self.loadFromCurrentLevel = NO;
-	isFirstRun = YES;
+	
+	
 	
 	return self;
 }
 
 - (BOOL)openFileWithURL:(NSURL *)aURL
 {
+
 	BOOL isOK = NO;
 	
-		NSError *theError;
+	NSError *theError = nil;
 	
-		self.ncxDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-				
-		if(ncxDoc != nil)
+	NSXMLDocument *nccDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+	
+	if((nccDoc != nil) && (nil == theError))
+	{
+		// get the root path for later use with smil and xmlcontent files
+		parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
+		// these all may be nil depending on the type of book we are reading
+		nccRootElement = [nccDoc rootElement];
+		//[nccRootElement detach];
+		
+		[self processMetadata:nccRootElement]; 
+		
+		//totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
+		//totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
+		
+		//self.documentTitleDict = [self processDocTitle];
+		//self.documentAuthorDict = [self processDocAuthor];
+/*		
+		maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
+		if(maxNavPointsAtThisLevel > 0)
 		{
-			
-			
-			
-			// get the root path for later use with smil and xmlcontent files
-			self.parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
-			// these all may be nil depending on the type of book we are reading
-			self.ncxRootElement = [ncxDoc rootElement];
-			[ncxRootElement detach];
-			self.ncxDoc = nil;
-			self.metaData = [self processMetadata]; 
-			
-			totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
-			totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
-			
-			self.documentTitleDict = [self processDocTitle];
-			self.documentAuthorDict = [self processDocAuthor];
-
-			maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
-			if(maxNavPointsAtThisLevel > 0)
-			{
-				shouldUseNavmap = YES;
-				self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
-			}
-			 
-			self.currentLevel = 1;
-			isOK = YES;
+			shouldUseNavmap = YES;
+			self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
 		}
-		else  
-		{	
-			// there was a problem opening the NCX document
-			NSAlert *theAlert = [NSAlert alertWithError:theError];
-			[theAlert runModal]; // ignore return value
-		}
+*/		
+		self.currentLevel = 1;
+		isOK = YES;
+		nccDoc = nil;
+	}
+	else  
+	{	
+		// there was a problem opening the NCX document
+		NSAlert *theAlert = [NSAlert alertWithError:theError];
+		[theAlert runModal]; // ignore return value
+	}
 	
 	return isOK;
+ 
+ 
 }
 
 
@@ -147,8 +132,9 @@
 
 - (NSArray *)chaptersForSegment
 {
+	/*
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
-
+	
 #pragma mark remove Once we parse the xmlcontent properly	
 	NSInteger inc = 0; // 
 	
@@ -175,10 +161,15 @@
 		return nil;
 	
 	return outputChapters;
+	 
+	*/
+	return nil;
 }
 
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale
 {
+	/*
+	
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
 	
 	NSInteger inc = 0; // 
@@ -205,11 +196,15 @@
 		return nil;
 	
 	return outputChapters;
+	 
+	*/ 
+	return nil;
 }
 
 
 - (NSString *)goDownALevel
 {
+	/*
 	NSString *audioFilename = nil;
 	
 	if([self canGoDownLevel]) // first check if we can go down a level
@@ -219,15 +214,21 @@
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
 		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
 		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
+		
 		audioFilename = [self currentSegmentFilename];
 	}
 	
 	return audioFilename;
+	 
+	*/ 
+	return nil;
 }
 
 - (NSString *)goUpALevel
 {
+	
+	/*
+	 
 	NSString *audioFilename = nil;
 	
 	if([self canGoUpLevel]) // check that we can go up first
@@ -238,35 +239,52 @@
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
 		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
 		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
+		
 		audioFilename = [self currentSegmentFilename];
 	}
-
+	
 	return audioFilename;
+	 
+	*/ 
+	return nil;
 }
 
 - (BOOL)canGoNext
 {
+	/*
 	// return YES if we can go forward in the navmap
 	return ([self navPointIndexOnCurrentLevel] < ([self navPointsOnCurrentLevel] - 1)) ? YES : NO; 
+	 */
+	return NO;
 }
 
 - (BOOL)canGoPrev
 {
+	/*
 	// return YES if we can go backwards in the navMap
 	return ([self navPointIndexOnCurrentLevel] > 0) ? YES : NO;
+*/
+	return NO; 
 }
 
 - (BOOL)canGoUpLevel
 {
+	/*
 	// return Yes if we are at a lower level
 	return (currentLevel > 1) ? YES : NO;
+	 
+	 */
+	return NO;
 }
 
 - (BOOL)canGoDownLevel
 {
+	
+	/*
 	// return YES if there are navPoint Nodes below this level
 	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
+	 */
+	return NO;
 }
 
 
@@ -274,19 +292,31 @@
 #pragma mark -
 #pragma mark Private Methods
 
-- (NSUInteger)navPointsOnCurrentLevel
-{
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
-}
 
-- (NSUInteger)navPointIndexOnCurrentLevel
-{
-	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
+- (void)processMetadata:(NSXMLElement *)rootElement
+ {
+	 NSError *theError = nil;
+	 NSXMLNode *rootNode = (NSXMLNode *)rootElement;
+	 NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
+	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
+	 if (0 == [extractedContent count])
+	 {
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
+	 }
+	 self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : @"No Title";
+	 
+	 [extractedContent removeAllObjects];
+	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
+	 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
+	 
+	 [extractedContent removeAllObjects];
+	 
+	 
 }
 
 - (void)nextSegment
 {
+	/*
 	if(isFirstRun == NO)
 	{
 		if(NO == self.loadFromCurrentLevel) // always NO in regular play through mode
@@ -327,25 +357,27 @@
 	NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
 	self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
 	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
+	*/
 }
 
 - (void)previousSegment
 {
+	/*
 	if([self canGoPrev])
 	{
 		currentNavPoint = [currentNavPoint previousSibling];
 	}
-		
+	
 	// set the segment attributes for the current NavPoint
 	NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
 	self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
 	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-	
+	*/
 }
 
 - (NSString *)currentSegmentFilename
 {
+	/*
 	NSString *audioFilename = nil;
 	// get the filename from the segment attributes
 	NSString *filename = [self filenameFromID:[segmentAttributes valueForKeyPath:@"content.src"]];
@@ -365,6 +397,8 @@
 	}
 	
 	return audioFilename;
+	 */
+	return nil;
 }
 
 - (NSString *)filenameFromID:(NSString *)anIdString
@@ -372,219 +406,15 @@
 	NSAssert(anIdString != nil, @"anIdString is nil");
 	int markerPos = [anIdString rangeOfString:@"#"].location;
 	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
-		
-}
-
-- (NSDictionary *)processMetadata
-{
-	
-	self.versionString = [[ncxRootElement attributeForName:@"version"] stringValue];
-	
-	// get the head element , there will only ever be one.
-	NSXMLNode *headElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"head"]] objectAtIndex:0];
-	NSArray *elements = [NSArray arrayWithArray:[headElement children]];
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// we have a DAISY 3 Book
-	for(NSXMLElement *anElement in elements)
-	{
-		if([[anElement name] isEqualToString:@"meta"])
-		{
-			NSString * nameString = [NSString stringWithString:[[anElement attributeForName:@"name"] stringValue]];
-			[tempData setObject:[[anElement attributeForName:@"content"] stringValue] forKey:nameString];
-		}
-		else if([[anElement name] isEqualToString:@"smilCustomTest"])
-		{
-			NSMutableDictionary *tempSmilCustomTest = [[NSMutableDictionary alloc] init];
-			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-			for(NSXMLNode *aNode in attribs)
-			{
-				[tempSmilCustomTest setObject:[aNode stringValue] forKey:[aNode name]];
-				
-			}
-			// check if there was anyting put into the dict
-			if([tempSmilCustomTest count] > 0)
-				self.smilCustomTest = tempSmilCustomTest;
-		}
-	}
-	
-	if([tempData count] == 0)
-		return nil;
-	
-	return tempData;
-		
-}
-
-- (NSDictionary *)processDocTitle
-{
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// get the doctitle element , there will only ever be one.
-	NSArray *titleElementArray = [ncxRootElement elementsForName:@"docTitle"];
-	if([titleElementArray count]  > 0)
-	{
-		NSXMLNode *docTitleElement = [titleElementArray objectAtIndex:0];
-		NSArray *elements = [NSArray arrayWithArray:[docTitleElement children]];
-		
-		for(NSXMLElement *anElement in elements)
-		{
-			if([[anElement name] isEqualToString:@"text"])
-			{
-				[tempData setObject:[anElement stringValue] forKey:@"text"];
-				self.bookTitle = [anElement stringValue];
-			}
-			else if([[anElement name] isEqualToString:@"audio"])
-			{
-				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-				for(NSXMLNode *aNode in attribs)
-				{
-					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
-				}
-			}
-		}
-		
-	}
-	
-	// check if the dict is empty
-	if([tempData count] == 0)
-		return nil;
-	
-	return tempData;
 	
 }
 
-- (NSDictionary *)processDocAuthor
-{
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// get the docAuthor element , there will only ever be one.
-	NSArray *authElementsArray = [ncxRootElement elementsForName:@"docAuthor"];
-	if([authElementsArray count] > 0)
-	{
-		NSXMLElement *DocAuthorElement = [authElementsArray objectAtIndex:0];
-		
-		NSArray *elements = [NSArray arrayWithArray:[DocAuthorElement children]];
-		
-		for(NSXMLElement *anElement in elements)
-		{
-			if([[anElement name] isEqualToString:@"text"])
-			{
-				[tempData setObject:[anElement stringValue] forKey:@"text"];
-			}
-			else if([[anElement name] isEqualToString:@"audio"])
-			{
-				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-				for(NSXMLNode *aNode in attribs)
-				{
-					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
-				}
-			}
-		}
-		
-	}
-		// check if the dict is empty
-	if([tempData count] == 0)
-		return nil;
 
-	return tempData;
-}
 
-- (void)processSmilFile:(NSString *)smilFilename
-{
-	// build the path to the smil file
-	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
-	// make a URL of it
-	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
-	// open the smil document
-	self.smilDoc = [[BBSTBSMILDocument alloc] initWithURL:smilURL];
-}
-
-- (NSInteger)documentVersion
-{
-	// check for an earlier than 2005 version string
-	if([versionString hasPrefix:@"1.1."])
-		return DTB2002Type;
-	
-	// return the default
-	return DTB2005Type;
-}
-
-- (NSArray *)processNavMap
-{
-	NSMutableArray *tempNavMapPoints = [[NSMutableArray alloc] init];
-	
-	// get the navMap node
-	NSXMLNode *navMapHeadNode = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"navMap"]] objectAtIndex:0];
-	if([navMapHeadNode childCount] > 0)
-		[tempNavMapPoints addObjectsFromArray:[navMapHeadNode children]];
-		
-	// check if we had no nav points
-	if([tempNavMapPoints count] == 0)
-		return nil;
-	
-	return tempNavMapPoints;
-}
-/*
-- (NSUInteger)navPointsOnCurrentLevel
-{
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
-}
-
-- (NSUInteger)navPointIndexOnCurrentLevel
-{
-	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
-}
-*/
-
-#pragma mark -
-#pragma mark Dynamic Accessors
-
-- (NSInteger)totalPages
-{
-	
-	if([metaData count] > 0)
-	{	
-		// get the value of the 2005 spec attribute
-		NSString *value = [metaData objectForKey:@"dtb:maxPageNumber"];
-		if(value != nil) // if its nil we have a 2002 spec attribute
-			return (NSInteger)[value intValue];
-		else // return the 2002 spec attribute
-			return [[metaData objectForKey:@"dtb:maxPageNormal"] intValue];
-	}
-		
-	// there is no meta data so return 0
-	return 0;
-	
-}
-
-- (NSInteger)totalTargetPages
-{
-	if([metaData count] > 0)
-		return [[metaData objectForKey:@"dtb:totalPageCount"] intValue];
-	
-	return 0;
-	
-}
-
-- (NSString *)documentUID
-{
-	if([metaData count] > 0)
-		return [metaData objectForKey:@"dtb:uid"] ;
-	
-	return nil;
-	
-}
-
-@synthesize smilDoc, parentFolderPath;
+@synthesize currentLevel, totalPages, totalTargetPages;
 @synthesize loadFromCurrentLevel;
-@synthesize ncxDoc, ncxRootElement, navListNode;
-@synthesize currentLevel;
-@synthesize metaData, smilCustomTest, documentTitleDict, documentAuthorDict;
-@synthesize segmentAttributes;
-@synthesize versionString;
-@synthesize navTargets; 
-@synthesize currentNavPoint;
-@synthesize segmentTitle;
-@synthesize bookTitle;
-
-@synthesize totalPages, totalTargetPages,documentUID;
+@synthesize segmentAttributes, nccRootElement;
+@synthesize parentFolderPath, documentUID, segmentTitle, bookTitle;
+@synthesize smilDoc;
 
 @end
