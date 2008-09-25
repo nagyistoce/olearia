@@ -27,6 +27,7 @@
 {
 	TalkingBookMediaFormat			bookMediaFormat;
 	NSInteger			currentLevel;
+	NSInteger			currentPageNumber;
 	
 	NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
 	NSInteger			totalTargetPages;	// dtb:totalPageCount
@@ -43,6 +44,7 @@
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly, retain) NSString	*bookTitle;
 @property (readonly) NSInteger currentLevel;
+@property (readonly) NSInteger currentPageNumber;
 @property (readonly) NSInteger totalPages;
 @property (readonly) NSInteger totalTargetPages;
 @property (readwrite) float levelNavChapterIncrement;

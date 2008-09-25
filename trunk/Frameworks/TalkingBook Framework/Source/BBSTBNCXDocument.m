@@ -56,7 +56,7 @@
 - (NSDictionary *)processDocTitle;
 - (NSDictionary *)processDocAuthor;
 - (NSArray *)processNavMap; 
-- (void)processSmilFile:(NSString *)smilFilename;
+- (void)openSmilFile:(NSString *)smilFilename;
 - (NSUInteger)navPointsOnCurrentLevel;
 - (NSUInteger)navPointIndexOnCurrentLevel;
 
@@ -82,7 +82,7 @@
 	return self;
 }
 
-- (BOOL)openFileWithURL:(NSURL *)aURL
+- (BOOL)openControlFileWithURL:(NSURL *)aURL
 {
 	BOOL isOK = NO;
 	
@@ -149,26 +149,28 @@
 {
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
 
-#pragma mark remove Once we parse the xmlcontent properly	
+	
 	NSInteger inc = 0; // 
 	
 	// get the chapter list as ann array of QTTime Strings from the Smil file 
-	NSArray *smilChapters = [smilDoc chapterMarkers];
-	
+#pragma mark TODO pass in ids to be chaptered between
+	NSArray *smilChapters = [smilDoc chapterMarkersFromId:@"" toId:nil];
 	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
-	for(NSDictionary *aChapter in smilChapters)
+	if(nil != smilChapters)
 	{
-		
-		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-		//QTTime aTime = QTTimeFromString();
-		// just pass back the string without the timescale
-		[thisChapter setObject:[aChapter valueForKey:BBSTBClipBeginKey] forKey:QTMovieChapterStartTime];
-		
-		inc++;
-		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
-		
-		[outputChapters addObject:thisChapter]; 
-		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+		for(NSDictionary *aChapter in smilChapters)
+		{
+			NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
+			//QTTime aTime = QTTimeFromString();
+			// just pass back the string without the timescale
+			[thisChapter setObject:[aChapter valueForKey:BBSTBClipBeginKey] forKey:QTMovieChapterStartTime];
+			
+			inc++;
+			[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
+			
+			[outputChapters addObject:thisChapter]; 
+			//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+		}
 	}
 	
 	if([outputChapters count] == 0)
@@ -182,23 +184,26 @@
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
 	
 	NSInteger inc = 0; // 
-	
-	NSArray *smilChapters = [smilDoc chapterMarkers];
+
+#pragma mark TODO pass in ids to be chaptered between
+	NSArray *smilChapters = [smilDoc chapterMarkersFromId:@"" toId:nil];
 	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
-	for(NSDictionary *aChapter in smilChapters)
+	if(nil != smilChapters)
 	{
-		
-		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-		NSString *clipBeginWthScale = [[aChapter valueForKey:BBSTBClipBeginKey] stringByAppendingFormat:@"/%ld",aTimeScale];
-		QTTime aTime = QTTimeFromString(clipBeginWthScale);
-		
-		[thisChapter setObject:[NSValue valueWithQTTime:aTime] forKey:QTMovieChapterStartTime];
-		
-		inc++;
-		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
-		
-		[outputChapters addObject:thisChapter]; 
-		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+		for(NSDictionary *aChapter in smilChapters)
+		{
+			NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
+			NSString *clipBeginWthScale = [[aChapter valueForKey:BBSTBClipBeginKey] stringByAppendingFormat:@"/%ld",aTimeScale];
+			QTTime aTime = QTTimeFromString(clipBeginWthScale);
+			
+			[thisChapter setObject:[NSValue valueWithQTTime:aTime] forKey:QTMovieChapterStartTime];
+			
+			inc++;
+			[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
+			
+			[outputChapters addObject:thisChapter]; 
+			//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+		}
 	}
 	
 	if([outputChapters count] == 0)
@@ -352,9 +357,9 @@
 	if(nil != filename) // check that we got something back
 	{
 		// check if the file is a smil file. which most of the time it will be	
-		if(NSOrderedSame == [[filename pathExtension] compare:@"smil" options:NSCaseInsensitiveSearch])
+		if(NSOrderedSame == [[[filename pathExtension] lowercaseString] compare:@"smil"])
 		{
-			[self processSmilFile:filename];			
+			[self openSmilFile:filename];			
 			audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[segmentAttributes valueForKeyPath:@"navLabel.audio.src"]]];		
 		}
 	}
@@ -486,14 +491,18 @@
 	return tempData;
 }
 
-- (void)processSmilFile:(NSString *)smilFilename
+- (void)openSmilFile:(NSString *)smilFilename
 {
 	// build the path to the smil file
 	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
 	// make a URL of it
 	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
 	// open the smil document
-	self.smilDoc = [[BBSTBSMILDocument alloc] initWithURL:smilURL];
+	self.smilDoc = [[BBSTBSMILDocument alloc] init];
+	if(smilDoc)
+	{
+		[smilDoc openSmilFileWithURL:smilURL];
+	}
 }
 
 - (NSInteger)documentVersion
@@ -572,6 +581,9 @@
 	return nil;
 	
 }
+
+#pragma mark -
+#pragma mark Synthesized ivars
 
 @synthesize smilDoc, parentFolderPath;
 @synthesize loadFromCurrentLevel;
