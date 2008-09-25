@@ -55,6 +55,7 @@
 	
 }
 
+- (BOOL)openControlFileWithURL:(NSURL *)aURL;
 
 - (NSString *)nextSegmentAudioFilePath;
 - (NSString *)previousSegmentAudioFilePath;

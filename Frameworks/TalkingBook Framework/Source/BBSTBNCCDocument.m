@@ -33,6 +33,7 @@
 @property (readwrite, retain) BBSTBSMILDocument *smilDoc;
 
 @property (readwrite, retain) NSString *parentFolderPath;
+@property (readwrite, retain) NSString *currentFilename;
 
 @property (readwrite, retain) NSString *bookTitle;
 @property (readwrite, retain) NSString *documentUID;
@@ -40,15 +41,24 @@
 @property (readwrite) NSInteger totalPages;
 @property (readwrite) NSInteger totalTargetPages;
 @property (readwrite) NSInteger currentLevel;
+@property (readwrite) NSInteger currentPageNumber;
+@property (readwrite) TalkingBookMediaFormat bookMediaFormat; 
+@property (readwrite, retain) NSDictionary *segmentAttributes;
 
 @property (readwrite, retain) NSXMLElement	*nccRootElement;
+@property (readwrite, retain) NSXMLNode *currentNavPoint;
+@property (readwrite, retain) NSArray		*bodyNodes;
 
 - (NSString *)filenameFromID:(NSString *)anIdString;
 - (void)nextSegment;
 - (void)previousSegment;
 - (NSString *)currentSegmentFilename;
+- (NSInteger)levelOfNextNode;
+- (NSInteger)levelOfCurrentNode;
+- (NSString *)attributeValueForXquery:(NSString *)aQuery;
 
 - (void)processMetadata:(NSXMLElement *)rootElement;
+- (void)openSmilFile:(NSString *)smilFilename;
 
 @end
 
@@ -60,13 +70,17 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	
-	
+	self.loadFromCurrentLevel = NO;
+	isFirstRun = YES;
+	self.currentLevel = 1;
+	currentNodeIndex = 0;
+	totalBodyNodes = 0;
+	currentFilename = @"";
 	
 	return self;
 }
 
-- (BOOL)openFileWithURL:(NSURL *)aURL
+- (BOOL)openControlFileWithURL:(NSURL *)aURL
 {
 
 	BOOL isOK = NO;
@@ -100,11 +114,11 @@
 */		
 		self.currentLevel = 1;
 		isOK = YES;
-		nccDoc = nil;
+		//nccDoc = nil;
 	}
 	else  
 	{	
-		// there was a problem opening the NCX document
+		// there was a problem opening the NCC document
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert runModal]; // ignore return value
 	}
@@ -251,40 +265,32 @@
 
 - (BOOL)canGoNext
 {
-	/*
+	
 	// return YES if we can go forward in the navmap
-	return ([self navPointIndexOnCurrentLevel] < ([self navPointsOnCurrentLevel] - 1)) ? YES : NO; 
-	 */
-	return NO;
+	return (currentNodeIndex < totalBodyNodes) ? YES : NO; 
+	 
+	//return NO;
 }
 
 - (BOOL)canGoPrev
 {
-	/*
+	
 	// return YES if we can go backwards in the navMap
-	return ([self navPointIndexOnCurrentLevel] > 0) ? YES : NO;
-*/
-	return NO; 
+	return (currentNodeIndex > 0) ? YES : NO;
+
+	//return NO; 
 }
 
 - (BOOL)canGoUpLevel
 {
-	/*
 	// return Yes if we are at a lower level
 	return (currentLevel > 1) ? YES : NO;
-	 
-	 */
-	return NO;
 }
 
 - (BOOL)canGoDownLevel
 {
-	
-	/*
 	// return YES if there are navPoint Nodes below this level
-	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
-	 */
-	return NO;
+	return ( [self levelOfNextNode] > currentLevel) ? YES : NO;
 }
 
 
@@ -310,24 +316,114 @@
 	 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
 	 
 	 [extractedContent removeAllObjects];
+	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:multimediaType\"]/data(@content)" error:nil]];
+	 
+	 NSString *mediaTypeStr = (1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : nil;	
+	 if(mediaTypeStr != nil)
+	 {
+		 if([mediaTypeStr isEqualToString:@"audioFullText"] == YES)
+			 self.bookMediaFormat = AudioFullTextMediaFormat;
+		 else if([mediaTypeStr isEqualToString:@"audioPartText"] == YES)
+			 self.bookMediaFormat = AudioPartialTextMediaFormat;
+		 else if([mediaTypeStr isEqualToString:@"audioOnly"] == YES)
+			 self.bookMediaFormat = AudioOnlyMediaFormat;
+		 else if([mediaTypeStr isEqualToString:@"audioNcc"] == YES)
+			 self.bookMediaFormat = AudioNcxOrNccMediaFormat;
+		 else if([mediaTypeStr isEqualToString:@"textPartAudio"] == YES)
+			 self.bookMediaFormat = TextPartialAudioMediaFormat;
+		 else if([mediaTypeStr isEqualToString:@"textNcc"] == YES)
+			 self.bookMediaFormat = TextNcxOrNccMediaFormat;
+		 else 
+			 self.bookMediaFormat = unknownMediaFormat;
+	 }
+	 else
+	 {
+		 self.bookMediaFormat = unknownMediaFormat;
+	 }
 	 
 	 
+	 bodyNodes = [[[rootElement nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
+	 totalBodyNodes = [bodyNodes count];
+	 // NSLog(@"%d",isnumber([[[bodyNode childAtIndex:0] name] characterAtIndex:0])) ;
+	 
+	
+	 
+}
+
+- (void)openSmilFile:(NSString *)smilFilename
+{
+	self.smilDoc = nil;
+	// build the path to the smil file
+	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
+	// make a URL of it
+	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
+	// open the smil document
+	self.smilDoc = [[BBSTBSMILDocument alloc] init];
+	if(smilDoc)
+	{
+		[smilDoc openSmilFileWithURL:smilURL];
+	}
+
+}
+
+- (NSInteger)levelOfNextNode
+{
+	NSInteger newlevel = 0;
+	// increment the temp
+	NSInteger tempIndex = currentNodeIndex + 1;
+
+	NSMutableString *nodeName = [NSMutableString stringWithString:[[bodyNodes objectAtIndex:tempIndex] name]];
+	unichar checkChar =  [nodeName characterAtIndex:1];
+
+	while((tempIndex < totalBodyNodes) && ((NO == [nodeName hasPrefix:@"h"]) && (NO == isdigit(checkChar))))
+	{
+		tempIndex++;
+		if(tempIndex < totalBodyNodes)
+		{	
+			[nodeName setString:[[bodyNodes objectAtIndex:tempIndex] name]];
+			checkChar =  [nodeName characterAtIndex:1];
+		}
+	}
+		
+	if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
+	{
+		newlevel = checkChar - 48;
+	}
+	
+	return newlevel;
+}
+
+- (NSInteger)levelOfCurrentNode
+{
+	NSInteger thislevel = 0;
+	
+	NSString *nodeName = [NSString stringWithString:[[[bodyNodes objectAtIndex:currentNodeIndex] name] lowercaseString]];
+	unichar checkChar =  [nodeName characterAtIndex:1];
+	
+	if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
+	{
+		thislevel = checkChar - 48;
+	}
+	
+	return thislevel;
 }
 
 - (void)nextSegment
 {
-	/*
+	
 	if(isFirstRun == NO)
 	{
-		if(NO == self.loadFromCurrentLevel) // always NO in regular play through mode
+		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
 		{
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
-				self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				self.currentLevel++; // increment the level index
+				//self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+				//self.currentLevel++; // increment the level index
 			}
 			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-				self.currentNavPoint = [currentNavPoint nextSibling];
+			{	//self.currentNavPoint = [currentNavPoint nextSibling];
+				currentNodeIndex++;
+			}
 			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
 			{
 				if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
@@ -339,10 +435,11 @@
 				}
 			}
 		}
-		else // self.useNextSibling == YES
+		else // loadFromCurrentLevel == YES .... used for user navigation 
 		{
 			// this only used when the user chooses to go to the next file on a given level
-			self.currentNavPoint = [currentNavPoint nextSibling];
+			//self.currentNavPoint = [currentNavPoint nextSibling];
+			currentNodeIndex++;
 			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
 		}
 	}
@@ -354,10 +451,25 @@
 	}
 	
 	// set the segment attributes for the current navPoint
-	NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-	self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-	*/
+	//NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
+	//self.segmentAttributes = [(NSXMLElement *)[bodyNodes objectAtIndex:currentNodeIndex] dictionaryFromElement];
+	//NSLog(@"seg atts : \n%@",segmentAttributes);
+	//self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
+	
+	// check if its a span node which will indicate a new page number
+	if ([[[[bodyNodes objectAtIndex:currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
+	{
+		self.currentPageNumber = [[self attributeValueForXquery:@"./data(a)"] integerValue];
+		
+	}
+	else
+	{
+		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
+		self.currentLevel = [self levelOfCurrentNode];
+	}
+	
+	
+	NSLog(@"seg title : %@",segmentTitle);
 }
 
 - (void)previousSegment
@@ -377,28 +489,41 @@
 
 - (NSString *)currentSegmentFilename
 {
-	/*
+	
 	NSString *audioFilename = nil;
 	// get the filename from the segment attributes
-	NSString *filename = [self filenameFromID:[segmentAttributes valueForKeyPath:@"content.src"]];
+	NSString *filename = [self filenameFromID:[self attributeValueForXquery:@"./a/data(@href)"]];
+	
 	if(nil != filename) // check that we got something back
 	{
-		// check if the file is a smil file. which most of the time it will be	
-		if(NSOrderedSame == [[filename pathExtension] compare:@"smil" options:NSCaseInsensitiveSearch])
+		filename = [filename lowercaseString];
+		// check if the current file is the same as the new file
+		// smil files have multiple references to audio content within them
+		// so there is no point reloading the smil
+		if(NSOrderedSame != [filename compare:currentFilename])
 		{
-			[self processSmilFile:filename];			
-			audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[segmentAttributes valueForKeyPath:@"navLabel.audio.src"]]];		
+			currentFilename = filename;
+			// check if the file is a smil file. which most of the time it will be	
+			if(NSOrderedSame == [[filename pathExtension] compare:@"smil"])
+			{
+				[self openSmilFile:filename];			
+				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self attributeValueForXquery:@"./data(@id)"]]]];		
+			}
+			else  
+			{
+				// create the full path to the file
+				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
+			}
+		}
+		else
+		{
+			audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self attributeValueForXquery:@"./data(@id)"]]]];
 		}
 	}
-	else  
-	{
-		// create the full path to the file
-		audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
-	}
+	
 	
 	return audioFilename;
-	 */
-	return nil;
+	 
 }
 
 - (NSString *)filenameFromID:(NSString *)anIdString
@@ -409,12 +534,21 @@
 	
 }
 
+- (NSString *)attributeValueForXquery:(NSString *)aQuery
+{
+	return [[[bodyNodes objectAtIndex:currentNodeIndex] objectsForXQuery:aQuery error:nil] objectAtIndex:0];
+}
 
+#pragma mark -
+#pragma mark Synthesized ivars
 
-@synthesize currentLevel, totalPages, totalTargetPages;
+@synthesize currentLevel, totalPages, totalTargetPages, currentPageNumber;
 @synthesize loadFromCurrentLevel;
-@synthesize segmentAttributes, nccRootElement;
+@synthesize segmentAttributes, currentFilename;
+@synthesize nccRootElement, currentNavPoint;
 @synthesize parentFolderPath, documentUID, segmentTitle, bookTitle;
 @synthesize smilDoc;
+@synthesize bodyNodes;
+@synthesize bookMediaFormat;
 
 @end

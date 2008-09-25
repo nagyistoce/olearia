@@ -92,7 +92,7 @@
  */
 
 
-- (BOOL)openFileWithURL:(NSURL *)aURL;
+- (BOOL)openPackageFileWithURL:(NSURL *)aURL;
 {
 	BOOL isOK = NO;
 	
@@ -301,7 +301,7 @@
 		NSString *bookFormatString = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"" ;
 		
 		// check the type for DTB 2002 specifier
-		if([bookFormatString compare:@"ANSI/NISO Z39.86-2002" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+		if(NSOrderedSame == [[bookFormatString uppercaseString] compare:@"ANSI/NISO Z39.86-2002"])
 		{	
 			// it may be a bookshare book 
 			// check the identifier node for a bookshare scheme attribute containing "BKSH"
@@ -319,7 +319,7 @@
 			
 		}
 		// check for DTB 2005 spec identifier
-		else if([bookFormatString compare:@"ANSI/NISO Z39.86-2005" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+		else if(NSOrderedSame == [[bookFormatString uppercaseString] compare:@"ANSI/NISO Z39.86-2005"])
 		{
 			self.bookType = DTB2005Type;
 		}
@@ -354,11 +354,11 @@
 				else if([mediaStr isEqualToString:@"audioOnly"] == YES)
 					self.bookMediaFormat = AudioOnlyMediaFormat;
 				else if([mediaStr isEqualToString:@"audioNCX"] == YES)
-					self.bookMediaFormat = AudioNCXMediaFormat;
+					self.bookMediaFormat = AudioNcxOrNccMediaFormat;
 				else if([mediaStr isEqualToString:@"textPartAudio"] == YES)
 					self.bookMediaFormat = TextPartialAudioMediaFormat;
 				else if([mediaStr isEqualToString:@"textNCX"] == YES)
-					self.bookMediaFormat = TextNCXMediaFormat;
+					self.bookMediaFormat = TextNcxOrNccMediaFormat;
 				else 
 					self.bookMediaFormat = unknownMediaFormat;
 			}

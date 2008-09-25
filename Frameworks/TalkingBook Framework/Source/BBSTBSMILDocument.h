@@ -25,19 +25,22 @@
 {
 	
 	//NSDictionary	*smilContent;
-	NSArray			*smilContent;
+	//NSArray			*smilContent;
 	NSString		*xmlContentFilename;
 	NSDictionary	*smilChapterData;
-	NSString		*filename;
-	
+	//NSString		*filename;
+	NSArray			*parNodes;
+	NSDictionary	*parNodeIndexes;
 }
 
-- (id)initWithURL:(NSURL *)aURL;
-- (NSArray *)chapterMarkers;
+- (BOOL)openSmilFileWithURL:(NSURL *)aURL;
+//- (NSArray *)chapterMarkers;
+- (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
+- (NSString *)audioFilenameForId:(NSString *)anId;
 
 
 //@property (readonly, retain) NSDictionary *chapters;
 @property (readonly, retain) NSString *xmlContentFilename;
-@property (readonly, retain) NSString *filename;
+//@property (readonly, retain) NSString *filename;
 
 @end
