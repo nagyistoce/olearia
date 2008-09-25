@@ -257,9 +257,13 @@
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 						
 		}
-		if(_hasControlFile)
+		else if(_hasControlFile)
 		{
-			if((0 == [controlDoc totalPages]) && (0 == [controlDoc totalTargetPages]))
+			// check that we have some sort of audio media in the file
+			if((TextNcxOrNccMediaFormat != [controlDoc bookMediaFormat]))
+				[self setupAudioNotifications];
+			
+			if(0 == [controlDoc totalPages])
 			{
 				self.currentPageString = @"No Page Numbers";
 			}
@@ -270,10 +274,12 @@
 				_hasPageNavigation = YES;
 				_maxLevelConMode = pageNavigationControlMode;
 			}
-
+			self.bookTitle = [packageDoc bookTitle];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+			
 		}
 		
-		//setup the notifications for the changing values on the documents
+		//update the interface with the initial values
 		[self updateForPosInBook];		
 		
 	}

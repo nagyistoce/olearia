@@ -53,7 +53,7 @@
 }
 
 @synthesize levelNavChapterIncrement;
-@synthesize currentLevel, totalPages, totalTargetPages;
+@synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;
 @synthesize segmentTitle, bookTitle, documentUID;
 
