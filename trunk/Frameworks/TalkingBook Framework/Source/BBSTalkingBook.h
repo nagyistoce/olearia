@@ -70,7 +70,7 @@ typedef enum
 	
 	
 	NSString				*_bookPath;
-	NSString				*_segmentFilename;
+	NSString				*_currentSegmentFilename;
 	
 	
 	NSNotificationCenter	*TalkingBookNotificationCenter;
