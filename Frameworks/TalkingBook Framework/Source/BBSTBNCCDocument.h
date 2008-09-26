@@ -32,20 +32,21 @@
 	NSDictionary		*segmentAttributes;
 	
 	
-	NSInteger			currentNodeIndex;
-	NSInteger			totalBodyNodes;
+	NSInteger			_currentNodeIndex;
+	NSInteger			_totalBodyNodes;
 	
 	NSXMLElement		*nccRootElement;
 	NSXMLNode			*currentNavPoint;
 	
 	BBSTBSMILDocument   *smilDoc;
-	NSArray				*bodyNodes;
+	NSArray				*_bodyNodes;
 	
-	NSString *parentFolderPath;
-	NSString *currentFilename;
+	NSString *_parentFolderPath;
+	NSString *_currentSmilFilename;
+	NSString *_currentAudioFilename;
 	
 	BOOL loadFromCurrentLevel;
-	BOOL isFirstRun;
+	BOOL _isFirstRun;
 	
 }
 - (BOOL)openControlFileWithURL:(NSURL *)aURL;
