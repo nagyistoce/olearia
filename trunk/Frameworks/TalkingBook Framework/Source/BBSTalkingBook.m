@@ -382,16 +382,9 @@
 	{	
 		// get the filename of the next audio file to play from the ncx file
 		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
-		
-		self.currentSectionTitle = [controlDoc segmentTitle];
-		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
-	}
-	
-	//if(NO == [_currentSegmentFilename isEqualToString:audioSegmentFilename])
-	//{
-	//	_currentSegmentFilename = audioSegmentFilename;
 		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
-	//}
+
+	}
 	
 	return fileDidUpdate;
 }
@@ -405,18 +398,7 @@
 		// get the filename of the next file to play from the ncx file
 		[controlDoc setLoadFromCurrentLevel:YES];
 		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
-		//if(NO == [_currentSegmentFilename isEqualToString:audioSegmentFilename])
-		//{
-			//_currentSegmentFilename = audioSegmentFilename;
-			fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
-		//}
-		//else
-		//{
-			// we have recieved a duplicate filename so we pretend we have updated the file
-		//	fileDidUpdate = YES;
-		//}
-		
-		
+		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
 	}
 	
 		
@@ -666,6 +648,7 @@
 		else
 		{
 			loadedOK = YES;
+			[self updateForPosInBook];
 		}
 				
 		
@@ -760,6 +743,8 @@
 	if(_hasControlFile)
 	{	
 		self.currentSectionTitle = [controlDoc segmentTitle];
+		if(levelNavigationControlMode == _levelNavConMode)
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
 		self.hasLevelUp = (([controlDoc canGoUpLevel]) || (_levelNavConMode > levelNavigationControlMode)) ? YES : NO;
 		if ([controlDoc canGoDownLevel]) // check regular level down first
 			self.hasLevelDown = YES;
