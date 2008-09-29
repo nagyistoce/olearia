@@ -211,7 +211,7 @@
 	{	
 		// we have chosen some other sort of file so open and process it.
 		// check if its an OPF package file
-		if(NSOrderedSame == [[[filename pathExtension] lowercaseString] compare:@"opf"])
+		if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
 		{
 			_hasPackageFile = [self openPackageDocument:aURL asType:DTB2005Type];
 			if(_hasPackageFile)
@@ -564,12 +564,12 @@
 	
 	NSString *filename = [aURL path];
 	// check for an ncx extension
-	if(NSOrderedSame == [[[filename pathExtension] lowercaseString] compare:@"ncx"])
+	if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
 	{
 		type = ncxControlDocType;
 	}
 	// check for an ncc.html file
-	else if(NSOrderedSame == [[[filename lastPathComponent] lowercaseString] compare:@"ncc.html"])
+	else if(YES == [[[filename lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 	{
 		type = nccControlDocType;
 	}

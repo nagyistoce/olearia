@@ -523,7 +523,7 @@
 		{
 			_currentSmilFilename = filename;
 			// check if the file is a smil file. which most of the time it will be	
-			if(NSOrderedSame == [[filename pathExtension] compare:@"smil"])
+			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
 			{
 				[self openSmilFile:filename];			
 				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self attributeValueForXquery:@"./data(@id)"]]]];		

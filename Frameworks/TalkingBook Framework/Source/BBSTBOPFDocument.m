@@ -301,7 +301,7 @@
 		NSString *bookFormatString = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"" ;
 		
 		// check the type for DTB 2002 specifier
-		if(NSOrderedSame == [[bookFormatString uppercaseString] compare:@"ANSI/NISO Z39.86-2002"])
+		if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2002"])
 		{	
 			// it may be a bookshare book 
 			// check the identifier node for a bookshare scheme attribute containing "BKSH"
@@ -319,7 +319,7 @@
 			
 		}
 		// check for DTB 2005 spec identifier
-		else if(NSOrderedSame == [[bookFormatString uppercaseString] compare:@"ANSI/NISO Z39.86-2005"])
+		else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
 		{
 			self.bookType = DTB2005Type;
 		}
