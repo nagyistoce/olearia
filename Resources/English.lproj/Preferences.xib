@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9E17</string>
-		<string key="IBDocument.InterfaceBuilderVersion">670</string>
-		<string key="IBDocument.AppKitVersion">949.33</string>
+		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.InterfaceBuilderVersion">672</string>
+		<string key="IBDocument.AppKitVersion">949.34</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -103,21 +103,21 @@
 									</object>
 									<object class="NSMutableArray" key="dict.values">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<integer value="1" id="5"/>
-										<reference ref="5"/>
+										<integer value="1" id="9"/>
+										<reference ref="9"/>
 										<integer value="1040" id="823564969"/>
-										<integer value="0" id="6"/>
+										<integer value="0" id="8"/>
 										<real value="6.000000e+01" id="13637106"/>
 										<integer value="2" id="10"/>
 										<reference ref="10"/>
 										<real value="1.000000e-02" id="883078725"/>
-										<integer value="1" id="9"/>
+										<reference ref="9"/>
 										<string/>
 										<reference ref="9"/>
 										<string>#0</string>
-										<real value="1.000000e-01"/>
-										<integer value="0" id="8"/>
-										<reference ref="6"/>
+										<real value="1.000000e-01" id="347743175"/>
+										<reference ref="8"/>
+										<reference ref="8"/>
 									</object>
 								</object>
 								<string key="NS.positiveformat">#0</string>
@@ -323,7 +323,7 @@
 										<reference ref="9"/>
 										<reference ref="9"/>
 										<reference ref="11"/>
-										<real value="1.000000e-01" id="347743175"/>
+										<reference ref="347743175"/>
 										<reference ref="8"/>
 									</object>
 								</object>
@@ -1676,7 +1676,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">213</int>
+			<int key="maxID">214</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
