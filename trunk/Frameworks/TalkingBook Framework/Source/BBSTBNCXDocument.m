@@ -357,7 +357,7 @@
 	if(nil != filename) // check that we got something back
 	{
 		// check if the file is a smil file. which most of the time it will be	
-		if(NSOrderedSame == [[[filename pathExtension] lowercaseString] compare:@"smil"])
+		if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"smil"])
 		{
 			[self openSmilFile:filename];			
 			audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[segmentAttributes valueForKeyPath:@"navLabel.audio.src"]]];		

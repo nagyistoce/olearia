@@ -31,11 +31,11 @@
 {
 	NSString *qtFormattedString = nil;
 	NSInteger hours = 0, minutes = 0, seconds = 0, fractions = 0;
+	
 	// check for a specifically set timescale first
-	if([aTimeString isMatchedByRegex:@"(h|min|ms|s)"])
+	if([aTimeString isMatchedByRegex:@"(h|min|ms)|(s)"])
 	{
 		// we have a specific timescaled clock-value
-		NSString *scaleStr = nil;
 		
 		NSInteger  value;
 		long long totalTimeInSeconds = 0;
@@ -44,8 +44,10 @@
 		NSRange matchedRange = NSMakeRange(NSNotFound, 0); // setup the range
 		
 		// get the string that specifies the scale
-		matchedRange = [aTimeString rangeOfRegex:@"(h|min|ms|s)" capture:1];
-		scaleStr = [aTimeString substringWithRange:matchedRange];
+		matchedRange = [aTimeString rangeOfRegex:@"(h|min|ms)|(s)" capture:1];
+		if (NSNotFound == matchedRange.location)
+			matchedRange = [aTimeString rangeOfRegex:@"(h|min|ms)|(s)" capture:2];
+		NSString *scaleStr = [aTimeString substringWithRange:matchedRange];
 		
 		// get the value so we can work with it
 		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:3]; // get the value if any 
@@ -55,6 +57,7 @@
 		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:4]; // get the fraction if any
 		fractions = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
 		
+		//we check for miliseconds as a default specifier
 		if(NO == [scaleStr isEqualToString:@"ms"])
 		{
 			// check the multiplier
@@ -63,7 +66,7 @@
 				
 				if((fractions != 0) && (fractions > 999)) // check if there was a milisecond value larger than 1 second
 				{
-					totalTimeInSeconds = totalTimeInSeconds + (NSInteger)(fractions / 1000);
+					totalTimeInSeconds = (NSInteger)(fractions / 1000);
 					fractions = fractions % 1000; // leftover milliseconds 
 				}
 				totalTimeInSeconds = totalTimeInSeconds + value;  // total number of whole seconds 
@@ -71,21 +74,21 @@
 			else if(YES == [scaleStr isEqualToString:@"min"]) // minutes
 			{
 				// 60 seconds in a minute
-				totalTimeInSeconds = (60 * value) + fractions;
+				totalTimeInSeconds = (60 * value) + (fractions * 60);  
 				fractions = 0; // we have added the seconds to the total time so set this to 0
 			}
 			else // scaleStr == "h" for hours
 			{
 				// 60 Secs * 60 Mins = 3600 seconds in an hour
-				totalTimeInSeconds = (3600 * value) + (60 * fractions); 
+				totalTimeInSeconds = (3600 * value) + (fractions * 60); 
 			}
 		}
-		else  // scaleStr == ms (miliseconds)
+		else  // scaleStr 
 		{
 			if(value < 1000) // milliseconds value less than 1 second?
 			{
 				totalTimeInSeconds = (int)(value * 10);
-				fractions = (int)(value * 10) + (int)(fractions * 10); // leftover milliseconds 
+				fractions = (int)(fractions * 10); // leftover milliseconds 
 			}
 			else
 			{	
