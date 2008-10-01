@@ -137,7 +137,10 @@
 	else // we got a nil return so display the error to the user
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert runModal]; // ignore return value
+		[theAlert setMessageText:@"Failed to open OPF file.\n Please check book structure or try another book."];
+		
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		//[theAlert runModal]; // ignore return value
 	
 	}
 	

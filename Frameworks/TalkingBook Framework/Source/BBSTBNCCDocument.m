@@ -121,7 +121,9 @@
 	{	
 		// there was a problem opening the NCC document
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert runModal]; // ignore return value
+		[theAlert setMessageText:@"Failed to open the NCC file.\nPlease check the book Structure or try another book."]; 
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		//[theAlert runModal]; // ignore return value
 	}
 	
 	return isOK;
@@ -370,10 +372,6 @@
 	 // get all the body nodes
 	 _bodyNodes = [[[rootElement nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
 	 _totalBodyNodes = [_bodyNodes count];
-	 
-	 
-	
-	 
 }
 
 - (void)openSmilFile:(NSString *)smilFilename
@@ -396,24 +394,37 @@
 {
 	NSInteger newlevel = 0;
 	// increment the temp
-	NSInteger tempIndex = _currentNodeIndex + 1;
+	NSInteger tempIndex = _currentNodeIndex + 1; //
 
-	NSMutableString *nodeName = [NSMutableString stringWithString:[[_bodyNodes objectAtIndex:tempIndex] name]];
-	unichar checkChar =  [nodeName characterAtIndex:1];
+	NSMutableString *nodeName = [[NSMutableString alloc] init];
+	unichar checkChar = 'a';
 
-	while((tempIndex < _totalBodyNodes) && ((NO == [nodeName hasPrefix:@"h"]) && (NO == isdigit(checkChar))))
-	{
-		tempIndex++;
-		if(tempIndex < _totalBodyNodes)
-		{	
-			[nodeName setString:[[_bodyNodes objectAtIndex:tempIndex] name]];
-			checkChar =  [nodeName characterAtIndex:1];
-		}
-	}
+	if(tempIndex < _totalBodyNodes)
+	{	
+		[nodeName setString:[[_bodyNodes objectAtIndex:tempIndex] name]];
+		checkChar =  [nodeName characterAtIndex:1];
 		
-	if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
-	{
-		newlevel = checkChar - 48;
+		while((tempIndex < _totalBodyNodes) && (NO == [nodeName hasPrefix:@"h"]))
+		{
+			
+			
+			if(YES == isdigit(checkChar))
+			{	
+				tempIndex++;
+				if(tempIndex < _totalBodyNodes)
+				{	
+					[nodeName setString:[[_bodyNodes objectAtIndex:tempIndex] name]];
+					checkChar =  [nodeName characterAtIndex:1];
+				}
+				
+			}
+		}
+		
+		if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
+		{
+			newlevel = checkChar - 48;
+		}
+		
 	}
 	
 	return newlevel;

@@ -580,8 +580,12 @@
 
 - (BOOL)updateAudioFile:(NSString *)pathToFile
 {
+		
+	
 	NSError *theError = nil;
 	BOOL loadedOK = NO;
+	
+	
 	
 	// check that we have not passed in a nil string
 	if(pathToFile != nil)
@@ -659,9 +663,11 @@
 	if((_currentAudioFile == nil) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
+		[theAlert setMessageText:@"There was a problem loading the next Audio Segment"];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
 		
-		[theAlert runModal];
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+		
 		
 		
 		return NO;
