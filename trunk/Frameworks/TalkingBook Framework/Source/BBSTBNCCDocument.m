@@ -83,7 +83,6 @@
 
 - (BOOL)openControlFileWithURL:(NSURL *)aURL
 {
-
 	BOOL isOK = NO;
 	
 	NSError *theError = nil;
@@ -96,34 +95,21 @@
 		_parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
 		// these all may be nil depending on the type of book we are reading
 		nccRootElement = [nccDoc rootElement];
-		//[nccRootElement detach];
-		
+				
 		[self processMetadata:nccRootElement]; 
 		
-		//totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
-		//totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
-		
-		//self.documentTitleDict = [self processDocTitle];
-		//self.documentAuthorDict = [self processDocAuthor];
-/*		
-		maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
-		if(maxNavPointsAtThisLevel > 0)
-		{
-			shouldUseNavmap = YES;
-			self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
-		}
-*/		
 		self.currentLevel = 1;
 		isOK = YES;
-		//nccDoc = nil;
+		nccDoc = nil;
 	}
 	else  
 	{	
 		// there was a problem opening the NCC document
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:@"Failed to open the NCC file.\nPlease check the book Structure or try another book."]; 
+		[theAlert setMessageText:@"Control File Error"];
+		[theAlert setInformativeText:@"Failed to open the NCC file.\nPlease check the book Structure or try another book."]; 
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
-		//[theAlert runModal]; // ignore return value
+
 	}
 	
 	return isOK;
@@ -286,8 +272,6 @@
 	
 	// return YES if we can go forward in the navmap
 	return (_currentNodeIndex < _totalBodyNodes) ? YES : NO; 
-	 
-	
 }
 
 - (BOOL)canGoPrev
@@ -295,8 +279,6 @@
 	
 	// return YES if we can go backwards in the navMap
 	return (_currentNodeIndex > 0) ? YES : NO;
-
-	//return NO; 
 }
 
 - (BOOL)canGoUpLevel
@@ -371,7 +353,7 @@
 	 
 	 // get all the body nodes
 	 _bodyNodes = [[[rootElement nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
-	 _totalBodyNodes = [_bodyNodes count];
+	 _totalBodyNodes = [_bodyNodes count]-1;
 }
 
 - (void)openSmilFile:(NSString *)smilFilename
@@ -536,14 +518,16 @@
 			// check if the file is a smil file. which most of the time it will be	
 			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
 			{
-				[self openSmilFile:filename];			
-				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self attributeValueForXquery:@"./data(@id)"]]]];		
+				[self openSmilFile:filename];	
+				NSString *idStr = [NSString stringWithString:[self attributeValueForXquery:@"./data(@id)"]];
+				
+				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
 				
 			}
 			else  
 			{
 				// create the full path to the file
-				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
+				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:filename]];
 			}
 		}
 		else

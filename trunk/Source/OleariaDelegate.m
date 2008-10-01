@@ -152,7 +152,6 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 
 - (IBAction)PlayPause:(id)sender
 {
-	
 	if(isPlaying == NO)
 	{
 		// set the button stat and menuitem title 
@@ -353,13 +352,10 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 				
 				// put up a dialog saying that the folder chosen did not a valid document for opening the book.
 				NSAlert *alert = [[NSAlert alloc] init];
-
-				[alert addButtonWithTitle:@"OK"];
-				
 				[alert setMessageText:shortErrorMsg];
 				[alert setInformativeText:fullErrorMsg];
 				[alert setAlertStyle:NSWarningAlertStyle];
-				
+				[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
 				// we dont need a response from the user so set all options except window to nil;
 				[alert beginSheetModalForWindow:mainWindow 
 								  modalDelegate:nil 
@@ -369,7 +365,6 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 			}
 		}
 	}
-	
 
 } 
 

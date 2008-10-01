@@ -61,8 +61,8 @@ typedef enum
 	QTTime					_skipDuration;
 	
 
-	id						controlDoc;
-	id						packageDoc;
+	id						_controlDoc;
+	id						_packageDoc;
 	
 
 	BBSTBTextDocument		*textDoc;
@@ -125,8 +125,8 @@ typedef enum
 - (NSDictionary *)getCurrentPageInfo;
 
 
-@property (readwrite, retain) BBSTBControlDoc *controlDoc;
-@property (readwrite, retain) BBSTBPackageDoc *packageDoc;
+@property (readwrite, retain) BBSTBControlDoc *_controlDoc;
+@property (readwrite, retain) BBSTBPackageDoc *_packageDoc;
 
 @property (readwrite,retain)	NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
