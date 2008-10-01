@@ -36,7 +36,9 @@
 
 
 - (void)audioFileDidEnd:(NSNotification *)aNote;
+- (void)errorDialogDidEnd;
 - (void)setDisplayDefaults;
+- (void)resetBook;
 
 - (void)setupAudioNotifications;
 - (NSArray *)makeChaptersOfDuration:(QTTime)aDuration forMovie:(QTMovie *)aMovie;
@@ -88,33 +90,12 @@
 
 - (id) init
 {
-
 	if (!(self=[super init])) return nil;
-	
-	_hasPackageFile = NO;
-	packageDoc = nil;
-	_hasControlFile = NO;
-	controlDoc = nil;
-	
-	smilDoc = nil;
-	textDoc = nil;
-	_levelNavConMode = levelNavigationControlMode; // set the default level mode
-	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
-	_controlMode = UnknownBookType; // set the default book type
-	_currentSegmentFilename = @"";
-	
-	self.textDoc = nil;
-	
-	_currentAudioFile = nil;
-	
-	_totalChapters = 0;
-	
-	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-		
-	_bookPath = [[NSString alloc] init];
 
-	[self setDisplayDefaults];
-	
+		speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
+		
+	[self resetBook];
+
 	return self;
 }
 
@@ -133,13 +114,13 @@
 	
 	if(_hasControlFile) 
 	{
-		controlDoc = nil;
+		_controlDoc = nil;
 		_hasControlFile = NO;
 	}
 	
 	if(_hasPackageFile) 
 	{
-		packageDoc = nil;
+		_packageDoc = nil;
 		_hasPackageFile = NO;
 	}
 	
@@ -183,7 +164,7 @@
 				
 				fileOpenedOK = _hasPackageFile;
 				// successfully opened the opf document so get the ncx filename from it
-				NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[packageDoc ncxFilename]]];
+				NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
 					
 				// make a URL of the full path
 				NSURL *ncxURL = [[NSURL alloc] initFileURLWithPath:ncxPathString];
@@ -219,9 +200,9 @@
 				fileOpenedOK = _hasPackageFile;
 				
 				// get the book type so we know how to control acces to it
-				_controlMode = [packageDoc bookType];
+				_controlMode = [_packageDoc bookType];
 				// successfully opened the opf document so get the ncx filename from it
-				NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[packageDoc ncxFilename]]];
+				NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
 						
 				// make a URL of the full path
 				NSURL *ncxURL = [[NSURL alloc] initFileURLWithPath:ncxPathString];
@@ -251,32 +232,32 @@
 		if(_hasPackageFile)
 		{
 			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != [packageDoc bookMediaFormat]))
+			if((TextNcxOrNccMediaFormat != [_packageDoc bookMediaFormat]))
 				[self setupAudioNotifications];
 
-			self.bookTitle = [packageDoc bookTitle];
-			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+			self.bookTitle = [_packageDoc bookTitle];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 						
 		}
 		else if(_hasControlFile)
 		{
 			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != [controlDoc bookMediaFormat]))
+			if((TextNcxOrNccMediaFormat != [_controlDoc bookMediaFormat]))
 				[self setupAudioNotifications];
 			
-			if(0 == [controlDoc totalPages])
+			if(0 == [_controlDoc totalPages])
 			{
 				self.currentPageString = @"No Page Numbers";
 			}
 			else
 			{
 				
-				self.currentPageString = (0 != [controlDoc totalPages]) ? [NSString stringWithFormat:@"%d",[controlDoc totalPages]] : [NSString stringWithFormat:@"%d",[controlDoc totalTargetPages]];
+				self.currentPageString = (0 != [_controlDoc totalPages]) ? [NSString stringWithFormat:@"%d",[_controlDoc totalPages]] : [NSString stringWithFormat:@"%d",[_controlDoc totalTargetPages]];
 				_hasPageNavigation = YES;
 				_maxLevelConMode = pageNavigationControlMode;
 			}
-			self.bookTitle = [packageDoc bookTitle];
-			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+			self.bookTitle = [_packageDoc bookTitle];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 		}
 		
@@ -301,17 +282,17 @@
 		switch (aType)
 		{
 			case ncxControlDocType:
-				controlDoc = [[BBSTBNCXDocument alloc] init];
+				_controlDoc = [[BBSTBNCXDocument alloc] init];
 				break;
 			case bookshareNcxControlDocType:
 			case nccControlDocType:
-				controlDoc = [[BBSTBNCCDocument alloc] init];
+				_controlDoc = [[BBSTBNCCDocument alloc] init];
 			default:
 				break;
 		}
 				
 		// open the control file
-		 loadedOK = (nil != controlDoc) ? [controlDoc openControlFileWithURL:aDocUrl] : NO;
+		 loadedOK = (nil != _controlDoc) ? [_controlDoc openControlFileWithURL:aDocUrl] : NO;
 	}
 	return loadedOK;
 }
@@ -325,7 +306,7 @@
 		{
 			case DTB2005Type:
 			case DTB2002Type:
-				packageDoc = [[BBSTBOPFDocument alloc] init];
+				_packageDoc = [[BBSTBOPFDocument alloc] init];
 				break;
 			case BookshareType:
 				
@@ -334,7 +315,7 @@
 				break;
 		}
 
-		loadedOK = (nil != packageDoc) ? [packageDoc openPackageFileWithURL:aDocUrl] : NO;
+		loadedOK = (nil != _packageDoc) ? [_packageDoc openPackageFileWithURL:aDocUrl] : NO;
 	}		
 	
 	return loadedOK;
@@ -381,7 +362,7 @@
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
+		audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
 		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
 
 	}
@@ -396,8 +377,8 @@
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next file to play from the ncx file
-		[controlDoc setLoadFromCurrentLevel:YES];
-		audioSegmentFilename = [controlDoc nextSegmentAudioFilePath];
+		[_controlDoc setLoadFromCurrentLevel:YES];
+		audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
 		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
 	}
 	
@@ -412,7 +393,7 @@
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [controlDoc previousSegmentAudioFilePath];
+		audioSegmentFilename = [_controlDoc previousSegmentAudioFilePath];
 	}
 	
 	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
@@ -424,9 +405,9 @@
 {
 	if(_hasControlFile)
 	{
-		NSString *audioFilePath = [controlDoc goUpALevel];
+		NSString *audioFilePath = [_controlDoc goUpALevel];
 		[self updateAudioFile:audioFilePath];
-		self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+		self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 		
 	}
 	
@@ -438,10 +419,10 @@
 {
 	if(_hasControlFile)
 	{
-		if([controlDoc canGoDownLevel])
-		{	NSString *audioFilePath = [controlDoc goDownALevel];
+		if([_controlDoc canGoDownLevel])
+		{	NSString *audioFilePath = [_controlDoc goDownALevel];
 			[self updateAudioFile:audioFilePath];
-			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 		}
 		else if(_hasPageNavigation)
@@ -544,6 +525,7 @@
 	self.bookTitle = @"Olearia";
 	self.currentLevelString = @"";
 	self.currentPageString = @"";
+	self.currentSectionTitle = @"";
 	self.canPlay = NO;
 	self.isPlaying = NO;
 	self.hasNextChapter = NO;
@@ -555,6 +537,27 @@
 	
 }
 
+- (void)resetBook
+{
+	if(_currentAudioFile )
+		[_currentAudioFile stop];
+	_currentAudioFile = nil;
+	_hasPackageFile = NO;
+	_packageDoc = nil;
+	_hasControlFile = NO;
+	_controlDoc = nil;
+	smilDoc = nil;
+	textDoc = nil;
+
+	_levelNavConMode = levelNavigationControlMode; // set the default level mode
+	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
+	_controlMode = UnknownBookType; // set the default book type
+	_currentSegmentFilename = @"";
+	
+	_totalChapters = 0;
+	
+	[self setDisplayDefaults];
+}
 
 
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL
@@ -614,7 +617,7 @@
 						if(_levelNavConMode > levelNavigationControlMode) 
 						{
 							// populate the chapters array with a default timescale of 1ms
-							chaptersArray = [NSArray arrayWithArray:[controlDoc chaptersForSegmentWithTimescale:(long)1000]];
+							chaptersArray = [NSArray arrayWithArray:[_controlDoc chaptersForSegmentWithTimescale:(long)1000]];
 						}
 						else // we are currently using basic level navigation 
 						{
@@ -663,13 +666,13 @@
 	if((_currentAudioFile == nil) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:@"There was a problem loading the next Audio Segment"];
+		[theAlert setMessageText:@"Audio File Error"];
+		[theAlert setInformativeText:@"There was a problem loading an audio file.\n Please check the book format for problems.\nOlearia will now reset as this book will not play"];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
+		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
 		
-		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
-		
-		
-		
+				
 		return NO;
 		
 	}
@@ -678,6 +681,12 @@
 	
 	
 	return YES;
+}
+
+- (void)errorDialogDidEnd
+{
+	[self resetBook];
+
 }
 
 
@@ -748,21 +757,21 @@
 {
 	if(_hasControlFile)
 	{	
-		self.currentSectionTitle = [controlDoc segmentTitle];
+		self.currentSectionTitle = [_controlDoc segmentTitle];
 		if(levelNavigationControlMode == _levelNavConMode)
-			self.currentLevelString = [NSString stringWithFormat:@"%d",[controlDoc currentLevel]];
-		self.hasLevelUp = (([controlDoc canGoUpLevel]) || (_levelNavConMode > levelNavigationControlMode)) ? YES : NO;
-		if ([controlDoc canGoDownLevel]) // check regular level down first
+			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
+		self.hasLevelUp = (([_controlDoc canGoUpLevel]) || (_levelNavConMode > levelNavigationControlMode)) ? YES : NO;
+		if ([_controlDoc canGoDownLevel]) // check regular level down first
 			self.hasLevelDown = YES;
 		else // We have reached the bottom of the current levels so check if we have other forms of nagigation below this
 			self.hasLevelDown = (_levelNavConMode < _maxLevelConMode) ? YES : NO;
-		self.hasNextSegment = [controlDoc canGoNext];
-		self.hasPreviousSegment = [controlDoc canGoPrev];
+		self.hasNextSegment = [_controlDoc canGoNext];
+		self.hasPreviousSegment = [_controlDoc canGoPrev];
 		self.hasNextChapter = (_currentChapterIndex < (_totalChapters - 1)) ? YES : NO;
 		self.hasPreviousChapter = (_currentChapterIndex > 0) ? YES : NO;
 		if(_hasPageNavigation)
 		{
-			self.currentPageString = [NSString stringWithFormat:@"%d of %d",[controlDoc currentPageNumber],[controlDoc totalPages]];
+			self.currentPageString = [NSString stringWithFormat:@"%d of %d",[_controlDoc currentPageNumber],[_controlDoc totalPages]];
 		}
 	}
 	
@@ -784,7 +793,7 @@
 
 @synthesize _skipDuration;
 
-@synthesize controlDoc,packageDoc;
+@synthesize _controlDoc,_packageDoc;
 
 @synthesize speechSynth, preferredVoice;
 
