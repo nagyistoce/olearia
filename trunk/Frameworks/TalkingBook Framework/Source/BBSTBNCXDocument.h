@@ -57,16 +57,16 @@
 
 - (BOOL)openControlFileWithURL:(NSURL *)aURL;
 
-- (NSString *)nextSegmentAudioFilePath;
-- (NSString *)previousSegmentAudioFilePath;
+//- (NSString *)nextSegmentAudioFilePath;
+//- (NSString *)previousSegmentAudioFilePath;
 
-- (BOOL)canGoNext;
-- (BOOL)canGoPrev;
-- (BOOL)canGoUpLevel;
-- (BOOL)canGoDownLevel;
+//- (BOOL)canGoNext;
+//- (BOOL)canGoPrev;
+//- (BOOL)canGoUpLevel;
+//- (BOOL)canGoDownLevel;
  
-- (NSString *)goUpALevel;
-- (NSString *)goDownALevel;
+//- (NSString *)goUpALevel;
+//- (NSString *)goDownALevel;
 
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;

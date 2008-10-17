@@ -37,9 +37,19 @@
 	float				levelNavChapterIncrement;
 	
 	id					controlDocument;
+	NSString			*currentAudioFilename;
 	
 }
 
+- (void)moveToNextSegment;
+- (void)moveToPreviousSegment;
+- (void)goUpALevel;
+- (void)goDownALevel;
+
+- (BOOL)canGoNext;
+- (BOOL)canGoPrev;
+- (BOOL)canGoUpLevel;
+- (BOOL)canGoDownLevel;
 
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly, retain) NSString	*bookTitle;
@@ -50,5 +60,8 @@
 @property (readwrite) float levelNavChapterIncrement;
 @property (readonly, retain) NSString *documentUID;
 @property (readonly, retain) NSString *segmentTitle;
+@property (readonly, retain) NSString *currentAudioFilename;
+
+
 
 @end

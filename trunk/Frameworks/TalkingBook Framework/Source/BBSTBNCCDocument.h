@@ -43,7 +43,7 @@
 	
 	NSString *_parentFolderPath;
 	NSString *_currentSmilFilename;
-	NSString *_currentAudioFilename;
+	
 	
 	BOOL loadFromCurrentLevel;
 	BOOL _isFirstRun;
@@ -51,28 +51,11 @@
 }
 - (BOOL)openControlFileWithURL:(NSURL *)aURL;
 
-- (NSString *)nextSegmentAudioFilePath;
-- (NSString *)previousSegmentAudioFilePath;
-
-- (BOOL)canGoNext;
-- (BOOL)canGoPrev;
-- (BOOL)canGoUpLevel;
-- (BOOL)canGoDownLevel;
-
-- (NSString *)goUpALevel;
-- (NSString *)goDownALevel;
-
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
 
 @property (readwrite) BOOL loadFromCurrentLevel;
-//@property (readonly, retain) NSDictionary *metaData;
-//@property (readonly, retain) NSDictionary *documentTitleDict;
-
-//@property (readonly, retain) NSDictionary *documentAuthorDict;
-
-//@property (readonly, retain) NSDictionary *smilCustomTest;
 @property (readonly, retain) NSDictionary *segmentAttributes;
 
 @end
