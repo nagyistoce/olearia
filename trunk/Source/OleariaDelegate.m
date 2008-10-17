@@ -375,7 +375,10 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 	return YES;
 }
 
-
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+{
+	return YES;
+}
 
 #pragma mark -
 #pragma mark View Display Methods

@@ -44,6 +44,7 @@
 		EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
 		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
 		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
+		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
@@ -78,7 +79,6 @@
 		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
 		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
 		EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96E10E8DF22100D77B4D /* prefs_gen.png */; };
-		EEF2F97E0E7550C1006FC098 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = EEF2F97D0E7550C1006FC098 /* Credits.rtfd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +159,7 @@
 		EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBControlDoc.h; path = Source/BBSTBControlDoc.h; sourceTree = "<group>"; };
 		EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBControlDoc.m; path = Source/BBSTBControlDoc.m; sourceTree = "<group>"; };
 		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
+		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
@@ -196,7 +197,6 @@
 		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
 		EEEB96E10E8DF22100D77B4D /* prefs_gen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_gen.png; sourceTree = "<group>"; };
-		EEF2F97D0E7550C1006FC098 /* Credits.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = Credits.rtfd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,9 +277,9 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE394C350EA88898001DC23C /* Credits.rtf */,
 				EEC1AA960E3C7C160000512D /* gplv3.tiff */,
 				EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */,
-				EEF2F97D0E7550C1006FC098 /* Credits.rtfd */,
 				EE0A74840E3B509E001CF3C2 /* Button Images */,
 				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -588,7 +588,6 @@
 				EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */,
 				EEC1AB780E3C91F50000512D /* About.xib in Resources */,
 				EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */,
-				EEF2F97E0E7550C1006FC098 /* Credits.rtfd in Resources */,
 				EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */,
 				EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */,
 				EEEB96D30E8DE7B400D77B4D /* info.png in Resources */,
@@ -602,6 +601,7 @@
 				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
 				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
+				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
