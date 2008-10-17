@@ -37,6 +37,10 @@
 	
 }
 
+- (BOOL)openPackageFileWithURL:(NSURL *)aURL;
+- (NSString *)nextAudioSegmentFilename;
+- (NSString *)prevAudioSegmentFilename;
+
 @property (readonly, retain) NSString *bookTitle;
 @property (readonly, retain) NSString *bookSubject;
 @property (readonly, retain) NSString *bookTotalTime;

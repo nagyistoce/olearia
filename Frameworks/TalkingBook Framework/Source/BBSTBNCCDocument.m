@@ -34,11 +34,11 @@
 
 @property (readwrite, retain) NSString *_parentFolderPath;
 @property (readwrite, retain) NSString *_currentSmilFilename;
-@property (readwrite, retain) NSString *_currentAudioFilename;
 
 @property (readwrite, retain) NSString *bookTitle;
 @property (readwrite, retain) NSString *documentUID;
 @property (readwrite, retain) NSString *segmentTitle;
+@property (readwrite, retain) NSString *currentAudioFilename;
 @property (readwrite) NSInteger totalPages;
 @property (readwrite) NSInteger currentLevel;
 @property (readwrite) NSInteger currentPageNumber;
@@ -53,9 +53,14 @@
 - (void)nextSegment;
 - (void)previousSegment;
 - (NSString *)currentSegmentFilename;
-- (NSInteger)levelOfNextNode;
-- (NSInteger)levelOfCurrentNode;
+
+- (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex;
+- (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel;
+- (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel;
+- (BOOL)isLevelNode:(NSInteger)anIndex;
 - (NSString *)attributeValueForXquery:(NSString *)aQuery;
+
+- (void)updateAttributesForCurrentPosition;
 
 - (void)processMetadata:(NSXMLElement *)rootElement;
 - (void)openSmilFile:(NSString *)smilFilename;
@@ -76,7 +81,7 @@
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
 	_currentSmilFilename = @"";
-	_currentAudioFilename = @"";
+	self.currentAudioFilename = @"";
 	
 	return self;
 }
@@ -121,32 +126,35 @@
 #pragma mark -
 #pragma mark Public Methods
 
-- (NSString *)nextSegmentAudioFilePath
+- (void)moveToNextSegment
 {
 	
 	[self nextSegment];
 	NSMutableString *filename = [[NSMutableString alloc] initWithString:[self currentSegmentFilename]];
-	while(YES == [filename isEqualToString:_currentAudioFilename])
+	while([filename isEqualToString:currentAudioFilename])
 	{
 		[self nextSegment];
 		[filename setString:[self currentSegmentFilename]];
 	}
-	_currentAudioFilename = filename;
-	return filename;
+
+	[self updateAttributesForCurrentPosition];
 }
 
-- (NSString *)previousSegmentAudioFilePath
+- (void)moveToPreviousSegment
 {
 	[self previousSegment];
 	NSMutableString *filename = [[NSMutableString alloc] initWithString:[self currentSegmentFilename]];
-	while(YES == [filename isEqualToString:_currentAudioFilename])
+	while([filename isEqualToString:currentAudioFilename])
 	{
 		[self previousSegment];
 		[filename setString:[self currentSegmentFilename]];
 	}
-	_currentAudioFilename = filename;
-	return filename;
+
+	[self updateAttributesForCurrentPosition];
 }
+
+
+
 
 - (NSArray *)chaptersForSegment
 {
@@ -220,65 +228,109 @@
 }
 
 
-- (NSString *)goDownALevel
+- (void)goDownALevel
 {
-	/*
-	NSString *audioFilename = nil;
+	// if we fail to find a level down (which is unlikely as we should only get here if the canGoDownLevel returns YES)
+	// we will stay ath the current node position
 	
-	if([self canGoDownLevel]) // first check if we can go down a level
-	{	self.currentLevel++; // increment the level index
-		self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-		// set the segment attributes for the current navPoint
-		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-		
-		audioFilename = [self currentSegmentFilename];
+	// set the level we want to 1 below the current one
+	NSInteger wantedLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
+	BOOL levelFound = NO;
+	NSInteger testIndex = _currentNodeIndex+1; // do an initial increment of the node index so we are not checking the current node 
+	
+	// check that we are not beyond the array bounds and that we havent foud a valid node yet
+	while((_totalBodyNodes > testIndex) && (NO == levelFound))
+	{
+		if([self levelOfNodeAtIndex:testIndex] == wantedLevel) // check if we found a valid level
+		{
+			levelFound = YES;
+			_currentNodeIndex = testIndex;
+		}
+		else
+			testIndex++;
 	}
 	
-	return audioFilename;
-	 
-	*/ 
-	return nil;
+	[self updateAttributesForCurrentPosition];
+	
 }
 
-- (NSString *)goUpALevel
+- (void)goUpALevel
 {
+	// set the level we want to 1 above the current one
+	NSInteger wantedLevel = currentLevel - 1;
+	NSInteger testIndex = _currentNodeIndex - 1;
+	BOOL levelFound = NO;
 	
-	/*
-	 
-	NSString *audioFilename = nil;
-	
-	if([self canGoUpLevel]) // check that we can go up first
-	{	
-		self.currentLevel--; // decrement the level index
-		self.currentNavPoint = [currentNavPoint parent];
-		// set the segment attributes for the current navPoint
-		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-		
-		audioFilename = [self currentSegmentFilename];
+	while((0 < testIndex) && (NO == levelFound))
+	{
+		if(wantedLevel == [self levelOfNodeAtIndex:testIndex])
+		{	
+			levelFound = YES;
+			_currentNodeIndex = testIndex;
+		}
+		else
+			testIndex--;
 	}
+		
+	[self updateAttributesForCurrentPosition];
 	
-	return audioFilename;
-	 
-	*/ 
-	return nil;
 }
 
 - (BOOL)canGoNext
 {
+	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	// return YES if we can go forward in the navmap
-	return (_currentNodeIndex < _totalBodyNodes) ? YES : NO; 
+	if([self indexOfNextNodeAtLevel:currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+		nodeAvail = YES;
+	/*
+	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
+	{
+		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
+		{
+			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			if(testLevel == self.currentLevel) // check if its the same as the current level
+				nodeAvail = YES; // its the same so we can go forward
+			else if(testLevel < self.currentLevel)
+				testIndex = _totalBodyNodes; // set the break condition as we have found a node that is above the level of this one;
+			else
+				testIndex++; // the level was below the current one so skip over it by incrementing the index;
+		}
+		else
+			testIndex++; // the node did not have a level header so skip over it
+	}
+	*/
+	return nodeAvail;
 }
 
 - (BOOL)canGoPrev
 {
+	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	// return YES if we can go backwards in the navMap
-	return (_currentNodeIndex > 0) ? YES : NO;
+	if([self indexOfPreviousNodeAtLevel:currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+		nodeAvail = YES;
+	
+	/*
+	NSInteger testIndex = _currentNodeIndex - 1; // set the index to the previous node in the array
+	
+	// check that we are not at the beginning of the array and that we have not found a node yet
+	while((0 < testIndex) && (NO == nodeAvail))   
+	{
+		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
+		{
+			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			if(testLevel == self.currentLevel) // check if its the same as the current level
+				nodeAvail = YES; // its the same so we can go back
+			else if(testLevel < self.currentLevel)
+				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
+			else
+				testIndex--; // the level was below the current one so skip over it by decrementing the index;
+		}
+		else
+			testIndex--; // the node did not have a level header so skip over it
+	}
+	*/
+	return nodeAvail;
+		
 }
 
 - (BOOL)canGoUpLevel
@@ -289,10 +341,55 @@
 
 - (BOOL)canGoDownLevel
 {
-	// return YES if there are navPoint Nodes below this level
-	return ( [self levelOfNextNode] > currentLevel) ? YES : NO;
+	BOOL hasLevelDown = NO; // assume we have no levels below this
+	NSInteger newIndex = _currentNodeIndex + 1; // get the index of the next node in the array
+	
+	// check we are not at the bounds of the array and that the next node IS NOT a level header node
+	while((_totalBodyNodes > newIndex) && (NO == [self isLevelNode:newIndex]))
+	{
+		newIndex++;  // increment the index
+	}
+	
+	// check that we are not at the last node of the array AND that it is a level node
+	if((_totalBodyNodes > newIndex) && (YES == [self isLevelNode:newIndex]))
+	{
+		// check if the node has a level greater than the current one
+		// this denotes a level down 
+		if ([self levelOfNodeAtIndex:newIndex] > currentLevel)
+		{
+			hasLevelDown = YES;
+		}
+	}
+	
+	return hasLevelDown;
 }
 
+- (void)updateAttributesForCurrentPosition
+{
+	
+	// check that the format of the book supports audio files
+	if(bookMediaFormat < TextPartialAudioMediaFormat)
+	{
+		self.currentAudioFilename = [self currentSegmentFilename];
+	}
+	else
+	{
+		// text only stuff here
+	}
+	
+	// check if its a span node which will indicate a new page number
+	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
+	{
+		self.currentPageNumber = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+	}
+	else
+	{
+		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
+		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+	}
+
+	
+}
 
 
 #pragma mark -
@@ -305,19 +402,24 @@
 	 NSXMLNode *rootNode = (NSXMLNode *)rootElement;
 	 NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
 	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
+	 // check if we found a title
 	 if (0 == [extractedContent count])
 	 {
+		 // check the alternative place for the title in the meta data
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
 	 }
 	 self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : @"No Title";
 	 
-	 // check for totoal page count
+	 // check for total page count
 	 [extractedContent removeAllObjects];
 	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
 	 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
+	 
+	 // check if we found a page count
 	 if(0 == totalPages)
 	 {
 		 [extractedContent removeAllObjects];
+		 // check for the older alternative format
 		 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
 		 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
 	 }
@@ -331,17 +433,17 @@
 	 if(mediaTypeStr != nil)
 	 {
 		 // set the mediaformat accordingly
-		 if([mediaTypeStr isEqualToString:@"audioFullText"] == YES)
+		 if([mediaTypeStr isEqualToString:@"audiofulltext"] == YES)
 			 self.bookMediaFormat = AudioFullTextMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioPartText"] == YES)
+		 else if([mediaTypeStr isEqualToString:@"audioparttext"] == YES)
 			 self.bookMediaFormat = AudioPartialTextMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioOnly"] == YES)
+		 else if([mediaTypeStr isEqualToString:@"audioonly"] == YES)
 			 self.bookMediaFormat = AudioOnlyMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioNcc"] == YES)
+		 else if([mediaTypeStr isEqualToString:@"audioncc"] == YES)
 			 self.bookMediaFormat = AudioNcxOrNccMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"textPartAudio"] == YES)
+		 else if([mediaTypeStr isEqualToString:@"textpartaudio"] == YES)
 			 self.bookMediaFormat = TextPartialAudioMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"textNcc"] == YES)
+		 else if([mediaTypeStr isEqualToString:@"textncc"] == YES)
 			 self.bookMediaFormat = TextNcxOrNccMediaFormat;
 		 else 
 			 self.bookMediaFormat = unknownMediaFormat;
@@ -353,7 +455,7 @@
 	 
 	 // get all the body nodes
 	 _bodyNodes = [[[rootElement nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
-	 _totalBodyNodes = [_bodyNodes count]-1;
+	 _totalBodyNodes = [_bodyNodes count];
 }
 
 - (void)openSmilFile:(NSString *)smilFilename
@@ -372,90 +474,131 @@
 
 }
 
-- (NSInteger)levelOfNextNode
+
+- (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex
 {
-	NSInteger newlevel = 0;
-	// increment the temp
-	NSInteger tempIndex = _currentNodeIndex + 1; //
-
-	NSMutableString *nodeName = [[NSMutableString alloc] init];
-	unichar checkChar = 'a';
-
-	if(tempIndex < _totalBodyNodes)
-	{	
-		[nodeName setString:[[_bodyNodes objectAtIndex:tempIndex] name]];
-		checkChar =  [nodeName characterAtIndex:1];
-		
-		while((tempIndex < _totalBodyNodes) && (NO == [nodeName hasPrefix:@"h"]))
-		{
-			
-			
-			if(YES == isdigit(checkChar))
-			{	
-				tempIndex++;
-				if(tempIndex < _totalBodyNodes)
-				{	
-					[nodeName setString:[[_bodyNodes objectAtIndex:tempIndex] name]];
-					checkChar =  [nodeName characterAtIndex:1];
-				}
-				
-			}
-		}
-		
-		if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
-		{
-			newlevel = checkChar - 48;
-		}
-		
-	}
+	NSInteger thislevel = -1;
 	
-	return newlevel;
-}
-
-- (NSInteger)levelOfCurrentNode
-{
-	NSInteger thislevel = 0;
-	
-	NSString *nodeName = [NSString stringWithString:[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString]];
-	unichar checkChar =  [nodeName characterAtIndex:1];
-	
-	if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
+	if(_totalBodyNodes > anIndex) // check that we are not beyond our node arrays limit
 	{
-		thislevel = checkChar - 48;
+		// get the name of the node and convert it to lowercase
+		NSString *nodeName = [NSString stringWithString:[[[_bodyNodes objectAtIndex:anIndex] name] lowercaseString]];
+		// get the ascii code of the character at index 1  
+		unichar levelChar =  [nodeName characterAtIndex:1];
+		unichar prefixChar = [nodeName characterAtIndex:0];
+		
+		if(('h' == prefixChar) && (YES == isdigit(levelChar)))
+		{
+			thislevel = levelChar - 48;
+		}
 	}
-	
+
 	return thislevel;
 }
 
-- (NSInteger)nextNodeIndex
+- (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel
 {
+	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
+	NSInteger testIndex = _currentNodeIndex + 1; // set the index to the next node in the array
+	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
+	{
+		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
+		{
+			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			if(testLevel == aLevel) // check if its the same as the current level
+				nodeAvail = YES; // its the same so we can go forward
+			else if(testLevel < aLevel)
+				testIndex = _totalBodyNodes; // set the break condition as we have found a node that is above the level of this one;
+			else
+				testIndex++; // the level was below the current one so skip over it by incrementing the index;
+		}
+		else
+			testIndex++; // the node did not have a level header so skip over it
+	}
 	
+	// return the current index if we could not find a valid next node
+	return (nodeAvail) ? testIndex : _currentNodeIndex; 
+}
+
+- (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel
+{
+	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
+	NSInteger testIndex = _currentNodeIndex - 1; // set the index to the previous node in the array
 	
-	NSString *nodeName = [NSString stringWithString:[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString]];
-	unichar checkChar =  [nodeName characterAtIndex:1];
+	// check that we are not at the beginning of the array and that we have not found a node yet
+	while((0 < testIndex) && (NO == nodeAvail))   
+	{
+		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
+		{
+			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			if(testLevel == aLevel) // check if its the same as the current level
+				nodeAvail = YES; // its the same so we can go back
+			else if(testLevel < self.currentLevel)
+				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
+			else
+				testIndex--; // the level was below the current one so skip over it by decrementing the index;
+		}
+		else
+			testIndex--; // the node did not have a level header so skip over it
+	}
 	
-	if((YES == [nodeName hasPrefix:@"h"]) && (YES == isdigit(checkChar)))
-		return 0;
+	// return the current index if we could not find a valid previous node
+	return (nodeAvail) ? testIndex : _currentNodeIndex;
 	
-	return (checkChar - 48);
+}
+
+- (BOOL)isLevelNode:(NSInteger)anIndex
+{
+	NSString *nodeName = [NSString stringWithString:[[_bodyNodes objectAtIndex:anIndex] name]];
+	unichar checkChar =  [nodeName characterAtIndex:0];
+	unichar levelChar =  [nodeName characterAtIndex:1];
+	
+	// check if we have a 'h' as the first character which denotes a level header AND the second character is a digit
+	return (('h' == checkChar) && (isdigit(levelChar))) ? YES : NO; 
+}
+
+
+// return the index of the node that is a level below the current one
+- (NSInteger)nextLevelNodeIndex
+{
+	NSInteger currentIndex = _currentNodeIndex + 1; // increment the index
+	NSInteger destinationLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
+	
+	while((currentIndex < _totalBodyNodes) && (destinationLevel != [self levelOfNodeAtIndex:currentIndex]))
+	{
+		currentIndex++;
+	}
+	
+	// check we are still within the array bounds
+	return (currentIndex < _totalBodyNodes) ? currentIndex : -1 ;
 }
 
 - (void)nextSegment
 {
 	if(_isFirstRun == NO)
 	{
-		
-		if(YES == [self canGoDownLevel]) // first check if we can go down a level
-		{	
-			_currentNodeIndex++;
-		}
-		else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-		{	
-			_currentNodeIndex++;
-		}
-		else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
 		{
-			_currentNodeIndex++; // increment the index so we go to the next node
+			_currentNodeIndex++;
+			/*
+			if(YES == [self canGoDownLevel]) // first check if we can go down a level
+			{	
+				_currentNodeIndex++;
+			}
+			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+			{	
+				_currentNodeIndex++;
+			}
+			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+			{
+				_currentNodeIndex++; // increment the index so we go to the next node
+			}
+			 */
+		}
+		else // loadFromCurrentLevel == YES
+		{
+			_currentNodeIndex = [self indexOfNextNodeAtLevel:currentLevel];
+		
 		}
 	}
 	else // isFirstRun == YES
@@ -473,7 +616,7 @@
 	else
 	{
 		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
-		self.currentLevel = [self levelOfCurrentNode];
+		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 }
 
@@ -494,8 +637,17 @@
 	else
 	{
 		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
-		self.currentLevel = [self levelOfCurrentNode];
+		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
+}
+
+
+- (NSString *)filenameFromID:(NSString *)anIdString
+{
+	NSAssert(anIdString != nil, @"anIdString is nil");
+	int markerPos = [anIdString rangeOfString:@"#"].location;
+	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
+	
 }
 
 - (NSString *)currentSegmentFilename
@@ -539,16 +691,9 @@
 	
 	
 	return audioFilename;
-	 
-}
-
-- (NSString *)filenameFromID:(NSString *)anIdString
-{
-	NSAssert(anIdString != nil, @"anIdString is nil");
-	int markerPos = [anIdString rangeOfString:@"#"].location;
-	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
 	
 }
+
 
 - (NSString *)attributeValueForXquery:(NSString *)aQuery
 {
@@ -560,7 +705,7 @@
 
 @synthesize currentLevel, totalPages, totalTargetPages, currentPageNumber;
 @synthesize loadFromCurrentLevel;
-@synthesize segmentAttributes, _currentSmilFilename, _currentAudioFilename;
+@synthesize segmentAttributes, _currentSmilFilename, currentAudioFilename;
 @synthesize nccRootElement, currentNavPoint;
 @synthesize _parentFolderPath, documentUID, segmentTitle, bookTitle;
 @synthesize smilDoc;

@@ -146,6 +146,8 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
                    didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) 
                       contextInfo:NULL]; 
 	
+
+
 	
 }
 
@@ -327,7 +329,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 							talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
 							// we will get the settings from the recent documents dict if required
 							[talkingBook nextSegment]; // load the first segment ready for play
-							
+							//[talkingBook updateForPosInBook];
 							break;
 						}
 						else

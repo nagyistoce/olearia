@@ -252,11 +252,11 @@
 			else
 			{
 				
-				self.currentPageString = (0 != [_controlDoc totalPages]) ? [NSString stringWithFormat:@"%d",[_controlDoc totalPages]] : [NSString stringWithFormat:@"%d",[_controlDoc totalTargetPages]];
-				_hasPageNavigation = YES;
-				_maxLevelConMode = pageNavigationControlMode;
+				//self.currentPageString = (0 != [_controlDoc totalPages]) ? [NSString stringWithFormat:@"%d",[_controlDoc totalPages]] : [NSString stringWithFormat:@"%d",[_controlDoc totalTargetPages]];
+				//_hasPageNavigation = YES;
+				//_maxLevelConMode = pageNavigationControlMode;
 			}
-			self.bookTitle = [_packageDoc bookTitle];
+			self.bookTitle = (_hasPackageFile) ? [_packageDoc bookTitle] : [_controlDoc bookTitle];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 		}
@@ -357,14 +357,17 @@
 
 - (BOOL)nextSegment
 {
-	NSString *audioSegmentFilename;
+	//NSString *audioSegmentFilename;
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
-		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
-
+		[_controlDoc moveToNextSegment];
+		//audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
+		//audioSegmentFilename = [_controlDoc currentAudioFilename];
+		
+		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 	
 	return fileDidUpdate;
@@ -372,14 +375,20 @@
 
 - (BOOL)nextSegmentOnLevel
 {
-	NSString *audioSegmentFilename = nil;
+	//NSString *audioSegmentFilename = nil;
 	BOOL fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next file to play from the ncx file
 		[_controlDoc setLoadFromCurrentLevel:YES];
-		audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
-		fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+
+		[_controlDoc moveToNextSegment];
+	
+		//audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
+		//audioSegmentFilename = [_controlDoc currentAudioFilename];
+	
+		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 	
 		
@@ -388,15 +397,18 @@
 
 - (BOOL)previousSegment 
 {
-	NSString *audioSegmentFilename = nil;
+	//NSString *audioSegmentFilename = nil;
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
-		audioSegmentFilename = [_controlDoc previousSegmentAudioFilePath];
+		//audioSegmentFilename = [_controlDoc previousSegmentAudioFilePath];
+		[_controlDoc moveToPreviousSegment];
+		//audioSegmentFilename = [_controlDoc currentAudioFilename];
+		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
+
 	}
-	
-	fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
 	
 	return fileDidUpdate;
 }
@@ -405,8 +417,9 @@
 {
 	if(_hasControlFile)
 	{
-		NSString *audioFilePath = [_controlDoc goUpALevel];
-		[self updateAudioFile:audioFilePath];
+		//NSString *audioFilePath = [_controlDoc goUpALevel];
+		[_controlDoc goUpALevel];
+		[self updateAudioFile:[_controlDoc currentAudioFilename]];
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 		
 	}
@@ -417,16 +430,21 @@
 
 - (void)downOneLevel
 {
+	// check that we have a control document to use
 	if(_hasControlFile)
 	{
+		// check that we can go down a level
 		if([_controlDoc canGoDownLevel])
-		{	NSString *audioFilePath = [_controlDoc goDownALevel];
-			[self updateAudioFile:audioFilePath];
+		{	
+			//NSString *audioFilePath = [_controlDoc goDownALevel];
+			[_controlDoc goDownALevel];
+			[self updateAudioFile:[_controlDoc currentAudioFilename]];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 		}
 		else if(_hasPageNavigation)
 		{
+			// jump to the next page
 			
 		}
 
@@ -583,12 +601,8 @@
 
 - (BOOL)updateAudioFile:(NSString *)pathToFile
 {
-		
-	
 	NSError *theError = nil;
 	BOOL loadedOK = NO;
-	
-	
 	
 	// check that we have not passed in a nil string
 	if(pathToFile != nil)
@@ -686,7 +700,6 @@
 - (void)errorDialogDidEnd
 {
 	[self resetBook];
-
 }
 
 
@@ -758,13 +771,16 @@
 	if(_hasControlFile)
 	{	
 		self.currentSectionTitle = [_controlDoc segmentTitle];
+		
 		if(levelNavigationControlMode == _levelNavConMode)
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 		self.hasLevelUp = (([_controlDoc canGoUpLevel]) || (_levelNavConMode > levelNavigationControlMode)) ? YES : NO;
+		
 		if ([_controlDoc canGoDownLevel]) // check regular level down first
 			self.hasLevelDown = YES;
 		else // We have reached the bottom of the current levels so check if we have other forms of nagigation below this
 			self.hasLevelDown = (_levelNavConMode < _maxLevelConMode) ? YES : NO;
+		
 		self.hasNextSegment = [_controlDoc canGoNext];
 		self.hasPreviousSegment = [_controlDoc canGoPrev];
 		self.hasNextChapter = (_currentChapterIndex < (_totalChapters - 1)) ? YES : NO;

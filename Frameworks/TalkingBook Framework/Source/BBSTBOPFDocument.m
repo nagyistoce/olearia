@@ -130,7 +130,7 @@
 			// release the tempdata array
 			tempData = nil;
 			
-			NSLog(@" manifest = \n%@",[manifest allKeysForObject:@"application/x-dtbook+xml"]);
+			//NSLog(@" manifest = \n%@",[manifest allKeysForObject:@"application/x-dtbook+xml"]);
 			isOK = YES;
 		}
 	}

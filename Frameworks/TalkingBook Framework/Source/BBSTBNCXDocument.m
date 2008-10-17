@@ -36,9 +36,10 @@
 @property (readwrite, retain) NSDictionary *documentAuthorDict;
 @property (readwrite, retain) NSDictionary *segmentAttributes;
 
-@property (readwrite, retain) NSString *bookTitle;
-@property (readwrite, retain) NSString *documentUID;
-@property (readwrite, retain) NSString *segmentTitle;
+@property (readwrite, assign) NSString *bookTitle;
+@property (readwrite, assign) NSString *documentUID;
+@property (readwrite, assign) NSString *segmentTitle;
+@property (readwrite, assign) NSString *currentAudioFilename;
 @property (readwrite) NSInteger totalPages;
 @property (readwrite) NSInteger totalTargetPages;
 @property (readwrite) NSInteger currentLevel;
@@ -135,7 +136,7 @@
 
 #pragma mark -
 #pragma mark Public Methods
-
+/*
 - (NSString *)nextSegmentAudioFilePath
 {
 	[self nextSegment];
@@ -147,6 +148,19 @@
 	[self previousSegment];
 	return [self currentSegmentFilename];
 }
+*/
+
+- (void)moveToNextSegment
+{
+	[self nextSegment];
+	self.currentAudioFilename =  [self currentSegmentFilename];
+}
+- (void)moveToPreviousSegment
+{
+	[self previousSegment];
+	self.currentAudioFilename =  [self currentSegmentFilename];
+}
+
 
 - (NSArray *)chaptersForSegment
 {
@@ -216,7 +230,7 @@
 }
 
 
-- (NSString *)goDownALevel
+- (void)goDownALevel
 {
 	NSString *audioFilename = nil;
 	
@@ -231,10 +245,10 @@
 		audioFilename = [self currentSegmentFilename];
 	}
 	
-	return audioFilename;
+	self.currentAudioFilename = audioFilename;
 }
 
-- (NSString *)goUpALevel
+- (void)goUpALevel
 {
 	NSString *audioFilename = nil;
 	
@@ -250,7 +264,7 @@
 		audioFilename = [self currentSegmentFilename];
 	}
 
-	return audioFilename;
+	currentAudioFilename = audioFilename;
 }
 
 - (BOOL)canGoNext
@@ -297,7 +311,7 @@
 {
 	if(isFirstRun == NO)
 	{
-		if(NO == self.loadFromCurrentLevel) // always NO in regular play through mode
+		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
 		{
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
@@ -317,7 +331,7 @@
 				}
 			}
 		}
-		else // self.useNextSibling == YES
+		else // loadFromCurrentLevel == YES
 		{
 			// this only used when the user chooses to go to the next file on a given level
 			self.currentNavPoint = [currentNavPoint nextSibling];
@@ -599,6 +613,7 @@
 @synthesize currentNavPoint;
 @synthesize segmentTitle;
 @synthesize bookTitle;
+@synthesize currentAudioFilename;
 
 @synthesize totalPages, totalTargetPages,documentUID;
 

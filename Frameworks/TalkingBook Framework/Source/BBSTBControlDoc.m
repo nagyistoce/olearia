@@ -20,8 +20,6 @@
 //
 
 
-
-
 #import "BBSTBControlDoc.h"
 #import "BBSTBNCXDocument.h"
 
@@ -38,7 +36,7 @@
 	currentLevel = 0;
 	documentUID = @"";
 	bookMediaFormat = unknownMediaFormat;
-	
+	currentAudioFilename = @"";
 	
 	return self;
 }
@@ -52,10 +50,76 @@
 	[super finalize];
 }
 
+#pragma mark -
+#pragma mark methods Overridden By Subclasses
+
+- (BOOL)openControlFileWithURL:(NSURL *)aURL
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+- (void)moveToNextSegment
+{
+	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)moveToPreviousSegment
+{
+	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (NSString *)currentSegmentFilename
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (void)updateAttributesForCurrentPosition
+{
+	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (BOOL)canGoNext
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+- (BOOL)canGoPrev;
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+- (BOOL)canGoUpLevel;
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+- (BOOL)canGoDownLevel;
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+- (void)goUpALevel;
+{
+	[self doesNotRecognizeSelector:_cmd];
+	
+}
+
+- (void)goDownALevel;
+{
+	[self doesNotRecognizeSelector:_cmd];
+	
+}
+
 @synthesize levelNavChapterIncrement;
 @synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;
 @synthesize segmentTitle, bookTitle, documentUID;
+@synthesize currentAudioFilename;
 
 
 @end
