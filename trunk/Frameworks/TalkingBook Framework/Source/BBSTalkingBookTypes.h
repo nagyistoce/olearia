@@ -42,12 +42,12 @@ typedef enum
 
 typedef enum 
 {
-	AudioFullTextMediaFormat,
-	AudioPartialTextMediaFormat,
-	AudioNcxOrNccMediaFormat,
-	AudioOnlyMediaFormat,
+	AudioFullTextMediaFormat = 10,
+	AudioPartialTextMediaFormat = 12,
+	AudioNcxOrNccMediaFormat = 14,
+	AudioOnlyMediaFormat = 16,
 	TextPartialAudioMediaFormat = 20,
-	TextNcxOrNccMediaFormat = 21,
+	TextNcxOrNccMediaFormat = 22,
 	unknownMediaFormat = 99
 } TalkingBookMediaFormat;
 

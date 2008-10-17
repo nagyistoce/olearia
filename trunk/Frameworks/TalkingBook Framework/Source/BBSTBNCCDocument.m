@@ -598,7 +598,7 @@
 		else // loadFromCurrentLevel == YES
 		{
 			_currentNodeIndex = [self indexOfNextNodeAtLevel:currentLevel];
-		
+			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
 		}
 	}
 	else // isFirstRun == YES

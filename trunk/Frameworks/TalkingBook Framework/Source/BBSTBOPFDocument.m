@@ -114,8 +114,42 @@
 			self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
 			currentPosInSpine = -1;
 			
+			
+			
+			
 			NSMutableArray *tempData = [[NSMutableArray alloc] init];
 			
+			// get the media format of the book.
+			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/metadata/x-metadata/meta[@name=\"dtb:multimediaType\"]/data(@content)" error:nil]];
+			
+			// try to get the string and if it exists convert it to lowercase
+			NSString *mediaTypeStr = (1 == [tempData count]) ? [[tempData objectAtIndex:0] lowercaseString] : nil;	
+			if(mediaTypeStr != nil)
+			{
+				// set the mediaformat accordingly
+				if([mediaTypeStr isEqualToString:@"audiofulltext"])
+					self.bookMediaFormat = AudioFullTextMediaFormat;
+				else if([mediaTypeStr isEqualToString:@"audioparttext"])
+					self.bookMediaFormat = AudioPartialTextMediaFormat;
+				else if([mediaTypeStr isEqualToString:@"audioonly"])
+					self.bookMediaFormat = AudioOnlyMediaFormat;
+				else if([mediaTypeStr isEqualToString:@"audioncc"])
+					self.bookMediaFormat = AudioNcxOrNccMediaFormat;
+				else if([mediaTypeStr isEqualToString:@"textpartaudio"])
+					self.bookMediaFormat = TextPartialAudioMediaFormat;
+				else if([mediaTypeStr isEqualToString:@"textncc"])
+					self.bookMediaFormat = TextNcxOrNccMediaFormat;
+				else 
+					self.bookMediaFormat = unknownMediaFormat;
+			}
+			else
+			{
+				self.bookMediaFormat = unknownMediaFormat;
+			}
+			
+			
+			
+			[tempData removeAllObjects];
 			// get the ncx filename
 			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"//manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" error:nil]]; 
 			// there will only ever be 1 ncx file

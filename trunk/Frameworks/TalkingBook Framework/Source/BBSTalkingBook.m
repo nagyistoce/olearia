@@ -92,8 +92,9 @@
 {
 	if (!(self=[super init])) return nil;
 
-		speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-		
+	speechSynth = [[NSSpeechSynthesizer alloc] init];
+	[speechSynth setDelegate:self];
+	
 	[self resetBook];
 
 	return self;
@@ -231,18 +232,20 @@
 		
 		if(_hasPackageFile)
 		{
+			_mediaFormat = [_packageDoc bookMediaFormat];
 			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != [_packageDoc bookMediaFormat]))
+			if((TextNcxOrNccMediaFormat != _mediaFormat))
 				[self setupAudioNotifications];
 
 			self.bookTitle = [_packageDoc bookTitle];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-						
+							
 		}
 		else if(_hasControlFile)
 		{
+			_mediaFormat = [_controlDoc bookMediaFormat];
 			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != [_controlDoc bookMediaFormat]))
+			if((TextNcxOrNccMediaFormat != _mediaFormat))
 				[self setupAudioNotifications];
 			
 			if(0 == [_controlDoc totalPages])
@@ -384,13 +387,10 @@
 
 		[_controlDoc moveToNextSegment];
 	
-		//audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
-		//audioSegmentFilename = [_controlDoc currentAudioFilename];
-	
-		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
 		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 	
+
 		
 	return fileDidUpdate;
 }
@@ -418,9 +418,20 @@
 	if(_hasControlFile)
 	{
 		//NSString *audioFilePath = [_controlDoc goUpALevel];
+		[_currentAudioFile stop];
+		
 		[_controlDoc goUpALevel];
-		[self updateAudioFile:[_controlDoc currentAudioFilename]];
+		
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
+		
+		[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+		
+		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
+		
+		
+		
+		
+		
 		
 	}
 	
@@ -437,9 +448,19 @@
 		if([_controlDoc canGoDownLevel])
 		{	
 			//NSString *audioFilePath = [_controlDoc goDownALevel];
+			[_currentAudioFile stop];
+			
 			[_controlDoc goDownALevel];
-			[self updateAudioFile:[_controlDoc currentAudioFilename]];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
+			
+			[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+			
+			//[self updateAudioFile:[_controlDoc currentAudioFilename]];
+			
+			
+	
+
+			
 			
 		}
 		else if(_hasPageNavigation)
@@ -571,6 +592,8 @@
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
 	_controlMode = UnknownBookType; // set the default book type
 	_currentSegmentFilename = @"";
+	_mediaFormat = unknownMediaFormat;
+	
 	
 	_totalChapters = 0;
 	
@@ -794,25 +817,32 @@
 }
 
 #pragma mark -
-#pragma mark Notifications
+#pragma mark Delegate Methods
 
 - (void)audioFileDidEnd:(NSNotification *)aNote
 {
-	
-	//NSLog(@"file did end notification %@",aNote);
-	
 	if(YES == [self nextSegment])
 		[self playAudio];
-	
-			 
 }
 
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(_mediaFormat < TextPartialAudioMediaFormat)
+	{
+		[self updateAudioFile:[_controlDoc currentAudioFilename]];
+		[_currentAudioFile play];
+	}
+	else
+	{
+		/// text only update calls here 
+	}
+	
+}
+
+
 @synthesize _skipDuration;
-
 @synthesize _controlDoc,_packageDoc;
-
 @synthesize speechSynth, preferredVoice;
-
 @synthesize playbackRate, playbackVolume, currentPageIndex, chapterSkipIncrement, maxLevels;
 @synthesize _currentChapterIndex, _totalChapters;
 @synthesize _controlMode;

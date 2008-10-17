@@ -190,13 +190,13 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 - (IBAction)upLevel:(id)sender
 {
 	[talkingBook upOneLevel];
-	[talkingBook playAudio];
+	//[talkingBook playAudio];
 }
 
 - (IBAction)downLevel:(id)sender
 {
 	[talkingBook downOneLevel];
-	[talkingBook playAudio];
+	//[talkingBook playAudio];
 }
 
 - (IBAction)nextSegment:(id)sender

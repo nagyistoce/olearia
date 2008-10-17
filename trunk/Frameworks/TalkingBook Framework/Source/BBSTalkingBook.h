@@ -47,6 +47,7 @@ typedef enum
 	TalkingBookType			_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
+	TalkingBookMediaFormat  _mediaFormat;
 	NSInteger				maxLevels;
 	NSInteger				_totalChapters;
 	NSInteger				_currentLevelIndex;
