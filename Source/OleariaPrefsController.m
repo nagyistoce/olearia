@@ -30,7 +30,7 @@
 	if (![super initWithWindowNibName:@"Preferences"]) return nil;
 
 	availableVoices = [NSSpeechSynthesizer availableVoices];
-			
+		
 	return self;
 }
 
@@ -40,14 +40,19 @@
 	[[prefsWindow contentView] addSubview:soundPrefsView];
 	
 	[voicesPopup removeAllItems];
+	// populate the voices popup with the names of all the voices available.
 	for(NSString *voiceTitle in availableVoices)
 	{	
 		NSDictionary *voiceAttribs = [NSSpeechSynthesizer attributesForVoice:voiceTitle];
 		[voicesPopup addItemWithTitle:[voiceAttribs objectForKey:NSVoiceName]];
 	}
+	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[voicesPopup selectItemWithTitle:[defaults objectForKey:OleariaPlaybackVoice]];
-
+	// get the name of the voice the user set
+	NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:[defaults objectForKey:OleariaPlaybackVoice]] objectForKey:NSVoiceName];
+	// select the voicename in the popup
+	[voicesPopup selectItemWithTitle:voiceName];
+	
 }
 
 #pragma mark -
@@ -74,11 +79,6 @@
 		[[[prefsWindow contentView] animator] replaceSubview:currentView with:textPrefsView];
 
 	}
-	
-}
-
-- (IBAction)toggleAudioOverride:(id)sender
-{
 	
 }
 

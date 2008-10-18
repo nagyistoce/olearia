@@ -30,6 +30,8 @@ NSString * const OleariaPlaybackRate = @"OleariaPlaybackRate";
 NSString * const OleariaPlaybackVoice = @"OleariaPlaybackVoice"; 
 NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
+NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
+
 
 @interface OleariaDelegate (Private)
 
@@ -42,6 +44,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 @implementation OleariaDelegate
 
 @synthesize talkingBook;
+
 
 + (void) initialize
 {
@@ -60,9 +63,11 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
 	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
 	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
-    
-	// set them in the standard user defaults
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValuesDict];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
+	
+	// set them in the shared user defaults
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults:defaultValuesDict];
 	
 	// set the keys for the resetable prefs -- these make a subset of the entire userdefaults dict
     resettableKeys=[NSArray arrayWithObjects:OleariaPlaybackRate, 
@@ -71,10 +76,12 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 					OleariaUseVoiceForPlayback, 
 					OleariaChapterSkipIncrement,
 					nil];
+	
     // get the values for the specified keys
 	initialValuesDict=[defaultValuesDict dictionaryWithValuesForKeys:resettableKeys];
     // Set the initial values in the shared user defaults controller
     [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
+	
 }
 
 
@@ -84,16 +91,17 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 	if (self != nil) 
 	{
 		// get the defaults
-		userDefaults = [NSUserDefaults standardUserDefaults];
+		bookDefaults = [NSUserDefaults standardUserDefaults];
+			
 		// init the book object
 		talkingBook = [[BBSTalkingBook alloc] init];
 		
 		// set the defaults before any book is loaded
 		// these defaults will change after the book is loaded
-		talkingBook.playbackRate = [userDefaults floatForKey:OleariaPlaybackRate];
-		talkingBook.playbackVolume = [userDefaults floatForKey:OleariaPlaybackVolume];
-		talkingBook.preferredVoice = [userDefaults valueForKey:OleariaPlaybackVoice];
-		talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
+		talkingBook.playbackRate = [bookDefaults floatForKey:OleariaPlaybackRate];
+		talkingBook.playbackVolume = [bookDefaults floatForKey:OleariaPlaybackVolume];
+		talkingBook.preferredVoice = [bookDefaults valueForKey:OleariaPlaybackVoice];
+		talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
 		
 		isPlaying = NO;
 		
@@ -106,6 +114,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 {
 
 	validFileTypes = nil;
+	bookDefaults = nil;
 	talkingBook = nil;
 	
 	[super finalize];
@@ -114,15 +123,13 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 
 - (void) awakeFromNib
 {
-	//[toolsView addSubview:volumeRateView];
-	
-	// 0x0020 is the space character
+	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
 	
 	// set the sliders to default values
 	// these values will change once the book is loaded if it has settings
-	[playbackVolumeSlider setFloatValue:[userDefaults floatForKey:OleariaPlaybackVolume]];
-	[playbackSpeedSlider setFloatValue:[userDefaults floatForKey:OleariaPlaybackRate]];
+	[playbackVolumeSlider setFloatValue:[bookDefaults floatForKey:OleariaPlaybackVolume]];
+	[playbackSpeedSlider setFloatValue:[bookDefaults floatForKey:OleariaPlaybackRate]];
 	
 }
 
@@ -257,11 +264,11 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
 	float newRate = [sender floatValue];
-	if(newRate != [userDefaults floatForKey:OleariaPlaybackRate])
+	if(newRate != [bookDefaults floatForKey:OleariaPlaybackRate])
 	{
 		talkingBook.playbackRate = newRate; 
-		[userDefaults setFloat:newRate forKey:OleariaPlaybackRate];
-		[userDefaults synchronize];
+		[bookDefaults setFloat:newRate forKey:OleariaPlaybackRate];
+		[bookDefaults synchronize];
 	}
 	
 
@@ -270,11 +277,11 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 - (IBAction)setPlaybackVolume:(NSSlider *)sender
 {
 	float newVolume = [sender floatValue];
-	if(newVolume != [userDefaults floatForKey:OleariaPlaybackVolume])
+	if(newVolume != [bookDefaults floatForKey:OleariaPlaybackVolume])
 	{
 		talkingBook.playbackVolume = newVolume; 
-		[userDefaults setFloat:newVolume forKey:OleariaPlaybackVolume];
-		[userDefaults synchronize];
+		[bookDefaults setFloat:newVolume forKey:OleariaPlaybackVolume];
+		[bookDefaults synchronize];
 	}
 
 }
@@ -300,7 +307,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 				if(bookLoaded)
 				{
 					// setup the user saved settings (if Any) for playback
-					talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
+					talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
 					
 					[talkingBook nextSegment]; // load the first segment ready for play
 				}
@@ -326,7 +333,7 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 						if(bookLoaded)
 						{
 							// setup the user saved settings for playback
-							talkingBook.chapterSkipIncrement = [userDefaults floatForKey:OleariaChapterSkipIncrement];
+							talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
 							// we will get the settings from the recent documents dict if required
 							[talkingBook nextSegment]; // load the first segment ready for play
 							//[talkingBook updateForPosInBook];

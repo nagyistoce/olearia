@@ -92,7 +92,7 @@
 {
 	if (!(self=[super init])) return nil;
 
-	speechSynth = [[NSSpeechSynthesizer alloc] init];
+	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[speechSynth setDelegate:self];
 	
 	[self resetBook];

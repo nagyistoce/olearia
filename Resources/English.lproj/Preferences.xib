@@ -9,8 +9,6 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="34"/>
-			<integer value="115"/>
-			<integer value="178"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -194,7 +192,7 @@
 					<object class="NSTextField" id="361443780">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{137, 217}, {146, 17}}</string>
+						<string key="NSFrame">{{147, 217}, {146, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1000701686">
@@ -234,7 +232,7 @@
 							<int key="NSCellFlags2">0</int>
 							<reference key="NSControlView" ref="440600343"/>
 							<double key="NSValue">5.000000e-01</double>
-							<double key="NSMinValue">5.000000e-02</double>
+							<double key="NSMinValue">5.000000e-01</double>
 							<double key="NSMaxValue">6.000000e+01</double>
 							<double key="NSIncrement">5.000000e-01</double>
 							<bool key="NSAutorepeat">YES</bool>
@@ -280,24 +278,24 @@
 							<reference key="NSControlView" ref="1043423304"/>
 							<double key="NSMaxValue">3.000000e+00</double>
 							<double key="NSMinValue">0.000000e+00</double>
-							<double key="NSValue">1.000000e+00</double>
+							<double key="NSValue">1.034483e+00</double>
 							<double key="NSAltIncValue">0.000000e+00</double>
-							<int key="NSNumberOfTickMarks">4</int>
+							<int key="NSNumberOfTickMarks">30</int>
 							<int key="NSTickMarkPosition">1</int>
-							<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
+							<bool key="NSAllowsTickMarkValuesOnly">YES</bool>
 							<bool key="NSVertical">NO</bool>
 						</object>
 					</object>
 					<object class="NSTextField" id="868835360">
 						<reference key="NSNextResponder" ref="565387208"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{285, 217}, {58, 17}}</string>
+						<string key="NSFrame">{{295, 217}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="404145613">
 							<int key="NSCellFlags">68288064</int>
-							<int key="NSCellFlags2">-1874852864</int>
-							<string key="NSContents">999.9%</string>
+							<int key="NSCellFlags2">272630784</int>
+							<real value="9.990000e+00" key="NSContents"/>
 							<reference key="NSSupport" ref="759661860"/>
 							<object class="NSNumberFormatter" key="NSFormatter" id="952140942">
 								<object class="NSMutableDictionary" key="NS.attributes">
@@ -308,9 +306,12 @@
 										<string>alwaysShowsDecimalSeparator</string>
 										<string>formatterBehavior</string>
 										<string>maximumIntegerDigits</string>
+										<string>minimum</string>
 										<string>minimumFractionDigits</string>
 										<string>minimumIntegerDigits</string>
+										<string>multiplier</string>
 										<string>numberStyle</string>
+										<string>positiveFormat</string>
 										<string>roundingIncrement</string>
 										<string>usesGroupingSeparator</string>
 									</object>
@@ -320,15 +321,18 @@
 										<reference ref="9"/>
 										<reference ref="823564969"/>
 										<integer value="3" id="11"/>
+										<reference ref="8"/>
+										<reference ref="8"/>
 										<reference ref="9"/>
 										<reference ref="9"/>
 										<reference ref="11"/>
-										<reference ref="347743175"/>
+										<string>#1%</string>
+										<reference ref="9"/>
 										<reference ref="8"/>
 									</object>
 								</object>
-								<string key="NS.positiveformat">#0.0%</string>
-								<string key="NS.negativeformat">#0.0%</string>
+								<string key="NS.positiveformat">#1%</string>
+								<string key="NS.negativeformat">#1%</string>
 								<nil key="NS.positiveattrs"/>
 								<nil key="NS.negativeattrs"/>
 								<object class="NSAttributedString" key="NS.zero">
@@ -341,7 +345,8 @@
 									<string key="NSString">NaN</string>
 									<reference key="NSAttributes" ref="137367438"/>
 								</object>
-								<object class="NSDecimalNumberPlaceholder" key="NS.min" id="1066278634">
+								<reference key="NS.min" ref="8"/>
+								<object class="NSDecimalNumberPlaceholder" key="NS.max">
 									<int key="NS.exponent">0</int>
 									<int key="NS.length">0</int>
 									<bool key="NS.negative">YES</bool>
@@ -349,7 +354,6 @@
 									<int key="NS.mantissa.bo">1</int>
 									<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
 								</object>
-								<reference key="NS.max" ref="1066278634"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -530,6 +534,11 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="577670496">
+				<object class="NSMutableArray" key="NSDeclaredKeys">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>OleariaPlaybackVolume</string>
+					<string>OleariaPlaybackRate</string>
+				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="482730712">
@@ -717,10 +726,9 @@
 				</object>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="146343047">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 300}</string>
-					<reference key="NSSuperview"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 					<object class="NSDictionary" key="NSViewAnimations">
 						<string key="NS.key.0">subviews</string>
@@ -765,7 +773,7 @@
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSCustomView" id="781017716">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -787,7 +795,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 300}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 		</object>
@@ -801,14 +808,6 @@
 						<reference key="destination" ref="262457721"/>
 					</object>
 					<int key="connectionID">87</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">overrideAudioCheckBox</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="33345655"/>
-					</object>
-					<int key="connectionID">134</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -841,14 +840,6 @@
 						<reference key="destination" ref="31690704"/>
 					</object>
 					<int key="connectionID">176</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleAudioOverride:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="33345655"/>
-					</object>
-					<int key="connectionID">177</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -892,64 +883,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaDefaultVolumeLevel</string>
-						<reference key="source" ref="447716765"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="447716765"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaDefaultVolumeLevel</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaDefaultVolumeLevel</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMutableArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="8"/>
-									<reference ref="8"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">201</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaDefaultPlaybackSpeed</string>
-						<reference key="source" ref="1043423304"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1043423304"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaDefaultPlaybackSpeed</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaDefaultPlaybackSpeed</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMutableArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="8"/>
-									<reference ref="8"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">203</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: values.OleariaUseVoiceForPlayback</string>
 						<reference key="source" ref="33345655"/>
 						<reference key="destination" ref="577670496"/>
@@ -976,46 +909,6 @@
 						</object>
 					</object>
 					<int key="connectionID">206</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaDefaultPlaybackSpeed</string>
-						<reference key="source" ref="262457721"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="262457721"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaDefaultPlaybackSpeed</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaDefaultPlaybackSpeed</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="8"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">207</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaDefaultVolumeLevel</string>
-						<reference key="source" ref="868835360"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="868835360"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaDefaultVolumeLevel</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaDefaultVolumeLevel</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="8"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">208</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1075,6 +968,104 @@
 					</object>
 					<int key="connectionID">213</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaPlaybackVolume</string>
+						<reference key="source" ref="868835360"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="868835360"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<integer value="0" key="NS.object.0" id="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">228</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaPlaybackVolume</string>
+						<reference key="source" ref="447716765"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="447716765"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="6"/>
+									<reference ref="6"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">229</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaPlaybackRate</string>
+						<reference key="source" ref="1043423304"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1043423304"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="6"/>
+									<reference ref="6"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">230</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaPlaybackRate</string>
+						<reference key="source" ref="262457721"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="262457721"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<reference key="NS.object.0" ref="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">231</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1119,10 +1110,10 @@
 							<reference ref="33345655"/>
 							<reference ref="31690704"/>
 							<reference ref="447716765"/>
-							<reference ref="1043423304"/>
 							<reference ref="868835360"/>
 							<reference ref="440600343"/>
 							<reference ref="18170339"/>
+							<reference ref="1043423304"/>
 						</object>
 						<reference key="parent" ref="1002"/>
 						<string key="objectName">SoundView</string>
@@ -1280,11 +1271,6 @@
 						<reference key="parent" ref="868835360"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">72</int>
-						<reference key="object" ref="952140942"/>
-						<reference key="parent" ref="404145613"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">74</int>
 						<reference key="object" ref="21856244"/>
 						<reference key="parent" ref="1043423304"/>
@@ -1430,6 +1416,11 @@
 						<int key="objectID">181</int>
 						<reference key="object" ref="68218798"/>
 						<reference key="parent" ref="6412716"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">72</int>
+						<reference key="object" ref="952140942"/>
+						<reference key="parent" ref="404145613"/>
 					</object>
 				</object>
 			</object>
@@ -1676,7 +1667,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">214</int>
+			<int key="maxID">231</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1691,11 +1682,9 @@
 							<string>displaySoundPrefsView:</string>
 							<string>displayTextPrefsView:</string>
 							<string>setSelectedPlaybackVoice:</string>
-							<string>toggleAudioOverride:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1705,7 +1694,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>overrideAudioCheckBox</string>
 							<string>prefsWindow</string>
 							<string>soundPrefsView</string>
 							<string>textPrefsView</string>
@@ -1713,7 +1701,6 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
 							<string>NSWindow</string>
 							<string>NSView</string>
 							<string>NSView</string>
