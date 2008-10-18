@@ -40,7 +40,15 @@ typedef enum
 
 @interface BBSTalkingBook : NSObject 
 {
+	// book user settings
 	NSString				*preferredVoice;
+	float					playbackRate;
+	float					playbackVolume;
+	float					chapterSkipIncrement;
+	BOOL					OverrideRecordedContent;
+	BOOL					UseVoiceOnLevelChange;
+	
+	
 	NSSpeechSynthesizer		*speechSynth;
 	
 	
@@ -56,9 +64,7 @@ typedef enum
 	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
-	float					playbackRate;
-	float					playbackVolume;
-	float					chapterSkipIncrement;
+	
 	QTTime					_skipDuration;
 	
 

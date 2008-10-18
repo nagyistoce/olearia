@@ -26,9 +26,8 @@
 @interface OleariaPrefsController : NSWindowController 
 {
 	NSArray					*availableVoices;
-	
+		
 	IBOutlet NSPopUpButton	*voicesPopup;
-	IBOutlet NSButton		*overrideAudioCheckBox;
 	
 	IBOutlet NSWindow		*prefsWindow;
 	IBOutlet NSView			*soundPrefsView;
@@ -38,7 +37,6 @@
 
 - (IBAction)displaySoundPrefsView:(id)sender;
 - (IBAction)displayTextPrefsView:(id)sender;
-- (IBAction)toggleAudioOverride:(id)sender;
 - (IBAction)setSelectedPlaybackVoice:(id)sender;
 
 @end

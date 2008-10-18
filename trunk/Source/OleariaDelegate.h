@@ -29,6 +29,7 @@ extern NSString * const OleariaPlaybackRate;
 extern NSString * const OleariaPlaybackVoice;
 extern NSString * const OleariaUseVoiceForPlayback;
 extern NSString * const OleariaChapterSkipIncrement;
+extern NSString * const OleariaEnableVoiceOnLevelChange;
 
 @interface OleariaDelegate : NSObject
 {
@@ -37,7 +38,7 @@ extern NSString * const OleariaChapterSkipIncrement;
 	
 	OleariaPrefsController *prefsController;
 	AboutBoxController	*aboutController;
-	NSUserDefaults		*userDefaults;
+	NSUserDefaults		*bookDefaults;
 	
 	BOOL				isPlaying;
 
