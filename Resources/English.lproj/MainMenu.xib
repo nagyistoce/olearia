@@ -9,8 +9,8 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="956"/>
-			<integer value="315"/>
-			<integer value="29"/>
+			<integer value="21"/>
+			<integer value="1194"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1159,32 +1159,21 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 									<reference key="NSOnImage" ref="303918473"/>
 									<reference key="NSMixedImage" ref="594638496"/>
 								</object>
-								<object class="NSMenuItem" id="683648861">
+								<object class="NSMenuItem" id="44108939">
 									<reference key="NSMenu" ref="718145057"/>
 									<string key="NSTitle">Open Recent</string>
 									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="303918473"/>
 									<reference key="NSMixedImage" ref="594638496"/>
 									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="856629947">
-										<object class="NSMutableString" key="NSTitle">
-											<characters key="NS.bytes">Open Recent</characters>
-										</object>
+									<object class="NSMenu" key="NSSubmenu" id="87576856">
+										<string key="NSTitle">Open Recent</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="966130366">
-												<reference key="NSMenu" ref="856629947"/>
-												<string key="NSTitle">Clear Menu</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="303918473"/>
-												<reference key="NSMixedImage" ref="594638496"/>
-											</object>
 										</object>
-										<string key="NSName">_NSRecentDocumentsMenu</string>
+										<bool key="NSNoAutoenable">YES</bool>
+										<bool key="NSMenuExcludeMarkColumn">YES</bool>
 									</object>
 								</object>
 							</object>
@@ -1445,7 +1434,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<object class="NSTextField" id="766676567">
 						<reference key="NSNextResponder" ref="920940361"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{170, 138}, {65, 17}}</string>
+						<string key="NSFrame">{{175, 138}, {65, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="203774473">
@@ -1472,11 +1461,11 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<reference key="NSControlView" ref="758452174"/>
 							<double key="NSMaxValue">3.000000e+00</double>
 							<double key="NSMinValue">0.000000e+00</double>
-							<double key="NSValue">1.000000e+00</double>
+							<double key="NSValue">1.034483e+00</double>
 							<double key="NSAltIncValue">0.000000e+00</double>
-							<int key="NSNumberOfTickMarks">4</int>
+							<int key="NSNumberOfTickMarks">30</int>
 							<int key="NSTickMarkPosition">1</int>
-							<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
+							<bool key="NSAllowsTickMarkValuesOnly">YES</bool>
 							<bool key="NSVertical">NO</bool>
 						</object>
 					</object>
@@ -1499,13 +1488,13 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<object class="NSTextField" id="379381253">
 						<reference key="NSNextResponder" ref="920940361"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{237, 138}, {58, 17}}</string>
+						<string key="NSFrame">{{242, 138}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="139382963">
 							<int key="NSCellFlags">68288064</int>
-							<int key="NSCellFlags2">-1874852864</int>
-							<string key="NSContents">999.9%</string>
+							<int key="NSCellFlags2">272630784</int>
+							<real value="9.990000e+00" key="NSContents"/>
 							<reference key="NSSupport" ref="848049536"/>
 							<object class="NSNumberFormatter" key="NSFormatter" id="966529617">
 								<object class="NSMutableDictionary" key="NS.attributes">
@@ -1518,7 +1507,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<string>maximumIntegerDigits</string>
 										<string>minimumFractionDigits</string>
 										<string>minimumIntegerDigits</string>
+										<string>multiplier</string>
 										<string>numberStyle</string>
+										<string>positiveFormat</string>
 										<string>roundingIncrement</string>
 										<string>usesGroupingSeparator</string>
 									</object>
@@ -1528,15 +1519,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<reference ref="1404"/>
 										<integer value="1040" id="879240491"/>
 										<integer value="3" id="11"/>
+										<reference ref="8"/>
 										<reference ref="1404"/>
 										<reference ref="1404"/>
 										<reference ref="11"/>
-										<real value="1.000000e-01" id="10754954"/>
+										<string>#0%</string>
+										<reference ref="1404"/>
 										<reference ref="8"/>
 									</object>
 								</object>
-								<string key="NS.positiveformat">#0.0%</string>
-								<string key="NS.negativeformat">#0.0%</string>
+								<string key="NS.positiveformat">#0%</string>
+								<string key="NS.negativeformat">#1%</string>
 								<nil key="NS.positiveattrs"/>
 								<nil key="NS.negativeattrs"/>
 								<object class="NSAttributedString" key="NS.zero">
@@ -1628,7 +1621,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<string>0.0</string>
 										<reference ref="1404"/>
 										<string>0.0</string>
-										<reference ref="10754954"/>
+										<real value="1.000000e-01"/>
 										<reference ref="8"/>
 									</object>
 								</object>
@@ -1690,6 +1683,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>talkingBook.currentPageString</string>
 					<string>talkingBook.playbackRate</string>
 					<string>talkingBook.playbackVolume</string>
+					<string>playbackRate</string>
 				</object>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
@@ -1723,14 +1717,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="331635491"/>
 					</object>
 					<int key="connectionID">122</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">clearRecentDocuments:</string>
-						<reference key="source" ref="833915498"/>
-						<reference key="destination" ref="966130366"/>
-					</object>
-					<int key="connectionID">127</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3057,46 +3043,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<int key="connectionID">1149</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.talkingBook.playbackVolume</string>
-						<reference key="source" ref="379381253"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="379381253"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.talkingBook.playbackVolume</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.talkingBook.playbackVolume</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="8"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1157</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.talkingBook.playbackRate</string>
-						<reference key="source" ref="116136054"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="116136054"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.talkingBook.playbackRate</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.talkingBook.playbackRate</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="8"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1158</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">setPlaybackVolume:</string>
 						<reference key="source" ref="402644559"/>
@@ -3323,6 +3269,149 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						</object>
 					</object>
 					<int key="connectionID">1171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.playbackVolume</string>
+						<reference key="source" ref="399801161"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="399801161"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.playbackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="8"/>
+									<reference ref="8"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1179</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.playbackVolume</string>
+						<reference key="source" ref="379381253"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="379381253"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.playbackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="8"/>
+									<reference ref="1404"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1185</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.playbackRate</string>
+						<reference key="source" ref="116136054"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="116136054"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.playbackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<reference key="NS.object.0" ref="8"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentObject: self</string>
+						<reference key="source" ref="564195892"/>
+						<reference key="destination" ref="402644559"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="564195892"/>
+							<reference key="NSDestination" ref="402644559"/>
+							<string key="NSLabel">contentObject: self</string>
+							<string key="NSBinding">contentObject</string>
+							<string key="NSKeyPath">self</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEditable</string>
+								<reference key="NS.object.0" ref="8"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1190</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.talkingBook.playbackRate</string>
+						<reference key="source" ref="758452174"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="758452174"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.talkingBook.playbackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.talkingBook.playbackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="8"/>
+									<reference ref="8"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1191</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">openRecentMenu</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="87576856"/>
+					</object>
+					<int key="connectionID">1196</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="87576856"/>
+						<reference key="destination" ref="402644559"/>
+					</object>
+					<int key="connectionID">1197</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3612,7 +3701,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="697057443"/>
-							<reference ref="683648861"/>
+							<reference ref="44108939"/>
 						</object>
 						<reference key="parent" ref="640522996"/>
 					</object>
@@ -3620,29 +3709,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="objectID">72</int>
 						<reference key="object" ref="697057443"/>
 						<reference key="parent" ref="718145057"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">124</int>
-						<reference key="object" ref="683648861"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="856629947"/>
-						</object>
-						<reference key="parent" ref="718145057"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">125</int>
-						<reference key="object" ref="856629947"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="966130366"/>
-						</object>
-						<reference key="parent" ref="683648861"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">126</int>
-						<reference key="object" ref="966130366"/>
-						<reference key="parent" ref="856629947"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">103</int>
@@ -4029,10 +4095,10 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="766676567"/>
 							<reference ref="713047054"/>
-							<reference ref="379381253"/>
 							<reference ref="116136054"/>
 							<reference ref="399801161"/>
 							<reference ref="758452174"/>
+							<reference ref="379381253"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Sound View</string>
@@ -4165,6 +4231,23 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="94966674"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1193</int>
+						<reference key="object" ref="44108939"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="87576856"/>
+						</object>
+						<reference key="parent" ref="718145057"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1194</int>
+						<reference key="object" ref="87576856"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
+						<reference key="parent" ref="44108939"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4184,12 +4267,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>111.IBPluginDependency</string>
 					<string>111.ImportedFromIB2</string>
 					<string>1137.IBPluginDependency</string>
-					<string>124.IBPluginDependency</string>
-					<string>124.ImportedFromIB2</string>
-					<string>125.IBPluginDependency</string>
-					<string>125.ImportedFromIB2</string>
-					<string>126.IBPluginDependency</string>
-					<string>126.ImportedFromIB2</string>
+					<string>1193.IBPluginDependency</string>
+					<string>1194.IBEditorWindowLastContentRect</string>
+					<string>1194.IBPluginDependency</string>
 					<string>129.IBPluginDependency</string>
 					<string>129.ImportedFromIB2</string>
 					<string>130.IBEditorWindowLastContentRect</string>
@@ -4385,11 +4465,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<reference ref="1404"/>
+					<string>{{313, 783}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<reference ref="1404"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
 					<string>{{264, 743}, {64, 6}}</string>
@@ -4421,10 +4498,10 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{35, 283}, {490, 423}}</string>
+					<string>{{56, 208}, {490, 423}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="8"/>
-					<string>{{35, 283}, {490, 423}}</string>
+					<string>{{56, 208}, {490, 423}}</string>
 					<reference ref="1404"/>
 					<reference ref="1404"/>
 					<reference ref="8"/>
@@ -4954,7 +5031,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1171</int>
+			<int key="maxID">1197</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5054,6 +5131,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>mainWindow</string>
 							<string>nextButton</string>
 							<string>nextSegmentMenuItem</string>
+							<string>openRecentMenu</string>
 							<string>playPauseButton</string>
 							<string>playPauseMenuItem</string>
 							<string>playbackSpeedSlider</string>
@@ -5085,6 +5163,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>NSWindow</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
+							<string>NSMenu</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
 							<string>NSSlider</string>

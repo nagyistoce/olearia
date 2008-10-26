@@ -36,9 +36,12 @@ extern NSString * const OleariaEnableVoiceOnLevelChange;
 	NSArray				*validFileTypes;
 	BBSTalkingBook		*talkingBook;
 	
-	OleariaPrefsController *prefsController;
-	AboutBoxController	*aboutController;
-	NSUserDefaults		*bookDefaults;
+	OleariaPrefsController *_prefsController;
+	AboutBoxController	*_aboutController;
+	NSMutableArray		*_recentBooks; 
+	NSUserDefaults		*_userSetDefaults;
+	
+	NSString			*_recentBooksPlistPath;
 	
 	BOOL				isPlaying;
 
@@ -78,6 +81,7 @@ extern NSString * const OleariaEnableVoiceOnLevelChange;
 	IBOutlet NSMenuItem		*prevSegmentMenuItem;
 	IBOutlet NSMenuItem		*fastForwardMenuItem;
 	IBOutlet NSMenuItem		*fastBackMenuItem;
+	IBOutlet NSMenu			*openRecentMenu;
 	
 }
 

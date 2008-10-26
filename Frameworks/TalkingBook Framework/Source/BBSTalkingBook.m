@@ -96,15 +96,16 @@
 	[speechSynth setDelegate:self];
 	
 	[self resetBook];
+	bookIsAlreadyLoaded = NO;
 
+	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
+	
 	return self;
 }
 
 
 - (BOOL)openWithFile:(NSURL *)aURL
 {
-	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
-	
 	// set up the defaults for the bindings when opening the book
 	[self setDisplayDefaults];
 	
@@ -129,6 +130,7 @@
 	if(textDoc) textDoc = nil;
 	
 	BOOL fileOpenedOK = NO;
+	bookIsAlreadyLoaded = NO;
 	
 	// check for a OPF, NCX or NCC.html file first
 	// get the parent folder path as a string
@@ -148,7 +150,7 @@
 	// check for an ncx file first
 	if([self typeOfControlDoc:aURL] == ncxControlDocType)
 	{
-		// currently this method assumes that the opf file has the same filename as the ncx file sans extension
+		// we assume that the opf file has the same filename as the ncx file sans extension
 		NSFileManager *fm = [NSFileManager defaultManager];
 		// delete the extension from the NCX filename
 		NSMutableString *opfFilePath = [[NSMutableString alloc] initWithString:[filename stringByDeletingPathExtension]];
@@ -229,6 +231,9 @@
 	if (fileOpenedOK)
 	{
 		self.canPlay = YES;
+		bookIsAlreadyLoaded = YES;
+		
+		fullBookPath = [aURL path];
 		
 		if(_hasPackageFile)
 		{
@@ -333,8 +338,6 @@
 	{
 		if(_currentAudioFile) // check if we have an audio file to play
 		{
-			//[self sendNotificationsForPosInBook];
-			
 			[_currentAudioFile play];
 			self.isPlaying = YES;
 		}
@@ -529,19 +532,27 @@
 
 - (void)setPlaybackRate:(float)aRate
 {
-	if(aRate != self.playbackRate)
+	if(aRate != playbackRate)
 	{
 		playbackRate = aRate;
-		[_currentAudioFile setRate:self.playbackRate];
+		[_currentAudioFile setRate:aRate];
+		// this is a workaround for the current issue where setting the 
+		// playback speed automatically starts playback
+		if(NO == isPlaying) 
+		{	
+			[_currentAudioFile stop];
+			[_currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
+		}
+
 	}
 }
 
 - (void)setPlaybackVolume:(float)aLevel
 {
-	if(aLevel != self.playbackVolume)
+	if(aLevel != playbackVolume)
 	{
 		playbackVolume = aLevel;
-		[_currentAudioFile setVolume:self.playbackVolume];
+		[_currentAudioFile setVolume:aLevel];
 	}
 }
 
@@ -549,6 +560,7 @@
 {
 	[speechSynth setVoice:aVoiceID];
 
+	
 }
 - (void)setChapterSkipIncrement:(float)anIncrement;
 {
@@ -587,6 +599,7 @@
 	_controlDoc = nil;
 	smilDoc = nil;
 	textDoc = nil;
+	
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
@@ -799,6 +812,7 @@
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 		self.hasLevelUp = (([_controlDoc canGoUpLevel]) || (_levelNavConMode > levelNavigationControlMode)) ? YES : NO;
 		
+		
 		if ([_controlDoc canGoDownLevel]) // check regular level down first
 			self.hasLevelDown = YES;
 		else // We have reached the bottom of the current levels so check if we have other forms of nagigation below this
@@ -848,6 +862,7 @@
 @synthesize _controlMode;
 @synthesize textDoc, smilDoc;
 @synthesize _bookPath, _currentSegmentFilename;
+@synthesize bookIsAlreadyLoaded, fullBookPath;
 
 @synthesize _currentAudioFile;
 

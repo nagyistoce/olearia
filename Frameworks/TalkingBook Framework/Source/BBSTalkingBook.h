@@ -50,7 +50,7 @@ typedef enum
 	
 	
 	NSSpeechSynthesizer		*speechSynth;
-	
+//  NSMutableDictionary		*bookSettings;
 	
 	TalkingBookType			_controlMode;
 	levelControlMode		_levelNavConMode;
@@ -78,6 +78,7 @@ typedef enum
 	
 	NSString				*_bookPath;
 	NSString				*_currentSegmentFilename;
+	NSString				*fullBookPath;
 	
 	
 	NSNotificationCenter	*TalkingBookNotificationCenter;
@@ -90,6 +91,7 @@ typedef enum
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
 	BOOL					_hasWordNavigation;
+	BOOL					bookIsAlreadyLoaded;
 	QTMovie					*_currentAudioFile;
 	
 	// bindings ivars
@@ -105,8 +107,6 @@ typedef enum
 	BOOL					hasLevelDown;
 	BOOL					hasNextSegment;
 	BOOL					hasPreviousSegment;
-	
-
 	
 }
 
@@ -134,11 +134,15 @@ typedef enum
 
 @property (readwrite, retain) BBSTBControlDoc *_controlDoc;
 @property (readwrite, retain) BBSTBPackageDoc *_packageDoc;
+//@property (readwrite, retain) NSMutableDictionary *bookSettings;
 
 @property (readwrite,retain)	NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
 @property (readwrite)			float		chapterSkipIncrement;
+@property (readwrite)			BOOL		bookIsAlreadyLoaded;
+@property (readwrite, retain)	NSString	*fullBookPath;
+
 
 @property (readonly)		NSInteger	maxLevels;
 @property (readonly)		NSInteger	currentPageIndex;
