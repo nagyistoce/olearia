@@ -33,9 +33,15 @@ NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
 
 
-@interface OleariaDelegate (Private)
+@interface OleariaDelegate ()
 
 + (void)setupDefaults;
+- (NSString *)applicationSupportFolder;
+- (void)populateRecentFilesMenu;
+- (void)updateRecentBooks:(NSString *)pathToMove updateSettings:(BOOL)shouldUpdate;
+
+@property (readwrite, retain) NSMutableArray *_recentBooks;
+@property (readwrite, retain) NSString *_recentBooksPlistPath;
 
 @end
 
@@ -43,70 +49,61 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 
 @implementation OleariaDelegate
 
-@synthesize talkingBook;
-
-
 + (void) initialize
 {
 	[self setupDefaults];
 }
 
-+ (void)setupDefaults
-{
-    NSMutableDictionary *defaultValuesDict = [NSMutableDictionary dictionary];
-	NSDictionary *initialValuesDict;
-	NSArray *resettableKeys;
-	
-	// setup the default values for our prefs keys
-	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackRate];
-	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackVolume];
-	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
-	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
-	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
-	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
-	
-	// set them in the shared user defaults
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults registerDefaults:defaultValuesDict];
-	
-	// set the keys for the resetable prefs -- these make a subset of the entire userdefaults dict
-    resettableKeys=[NSArray arrayWithObjects:OleariaPlaybackRate, 
-					OleariaPlaybackVoice, 
-					OleariaPlaybackVolume, 
-					OleariaUseVoiceForPlayback, 
-					OleariaChapterSkipIncrement,
-					nil];
-	
-    // get the values for the specified keys
-	initialValuesDict=[defaultValuesDict dictionaryWithValuesForKeys:resettableKeys];
-    // Set the initial values in the shared user defaults controller
-    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
-	
-}
-
-
 - (id) init
 {
-	self = [super init];
-	if (self != nil) 
+	if (!(self=[super init])) return nil;
+	
+	BOOL isDir;
+	// get the defaults
+	_userSetDefaults = [NSUserDefaults standardUserDefaults];
+	
+	
+	// set the path to the recent books folder
+	_recentBooksPlistPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"recentBooks.plist"];
+	
+	// init the book object
+	talkingBook = [[BBSTalkingBook alloc] init];
+	
+	// set the defaults before any book is loaded
+	// these defaults will change after the book is loaded
+	talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
+	talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
+	talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
+	talkingBook.chapterSkipIncrement = [_userSetDefaults floatForKey:OleariaChapterSkipIncrement];
+	
+	isPlaying = NO;
+	
+	validFileTypes = [[NSArray alloc] initWithObjects:@"opf",@"ncx",@"html",nil];
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
+	
+	if([fm fileExistsAtPath:[self applicationSupportFolder] isDirectory:&isDir] && isDir)
 	{
-		// get the defaults
-		bookDefaults = [NSUserDefaults standardUserDefaults];
+		// the folder exists so check if the recent files plist exists
+		if([fm fileExistsAtPath:_recentBooksPlistPath])
+		{
+			// the file exists so read the file into the recentbooks dict
+			_recentBooks = [NSMutableArray arrayWithContentsOfFile:_recentBooksPlistPath];
 			
-		// init the book object
-		talkingBook = [[BBSTalkingBook alloc] init];
-		
-		// set the defaults before any book is loaded
-		// these defaults will change after the book is loaded
-		talkingBook.playbackRate = [bookDefaults floatForKey:OleariaPlaybackRate];
-		talkingBook.playbackVolume = [bookDefaults floatForKey:OleariaPlaybackVolume];
-		talkingBook.preferredVoice = [bookDefaults valueForKey:OleariaPlaybackVoice];
-		talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
-		
-		isPlaying = NO;
-		
-		validFileTypes = [[NSArray alloc] initWithObjects:@"opf",@"ncx",@"html",nil];
+		}
+		else
+		{
+			// init the recent books dict
+			_recentBooks = [[NSMutableArray alloc] init];
+		}
 	}
+	else
+	{
+		// create the application support folder
+		// which will be used to hold our support files
+		[fm createDirectoryAtPath:[self applicationSupportFolder] withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	
 	return self;
 }
 
@@ -114,7 +111,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 {
 
 	validFileTypes = nil;
-	bookDefaults = nil;
+	_userSetDefaults = nil;
 	talkingBook = nil;
 	
 	[super finalize];
@@ -126,11 +123,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
 	
-	// set the sliders to default values
-	// these values will change once the book is loaded if it has settings
-	[playbackVolumeSlider setFloatValue:[bookDefaults floatForKey:OleariaPlaybackVolume]];
-	[playbackSpeedSlider setFloatValue:[bookDefaults floatForKey:OleariaPlaybackRate]];
-	
+	//[self populateRecentFilesMenu];
 }
 
 
@@ -152,10 +145,6 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
                     modalDelegate:self 
                    didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) 
                       contextInfo:NULL]; 
-	
-
-
-	
 }
 
 
@@ -225,19 +214,12 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 
 - (IBAction)fastForward:(id)sender
 {
-	//if(YES == [talkingBook hasChapters])
-	//{
-		[talkingBook nextChapter];
-	//}
+		[talkingBook nextChapter];	
 }
 
 - (IBAction)fastRewind:(id)sender
 {
-	//if(YES == [talkingBook hasChapters])
-	//{
-		[talkingBook previousChapter];
-	//}
-	
+		[talkingBook previousChapter];		
 }
 
 - (IBAction)gotoPage:(id)sender
@@ -263,27 +245,13 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 #pragma mark  TODO add reference to recent doc not userdefaults
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
-	float newRate = [sender floatValue];
-	if(newRate != [bookDefaults floatForKey:OleariaPlaybackRate])
-	{
-		talkingBook.playbackRate = newRate; 
-		[bookDefaults setFloat:newRate forKey:OleariaPlaybackRate];
-		[bookDefaults synchronize];
-	}
-	
-
+		talkingBook.playbackRate = [sender floatValue]; 
 }
+
 #pragma mark  TODO add reference to recent doc not userdefaults
 - (IBAction)setPlaybackVolume:(NSSlider *)sender
 {
-	float newVolume = [sender floatValue];
-	if(newVolume != [bookDefaults floatForKey:OleariaPlaybackVolume])
-	{
-		talkingBook.playbackVolume = newVolume; 
-		[bookDefaults setFloat:newVolume forKey:OleariaPlaybackVolume];
-		[bookDefaults synchronize];
-	}
-
+	talkingBook.playbackVolume = [sender floatValue];
 }
 
 - (void)openPanelDidEnd:(NSOpenPanel *)openPanel 
@@ -292,95 +260,126 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 { 
 	if(returnCode == NSOKButton)
 	{	
+		NSString *validFilePath = nil;
+		BOOL shouldUpdate = talkingBook.bookIsAlreadyLoaded;
+		
+		[openPanel close];  // close the panel so it doesnt confuse the user that we are busy processing the book
+		
+		// check if the settings for the currently loaded book have changed
+		if(talkingBook.bookIsAlreadyLoaded) // if so save them before we attempt to load the next book
+		{
+			
+			[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+		}
+		
 		NSFileManager *fm = [NSFileManager defaultManager];
 		BOOL isDir, bookLoaded = NO;
 		NSString *shortErrorMsg, *fullErrorMsg;
 		
 		// first check that the file exists
-		if ([fm fileExistsAtPath:[[openPanel URL] path] isDirectory:&isDir])
+		if ([fm fileExistsAtPath:[[openPanel URL] path] isDirectory:&isDir] && isDir)
 		{
-			// check if its a folder
-			if(NO == isDir)
+			// the path is a directory
+			NSString *pathStr = [[NSString alloc] initWithString:[[openPanel URL] path]];
+			NSArray *folderContents = [fm contentsOfDirectoryAtPath:pathStr error:nil];
+			
+			for(NSString *file in folderContents)
 			{
-				// load the talking book package or control file
-				bookLoaded = [talkingBook openWithFile:[openPanel URL]];
-				if(bookLoaded)
+				NSString *extension = [NSString stringWithString:[[file pathExtension] lowercaseString]];
+				if([extension isEqualToString:@"opf"] || [[file lowercaseString] isEqualToString:@"ncc.html"])
 				{
-					// setup the user saved settings (if Any) for playback
-					talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
-					
-					[talkingBook nextSegment]; // load the first segment ready for play
-				}
-				else
-				{
-					shortErrorMsg = [NSString stringWithString:@"Invalid File"];
-					fullErrorMsg = [NSString stringWithString:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
-				}
-			}
-			else // the path is a directory
-			{
-				NSString *pathStr = [[NSString alloc] initWithString:[[openPanel URL] path]];
-				NSArray *folderContents = [fm contentsOfDirectoryAtPath:pathStr error:nil];
-				
-				for(NSString *file in folderContents)
-				{
-					NSString *extension = [NSString stringWithString:[[file pathExtension] lowercaseString]];
-					if([extension isEqualToString:@"opf"] || [[file lowercaseString] isEqualToString:@"ncc.html"])
+					NSURL *validFileURL = [[NSURL alloc] initFileURLWithPath:[pathStr stringByAppendingPathComponent:file]];
+					// load the talking book package or control file
+					bookLoaded = [talkingBook openWithFile:validFileURL];
+					if(bookLoaded)
 					{
-						NSURL *validFileURL = [[NSURL alloc] initFileURLWithPath:[pathStr stringByAppendingPathComponent:file]];
-						// load the talking book package or control file
-						bookLoaded = [talkingBook openWithFile:validFileURL];
-						if(bookLoaded)
-						{
-							// setup the user saved settings for playback
-							talkingBook.chapterSkipIncrement = [bookDefaults floatForKey:OleariaChapterSkipIncrement];
-							// we will get the settings from the recent documents dict if required
-							[talkingBook nextSegment]; // load the first segment ready for play
-							//[talkingBook updateForPosInBook];
-							break;
-						}
-						else
-						{
-							break;
-						}
+						break;
+					}
+					else
+					{
+						shortErrorMsg = [NSString stringWithString:@"Invalid Folder"];
+						fullErrorMsg = [NSString stringWithString:@"The Folder you chose to open did not contain a valid Package (OPF) or Control (NCC.html) Document."];
+
+						break;
 					}
 				}
-				if(NO == bookLoaded)
-				{
-					shortErrorMsg = [NSString stringWithString:@"Invalid Folder"];
-					fullErrorMsg = [NSString stringWithString:@"The Folder you chose to open did not contain a valid Package (OPF) or Control (NCC.html) Document."];
-				}
-				
-			}
-			
-			// check if we failed loading at all
-			if(NO == bookLoaded)
-			{
-				// close the panel before we show the error dialog
-				[openPanel close];
-				
-				// put up a dialog saying that the folder chosen did not a valid document for opening the book.
-				NSAlert *alert = [[NSAlert alloc] init];
-				[alert setMessageText:shortErrorMsg];
-				[alert setInformativeText:fullErrorMsg];
-				[alert setAlertStyle:NSWarningAlertStyle];
-				[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
-				// we dont need a response from the user so set all options except window to nil;
-				[alert beginSheetModalForWindow:mainWindow 
-								  modalDelegate:nil 
-								 didEndSelector:nil 
-									contextInfo:nil];
-				alert = nil;
 			}
 		}
+		else // file exists and its not a folder
+		{
+			// selected a file
+			
+			// try to load the file
+			bookLoaded = [talkingBook openWithFile:[openPanel URL]];
+			if(NO == bookLoaded)
+			{
+				shortErrorMsg = [NSString stringWithString:@"Invalid File"];
+				fullErrorMsg = [NSString stringWithString:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
+			}
+		}
+				
+		// check if the book loaded correctly		
+		if(bookLoaded)
+		{
+			validFilePath = [talkingBook fullBookPath];
+			
+			//update the recent files list
+			[self updateRecentBooks:validFilePath updateSettings:shouldUpdate];
+			
+			// load the first segment ready for play
+			[talkingBook nextSegment]; 
+			
+			//NSLog(@"rate = %f",talkingBook.playbackRate);
+		}
+		else
+		{
+			// put up a dialog saying that the folder chosen did not a valid document for opening the book.
+			NSAlert *alert = [[NSAlert alloc] init];
+			[alert setMessageText:shortErrorMsg];
+			[alert setInformativeText:fullErrorMsg];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+			// we dont need a response from the user so set all options except window to nil;
+			[alert beginSheetModalForWindow:mainWindow 
+							  modalDelegate:nil 
+							 didEndSelector:nil 
+								contextInfo:nil];
+			alert = nil;
+			
+		}
+				
 	}
+}
 
-} 
+
+#pragma mark -
+#pragma mark Delegate Methods
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+	// use this method to process opf and ncc.html files that are double clicked on in the finder  
+	return YES;
+}
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	return YES;
 }
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	// stop playing if we are
+	if(talkingBook.isPlaying)
+		[talkingBook pauseAudio];
+
+	// update the recent files to the current settings
+	[self updateRecentBooks:talkingBook.fullBookPath updateSettings:talkingBook.bookIsAlreadyLoaded];
+	
+	// save the settings
+	[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+	
+}
+
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
@@ -394,22 +393,204 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 
 - (IBAction)displayPrefsPanel:(id)sender
 {
-	if(!prefsController)
+	if(!_prefsController)
 	{
-		prefsController = [[OleariaPrefsController alloc] init];
+		_prefsController = [[OleariaPrefsController alloc] init];
 		
 	}
-	[prefsController showWindow:self];
+	[_prefsController showWindow:self];
 
 }
 
 - (IBAction)displayAboutPanel:(id)sender
 {
-	if(!aboutController)
+	if(!_aboutController)
 	{
-		aboutController = [[AboutBoxController alloc] init];
+		_aboutController = [[AboutBoxController alloc] init];
 	}
-	[aboutController showWindow:self];
+	[_aboutController showWindow:self];
 }
+
+
+
+
+
+
+#pragma mark -
+#pragma mark Private Methods
+
+- (void)updateRecentBooks:(NSString *)pathToMove updateSettings:(BOOL)shouldUpdate
+{
+	NSAssert(pathToMove != nil, @"path to move is nil");
+	
+	NSArray *filePaths = [_recentBooks valueForKeyPath:@"Book.FilePath"];
+	
+	
+	NSUInteger foundIndex = [filePaths indexOfObject:pathToMove];				 
+	// check if the path is in the recent books list
+	if(foundIndex != NSNotFound)
+	{   
+		// get the dict of settings for the book
+		// there will only be one path per book
+		// but the same book can be in different formats and so will have the same title
+				
+		// get the settings that have been saved previously
+		NSMutableDictionary *newSettings = [[NSMutableDictionary alloc] init];
+		
+		if(YES == shouldUpdate)
+		{
+			// get the settings that have been saved previously
+			NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] init];
+			[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
+
+			// get the current settings from the book before we move the recent item
+			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKeyPath:@"Book.Rate"];
+			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKeyPath:@"Book.Volume"];
+			[oldSettings setValue:[self.talkingBook.preferredVoice description] forKeyPath:@"Book.Voice"];
+			[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
+			oldSettings = nil;
+			
+		}
+		
+		[newSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:foundIndex]];
+		// set the book to the saved settings	
+		self.talkingBook.playbackRate = [[newSettings valueForKeyPath:@"Book.Rate"] floatValue];
+		self.talkingBook.playbackVolume = [[newSettings valueForKeyPath:@"Book.Volume"] floatValue];
+		self.talkingBook.preferredVoice = [newSettings valueForKeyPath:@"Book.Voice"];
+		
+		// only change the recent items position if its not already at the top of the list
+		if(foundIndex > 0)
+		{
+			// remove the settings from their current position in the recent files list
+			[_recentBooks removeObjectAtIndex:foundIndex];
+			//  insert the settings at the begining of the recent files list
+			[_recentBooks insertObject:newSettings atIndex:0];
+		}
+		newSettings = nil;
+	}
+	else // path not found in the recent files list
+	{
+		if(YES == shouldUpdate)
+		{
+			// get the settings that have been saved previously
+			NSMutableDictionary *oldSettings = [NSMutableDictionary dictionaryWithDictionary:[_recentBooks objectAtIndex:0]];
+			
+			// get the current settings from the book before we move the recent item
+			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKeyPath:@"Book.Rate"];
+			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKeyPath:@"Book.Volume"];
+			[oldSettings setValue:[self.talkingBook.preferredVoice description] forKeyPath:@"Book.Voice"];
+			[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
+			oldSettings = nil;
+			
+		}
+		
+		// this is the first time the book was opened so add its name and the current defaults 
+		// to the dictionary along with the folder path it was loaded from.
+		NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook bookTitle] description],@"Title",
+								  [pathToMove description],@"FilePath",
+								  [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackRate]],@"Rate",
+								  [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackVolume]],@"Volume",
+								  [_userSetDefaults objectForKey:OleariaPlaybackVoice],@"Voice", 
+								  nil];
+		
+		NSDictionary *newBook = [[NSDictionary alloc] initWithObjectsAndKeys:defaultSettings, @"Book", nil];
+		// put it at the beginning of the recent files list
+		[_recentBooks insertObject:newBook atIndex:0];
+		[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES]; // save the newly added book
+		
+		// set the book to the just saved defaults	
+		self.talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
+		self.talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
+		self.talkingBook.preferredVoice = [_userSetDefaults objectForKey:OleariaPlaybackVoice];
+		
+	}
+	
+	//NSLog(@"recent books list \n%@",_recentBooks);
+/*	
+	// get the settings that have been saved previously
+	NSDictionary *updatedSettings = [NSDictionary dictionaryWithDictionary:[_recentBooks objectAtIndex:0]];
+	// set the book to the saved settings	
+	talkingBook.playbackRate = [[updatedSettings valueForKeyPath:@"Book.Rate"] floatValue];
+	talkingBook.playbackVolume = [[updatedSettings valueForKeyPath:@"Book.Volume"] floatValue];
+	talkingBook.preferredVoice = [updatedSettings valueForKeyPath:@"Book.Voice"];
+*/
+ 
+ }
+
+- (void)populateRecentFilesMenu
+{
+	/*
+	int i;
+	NSInteger items = [openRecentMenu numberOfItems] -1;
+	if(items > 1)
+	{ 
+		for(i = 0; i < items ; i++)
+			[openRecentMenu removeItemAtIndex:0];
+	}
+	*/
+	NSArray *bookTitles = [_recentBooks valueForKeyPath:@"Book.Title"];
+	
+	for(NSString *aTitle in bookTitles)
+	{
+		[openRecentMenu addItemWithTitle:aTitle action:NULL keyEquivalent:@""];
+		
+	}
+/*	
+	for(NSDictionary *bookSettings in _recentBooks)
+	{
+		
+		//NSString *keyPath = [NSString stringWithFormat:@"%@.Title",[[bookSettings allKeys] objectAtIndex:0]];
+		NSLog(@"%@",[bookSettings valueForKey:@"Title"]);
+		NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:[bookSettings valueForKey:@"Title"] action:NULL keyEquivalent:@""];
+		[openRecentMenu addItem:newItem];
+	}
+ */
+}
+
++ (void)setupDefaults
+{
+    NSMutableDictionary *defaultValuesDict = [NSMutableDictionary dictionary];
+	NSDictionary *initialValuesDict;
+	NSArray *resettableKeys;
+	
+	// setup the default values for our prefs keys
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackRate];
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaPlaybackVolume];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
+	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
+	
+	// set them in the shared user defaults
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults:defaultValuesDict];
+	
+	// set the keys for the resetable prefs -- these make a subset of the entire userdefaults dict
+    resettableKeys=[NSArray arrayWithObjects:OleariaPlaybackRate, 
+					OleariaPlaybackVoice, 
+					OleariaPlaybackVolume, 
+					OleariaUseVoiceForPlayback, 
+					OleariaChapterSkipIncrement,
+					nil];
+	
+    // get the values for the specified keys
+	initialValuesDict=[defaultValuesDict dictionaryWithValuesForKeys:resettableKeys];
+    // Set the initial values in the shared user defaults controller
+    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
+	
+}
+
+- (NSString *)applicationSupportFolder 
+{
+	// return the application support folder relative to the users home folder 
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	// set the folder name if the array has an item otherwise use a temp folder
+	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+	
+	// add the name of the application and return it
+	return [basePath stringByAppendingPathComponent:@"Olearia"];
+}
+
+@synthesize talkingBook, _recentBooks, _recentBooksPlistPath;
 
 @end
