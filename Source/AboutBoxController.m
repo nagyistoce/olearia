@@ -61,7 +61,7 @@
 	
 	[copyrightField setStringValue:[infoDict valueForKey:@"NSHumanReadableCopyright"]];
 	
-	NSString *creditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"];
+	NSString *creditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 	
 	NSAttributedString *creditsString = [[NSAttributedString alloc] initWithPath:creditsPath 
 										  documentAttributes:nil];

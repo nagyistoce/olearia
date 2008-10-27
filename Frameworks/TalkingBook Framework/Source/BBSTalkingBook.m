@@ -183,12 +183,10 @@
 			}
 
 		}
-		else // no opf file found -- this should never happen
-			// dropback to the ncx file.
+		else // no opf file found - so dropback to the ncx file.
 		{	
 			_hasControlFile = [self openControlDocument:aURL];
 			fileOpenedOK = _hasControlFile;
-			
 		}
 	}
 	else
@@ -212,11 +210,6 @@
 					
 				_hasControlFile = [self openControlDocument:ncxURL];
 				
-			}
-			else
-			{	// we failed to open the opf file 
-				//fileOpenedOK = NO;
-				// send an error to the user that the file couldnt be opened
 			}
 		}
 		
@@ -363,16 +356,12 @@
 
 - (BOOL)nextSegment
 {
-	//NSString *audioSegmentFilename;
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
 		// get the filename of the next audio file to play from the ncx file
 		[_controlDoc moveToNextSegment];
-		//audioSegmentFilename = [_controlDoc nextSegmentAudioFilePath];
-		//audioSegmentFilename = [_controlDoc currentAudioFilename];
-		
-		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+
 		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 	
@@ -381,34 +370,29 @@
 
 - (BOOL)nextSegmentOnLevel
 {
-	//NSString *audioSegmentFilename = nil;
 	BOOL fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
-		// get the filename of the next file to play from the ncx file
+		// move to the next segment at the current level
 		[_controlDoc setLoadFromCurrentLevel:YES];
-
 		[_controlDoc moveToNextSegment];
-	
+		
+		// update the audio segment
 		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
-	
-
-		
+			
 	return fileDidUpdate;
 }
 
 - (BOOL)previousSegment 
 {
-	//NSString *audioSegmentFilename = nil;
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
-		// get the filename of the next audio file to play from the ncx file
-		//audioSegmentFilename = [_controlDoc previousSegmentAudioFilePath];
+		// move to the previous segment of the book
 		[_controlDoc moveToPreviousSegment];
-		//audioSegmentFilename = [_controlDoc currentAudioFilename];
-		//fileDidUpdate = [self updateAudioFile:audioSegmentFilename];
+
+		// update the audio segment 
 		fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 
 	}
@@ -420,7 +404,7 @@
 {
 	if(_hasControlFile)
 	{
-		//NSString *audioFilePath = [_controlDoc goUpALevel];
+
 		[_currentAudioFile stop];
 		
 		[_controlDoc goUpALevel];
@@ -428,13 +412,6 @@
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 		
 		[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
-		
-		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-		
-		
-		
-		
-		
 		
 	}
 	
@@ -450,20 +427,12 @@
 		// check that we can go down a level
 		if([_controlDoc canGoDownLevel])
 		{	
-			//NSString *audioFilePath = [_controlDoc goDownALevel];
 			[_currentAudioFile stop];
 			
 			[_controlDoc goDownALevel];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 			[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
-			
-			//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-			
-			
-	
-
-			
 			
 		}
 		else if(_hasPageNavigation)
@@ -472,7 +441,6 @@
 			
 		}
 
-	
 		[self updateForPosInBook];
 		
 	}
@@ -488,7 +456,6 @@
 {
 	if((_currentChapterIndex + 1) < _totalChapters)
 	{
-		
 		_currentChapterIndex++;
 		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
 		self.hasNextChapter = (_currentChapterIndex < (_totalChapters - 1)) ? YES : NO;
@@ -536,14 +503,14 @@
 	{
 		playbackRate = aRate;
 		[_currentAudioFile setRate:aRate];
-		// this is a workaround for the current issue where setting the 
-		// playback speed automatically starts playback
+		
 		if(NO == isPlaying) 
 		{	
+			// this is a workaround for the current issue where setting the 
+			// playback speed automatically starts playback
 			[_currentAudioFile stop];
 			[_currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
 		}
-
 	}
 }
 
@@ -559,8 +526,7 @@
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
 	[speechSynth setVoice:aVoiceID];
-
-	
+	preferredVoice = aVoiceID;
 }
 - (void)setChapterSkipIncrement:(float)anIncrement;
 {
@@ -599,14 +565,13 @@
 	_controlDoc = nil;
 	smilDoc = nil;
 	textDoc = nil;
-	
+	bookIsAlreadyLoaded = NO;
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
 	_controlMode = UnknownBookType; // set the default book type
 	_currentSegmentFilename = @"";
 	_mediaFormat = unknownMediaFormat;
-	
 	
 	_totalChapters = 0;
 	
@@ -696,24 +661,20 @@
 						}
 						[self updateForPosInBook];
 					}
-					
 				}
 				loadedOK = YES;
 			}
-						
 		}
 		else
 		{
 			loadedOK = YES;
 			[self updateForPosInBook];
 		}
-				
-		
 	}
 	
 	
 
-	if((_currentAudioFile == nil) || (loadedOK == NO))
+	if((nil == _currentAudioFile) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert setMessageText:@"Audio File Error"];
@@ -722,13 +683,8 @@
 		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
 		
-				
 		return NO;
-		
 	}
-	
-	
-	
 	
 	return YES;
 }
@@ -775,7 +731,6 @@
 	[_currentAudioFile setVolume:self.playbackVolume];
 	[_currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
 	[_currentAudioFile setDelegate:self];
-	
 }
 
 
