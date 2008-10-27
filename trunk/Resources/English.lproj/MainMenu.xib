@@ -10,7 +10,7 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="956"/>
 			<integer value="21"/>
-			<integer value="1194"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1161,14 +1161,14 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 								</object>
 								<object class="NSMenuItem" id="44108939">
 									<reference key="NSMenu" ref="718145057"/>
-									<string key="NSTitle">Open Recent</string>
+									<string key="NSTitle">Recent Books</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="303918473"/>
 									<reference key="NSMixedImage" ref="594638496"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="87576856">
-										<string key="NSTitle">Open Recent</string>
+										<string key="NSTitle">Recent Books</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 										</object>
@@ -3399,19 +3399,19 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">openRecentMenu</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="87576856"/>
-					</object>
-					<int key="connectionID">1196</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="87576856"/>
 						<reference key="destination" ref="402644559"/>
 					</object>
 					<int key="connectionID">1197</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">recentBooksMenu</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="87576856"/>
+					</object>
+					<int key="connectionID">1198</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4465,7 +4465,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{313, 783}, {64, 6}}</string>
+					<string>{{317, 783}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
@@ -4863,7 +4863,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{147, 766}, {166, 43}}</string>
+					<string>{{147, 766}, {170, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5031,7 +5031,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1197</int>
+			<int key="maxID">1198</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5131,7 +5131,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>mainWindow</string>
 							<string>nextButton</string>
 							<string>nextSegmentMenuItem</string>
-							<string>openRecentMenu</string>
 							<string>playPauseButton</string>
 							<string>playPauseMenuItem</string>
 							<string>playbackSpeedSlider</string>
@@ -5140,6 +5139,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>playbackVolumeTextfield</string>
 							<string>prevButton</string>
 							<string>prevSegmentMenuItem</string>
+							<string>recentBooksMenu</string>
 							<string>segmentTitleTextfield</string>
 							<string>soundView</string>
 							<string>toolsBox</string>
@@ -5163,15 +5163,15 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>NSWindow</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
+							<string>NSButton</string>
+							<string>NSMenuItem</string>
+							<string>NSSlider</string>
+							<string>NSTextField</string>
+							<string>NSSlider</string>
+							<string>NSTextField</string>
+							<string>NSButton</string>
+							<string>NSMenuItem</string>
 							<string>NSMenu</string>
-							<string>NSButton</string>
-							<string>NSMenuItem</string>
-							<string>NSSlider</string>
-							<string>NSTextField</string>
-							<string>NSSlider</string>
-							<string>NSTextField</string>
-							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSTextField</string>
 							<string>NSView</string>
 							<string>NSBox</string>

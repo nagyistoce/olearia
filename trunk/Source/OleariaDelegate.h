@@ -81,7 +81,7 @@ extern NSString * const OleariaEnableVoiceOnLevelChange;
 	IBOutlet NSMenuItem		*prevSegmentMenuItem;
 	IBOutlet NSMenuItem		*fastForwardMenuItem;
 	IBOutlet NSMenuItem		*fastBackMenuItem;
-	IBOutlet NSMenu			*openRecentMenu;
+	IBOutlet NSMenu			*recentBooksMenu;
 	
 }
 
