@@ -52,6 +52,7 @@
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
 		EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */; };
 		EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */; };
+		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79940E6628F5006AC5F8 /* MainMenu.xib */; };
@@ -171,6 +172,7 @@
 		EE66492E0E5DB1750096304D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBXmlContentDoc.h; path = Source/BBSTBXmlContentDoc.h; sourceTree = "<group>"; };
 		EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBXmlContentDoc.m; path = Source/BBSTBXmlContentDoc.m; sourceTree = "<group>"; };
+		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
 		EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				EEEB96E10E8DF22100D77B4D /* prefs_gen.png */,
 				EEEB96C50E8DE7B300D77B4D /* UpArrow.png */,
 				EEEB96C60E8DE7B300D77B4D /* SoundPref.png */,
+				EE89DED50EB5BFCB0017EB9D /* Speech.png */,
 				EEEB96C70E8DE7B300D77B4D /* info.png */,
 				EEEB96C80E8DE7B300D77B4D /* gotoPage.png */,
 				EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */,
@@ -602,6 +605,7 @@
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
 				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
+				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

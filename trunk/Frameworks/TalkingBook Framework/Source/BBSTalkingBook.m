@@ -404,19 +404,25 @@
 {
 	if(_hasControlFile)
 	{
-
-		[_currentAudioFile stop];
-		
 		[_controlDoc goUpALevel];
 		
 		self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-		
-		[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
-		
 	}
 	
 	[self updateForPosInBook];
-		
+	
+	if(speakUserLevelChange)
+	{
+		[_currentAudioFile stop];
+		[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+	}
+	else
+	{
+		// update the audio segment 
+		[self updateAudioFile:[_controlDoc currentAudioFilename]];
+		[_currentAudioFile play];
+	}
+
 }
 
 - (void)downOneLevel
@@ -427,13 +433,9 @@
 		// check that we can go down a level
 		if([_controlDoc canGoDownLevel])
 		{	
-			[_currentAudioFile stop];
-			
 			[_controlDoc goDownALevel];
+			
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-			
-			[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
-			
 		}
 		else if(_hasPageNavigation)
 		{
@@ -443,6 +445,17 @@
 
 		[self updateForPosInBook];
 		
+		if(speakUserLevelChange)
+		{
+			[_currentAudioFile stop];
+			[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+		}
+		else
+		{
+			// update the audio segment 
+			[self updateAudioFile:[_controlDoc currentAudioFilename]];
+			[_currentAudioFile play];
+		}
 	}
 	
 }
@@ -816,8 +829,8 @@
 @synthesize _currentChapterIndex, _totalChapters;
 @synthesize _controlMode;
 @synthesize textDoc, smilDoc;
-@synthesize _bookPath, _currentSegmentFilename;
-@synthesize bookIsAlreadyLoaded, fullBookPath;
+@synthesize _bookPath, _currentSegmentFilename, fullBookPath;
+@synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
 
 @synthesize _currentAudioFile;
 
