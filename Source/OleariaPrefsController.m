@@ -82,6 +82,18 @@
 	
 }
 
+- (IBAction)displayVoicePrefsView:(id)sender
+{
+	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
+	if(currentView != voicePrefsView)
+	{
+		[[NSAnimationContext currentContext] setDuration:0.5];
+		[[[prefsWindow contentView] animator] replaceSubview:currentView with:voicePrefsView];
+	}
+	
+	
+}
+
 - (IBAction)setSelectedPlaybackVoice:(id)sender
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

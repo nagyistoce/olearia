@@ -45,9 +45,9 @@ typedef enum
 	float					playbackRate;
 	float					playbackVolume;
 	float					chapterSkipIncrement;
-	BOOL					OverrideRecordedContent;
-	BOOL					UseVoiceOnLevelChange;
-	
+	BOOL					overrideRecordedContent;
+	BOOL					speakUserLevelChange;
+	BOOL					bookIsAlreadyLoaded;
 	
 	NSSpeechSynthesizer		*speechSynth;
 //  NSMutableDictionary		*bookSettings;
@@ -91,7 +91,7 @@ typedef enum
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
 	BOOL					_hasWordNavigation;
-	BOOL					bookIsAlreadyLoaded;
+
 	QTMovie					*_currentAudioFile;
 	
 	// bindings ivars
@@ -134,13 +134,14 @@ typedef enum
 
 @property (readwrite, retain) BBSTBControlDoc *_controlDoc;
 @property (readwrite, retain) BBSTBPackageDoc *_packageDoc;
-//@property (readwrite, retain) NSMutableDictionary *bookSettings;
 
 @property (readwrite,retain)	NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
 @property (readwrite)			float		chapterSkipIncrement;
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
+@property (readwrite)			BOOL		overrideRecordedContent;
+@property (readwrite)			BOOL		speakUserLevelChange;
 @property (readwrite, retain)	NSString	*fullBookPath;
 
 

@@ -538,6 +538,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 			self.talkingBook.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
 			self.talkingBook.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
 			self.talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
+			self.talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
 			// only change the recent items position if its not already at the top of the list
 			if(foundIndex > 0)
@@ -574,6 +575,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 			self.talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
 			self.talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
 			self.talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
+			self.talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
 			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:talkingBook.bookTitle action:@selector(openRecentBook:) keyEquivalent:@""];
 			[recentBooksMenu insertItem:newItem atIndex:0];
