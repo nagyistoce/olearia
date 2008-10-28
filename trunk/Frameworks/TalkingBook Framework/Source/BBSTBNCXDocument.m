@@ -63,6 +63,7 @@
 
 - (NSInteger)documentVersion;
 - (NSString *)filenameFromID:(NSString *)anIdString;
+- (NSInteger)levelOfNode:(NSXMLNode *)aNode;
 - (void)nextSegment;
 - (void)previousSegment;
 - (NSString *)currentSegmentFilename;
@@ -100,8 +101,8 @@
 			self.parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
 			// these all may be nil depending on the type of book we are reading
 			self.ncxRootElement = [ncxDoc rootElement];
-			[ncxRootElement detach];
-			self.ncxDoc = nil;
+			//[ncxRootElement detach];
+			//self.ncxDoc = nil;
 			self.metaData = [self processMetadata]; 
 			
 			totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
@@ -117,7 +118,7 @@
 				self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
 			}
 			 
-			self.currentLevel = 1;
+			currentLevel = 1;
 			isOK = YES;
 		}
 		else  
@@ -235,17 +236,19 @@
 	NSString *audioFilename = nil;
 	
 	if([self canGoDownLevel]) // first check if we can go down a level
-	{	self.currentLevel++; // increment the level index
-		self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+	{	
+		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+		currentLevel = [self levelOfNode:currentNavPoint]; // increment the level index
+		
 		// set the segment attributes for the current navPoint
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
+		segmentAttributes = [navpPointAsElement dictionaryFromElement];
+		segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
 
 		audioFilename = [self currentSegmentFilename];
 	}
 	
-	self.currentAudioFilename = audioFilename;
+	currentAudioFilename = audioFilename;
 }
 
 - (void)goUpALevel
@@ -254,12 +257,13 @@
 	
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
-		self.currentLevel--; // decrement the level index
-		self.currentNavPoint = [currentNavPoint parent];
+		currentNavPoint = [currentNavPoint parent];
+		currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
+		
 		// set the segment attributes for the current navPoint
 		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
+		segmentAttributes = [navpPointAsElement dictionaryFromElement];
+		segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
 
 		audioFilename = [self currentSegmentFilename];
 	}
@@ -396,6 +400,28 @@
 	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
 		
 }
+
+- (NSInteger)levelOfNode:(NSXMLNode *)aNode
+{
+	NSInteger thislevel = currentLevel;
+	NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
+	NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
+	
+	if(nil != attribContent) // check that we have something to evaluate
+	{
+		// get the ascii code of the characters at index 0 and 1
+		unichar prefixChar = [attribContent characterAtIndex:0];
+		unichar levelChar =  [attribContent characterAtIndex:1];
+		
+		if(('h' == prefixChar) && (YES == isdigit(levelChar)))
+		{
+			thislevel = levelChar - 48;
+		}
+	}
+	
+	return thislevel;
+}
+
 
 - (NSDictionary *)processMetadata
 {
@@ -547,18 +573,8 @@
 	
 	return tempNavMapPoints;
 }
-/*
-- (NSUInteger)navPointsOnCurrentLevel
-{
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
-}
 
-- (NSUInteger)navPointIndexOnCurrentLevel
-{
-	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
-}
-*/
+
 
 #pragma mark -
 #pragma mark Dynamic Accessors
@@ -598,6 +614,32 @@
 	return nil;
 	
 }
+
+- (NSString *)currentPositionID
+{
+	return [currentNavPoint XPath];
+}
+
+- (void)setCurrentPositionID:(NSString *)anID
+{
+	// we trim the root path off the passed in path
+	//NSRange rootEndPos = [anID rangeOfString:@"/"];
+	//if(rootEndPos.location > 0)
+	//{
+	//	NSString *newPath = [anID substringFromIndex:(rootEndPos.location + 1)]; 
+		//NSXMLNode *rootAsNode = (NSXMLNode *)ncxDoc;
+		NSArray *nodesFromQuery = [ncxDoc nodesForXPath:anID error:nil];
+		
+		if([nodesFromQuery count] > 0)
+		{	
+			currentNavPoint = [nodesFromQuery objectAtIndex:0];
+			currentLevel = [self levelOfNode:currentNavPoint];
+		}
+		
+	
+	//}
+}
+
 
 #pragma mark -
 #pragma mark Synthesized ivars

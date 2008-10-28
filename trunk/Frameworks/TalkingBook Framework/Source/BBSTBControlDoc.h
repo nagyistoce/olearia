@@ -38,6 +38,7 @@
 	
 	id					controlDocument;
 	NSString			*currentAudioFilename;
+	NSString			*currentPositionID;
 	
 }
 
@@ -61,7 +62,7 @@
 @property (readonly, retain) NSString *documentUID;
 @property (readonly, retain) NSString *segmentTitle;
 @property (readonly, retain) NSString *currentAudioFilename;
-
+@property (readwrite,retain) NSString *currentPositionID;
 
 
 @end

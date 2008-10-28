@@ -56,7 +56,7 @@
 @property (readwrite) QTTime _skipDuration;
 
 @property (readwrite) NSInteger	maxLevels;
-@property (readwrite) NSInteger	currentPageIndex;
+//@property (readwrite) NSInteger	currentPageIndex;
 @property (readwrite) NSInteger _totalChapters;
 @property (readwrite) NSInteger _currentChapterIndex;
 
@@ -547,6 +547,24 @@
 	_skipDuration = QTMakeTimeWithTimeInterval((double)anIncrement * (double)60);
 }
 
+- (void)setPlayPosition:(NSString *)aPos
+{
+	if(_hasControlFile)
+	{
+		[_controlDoc setCurrentPositionID:aPos];
+	}
+}
+
+- (NSString *)playPosition
+{
+	if(_hasControlFile)
+	{
+		return [_controlDoc currentPositionID];
+	}
+	
+	return nil;
+}
+
 #pragma mark -
 #pragma mark Private Methods
 
@@ -825,7 +843,7 @@
 @synthesize _skipDuration;
 @synthesize _controlDoc,_packageDoc;
 @synthesize speechSynth, preferredVoice;
-@synthesize playbackRate, playbackVolume, currentPageIndex, chapterSkipIncrement, maxLevels;
+@synthesize playbackRate, playbackVolume,  chapterSkipIncrement, maxLevels;
 @synthesize _currentChapterIndex, _totalChapters;
 @synthesize _controlMode;
 @synthesize textDoc, smilDoc;
@@ -833,6 +851,8 @@
 @synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
 
 @synthesize _currentAudioFile;
+//@synthesize currentPageIndex;
+@synthesize playPosition;
 
 // bindings related
 @synthesize bookTitle, currentSectionTitle;

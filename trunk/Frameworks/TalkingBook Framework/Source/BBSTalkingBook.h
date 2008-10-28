@@ -60,10 +60,11 @@ typedef enum
 	NSInteger				_totalChapters;
 	NSInteger				_currentLevelIndex;
 	
-	NSInteger				currentPageIndex;
+	NSString				*playPosition;
 	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
+//	NSInteger				currentPlayIndex;
 	
 	QTTime					_skipDuration;
 	
@@ -139,6 +140,7 @@ typedef enum
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
 @property (readwrite)			float		chapterSkipIncrement;
+@property (readwrite,retain)	NSString	*playPosition;
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
 @property (readwrite)			BOOL		speakUserLevelChange;
@@ -146,7 +148,7 @@ typedef enum
 
 
 @property (readonly)		NSInteger	maxLevels;
-@property (readonly)		NSInteger	currentPageIndex;
+//@property (readonly)		NSInteger	currentPageIndex;
 
 @property (retain,readonly)		BBSTBTextDocument		*textDoc;
 

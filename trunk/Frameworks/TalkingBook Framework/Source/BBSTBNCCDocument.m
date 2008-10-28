@@ -701,6 +701,19 @@
 }
 
 #pragma mark -
+#pragma mark Accessor Methods
+
+- (NSString *)currentPositionID
+{
+	return [NSString stringWithFormat:@"%d",_currentNodeIndex];
+}
+
+- (void)setCurrentPositionID:(NSString *)anID
+{
+	_currentNodeIndex = [anID intValue];
+}
+
+#pragma mark -
 #pragma mark Synthesized ivars
 
 @synthesize currentLevel, totalPages, totalTargetPages, currentPageNumber;
