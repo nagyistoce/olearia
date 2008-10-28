@@ -508,14 +508,15 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
     
 	if(YES == shouldUpdate)
 	{
-			// get the settings that have been saved for the previously loaded book
-			NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:0]];
-
-			// get the current settings from the book and save them to the recent files list
-			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKey:@"Rate"];
-			[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKey:@"Volume"];
-			[oldSettings setValue:[self.talkingBook.preferredVoice description] forKey:@"Voice"];
-			[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
+		// get the settings that have been saved for the previously loaded book
+		NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:0]];
+		
+		// get the current settings from the book and save them to the recent files list
+		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKey:@"Rate"];
+		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKey:@"Volume"];
+		[oldSettings setValue:[talkingBook.preferredVoice description] forKey:@"Voice"];
+		[oldSettings setValue:[talkingBook.playPosition description] forKey:@"PlayPosition"];
+		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 	}
 
 	if(nil != pathToMove)
@@ -539,6 +540,9 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 			self.talkingBook.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
 			self.talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
 			self.talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
+			if(nil != [newSettings valueForKey:@"PlayPosition"])
+				self.talkingBook.playPosition = [newSettings valueForKey:@"PlayPosition"];
+			
 			
 			// only change the recent items position if its not already at the top of the list
 			if(foundIndex > 0)

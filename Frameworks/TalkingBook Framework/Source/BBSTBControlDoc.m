@@ -119,7 +119,7 @@
 @synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;
 @synthesize segmentTitle, bookTitle, documentUID;
-@synthesize currentAudioFilename;
+@synthesize currentAudioFilename, currentPositionID;
 
 
 @end
