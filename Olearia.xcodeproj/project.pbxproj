@@ -11,6 +11,9 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
+		9D12C0CA0EB8F1DA0091FBA3 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0C80EB8F1DA0091FBA3 /* MainMenu.nib */; };
+		9D12C0D00EB8F2030091FBA3 /* About.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0CE0EB8F2030091FBA3 /* About.nib */; };
+		9D12C0D40EB8F21C0091FBA3 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0D20EB8F21C0091FBA3 /* Preferences.nib */; };
 		EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74850E3B5106001CF3C2 /* daisyicons.icns */; };
 		EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74860E3B5106001CF3C2 /* olearia.icns */; };
 		EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74870E3B5106001CF3C2 /* SMILicons.icns */; };
@@ -56,8 +59,6 @@
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
-		EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79940E6628F5006AC5F8 /* MainMenu.xib */; };
-		EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79960E662903006AC5F8 /* Preferences.xib */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEB892380E38D73600580375 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB892360E38D73600580375 /* RegexKitLite.h */; };
 		EEB892390E38D73600580375 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB892370E38D73600580375 /* RegexKitLite.m */; };
@@ -65,7 +66,6 @@
 		EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB893010E3A160100580375 /* NSString-BBSAdditions.m */; };
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
 		EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA960E3C7C160000512D /* gplv3.tiff */; };
-		EEC1AB780E3C91F50000512D /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB760E3C91F50000512D /* About.xib */; };
 		EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */; };
 		EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */; };
 		EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C50E8DE7B300D77B4D /* UpArrow.png */; };
@@ -121,7 +121,6 @@
 		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -129,6 +128,9 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Olearia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olearia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D12C0470EB7960F0091FBA3 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
+		9D12C0C90EB8F1DA0091FBA3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		9D12C0CF0EB8F2030091FBA3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
+		9D12C0D30EB8F21C0091FBA3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EE0A74850E3B5106001CF3C2 /* daisyicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = daisyicons.icns; sourceTree = "<group>"; };
 		EE0A74860E3B5106001CF3C2 /* olearia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = olearia.icns; sourceTree = "<group>"; };
 		EE0A74870E3B5106001CF3C2 /* SMILicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SMILicons.icns; sourceTree = "<group>"; };
@@ -184,8 +186,6 @@
 		EEB893010E3A160100580375 /* NSString-BBSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-BBSAdditions.m"; sourceTree = "<group>"; };
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
 		EEC1AA960E3C7C160000512D /* gplv3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gplv3.tiff; sourceTree = "<group>"; };
-		EEC1AB770E3C91F50000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
-		EEC1AB850E3C93FF0000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBPackageDoc.h; path = Source/BBSTBPackageDoc.h; sourceTree = "<group>"; };
 		EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBPackageDoc.m; path = Source/BBSTBPackageDoc.m; sourceTree = "<group>"; };
 		EEEB96C50E8DE7B300D77B4D /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
@@ -281,6 +281,9 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9D12C0C80EB8F1DA0091FBA3 /* MainMenu.nib */,
+				9D12C0CE0EB8F2030091FBA3 /* About.nib */,
+				9D12C0D20EB8F21C0091FBA3 /* Preferences.nib */,
 				9D12C0470EB7960F0091FBA3 /* Help */,
 				EE394C350EA88898001DC23C /* Credits.rtf */,
 				EEC1AA960E3C7C160000512D /* gplv3.tiff */,
@@ -289,9 +292,6 @@
 				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				EE9F79940E6628F5006AC5F8 /* MainMenu.xib */,
-				EEC1AB760E3C91F50000512D /* About.xib */,
-				EE9F79960E662903006AC5F8 /* Preferences.xib */,
 			);
 			name = "Olearia Resources";
 			path = Resources;
@@ -575,7 +575,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */,
 				EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */,
 				EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */,
 				EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */,
@@ -592,8 +591,6 @@
 				EE0A74AE0E3B522A001CF3C2 /* HC-UpLevel.png in Resources */,
 				EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */,
 				EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */,
-				EEC1AB780E3C91F50000512D /* About.xib in Resources */,
-				EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */,
 				EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */,
 				EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */,
 				EEEB96D30E8DE7B400D77B4D /* info.png in Resources */,
@@ -610,6 +607,9 @@
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
+				9D12C0CA0EB8F1DA0091FBA3 /* MainMenu.nib in Resources */,
+				9D12C0D00EB8F2030091FBA3 /* About.nib in Resources */,
+				9D12C0D40EB8F21C0091FBA3 /* Preferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,28 +704,31 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		EE9F79940E6628F5006AC5F8 /* MainMenu.xib */ = {
+		9D12C0C80EB8F1DA0091FBA3 /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1DDD58150DA1D0A300B32029 /* English */,
+				9D12C0C90EB8F1DA0091FBA3 /* English */,
 			);
-			name = MainMenu.xib;
+			name = MainMenu.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		EE9F79960E662903006AC5F8 /* Preferences.xib */ = {
+		9D12C0CE0EB8F2030091FBA3 /* About.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EEC1AB850E3C93FF0000512D /* English */,
+				9D12C0CF0EB8F2030091FBA3 /* English */,
 			);
-			name = Preferences.xib;
+			name = About.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		EEC1AB760E3C91F50000512D /* About.xib */ = {
+		9D12C0D20EB8F21C0091FBA3 /* Preferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EEC1AB770E3C91F50000512D /* English */,
+				9D12C0D30EB8F21C0091FBA3 /* English */,
 			);
-			name = About.xib;
+			name = Preferences.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
