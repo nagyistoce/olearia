@@ -48,9 +48,10 @@ typedef enum
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsAlreadyLoaded;
+	BOOL					shouldJumpToTime;
+	NSString				*audioSegmentTimePosition;
 	
 	NSSpeechSynthesizer		*speechSynth;
-//  NSMutableDictionary		*bookSettings;
 	
 	TalkingBookType			_controlMode;
 	levelControlMode		_levelNavConMode;
@@ -60,19 +61,16 @@ typedef enum
 	NSInteger				_totalChapters;
 	NSInteger				_currentLevelIndex;
 	
-	NSString				*playPosition;
+	//NSString				*playPosition;
 	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
-//	NSInteger				currentPlayIndex;
 	
 	QTTime					_skipDuration;
 	
-
 	id						_controlDoc;
 	id						_packageDoc;
 	
-
 	BBSTBTextDocument		*textDoc;
 	BBSTBSMILDocument		*smilDoc;
 	
@@ -80,6 +78,7 @@ typedef enum
 	NSString				*_bookPath;
 	NSString				*_currentSegmentFilename;
 	NSString				*fullBookPath;
+	
 	
 	
 	NSNotificationCenter	*TalkingBookNotificationCenter;
@@ -140,15 +139,16 @@ typedef enum
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
 @property (readwrite)			float		chapterSkipIncrement;
-@property (readwrite,retain)	NSString	*playPosition;
+@property (readwrite,retain)	NSString	*playPositionID;
+
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
 @property (readwrite)			BOOL		speakUserLevelChange;
+@property (readwrite)			BOOL		shouldJumpToTime;
+@property (readwrite, retain)	NSString	*audioSegmentTimePosition;
 @property (readwrite, retain)	NSString	*fullBookPath;
 
-
 @property (readonly)		NSInteger	maxLevels;
-//@property (readonly)		NSInteger	currentPageIndex;
 
 @property (retain,readonly)		BBSTBTextDocument		*textDoc;
 

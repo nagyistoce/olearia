@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="232"/>
 			<integer value="115"/>
+			<integer value="232"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -28,7 +28,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="565387208">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -37,7 +37,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{60, 214}, {235, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="669979057">
 							<int key="NSCellFlags">68288064</int>
@@ -74,7 +73,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{300, 212}, {45, 22}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="916950937">
 							<int key="NSCellFlags">-1804468671</int>
@@ -181,7 +179,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{365, 214}, {54, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="885648320">
 							<int key="NSCellFlags">68288064</int>
@@ -198,7 +195,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{147, 176}, {146, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1000701686">
 							<int key="NSCellFlags">68288064</int>
@@ -215,7 +211,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{147, 98}, {159, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="182230006">
 							<int key="NSCellFlags">68288064</int>
@@ -232,7 +227,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{344, 209}, {19, 27}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSStepperCell" key="NSCell" id="531543464">
 							<int key="NSCellFlags">917024</int>
@@ -250,7 +244,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{45, 142}, {390, 26}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="368230954">
 							<int key="NSCellFlags">-2079981824</int>
@@ -277,7 +270,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{45, 64}, {390, 26}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="21856244">
 							<int key="NSCellFlags">67501824</int>
@@ -300,7 +292,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{295, 176}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="404145613">
 							<int key="NSCellFlags">68288064</int>
@@ -386,7 +377,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{308, 98}, {25, 17}}</string>
 						<reference key="NSSuperview" ref="565387208"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1028425586">
 							<int key="NSCellFlags">68288064</int>
@@ -466,8 +456,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 300}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="350545759">
@@ -530,7 +518,7 @@
 						<reference key="NSSuperview" ref="350545759"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="59311409">
-							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags">604110336</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Use synthesized voice instead of recorded audio</string>
 							<reference key="NSSupport" ref="759661860"/>
@@ -553,7 +541,7 @@
 					<object class="NSButton" id="517507382">
 						<reference key="NSNextResponder" ref="350545759"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{51, 148}, {180, 18}}</string>
+						<string key="NSFrame">{{51, 172}, {180, 18}}</string>
 						<reference key="NSSuperview" ref="350545759"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="97988487">
@@ -578,11 +566,6 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="577670496">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>OleariaUseVoiceForPlayback</string>
-					<string>OleariaEnableVoiceOnLevelChange</string>
-				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="482730712">
@@ -1119,8 +1102,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="0" id="6"/>
-									<reference ref="6"/>
+									<reference ref="8"/>
+									<reference ref="8"/>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
@@ -1374,8 +1357,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="673740306"/>
 							<reference ref="398898579"/>
-							<reference ref="517507382"/>
 							<reference ref="777830164"/>
+							<reference ref="517507382"/>
 						</object>
 						<reference key="parent" ref="1002"/>
 						<string key="objectName">VoiceView</string>

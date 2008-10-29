@@ -97,7 +97,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleHelpBookFolder</key>
-	<string>help</string>
+	<string>Help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>Olearia Help</string>
 </dict>
