@@ -10,7 +10,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		9D12C06B0EB7960F0091FBA3 /* help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* help */; };
+		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
 		EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74850E3B5106001CF3C2 /* daisyicons.icns */; };
 		EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74860E3B5106001CF3C2 /* olearia.icns */; };
 		EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74870E3B5106001CF3C2 /* SMILicons.icns */; };
@@ -128,7 +128,7 @@
 		32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Olearia_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Olearia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olearia.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D12C0470EB7960F0091FBA3 /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = help; path = ../help; sourceTree = "<group>"; };
+		9D12C0470EB7960F0091FBA3 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		EE0A74850E3B5106001CF3C2 /* daisyicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = daisyicons.icns; sourceTree = "<group>"; };
 		EE0A74860E3B5106001CF3C2 /* olearia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = olearia.icns; sourceTree = "<group>"; };
 		EE0A74870E3B5106001CF3C2 /* SMILicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SMILicons.icns; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9D12C0470EB7960F0091FBA3 /* help */,
+				9D12C0470EB7960F0091FBA3 /* Help */,
 				EE394C350EA88898001DC23C /* Credits.rtf */,
 				EEC1AA960E3C7C160000512D /* gplv3.tiff */,
 				EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */,
@@ -609,7 +609,7 @@
 				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
-				9D12C06B0EB7960F0091FBA3 /* help in Resources */,
+				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,7 +735,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = "0.9 RC2";
+				APPLICATION_VERSION = "0.9.2 RC3";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
@@ -751,7 +751,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -782,7 +782,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = "0.9.1 RC3";
+				APPLICATION_VERSION = "0.9.2 RC3";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -830,7 +830,7 @@
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -920,7 +920,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;

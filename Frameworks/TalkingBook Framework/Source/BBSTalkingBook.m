@@ -547,7 +547,7 @@
 	_skipDuration = QTMakeTimeWithTimeInterval((double)anIncrement * (double)60);
 }
 
-- (void)setPlayPosition:(NSString *)aPos
+- (void)setPlayPositionID:(NSString *)aPos
 {
 	if(_hasControlFile)
 	{
@@ -555,7 +555,7 @@
 	}
 }
 
-- (NSString *)playPosition
+- (NSString *)playPositionID
 {
 	if(_hasControlFile)
 	{
@@ -563,6 +563,12 @@
 	}
 	
 	return nil;
+}
+
+- (NSString *)audioSegmentTimePosition
+{
+	
+	return	QTStringFromTime([_currentAudioFile currentTime]);
 }
 
 #pragma mark -
@@ -597,6 +603,7 @@
 	smilDoc = nil;
 	textDoc = nil;
 	bookIsAlreadyLoaded = NO;
+	shouldJumpToTime = NO;
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
@@ -667,7 +674,6 @@
 						}
 						else // we are currently using basic level navigation 
 						{
-							
 							chaptersArray = [NSArray arrayWithArray:[self makeChaptersOfDuration:_skipDuration forMovie:_currentAudioFile]];
 						}
 						
@@ -685,10 +691,8 @@
 							if(chaptersError == nil) // we successfully added the chapters to the file
 							{
 								_totalChapters = [_currentAudioFile chapterCount];
-								_currentChapterIndex = 0;
-								
+								_currentChapterIndex = 0;	
 							}
-							
 						}
 						[self updateForPosInBook];
 					}
@@ -703,7 +707,11 @@
 		}
 	}
 	
-	
+	if(shouldJumpToTime) //
+	{
+		shouldJumpToTime = NO; // reset the flag
+		[_currentAudioFile setCurrentTime:QTTimeFromString(audioSegmentTimePosition)];
+	}
 
 	if((nil == _currentAudioFile) || (loadedOK == NO))
 	{	
@@ -852,7 +860,7 @@
 
 @synthesize _currentAudioFile;
 //@synthesize currentPageIndex;
-@synthesize playPosition;
+@synthesize playPositionID, audioSegmentTimePosition, shouldJumpToTime;
 
 // bindings related
 @synthesize bookTitle, currentSectionTitle;

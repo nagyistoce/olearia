@@ -514,8 +514,9 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 		// get the current settings from the book and save them to the recent files list
 		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKey:@"Rate"];
 		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKey:@"Volume"];
-		[oldSettings setValue:[talkingBook.preferredVoice description] forKey:@"Voice"];
-		[oldSettings setValue:[talkingBook.playPosition description] forKey:@"PlayPosition"];
+		[oldSettings setValue:talkingBook.preferredVoice forKey:@"Voice"];
+		[oldSettings setValue:talkingBook.playPositionID forKey:@"PlayPosition"];
+		[oldSettings setValue:talkingBook.audioSegmentTimePosition forKey:@"TimePosition"];
 		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 	}
 
@@ -536,12 +537,20 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 			
 			
 			// set the newly loaded book to the settings that were saved for it	
-			self.talkingBook.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
-			self.talkingBook.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
-			self.talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
-			self.talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
+			talkingBook.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
+			talkingBook.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
+			talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
+			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			if(nil != [newSettings valueForKey:@"PlayPosition"])
-				self.talkingBook.playPosition = [newSettings valueForKey:@"PlayPosition"];
+			{	
+				talkingBook.playPositionID = [newSettings valueForKey:@"PlayPosition"];
+				if(nil != [newSettings valueForKey:@"TimePosition"])
+				{
+					talkingBook.audioSegmentTimePosition = [newSettings valueForKey:@"TimePosition"];
+					talkingBook.shouldJumpToTime = YES;
+				}
+				
+			}
 			
 			
 			// only change the recent items position if its not already at the top of the list
@@ -576,10 +585,10 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 			[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES]; // save the newly added book
 			
 			// set the book to the defaults set in the preferences	
-			self.talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
-			self.talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
-			self.talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
-			self.talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
+			talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
+			talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
+			talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
+			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
 			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:talkingBook.bookTitle action:@selector(openRecentBook:) keyEquivalent:@""];
 			[recentBooksMenu insertItem:newItem atIndex:0];
