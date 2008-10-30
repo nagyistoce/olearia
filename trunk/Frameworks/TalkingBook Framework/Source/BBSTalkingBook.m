@@ -50,13 +50,12 @@
 - (void)updateChapterIndex;
 
 - (BOOL)openControlDocument:(NSURL *)aDocUrl;
-- (BOOL)openPackageDocument:(NSURL *)aDocUrl asType:(TalkingBookType)aType;
 
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
 @property (readwrite) QTTime _skipDuration;
 
 @property (readwrite) NSInteger	maxLevels;
-//@property (readwrite) NSInteger	currentPageIndex;
+
 @property (readwrite) NSInteger _totalChapters;
 @property (readwrite) NSInteger _currentChapterIndex;
 
@@ -161,7 +160,8 @@
 		{	
 			// it exists so make a url of it
 			fileURL = [[NSURL alloc] initFileURLWithPath:opfFilePath];
-			_hasPackageFile = [self openPackageDocument:fileURL asType:DTB2005Type];
+			_packageDoc = [[BBSTBOPFDocument alloc] init];
+			_hasPackageFile = [_packageDoc openPackageFileWithURL:fileURL];
 			if(_hasPackageFile)
 			{
 				
@@ -195,7 +195,8 @@
 		// check if its an OPF package file
 		if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
 		{
-			_hasPackageFile = [self openPackageDocument:aURL asType:DTB2005Type];
+			_packageDoc = [[BBSTBOPFDocument alloc] init];
+			_hasPackageFile = [_packageDoc openPackageFileWithURL:aURL];
 			if(_hasPackageFile)
 			{				
 				fileOpenedOK = _hasPackageFile;
@@ -231,9 +232,6 @@
 		if(_hasPackageFile)
 		{
 			_mediaFormat = [_packageDoc bookMediaFormat];
-			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != _mediaFormat))
-				[self setupAudioNotifications];
 
 			self.bookTitle = [_packageDoc bookTitle];
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
@@ -242,9 +240,7 @@
 		else if(_hasControlFile)
 		{
 			_mediaFormat = [_controlDoc bookMediaFormat];
-			// check that we have some sort of audio media in the file
-			if((TextNcxOrNccMediaFormat != _mediaFormat))
-				[self setupAudioNotifications];
+			
 			
 			if(0 == [_controlDoc totalPages])
 			{
@@ -261,6 +257,11 @@
 			self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
 			
 		}
+		
+		// check that we have some sort of audio media in the file
+		if((TextNcxOrNccMediaFormat != _mediaFormat))
+			[self setupAudioNotifications];
+		
 		
 		//update the interface with the initial values
 		[self updateForPosInBook];		
@@ -286,6 +287,7 @@
 				_controlDoc = [[BBSTBNCXDocument alloc] init];
 				break;
 			case bookshareNcxControlDocType:
+				break;
 			case nccControlDocType:
 				_controlDoc = [[BBSTBNCCDocument alloc] init];
 			default:
@@ -298,29 +300,6 @@
 	return loadedOK;
 }
 
-- (BOOL)openPackageDocument:(NSURL *)aDocUrl asType:(TalkingBookType)aType
-{
-	BOOL loadedOK = NO;
-	if(nil != aDocUrl)
-	{
-		switch (aType) 
-		{
-			case DTB2005Type:
-			case DTB2002Type:
-				_packageDoc = [[BBSTBOPFDocument alloc] init];
-				break;
-			case BookshareType:
-				
-				break;
-			default:
-				break;
-		}
-
-		loadedOK = (nil != _packageDoc) ? [_packageDoc openPackageFileWithURL:aDocUrl] : NO;
-	}		
-	
-	return loadedOK;
-}
 
 #pragma mark -
 #pragma mark Play Methods
@@ -651,7 +630,7 @@
 			_currentSegmentFilename = pathToFile;
 			
 			[_currentAudioFile stop]; // pause the playback if there is any currently playing
-			// open a temporary movie style file so we can extract the audio track from it
+			// open a temporary movie file so we can extract the audio track from it
 			QTMovie *audioOnlyMovie = [[QTMovie alloc] initWithFile:pathToFile error:&theError];
 			if(audioOnlyMovie != nil)
 			{
@@ -659,7 +638,7 @@
 				_currentAudioFile = [[QTMovie alloc] initWithQuickTimeMovie:[audioOnlyMovie quickTimeMovie] disposeWhenDone:YES error:&theError];
 				if(_currentAudioFile != nil)
 				{
-					// make the file editable and set the timescale for it to that of the audio track
+					// make the file editable and set the timescale for it 
 					[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
 					[_currentAudioFile setAttribute:[NSNumber numberWithLong:1000] forKey:QTMovieTimeScaleAttribute];
 					[self setPreferredAudioAttributes];
@@ -669,11 +648,12 @@
 						NSArray *chaptersArray;
 						if(_levelNavConMode > levelNavigationControlMode) 
 						{
-							// populate the chapters array with a default timescale of 1ms
+							// populate the chapters array with a timescale the same as the movie file we just initialized 
 							chaptersArray = [NSArray arrayWithArray:[_controlDoc chaptersForSegmentWithTimescale:(long)1000]];
 						}
 						else // we are currently using basic level navigation 
 						{
+							// set the chapter markers to the ones set in the prefs
 							chaptersArray = [NSArray arrayWithArray:[self makeChaptersOfDuration:_skipDuration forMovie:_currentAudioFile]];
 						}
 						
@@ -684,9 +664,8 @@
 							_currentChapterIndex = -1;
 							NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
 							// add the chapters track to the movie data
-							// dont check for errors because it doesnt really matter if we cant get chapter markers
+							// dont worry about errors because it doesnt really matter if we cant get chapter markers
 							NSError *chaptersError = nil;
-							
 							[_currentAudioFile addChapters:chaptersArray withAttributes:trackDict error:&chaptersError];
 							if(chaptersError == nil) // we successfully added the chapters to the file
 							{
