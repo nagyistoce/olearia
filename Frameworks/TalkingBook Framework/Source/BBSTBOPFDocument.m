@@ -141,31 +141,55 @@
 					self.bookMediaFormat = TextNcxOrNccMediaFormat;
 				else 
 					self.bookMediaFormat = unknownMediaFormat;
+				
 			}
 			else
 			{
 				self.bookMediaFormat = unknownMediaFormat;
+				
 			}
 			
 			
 			
 			[tempData removeAllObjects];
 			// get the ncx filename
-			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"//manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" error:nil]]; 
-			// there will only ever be 1 ncx file
-			self.ncxFilename = ([tempData count] == 1) ? [tempData objectAtIndex:0] : nil;
-			
-			[tempData removeAllObjects];
-			// get the xml content filename
-			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"//manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" error:nil]];
-			// there will only be one xml content file
-			self.xmlContentFilename = ([tempData count] == 1) ? [tempData objectAtIndex:0] : nil;
-			
+			// check th format type of the book
+			if(bookType == DTB2005Type)
+			{
+				[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" error:nil]]; 
+				if([tempData count] == 1)
+				{	
+					ncxFilename = [tempData objectAtIndex:0];
+					[tempData removeAllObjects];
+					
+					// now check for the xml content filename
+					[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" error:nil]];
+					if([tempData count] == 1)
+					{
+						xmlContentFilename = [tempData objectAtIndex:0];
+						isOK = YES;
+					}
+				}
+			}
+			else if((bookType == DTB2002Type) || (bookType == BookshareType))
+			{
+				[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" error:nil]];
+				if([tempData count] == 1)
+				{	
+					ncxFilename = [tempData objectAtIndex:0];
+					[tempData removeAllObjects];
+					
+					// now check for the xml content filename
+					[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.xml')] /data(@href)" error:nil]];
+					if([tempData count] == 1)
+					{
+						xmlContentFilename = [tempData objectAtIndex:0];
+						isOK = YES;
+					}
+				}
+			}
 			// release the tempdata array
 			tempData = nil;
-			
-			//NSLog(@" manifest = \n%@",[manifest allKeysForObject:@"application/x-dtbook+xml"]);
-			isOK = YES;
 		}
 	}
 	else // we got a nil return so display the error to the user
@@ -303,23 +327,6 @@
 }
 
 #pragma mark -
-#pragma mark Dynamic Methods
-
-/*
-// get the name of the ncx file as stored in the manifest
-- (NSString *)ncxFilename
-{
-	// get the ncx filename
-	NSString *ncxFile= [NSString stringWithString:[manifest valueForKeyPath:@"ncx.href"]];
-	// check if it wasnt there 
-	if(([ncxFile isEqualToString:@""]) || (ncxFile == nil))
-		return nil;
-	
-	return ncxFile;
-}
-*/
- 
-#pragma mark -
 #pragma mark Private Methods
 		
 - (BOOL)processMetadataSection:(NSXMLElement *)aRootElement
@@ -344,28 +351,28 @@
 			if([metaDataNode objectsForXQuery:@"//dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
 			{
 				// change the book type to Bookshare
-				self.bookType = BookshareType;
+				bookType = BookshareType;
 			}
 			else
 			{
 				// set the type to DTB 2002
-				self.bookType = DTB2002Type;
+				bookType = DTB2002Type;
 			}
 			
 		}
 		// check for DTB 2005 spec identifier
 		else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
 		{
-			self.bookType = DTB2005Type;
+			bookType = DTB2005Type;
 		}
 		else
 		{
 			// we dont know what type it is so set the unknown type
-			self.bookType = UnknownBookType;
+			bookType = UnknownBookType;
 		}
 		
 		// sanity check to see that we know what type of book we are opening
-		if(self.bookType != UnknownBookType)
+		if(bookType != UnknownBookType)
 		{
 			// set the book title
 			[nodeObjects removeAllObjects];
