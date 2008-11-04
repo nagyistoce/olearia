@@ -31,6 +31,7 @@ NSString * const OleariaPlaybackVoice = @"OleariaPlaybackVoice";
 NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
+NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
 
 
 @interface OleariaDelegate ()
@@ -111,11 +112,6 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 
 - (void) finalize
 {
-
-	validFileTypes = nil;
-	_userSetDefaults = nil;
-	talkingBook = nil;
-	
 	[super finalize];
 }
 
@@ -127,6 +123,16 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 	
 	// load our recent books (if any) into the Recent Books menu
 	[self populateRecentFilesMenu];
+	
+	BOOL shouldLoadLast = [_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead];
+	if(YES == shouldLoadLast)
+	{
+		// get the first item in the recent books list
+		NSString *validFilePath = [[_recentBooks objectAtIndex:0] valueForKey:@"FilePath"];
+		// check that we did get a file path
+		if(nil != validFilePath)
+			[self loadBookAtPath:validFilePath];
+	}
 }
 
 
@@ -624,6 +630,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPlaybackVoice];
 	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldOpenLastBookRead];
 	
 	// set them in the shared user defaults
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

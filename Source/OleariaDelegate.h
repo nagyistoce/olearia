@@ -30,6 +30,7 @@ extern NSString * const OleariaPlaybackVoice;
 extern NSString * const OleariaUseVoiceForPlayback;
 extern NSString * const OleariaChapterSkipIncrement;
 extern NSString * const OleariaEnableVoiceOnLevelChange;
+extern NSString * const OleariaShouldOpenLastBookRead;
 
 @interface OleariaDelegate : NSObject
 {
