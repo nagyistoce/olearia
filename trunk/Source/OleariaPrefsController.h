@@ -33,11 +33,14 @@
 	IBOutlet NSView			*soundPrefsView;
 	IBOutlet NSView			*textPrefsView;
 	IBOutlet NSView			*voicePrefsView;
+	IBOutlet NSView			*generalPrefsView;
+	
 }
 
 - (IBAction)displaySoundPrefsView:(id)sender;
 - (IBAction)displayTextPrefsView:(id)sender;
 - (IBAction)displayVoicePrefsView:(id)sender;
+- (IBAction)displayGeneralPrefsView:(id)sender;
 - (IBAction)setSelectedPlaybackVoice:(id)sender;
 
 @end

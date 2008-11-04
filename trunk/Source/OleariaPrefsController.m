@@ -37,7 +37,7 @@
 - (void)windowDidLoad
 {
 	[prefsWindow makeKeyWindow];
-	[[prefsWindow contentView] addSubview:soundPrefsView];
+	[[prefsWindow contentView] addSubview:generalPrefsView];
 	
 	[voicesPopup removeAllItems];
 	// populate the voices popup with the names of all the voices available.
@@ -93,6 +93,19 @@
 	
 	
 }
+
+- (IBAction)displayGeneralPrefsView:(id)sender
+{
+	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
+	if(currentView != generalPrefsView)
+	{
+		[[NSAnimationContext currentContext] setDuration:0.5];
+		[[[prefsWindow contentView] animator] replaceSubview:currentView with:generalPrefsView];
+	}
+	
+	
+}
+
 
 - (IBAction)setSelectedPlaybackVoice:(id)sender
 {
