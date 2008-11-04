@@ -639,7 +639,7 @@
 				// make the file editable and set the timescale for it 
 				[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
 				[self setPreferredAudioAttributes];
-				
+				[self updateForPosInBook];
 				loadedOK = YES;
 			}
 		}
