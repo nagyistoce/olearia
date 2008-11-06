@@ -32,14 +32,14 @@ NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
 NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
-
+NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemovableMedia";
 
 @interface OleariaDelegate ()
 
 + (void)setupDefaults;
 - (NSString *)applicationSupportFolder;
 - (void)populateRecentFilesMenu;
-- (void)updateRecentBooks:(NSString *)pathToMove updateSettings:(BOOL)shouldUpdate;
+- (void)updateRecentBooks:(NSString *)pathToMove updateCurrentBookSettings:(BOOL)shouldUpdate;
 - (NSString *)controlFilenameFromFolder:(NSString *)aFolderPath;
 - (BOOL)loadBookAtPath:(NSString *)aFilePath;
 
@@ -64,6 +64,10 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	// get the defaults
 	_userSetDefaults = [NSUserDefaults standardUserDefaults];
 	
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self 
+														   selector:@selector(removableMediaMounted:) 
+															   name:NSWorkspaceDidMountNotification
+															 object:nil];
 		
 	// init the book object
 	talkingBook = [[BBSTalkingBook alloc] init];
@@ -124,14 +128,18 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	// load our recent books (if any) into the Recent Books menu
 	[self populateRecentFilesMenu];
 	
-	BOOL shouldLoadLast = [_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead];
-	if(YES == shouldLoadLast)
+	BOOL shouldLoadLastBook = [_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead];
+	if(YES == shouldLoadLastBook)
 	{
 		// get the first item in the recent books list
 		NSString *validFilePath = [[_recentBooks objectAtIndex:0] valueForKey:@"FilePath"];
 		// check that we did get a file path
 		if(nil != validFilePath)
-			[self loadBookAtPath:validFilePath];
+		if(NO == [self loadBookAtPath:validFilePath])
+		{
+			[recentBooksMenu removeItemAtIndex:0];
+			[_recentBooks removeObjectAtIndex:0];
+		}
 	}
 }
 
@@ -292,6 +300,83 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	talkingBook.playbackVolume = [sender floatValue];
 }
 
+
+
+#pragma mark -
+#pragma mark Delegate Methods
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+	// use this method to process files that are double clicked on in the finder  
+	BOOL loadedOK = NO;
+	NSString *validFilePath = [self controlFilenameFromFolder:filename];
+	if(nil != validFilePath)
+	{
+		loadedOK = [self loadBookAtPath:validFilePath];
+	}
+	
+	return loadedOK;
+}
+
+- (void) removableMediaAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	BOOL bookLoaded = NO;
+	
+	if(returnCode == NSOKButton)
+	{
+		if(talkingBook.bookIsAlreadyLoaded)
+		{
+			[self updateRecentBooks:nil updateCurrentBookSettings:YES];
+		}
+		bookLoaded = [self loadBookAtPath:(NSString *)contextInfo];
+		if (bookLoaded)
+		{	
+			[self updateRecentBooks:(NSString *)contextInfo updateCurrentBookSettings:NO];
+			
+		}
+		else
+		{
+			// put up a dialog saying that there was a problem loadingthe book
+			NSAlert *anAlert = [[NSAlert alloc] init];
+			[anAlert setMessageText:@"Failed To Load"];
+			[anAlert setInformativeText:@"There was a problem opening the chosen book.  \nIt may have be corrupted."];
+			[anAlert setAlertStyle:NSWarningAlertStyle];
+			[anAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+			// we dont need a response from the user so set all options except window to nil;
+			[anAlert beginSheetModalForWindow:mainWindow 
+							  modalDelegate:nil 
+							 didEndSelector:nil 
+								contextInfo:nil];
+			anAlert = nil;
+		}
+	}
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	return YES;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	// stop playing if we are playing
+	if(talkingBook.isPlaying)
+		[talkingBook pauseAudio];
+
+	// update the current settings of the currently (if any) open Book
+	[self updateRecentBooks:nil updateCurrentBookSettings:talkingBook.bookIsAlreadyLoaded];
+	
+	// save the settings
+	[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+	
+}
+
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+{
+	return YES;
+}
+
 - (void)openPanelDidEnd:(NSOpenPanel *)openPanel 
              returnCode:(int)returnCode 
             contextInfo:(void *)x 
@@ -338,48 +423,6 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 			
 		}
 	}
-}
-
-
-#pragma mark -
-#pragma mark Delegate Methods
-
-- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
-{
-	// use this method to process files that are double clicked on in the finder  
-	BOOL loadedOK = NO;
-	NSString *validFilePath = [self controlFilenameFromFolder:filename];
-	if(nil != validFilePath)
-	{
-		loadedOK = [self loadBookAtPath:validFilePath];
-	}
-	
-	return loadedOK;
-}
-
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-	return YES;
-}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
-	// stop playing if we are playing
-	if(talkingBook.isPlaying)
-		[talkingBook pauseAudio];
-
-	// update the current settings of the currently (if any) open Book
-	[self updateRecentBooks:nil updateSettings:talkingBook.bookIsAlreadyLoaded];
-	
-	// save the settings
-	[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
-	
-}
-
-
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
-{
-	return YES;
 }
 
 #pragma mark -
@@ -433,22 +476,25 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 		// is it a folder?
 		if(isDir)
 		{
-			NSArray *contents = [fm contentsOfDirectoryAtPath:aFolderPath error:NULL];
-			if(nil != contents)
+			// check for a 2.02 control document
+			NSString *nccPathString = [aFolderPath stringByAppendingPathComponent:@"ncc.html"];
+			if([fm fileExistsAtPath:nccPathString])
 			{
-				for(NSString *anItem in contents)
+				controlFilename = nccPathString;
+			}
+			else
+			{
+				// iterate through the items in the folder
+				// no need to search the subfolders
+				NSArray *contents = [fm contentsOfDirectoryAtPath:aFolderPath error:NULL];
+				if(nil != contents)
 				{
-					NSString *extension = [NSString stringWithString:[[anItem pathExtension] lowercaseString]];
-					// check for an opf or ncx extension
-					if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
+					for(NSString *anItem in contents)
 					{
-						controlFilename = [NSString stringWithString:[aFolderPath stringByAppendingPathComponent:anItem]];
-						break;
-					}
-					else
-					{
-						// check for a 2.02 control document
-						if([[[anItem lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
+						// get the extension
+						NSString *extension = [NSString stringWithString:[[anItem pathExtension] lowercaseString]];
+						// check for an opf or ncx extension
+						if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
 						{
 							controlFilename = [NSString stringWithString:[aFolderPath stringByAppendingPathComponent:anItem]];
 							break;
@@ -456,20 +502,21 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 					}
 				}
 			}
+			
 		}
 		else
 		{
 			// a file path was passed in
-			NSString *extension = [NSString stringWithString:[[aFolderPath pathExtension] lowercaseString]];
-			// check for an opf or ncx extension
-			if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
+			// check for a 2.02 control document
+			if([[[aFolderPath lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 			{
 				controlFilename = [NSString stringWithString:aFolderPath];
 			}
 			else
 			{
-				// check for a 2.02 control document
-				if([[[aFolderPath lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
+				NSString *extension = [NSString stringWithString:[[aFolderPath pathExtension] lowercaseString]];
+				// check for an opf or ncx extension
+				if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
 				{
 					controlFilename = [NSString stringWithString:aFolderPath];
 				}
@@ -492,7 +539,7 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	if(talkingBook.bookIsAlreadyLoaded) 
 	{
 		// update the saved settings for this book before we load the next
-		[self updateRecentBooks:nil updateSettings:YES];
+		[self updateRecentBooks:nil updateCurrentBookSettings:YES];
 	}
 	
 	// load the talking book package or control file
@@ -500,7 +547,7 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	if(loadedOK)
 	{
 		//update the recent files list
-		[self updateRecentBooks:[talkingBook fullBookPath] updateSettings:NO];
+		[self updateRecentBooks:[talkingBook fullBookPath] updateCurrentBookSettings:NO];
 		
 		// load the first segment ready for play
 		[talkingBook nextSegment]; 
@@ -509,7 +556,7 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	return loadedOK;
 }
 
-- (void)updateRecentBooks:(NSString *)pathToMove updateSettings:(BOOL)shouldUpdate
+- (void)updateRecentBooks:(NSString *)pathToMove updateCurrentBookSettings:(BOOL)shouldUpdate
 {
     
 	if(YES == shouldUpdate)
@@ -611,10 +658,7 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	for(NSString *aTitle in bookTitles)
 	{
 		[recentBooksMenu addItemWithTitle:aTitle action:@selector(openRecentBook:) keyEquivalent:@""];
-		
 	}
-
-
 }
 
 + (void)setupDefaults
@@ -660,6 +704,42 @@ NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead
 	
 	// add the name of the application and return it
 	return [basePath stringByAppendingPathComponent:@"Olearia"];
+}
+
+- (void)removableMediaMounted:(NSNotification *)aNote
+{
+	// check that we are not ignoring removablemedia alerts
+	if(NO == [_userSetDefaults boolForKey:OleariaIgnoreBooksOnRemovableMedia])
+	{
+		NSString *controlFilePath = [NSString stringWithString:[self controlFilenameFromFolder:[[aNote userInfo] valueForKey:@"NSDevicePath"]]];
+		
+		if(nil != controlFilePath)
+		{
+			// check if we are playing a book
+			if(talkingBook.isPlaying)
+			{
+				// pause the audio to make the user take notice of the dialog
+				[talkingBook pauseAudio];
+			}
+			
+			NSAlert *alert = [NSAlert alertWithMessageText:@"Book on Removable Media Found" 
+											 defaultButton:@"OK"
+										   alternateButton:@"Cancel"
+											   otherButton:nil
+								 informativeTextWithFormat:@"You have mounted a device containing a talking book.\nWould you like to open it?"];
+			
+			[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+			
+			[alert beginSheetModalForWindow:mainWindow 
+							  modalDelegate:self 
+							 didEndSelector:@selector(removableMediaAlertDidEnd:returnCode:contextInfo:) 
+								contextInfo:controlFilePath];
+			
+			
+			
+		}
+		
+	}
 }
 
 @synthesize talkingBook, _recentBooks, _recentBooksPlistPath;

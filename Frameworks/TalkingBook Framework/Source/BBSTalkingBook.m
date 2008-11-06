@@ -35,7 +35,8 @@
 @interface BBSTalkingBook ()
 
 
-- (void)audioFileDidEnd:(NSNotification *)aNote;
+- (void)audioFileDidEnd:(NSNotification *)notification;
+- (void)loadStateDidChange:(NSNotification *)notification;
 - (void)errorDialogDidEnd;
 - (void)setDisplayDefaults;
 - (void)resetBook;
@@ -632,13 +633,19 @@
 			
 			[_currentAudioFile stop]; // pause the playback if there is any currently playing
 			
+			_currentAudioFile = nil;
 			_currentAudioFile = [QTMovie movieWithFile:pathToFile error:&theError];
 			
+		
 			if(_currentAudioFile != nil)
 			{
 				// make the file editable and set the timescale for it 
 				[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
 				[self setPreferredAudioAttributes];
+				if(([[_currentAudioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete) && (NO == [_currentAudioFile hasChapters]))
+				{
+					[TalkingBookNotificationCenter postNotificationName:QTMovieLoadStateDidChangeNotification object:_currentAudioFile];
+				}
 				[self updateForPosInBook];
 				loadedOK = YES;
 			}
@@ -720,6 +727,12 @@
 
 - (void)setupAudioNotifications
 {
+	// watch for load state changes
+	[TalkingBookNotificationCenter addObserver:self 
+									  selector:@selector(loadStateDidChange:)
+										  name:QTMovieLoadStateDidChangeNotification
+										object:_currentAudioFile];
+
 	// start watching for notifications for reaching the end of the audio file
 	[TalkingBookNotificationCenter addObserver:self 
 									  selector:@selector(audioFileDidEnd:) 
@@ -731,12 +744,7 @@
 									  selector:@selector(updateChapterIndex) 
 										  name:QTMovieChapterDidChangeNotification 
 										object:_currentAudioFile];
-	
-	[TalkingBookNotificationCenter addObserver:self 
-									  selector:@selector(loadStateChanged:)
-										  name:QTMovieLoadStateDidChangeNotification 
-										object:_currentAudioFile];
-}
+	}
 
 - (void)updateChapterIndex
 {
@@ -777,17 +785,17 @@
 #pragma mark -
 #pragma mark Delegate Methods
 
-- (void)audioFileDidEnd:(NSNotification *)aNote
+- (void)audioFileDidEnd:(NSNotification *)notification
 {
 	if(YES == [self nextSegment])
 		[self playAudio];
 }
 
 
-- (void)loadStateChanged:(NSNotification *)aNote
+- (void)loadStateDidChange:(NSNotification *)notification
 {
 	
-	if([[[aNote object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
+	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 	{
 		
 		if(_hasControlFile)

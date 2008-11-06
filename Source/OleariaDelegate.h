@@ -20,7 +20,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//#import <AppKit/AppKit.h>
 
 @class BBSTalkingBook, OleariaPrefsController, AboutBoxController;
 
@@ -31,6 +30,7 @@ extern NSString * const OleariaUseVoiceForPlayback;
 extern NSString * const OleariaChapterSkipIncrement;
 extern NSString * const OleariaEnableVoiceOnLevelChange;
 extern NSString * const OleariaShouldOpenLastBookRead;
+extern NSString * const OleariaIgnoreBooksOnRemovableMedia;
 
 @interface OleariaDelegate : NSObject
 {
