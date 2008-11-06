@@ -126,7 +126,7 @@
 			// there was a problem opening the NCX document
 			NSAlert *theAlert = [NSAlert alertWithError:theError];
 			[theAlert setMessageText:@"Control File Error"];
-			[theAlert setInformativeText:@"Failed to open the NCX file.\nPlease check the book Structure or try another book."]; 
+			[theAlert setInformativeText:@"Failed to open the NCX file.\nPlease check the book Structure or you may have removed the media that the book was on."]; 
 			[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
 		}
