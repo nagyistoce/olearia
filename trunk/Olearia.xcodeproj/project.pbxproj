@@ -59,6 +59,8 @@
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
 		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
+		EEA3E6F00EC3C4AB00621D6E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EEA3E6EF0EC3C4AB00621D6E /* Localizable.strings */; };
+		EEA3E6F30EC3C4D100621D6E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EEA3E6F10EC3C4D100621D6E /* Localizable.strings */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEB892380E38D73600580375 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB892360E38D73600580375 /* RegexKitLite.h */; };
 		EEB892390E38D73600580375 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB892370E38D73600580375 /* RegexKitLite.m */; };
@@ -178,6 +180,8 @@
 		EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBXmlContentDoc.m; path = Source/BBSTBXmlContentDoc.m; sourceTree = "<group>"; };
 		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
 		EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		EEA3E6EF0EC3C4AB00621D6E /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Resources/Localizable.strings; sourceTree = "<group>"; };
+		EEA3E6F20EC3C4D100621D6E /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
 		EEB892360E38D73600580375 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EEA3E6F10EC3C4D100621D6E /* Localizable.strings */,
 				EE663F020EB92B3C00615449 /* About.xib */,
 				EE663F040EB92B3C00615449 /* MainMenu.xib */,
 				EE663F060EB92B3C00615449 /* Preferences.xib */,
@@ -398,6 +403,7 @@
 		EE5FEC200E15F53000B1E0F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EEA3E6EF0EC3C4AB00621D6E /* Localizable.strings */,
 				EE5FEC210E15F5B700B1E0F4 /* info.plist */,
 			);
 			name = Resources;
@@ -617,6 +623,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEA3E6F00EC3C4AB00621D6E /* Localizable.strings in Resources */,
+				EEA3E6F30EC3C4D100621D6E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +734,14 @@
 				EE663F070EB92B3C00615449 /* English */,
 			);
 			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		EEA3E6F10EC3C4D100621D6E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEA3E6F20EC3C4D100621D6E /* English */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
