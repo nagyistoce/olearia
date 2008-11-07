@@ -245,7 +245,7 @@
 			
 			if(0 == [_controlDoc totalPages])
 			{
-				self.currentPageString = @"No Page Numbers";
+				self.currentPageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 			}
 			else
 			{
@@ -394,7 +394,7 @@
 	if(speakUserLevelChange)
 	{
 		[_currentAudioFile stop];
-		[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),[_controlDoc currentLevel]]];
 	}
 	else
 	{
@@ -428,7 +428,7 @@
 		if(speakUserLevelChange)
 		{
 			[_currentAudioFile stop];
-			[speechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",[_controlDoc currentLevel]]];
+			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),[_controlDoc currentLevel]]];
 		}
 		else
 		{
@@ -668,8 +668,8 @@
 	if((nil == _currentAudioFile) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:@"Audio File Error"];
-		[theAlert setInformativeText:@"There was a problem loading an audio file.\n Please check the book format for problems.\nOlearia will now reset as this book will not play"];
+		[theAlert setMessageText:NSLocalizedString(@"Audio File Error", @"audio error alert short msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"There was a problem loading an audio file.\n Please check the book format for problems.\nOlearia will now reset as this book will not play", @"audio error alert short msg")];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
 		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
@@ -776,7 +776,7 @@
 		self.hasPreviousChapter = (_currentChapterIndex > 0) ? YES : NO;
 		if(_hasPageNavigation)
 		{
-			self.currentPageString = [NSString stringWithFormat:@"%d of %d",[_controlDoc currentPageNumber],[_controlDoc totalPages]];
+			self.currentPageString = [NSString stringWithFormat:NSLocalizedString(@"%d of %d", @"current page string"),[_controlDoc currentPageNumber],[_controlDoc totalPages]];
 		}
 	}
 	

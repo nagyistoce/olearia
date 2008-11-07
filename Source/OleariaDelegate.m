@@ -178,8 +178,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	{
 		// put up a dialog saying that there was a problem finding the recent book selected.
 		NSAlert *alert = [[NSAlert alloc] init];
-		[alert setMessageText:@"Invalid File"];
-		[alert setInformativeText:@"There was a problem opening the chosen book.  \nIt may have been deleted or moved to a different location."];
+		[alert setMessageText:NSLocalizedString(@"Invalid File",@"invalid file short msg")];
+		[alert setInformativeText:NSLocalizedString(@"There was a problem opening the chosen book.  \nIt may have been deleted or moved to a different location.",@"recent load fail alert long msg")];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
 		// we dont need a response from the user so set all options except window to nil;
@@ -201,7 +201,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	if(isPlaying == NO)
 	{
 		// set the button stat and menuitem title 
-		[playPauseMenuItem setTitle:@"Pause         <space>"];
+		[playPauseMenuItem setTitle:NSLocalizedString(@"Pause         <space>",@"menu item pause string")];
 		
 		// switch the play and pause icons on the button
 		NSImage *tempImage = [playPauseButton image];
@@ -214,7 +214,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	}
 	else // isPlaying == YES
 	{
-		[playPauseMenuItem setTitle:@"Play          <space>"];
+		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
 		
 		isPlaying = NO;
 		
@@ -225,7 +225,6 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 		
 		[talkingBook pauseAudio];
 		
-		//[self disableAllControls];
 		[playPauseMenuItem setEnabled:YES];
 		[playPauseButton setEnabled:YES];
 	}
@@ -338,8 +337,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 		{
 			// put up a dialog saying that there was a problem loadingthe book
 			NSAlert *anAlert = [[NSAlert alloc] init];
-			[anAlert setMessageText:@"Failed To Load"];
-			[anAlert setInformativeText:@"There was a problem opening the chosen book.  \nIt may have be corrupted."];
+			[anAlert setMessageText:NSLocalizedString(@"Failed To Open", @"removable media load fail alert short msg")];
+			[anAlert setInformativeText:NSLocalizedString(@"There was a problem opening the chosen book.  \nIt may have be corrupted.",@"removable media load fail alert long msg")];
 			[anAlert setAlertStyle:NSWarningAlertStyle];
 			[anAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];
 			// we dont need a response from the user so set all options except window to nil;
@@ -396,14 +395,14 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 			bookLoaded = [self loadBookAtPath:validFilePath];
 			if (!bookLoaded)
 			{
-				shortErrorMsg = [NSString stringWithString:@"Invalid File"];
-				fullErrorMsg = [NSString stringWithString:@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document."];
+				shortErrorMsg = [NSString stringWithString:NSLocalizedString(@"Invalid File", @"invalid file short msg")];
+				fullErrorMsg = [NSString stringWithString:NSLocalizedString(@"The File you chose to open was not a valid Package (OPF) or Control (NCX or NCC.html) Document.", @"invalid file long msg")];
 			}
 		}
 		else
 		{
-			shortErrorMsg = [NSString stringWithString:@"Invalid File or Folder"];
-			fullErrorMsg = [NSString stringWithString:@"The File or Folder you chose to open did not contain or was not a valid Package (OPF) or Control (NCC.html) Document."];
+			shortErrorMsg = [NSString stringWithString:NSLocalizedString(@"Invalid File or Folder", @"invalid file or folder short msg")];
+			fullErrorMsg = [NSString stringWithString:NSLocalizedString(@"The File or Folder you chose to open did not contain or was not a valid Package (OPF) or Control (NCC.html) Document.", @"invalid file or folder long msg")];
 		}
 		
 		if(!bookLoaded)
@@ -722,11 +721,11 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 				[talkingBook pauseAudio];
 			}
 			
-			NSAlert *alert = [NSAlert alertWithMessageText:@"Book on Removable Media Found" 
-											 defaultButton:@"OK"
-										   alternateButton:@"Cancel"
+			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Book on Removable Media Found", @"removable media open alert short msg") 
+											 defaultButton:NSLocalizedString(@"OK",@"ok string")
+										   alternateButton:NSLocalizedString(@"Cancel",@"cancel string")
 											   otherButton:nil
-								 informativeTextWithFormat:@"You have mounted a device containing a talking book.\nWould you like to open it?"];
+								 informativeTextWithFormat:NSLocalizedString(@"You have mounted a device containing a talking book.\nWould you like to open it?", @"removable media open alert long msg")];
 			
 			[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
 			

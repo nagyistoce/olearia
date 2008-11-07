@@ -30,7 +30,7 @@
 	// add our subview
     [contentView addSubview:toolsBoxView];
 	[toolsBoxView setContentView:soundView];
-	//[toolsBoxView setTitle:@"Sound"];
+	
 	
 	isExpanded = NO;
 	
