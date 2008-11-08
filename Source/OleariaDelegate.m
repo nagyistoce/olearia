@@ -68,7 +68,18 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 														   selector:@selector(removableMediaMounted:) 
 															   name:NSWorkspaceDidMountNotification
 															 object:nil];
-		
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(windowDidMinimize:) 
+												 name:NSWindowDidMiniaturizeNotification 
+											   object:mainWindow ];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(windowDidDeminimize:) 
+												 name:NSWindowDidDeminiaturizeNotification 
+											   object:mainWindow];
+
+	
 	// init the book object
 	talkingBook = [[BBSTalkingBook alloc] init];
 	
@@ -141,6 +152,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 			[_recentBooks removeObjectAtIndex:0];
 		}
 	}
+	
 }
 
 
@@ -422,6 +434,19 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 			
 		}
 	}
+}
+
+#pragma mark -
+#pragma mark Notification Methods
+
+- (void)windowDidMinimize:(NSNotification *)aNote
+{
+	[minimizeMenuItem setEnabled:NO];
+}
+
+- (void)windowDidDeminimize:(NSNotification *)aNote
+{
+	[minimizeMenuItem setEnabled:YES];
 }
 
 #pragma mark -
