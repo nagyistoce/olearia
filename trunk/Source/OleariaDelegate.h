@@ -82,6 +82,7 @@ extern NSString * const OleariaIgnoreBooksOnRemovableMedia;
 	IBOutlet NSMenuItem		*prevSegmentMenuItem;
 	IBOutlet NSMenuItem		*fastForwardMenuItem;
 	IBOutlet NSMenuItem		*fastBackMenuItem;
+	IBOutlet NSMenuItem		*minimizeMenuItem;
 	IBOutlet NSMenu			*recentBooksMenu;
 	
 }
