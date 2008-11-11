@@ -111,8 +111,8 @@
 	{	
 		// there was a problem opening the NCC document
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Control File Error", @"control open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the ncc.html file.\nPlease check the book Structure or you may have removed the media that the book was on.", @"control ncc open fail alert long msg")]; 
+		[theAlert setMessageText:@"Control File Error"];
+		[theAlert setInformativeText:@"Failed to open the NCC file.\nPlease check the book Structure or try another book."]; 
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
 	}
@@ -408,7 +408,7 @@
 		 // check the alternative place for the title in the meta data
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
 	 }
-	 self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
+	 self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : @"No Title";
 	 
 	 // check for total page count
 	 [extractedContent removeAllObjects];

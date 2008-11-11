@@ -54,10 +54,10 @@
 	[appNameField setStringValue:appName];
 	
 	// Set the about box window title
-	[aboutPanel setTitle:[NSString stringWithFormat:NSLocalizedString(@"About %@", @"about panel about string"), appName]];
+	[aboutPanel setTitle:[NSString stringWithFormat:@"About %@", appName]];
 	
 	// Setup the version field
-	[versionField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"about panel version string"), [infoDict objectForKey:@"CFBundleShortVersionString"],[infoDict objectForKey:@"CFBundleVersion"]]];
+	[versionField setStringValue:[NSString stringWithFormat:@"Version %@ (%@)", [infoDict objectForKey:@"CFBundleShortVersionString"],[infoDict objectForKey:@"CFBundleVersion"]]];
 	
 	[copyrightField setStringValue:[infoDict valueForKey:@"NSHumanReadableCopyright"]];
 	

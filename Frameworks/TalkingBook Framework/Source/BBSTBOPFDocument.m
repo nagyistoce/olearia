@@ -195,12 +195,9 @@
 	else // we got a nil return so display the error to the user
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Package Open Error", @"package open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open OPF file.\n Please check book structure or try another book.", @"package open fail alert long msg")];
-		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
-							 modalDelegate:nil 
-							didEndSelector:nil 
-							   contextInfo:nil];
+		[theAlert setMessageText:@"Package File Error"];
+		[theAlert setInformativeText:@"Failed to open OPF file.\n Please check book structure or try another book."];
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 	}
 	
 	
@@ -380,12 +377,12 @@
 			// set the book title
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Title)" error:nil]];
-			self.bookTitle = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string"); 
+			self.bookTitle = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Title"; 
 		
 			// set the subject
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Subject)" error:nil]];
-			self.bookSubject =  ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : NSLocalizedString(@"No Subject", @"no subject string");
+			self.bookSubject =  ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"No Subject";
 
 			[nodeObjects removeAllObjects];
 			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//x-metadata/meta[@name=\"dtb:multimediaType\"]/data(@content)" error:nil]];

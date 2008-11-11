@@ -25,8 +25,6 @@
 		EE0A74AC0E3B522A001CF3C2 /* HC-Play.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A10E3B5229001CF3C2 /* HC-Play.png */; };
 		EE0A74AD0E3B522A001CF3C2 /* HC-Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A20E3B5229001CF3C2 /* HC-Previous.png */; };
 		EE0A74AE0E3B522A001CF3C2 /* HC-UpLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A30E3B5229001CF3C2 /* HC-UpLevel.png */; };
-		EE0E8C350EC3F33800202257 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE0E8C330EC3F33800202257 /* Localizable.strings */; };
-		EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE0E8C370EC3F36200202257 /* Localizable.strings */; };
 		EE1808600E137F9700AEE163 /* BBSTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808550E137F9700AEE163 /* BBSTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE1808610E137F9700AEE163 /* BBSTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1808560E137F9700AEE163 /* BBSTalkingBook.m */; };
 		EE1808620E137F9700AEE163 /* BBSTalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */; settings = {ATTRIBUTES = (); }; };
@@ -144,8 +142,6 @@
 		EE0A74A10E3B5229001CF3C2 /* HC-Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Play.png"; sourceTree = "<group>"; };
 		EE0A74A20E3B5229001CF3C2 /* HC-Previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Previous.png"; sourceTree = "<group>"; };
 		EE0A74A30E3B5229001CF3C2 /* HC-UpLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpLevel.png"; sourceTree = "<group>"; };
-		EE0E8C340EC3F33800202257 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE0E8C380EC3F36200202257 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BBSTalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE1808550E137F9700AEE163 /* BBSTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTalkingBook.h; path = Source/BBSTalkingBook.h; sourceTree = "<group>"; };
 		EE1808560E137F9700AEE163 /* BBSTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTalkingBook.m; path = Source/BBSTalkingBook.m; sourceTree = "<group>"; };
@@ -285,7 +281,6 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EE0E8C370EC3F36200202257 /* Localizable.strings */,
 				EE663F020EB92B3C00615449 /* About.xib */,
 				EE663F040EB92B3C00615449 /* MainMenu.xib */,
 				EE663F060EB92B3C00615449 /* Preferences.xib */,
@@ -403,7 +398,6 @@
 		EE5FEC200E15F53000B1E0F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EE0E8C330EC3F33800202257 /* Localizable.strings */,
 				EE5FEC210E15F5B700B1E0F4 /* info.plist */,
 			);
 			name = Resources;
@@ -616,7 +610,6 @@
 				EE663F080EB92B3C00615449 /* About.xib in Resources */,
 				EE663F090EB92B3C00615449 /* MainMenu.xib in Resources */,
 				EE663F0A0EB92B3C00615449 /* Preferences.xib in Resources */,
-				EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +617,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE0E8C350EC3F33800202257 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,22 +704,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		EE0E8C330EC3F33800202257 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EE0E8C340EC3F33800202257 /* English */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		EE0E8C370EC3F36200202257 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EE0E8C380EC3F36200202257 /* English */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		EE663F020EB92B3C00615449 /* About.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -765,7 +741,7 @@
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -775,7 +751,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -810,7 +786,7 @@
 				APPLICATION_VERSION = 0.9.3;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -818,7 +794,7 @@
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -849,14 +825,14 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_OPENMP_SUPPORT = NO;
 				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_AUTO_VECTORIZATION = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -895,12 +871,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -936,7 +912,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -946,7 +922,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
@@ -988,14 +964,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
