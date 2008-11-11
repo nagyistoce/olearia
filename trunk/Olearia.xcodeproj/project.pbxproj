@@ -44,6 +44,9 @@
 		EE1FC3D80E78EBBB00BE6453 /* BBSTBNCCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */; };
 		EE1FC3D90E78EBBB00BE6453 /* BBSTBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
+		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
+		EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278690ECA51B200309491 /* MainMenu.nib */; };
+		EE22786E0ECA51E800309491 /* About.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE22786C0ECA51E800309491 /* About.nib */; };
 		EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
 		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
 		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
@@ -53,9 +56,6 @@
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
-		EE663F080EB92B3C00615449 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE663F020EB92B3C00615449 /* About.xib */; };
-		EE663F090EB92B3C00615449 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE663F040EB92B3C00615449 /* MainMenu.xib */; };
-		EE663F0A0EB92B3C00615449 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE663F060EB92B3C00615449 /* Preferences.xib */; };
 		EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */; };
 		EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */; };
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
@@ -162,6 +162,9 @@
 		EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBNCCDocument.m; path = Source/BBSTBNCCDocument.m; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
+		EE2278670ECA518A00309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
 		EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBControlDoc.h; path = Source/BBSTBControlDoc.h; sourceTree = "<group>"; };
 		EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBControlDoc.m; path = Source/BBSTBControlDoc.m; sourceTree = "<group>"; };
 		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
@@ -174,9 +177,6 @@
 		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
 		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
 		EE5FEC210E15F5B700B1E0F4 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = info.plist; path = Resources/info.plist; sourceTree = "<group>"; };
-		EE663F030EB92B3C00615449 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
-		EE663F050EB92B3C00615449 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		EE663F070EB92B3C00615449 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		EE66492E0E5DB1750096304D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBXmlContentDoc.h; path = Source/BBSTBXmlContentDoc.h; sourceTree = "<group>"; };
 		EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBXmlContentDoc.m; path = Source/BBSTBXmlContentDoc.m; sourceTree = "<group>"; };
@@ -286,9 +286,9 @@
 			isa = PBXGroup;
 			children = (
 				EE0E8C370EC3F36200202257 /* Localizable.strings */,
-				EE663F020EB92B3C00615449 /* About.xib */,
-				EE663F040EB92B3C00615449 /* MainMenu.xib */,
-				EE663F060EB92B3C00615449 /* Preferences.xib */,
+				EE2278660ECA518A00309491 /* Preferences.nib */,
+				EE2278690ECA51B200309491 /* MainMenu.nib */,
+				EE22786C0ECA51E800309491 /* About.nib */,
 				9D12C0470EB7960F0091FBA3 /* Help */,
 				EE394C350EA88898001DC23C /* Credits.rtf */,
 				EEC1AA960E3C7C160000512D /* gplv3.tiff */,
@@ -565,6 +565,13 @@
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Olearia" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Norwegian,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Olearia */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -613,10 +620,10 @@
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
-				EE663F080EB92B3C00615449 /* About.xib in Resources */,
-				EE663F090EB92B3C00615449 /* MainMenu.xib in Resources */,
-				EE663F0A0EB92B3C00615449 /* Preferences.xib in Resources */,
 				EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */,
+				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
+				EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */,
+				EE22786E0ECA51E800309491 /* About.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,28 +735,31 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		EE663F020EB92B3C00615449 /* About.xib */ = {
+		EE2278660ECA518A00309491 /* Preferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EE663F030EB92B3C00615449 /* English */,
+				EE2278670ECA518A00309491 /* English */,
 			);
-			name = About.xib;
+			name = Preferences.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		EE663F040EB92B3C00615449 /* MainMenu.xib */ = {
+		EE2278690ECA51B200309491 /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EE663F050EB92B3C00615449 /* English */,
+				EE22786A0ECA51B200309491 /* English */,
 			);
-			name = MainMenu.xib;
+			name = MainMenu.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		EE663F060EB92B3C00615449 /* Preferences.xib */ = {
+		EE22786C0ECA51E800309491 /* About.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EE663F070EB92B3C00615449 /* English */,
+				EE22786D0ECA51E800309491 /* English */,
 			);
-			name = Preferences.xib;
+			name = About.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
