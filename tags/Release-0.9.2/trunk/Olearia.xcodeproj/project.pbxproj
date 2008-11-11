@@ -1,0 +1,1040 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
+		EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74850E3B5106001CF3C2 /* daisyicons.icns */; };
+		EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74860E3B5106001CF3C2 /* olearia.icns */; };
+		EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74870E3B5106001CF3C2 /* SMILicons.icns */; };
+		EE0A74A40E3B5229001CF3C2 /* HC-Bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74990E3B5229001CF3C2 /* HC-Bookmark.png */; };
+		EE0A74A50E3B5229001CF3C2 /* HC-DownLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749A0E3B5229001CF3C2 /* HC-DownLevel.png */; };
+		EE0A74A60E3B5229001CF3C2 /* HC-FastBack.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749B0E3B5229001CF3C2 /* HC-FastBack.png */; };
+		EE0A74A70E3B5229001CF3C2 /* HC-FastForward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749C0E3B5229001CF3C2 /* HC-FastForward.png */; };
+		EE0A74A80E3B522A001CF3C2 /* HC-GotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749D0E3B5229001CF3C2 /* HC-GotoPage.png */; };
+		EE0A74A90E3B522A001CF3C2 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749E0E3B5229001CF3C2 /* HC-info.png */; };
+		EE0A74AA0E3B522A001CF3C2 /* HC-Next.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A749F0E3B5229001CF3C2 /* HC-Next.png */; };
+		EE0A74AB0E3B522A001CF3C2 /* HC-PAUSE.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A00E3B5229001CF3C2 /* HC-PAUSE.png */; };
+		EE0A74AC0E3B522A001CF3C2 /* HC-Play.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A10E3B5229001CF3C2 /* HC-Play.png */; };
+		EE0A74AD0E3B522A001CF3C2 /* HC-Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A20E3B5229001CF3C2 /* HC-Previous.png */; };
+		EE0A74AE0E3B522A001CF3C2 /* HC-UpLevel.png in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74A30E3B5229001CF3C2 /* HC-UpLevel.png */; };
+		EE1808600E137F9700AEE163 /* BBSTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808550E137F9700AEE163 /* BBSTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EE1808610E137F9700AEE163 /* BBSTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1808560E137F9700AEE163 /* BBSTalkingBook.m */; };
+		EE1808620E137F9700AEE163 /* BBSTalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */; settings = {ATTRIBUTES = (); }; };
+		EE1808630E137F9700AEE163 /* BBSTBNCXDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */; settings = {ATTRIBUTES = (); }; };
+		EE1808640E137F9700AEE163 /* BBSTBNCXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */; };
+		EE1808650E137F9700AEE163 /* BBSTBOPFDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */; settings = {ATTRIBUTES = (); }; };
+		EE1808660E137F9700AEE163 /* BBSTBOPFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE18085B0E137F9700AEE163 /* BBSTBOPFDocument.m */; };
+		EE1808670E137F9700AEE163 /* BBSTBSMILDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */; settings = {ATTRIBUTES = (); }; };
+		EE1808680E137F9700AEE163 /* BBSTBSMILDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */; };
+		EE1808690E137F9700AEE163 /* BBSTBTextDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */; settings = {ATTRIBUTES = (); }; };
+		EE18086A0E137F9700AEE163 /* BBSTBTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */; };
+		EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */; };
+		EE1808760E13800400AEE163 /* BBSTalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */; };
+		EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */; };
+		EE1FC3D80E78EBBB00BE6453 /* BBSTBNCCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */; };
+		EE1FC3D90E78EBBB00BE6453 /* BBSTBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */; };
+		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
+		EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
+		EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */; };
+		EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2908940E35674D002C08DC /* QuickTime.framework */; };
+		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
+		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
+		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
+		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
+		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
+		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
+		EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */; };
+		EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */; };
+		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
+		EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
+		EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
+		EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79940E6628F5006AC5F8 /* MainMenu.xib */; };
+		EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9F79960E662903006AC5F8 /* Preferences.xib */; };
+		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
+		EEB892380E38D73600580375 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB892360E38D73600580375 /* RegexKitLite.h */; };
+		EEB892390E38D73600580375 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB892370E38D73600580375 /* RegexKitLite.m */; };
+		EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB893000E3A160100580375 /* NSString-BBSAdditions.h */; };
+		EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB893010E3A160100580375 /* NSString-BBSAdditions.m */; };
+		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
+		EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA960E3C7C160000512D /* gplv3.tiff */; };
+		EEC1AB780E3C91F50000512D /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AB760E3C91F50000512D /* About.xib */; };
+		EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */; };
+		EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */; };
+		EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C50E8DE7B300D77B4D /* UpArrow.png */; };
+		EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C60E8DE7B300D77B4D /* SoundPref.png */; };
+		EEEB96D30E8DE7B400D77B4D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C70E8DE7B300D77B4D /* info.png */; };
+		EEEB96D40E8DE7B400D77B4D /* gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C80E8DE7B300D77B4D /* gotoPage.png */; };
+		EEEB96D50E8DE7B400D77B4D /* ForwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */; };
+		EEEB96D60E8DE7B400D77B4D /* DownArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CA0E8DE7B300D77B4D /* DownArrow.png */; };
+		EEEB96D70E8DE7B400D77B4D /* button-rewind.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */; };
+		EEEB96D80E8DE7B400D77B4D /* button-play.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CC0E8DE7B400D77B4D /* button-play.png */; };
+		EEEB96D90E8DE7B400D77B4D /* button-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CD0E8DE7B400D77B4D /* button-pause.png */; };
+		EEEB96DA0E8DE7B400D77B4D /* button-foward.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CE0E8DE7B400D77B4D /* button-foward.png */; };
+		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
+		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
+		EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96E10E8DF22100D77B4D /* prefs_gen.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EE18087F0E13803A00AEE163 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE18084B0E137E4B00AEE163;
+			remoteInfo = BBSTalkingBook;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EE1808760E13800400AEE163 /* BBSTalkingBook.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEB890250E38208B00580375 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Olearia_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Olearia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olearia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D12C0470EB7960F0091FBA3 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
+		EE0A74850E3B5106001CF3C2 /* daisyicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = daisyicons.icns; sourceTree = "<group>"; };
+		EE0A74860E3B5106001CF3C2 /* olearia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = olearia.icns; sourceTree = "<group>"; };
+		EE0A74870E3B5106001CF3C2 /* SMILicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SMILicons.icns; sourceTree = "<group>"; };
+		EE0A74990E3B5229001CF3C2 /* HC-Bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Bookmark.png"; sourceTree = "<group>"; };
+		EE0A749A0E3B5229001CF3C2 /* HC-DownLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-DownLevel.png"; sourceTree = "<group>"; };
+		EE0A749B0E3B5229001CF3C2 /* HC-FastBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-FastBack.png"; sourceTree = "<group>"; };
+		EE0A749C0E3B5229001CF3C2 /* HC-FastForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-FastForward.png"; sourceTree = "<group>"; };
+		EE0A749D0E3B5229001CF3C2 /* HC-GotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-GotoPage.png"; sourceTree = "<group>"; };
+		EE0A749E0E3B5229001CF3C2 /* HC-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-info.png"; sourceTree = "<group>"; };
+		EE0A749F0E3B5229001CF3C2 /* HC-Next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Next.png"; sourceTree = "<group>"; };
+		EE0A74A00E3B5229001CF3C2 /* HC-PAUSE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-PAUSE.png"; sourceTree = "<group>"; };
+		EE0A74A10E3B5229001CF3C2 /* HC-Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Play.png"; sourceTree = "<group>"; };
+		EE0A74A20E3B5229001CF3C2 /* HC-Previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-Previous.png"; sourceTree = "<group>"; };
+		EE0A74A30E3B5229001CF3C2 /* HC-UpLevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpLevel.png"; sourceTree = "<group>"; };
+		EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BBSTalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE1808550E137F9700AEE163 /* BBSTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTalkingBook.h; path = Source/BBSTalkingBook.h; sourceTree = "<group>"; };
+		EE1808560E137F9700AEE163 /* BBSTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTalkingBook.m; path = Source/BBSTalkingBook.m; sourceTree = "<group>"; };
+		EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBookTypes.h; sourceTree = "<group>"; };
+		EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBNCXDocument.h; path = Source/BBSTBNCXDocument.h; sourceTree = "<group>"; };
+		EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBNCXDocument.m; path = Source/BBSTBNCXDocument.m; sourceTree = "<group>"; };
+		EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBOPFDocument.h; path = Source/BBSTBOPFDocument.h; sourceTree = "<group>"; };
+		EE18085B0E137F9700AEE163 /* BBSTBOPFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBOPFDocument.m; path = Source/BBSTBOPFDocument.m; sourceTree = "<group>"; };
+		EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBSMILDocument.h; path = Source/BBSTBSMILDocument.h; sourceTree = "<group>"; };
+		EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBSMILDocument.m; path = Source/BBSTBSMILDocument.m; sourceTree = "<group>"; };
+		EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBTextDocument.h; path = Source/BBSTBTextDocument.h; sourceTree = "<group>"; };
+		EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBTextDocument.m; path = Source/BBSTBTextDocument.m; sourceTree = "<group>"; };
+		EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBNCCDocument.h; path = Source/BBSTBNCCDocument.h; sourceTree = "<group>"; };
+		EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBNCCDocument.m; path = Source/BBSTBNCCDocument.m; sourceTree = "<group>"; };
+		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
+		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
+		EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBControlDoc.h; path = Source/BBSTBControlDoc.h; sourceTree = "<group>"; };
+		EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBControlDoc.m; path = Source/BBSTBControlDoc.m; sourceTree = "<group>"; };
+		EE2908940E35674D002C08DC /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
+		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
+		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
+		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
+		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
+		EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement-BBSExtensions.h"; sourceTree = "<group>"; };
+		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
+		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
+		EE5FEC210E15F5B700B1E0F4 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = info.plist; path = Resources/info.plist; sourceTree = "<group>"; };
+		EE66492E0E5DB1750096304D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBXmlContentDoc.h; path = Source/BBSTBXmlContentDoc.h; sourceTree = "<group>"; };
+		EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBXmlContentDoc.m; path = Source/BBSTBXmlContentDoc.m; sourceTree = "<group>"; };
+		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
+		EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
+		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
+		EEB892360E38D73600580375 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		EEB892370E38D73600580375 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		EEB893000E3A160100580375 /* NSString-BBSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-BBSAdditions.h"; sourceTree = "<group>"; };
+		EEB893010E3A160100580375 /* NSString-BBSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-BBSAdditions.m"; sourceTree = "<group>"; };
+		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
+		EEC1AA960E3C7C160000512D /* gplv3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gplv3.tiff; sourceTree = "<group>"; };
+		EEC1AB770E3C91F50000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
+		EEC1AB850E3C93FF0000512D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
+		EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBPackageDoc.h; path = Source/BBSTBPackageDoc.h; sourceTree = "<group>"; };
+		EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBPackageDoc.m; path = Source/BBSTBPackageDoc.m; sourceTree = "<group>"; };
+		EEEB96C50E8DE7B300D77B4D /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
+		EEEB96C60E8DE7B300D77B4D /* SoundPref.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SoundPref.png; sourceTree = "<group>"; };
+		EEEB96C70E8DE7B300D77B4D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		EEEB96C80E8DE7B300D77B4D /* gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gotoPage.png; sourceTree = "<group>"; };
+		EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ForwardArrow.png; sourceTree = "<group>"; };
+		EEEB96CA0E8DE7B300D77B4D /* DownArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrow.png; sourceTree = "<group>"; };
+		EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind.png"; sourceTree = "<group>"; };
+		EEEB96CC0E8DE7B400D77B4D /* button-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play.png"; sourceTree = "<group>"; };
+		EEEB96CD0E8DE7B400D77B4D /* button-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pause.png"; sourceTree = "<group>"; };
+		EEEB96CE0E8DE7B400D77B4D /* button-foward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-foward.png"; sourceTree = "<group>"; };
+		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
+		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
+		EEEB96E10E8DF22100D77B4D /* prefs_gen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_gen.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE18084A0E137E4B00AEE163 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */,
+				EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */,
+				EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */,
+				EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EE66492E0E5DB1750096304D /* QuartzCore.framework */,
+				EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EE2908940E35674D002C08DC /* QuickTime.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Olearia.app */,
+				EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Olearia */ = {
+			isa = PBXGroup;
+			children = (
+				EE4617A40DDBBE7300F2D375 /* TalkingBook Framework */,
+				EE2159020DDB5A93009155A1 /* Olearia Source */,
+				29B97317FDCFA39411CA2CEA /* Olearia Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Olearia;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Source */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Source";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D12C0470EB7960F0091FBA3 /* Help */,
+				EE394C350EA88898001DC23C /* Credits.rtf */,
+				EEC1AA960E3C7C160000512D /* gplv3.tiff */,
+				EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */,
+				EE0A74840E3B509E001CF3C2 /* Button Images */,
+				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				EE9F79940E6628F5006AC5F8 /* MainMenu.xib */,
+				EEC1AB760E3C91F50000512D /* About.xib */,
+				EE9F79960E662903006AC5F8 /* Preferences.xib */,
+			);
+			name = "Olearia Resources";
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE0A74840E3B509E001CF3C2 /* Button Images */ = {
+			isa = PBXGroup;
+			children = (
+				EEEB96E10E8DF22100D77B4D /* prefs_gen.png */,
+				EEEB96C50E8DE7B300D77B4D /* UpArrow.png */,
+				EEEB96C60E8DE7B300D77B4D /* SoundPref.png */,
+				EE89DED50EB5BFCB0017EB9D /* Speech.png */,
+				EEEB96C70E8DE7B300D77B4D /* info.png */,
+				EEEB96C80E8DE7B300D77B4D /* gotoPage.png */,
+				EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */,
+				EEEB96CA0E8DE7B300D77B4D /* DownArrow.png */,
+				EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */,
+				EEEB96CC0E8DE7B400D77B4D /* button-play.png */,
+				EEEB96CD0E8DE7B400D77B4D /* button-pause.png */,
+				EEEB96CE0E8DE7B400D77B4D /* button-foward.png */,
+				EEEB96CF0E8DE7B400D77B4D /* bookmark.png */,
+				EEEB96D00E8DE7B400D77B4D /* BackArrow.png */,
+				EE0A74990E3B5229001CF3C2 /* HC-Bookmark.png */,
+				EE0A749A0E3B5229001CF3C2 /* HC-DownLevel.png */,
+				EE0A749B0E3B5229001CF3C2 /* HC-FastBack.png */,
+				EE0A749C0E3B5229001CF3C2 /* HC-FastForward.png */,
+				EE0A749D0E3B5229001CF3C2 /* HC-GotoPage.png */,
+				EE0A749E0E3B5229001CF3C2 /* HC-info.png */,
+				EE0A749F0E3B5229001CF3C2 /* HC-Next.png */,
+				EE0A74A00E3B5229001CF3C2 /* HC-PAUSE.png */,
+				EE0A74A10E3B5229001CF3C2 /* HC-Play.png */,
+				EE0A74A20E3B5229001CF3C2 /* HC-Previous.png */,
+				EE0A74A30E3B5229001CF3C2 /* HC-UpLevel.png */,
+			);
+			path = "Button Images";
+			sourceTree = "<group>";
+		};
+		EE2159020DDB5A93009155A1 /* Olearia Source */ = {
+			isa = PBXGroup;
+			children = (
+				EE4617A50DDBBE9300F2D375 /* Controllers */,
+				29B97315FDCFA39411CA2CEA /* Other Source */,
+			);
+			name = "Olearia Source";
+			path = Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		EE4617A40DDBBE7300F2D375 /* TalkingBook Framework */ = {
+			isa = PBXGroup;
+			children = (
+				EE69EB8A0E19E9BB00067F4A /* Categories */,
+				EE5FEC1F0E15F50B00B1E0F4 /* Source */,
+				EE5FEC230E15F5F600B1E0F4 /* Other Source */,
+				EE5FEC200E15F53000B1E0F4 /* Resources */,
+			);
+			name = "TalkingBook Framework";
+			path = "Frameworks/TalkingBook Framework";
+			sourceTree = "<group>";
+		};
+		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EE4406000E666380002DEDBB /* ExpandingViewController.h */,
+				EE4406010E666380002DEDBB /* ExpandingViewController.m */,
+				EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */,
+				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
+				EE436AE40E5D500F00276672 /* OleariaPrefsController.h */,
+				EE436AE50E5D500F00276672 /* OleariaPrefsController.m */,
+				EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */,
+				EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		EE4617E70DDBC3C300F2D375 /* Applcation Icons */ = {
+			isa = PBXGroup;
+			children = (
+				EE0A74850E3B5106001CF3C2 /* daisyicons.icns */,
+				EE0A74860E3B5106001CF3C2 /* olearia.icns */,
+				EE0A74870E3B5106001CF3C2 /* SMILicons.icns */,
+			);
+			name = "Applcation Icons";
+			path = Icons;
+			sourceTree = "<group>";
+		};
+		EE5FEC1F0E15F50B00B1E0F4 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				EEDC2C010E62D75E00432F2D /* Controllers */,
+				EEDC2C000E62D71200432F2D /* Documents */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		EE5FEC200E15F53000B1E0F4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EE5FEC210E15F5B700B1E0F4 /* info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		EE5FEC230E15F5F600B1E0F4 /* Other Source */ = {
+			isa = PBXGroup;
+			children = (
+				EE1808570E137F9700AEE163 /* BBSTalkingBookTypes.h */,
+				EEB892360E38D73600580375 /* RegexKitLite.h */,
+				EEB892370E38D73600580375 /* RegexKitLite.m */,
+				EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */,
+			);
+			name = "Other Source";
+			path = Source;
+			sourceTree = "<group>";
+		};
+		EE670F5D0E6A1B950011DAAF /* Xml Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EE670F630E6A1C590011DAAF /* BBSTBXmlContentDoc.h */,
+				EE670F640E6A1C590011DAAF /* BBSTBXmlContentDoc.m */,
+				EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */,
+				EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */,
+			);
+			name = "Xml Doc Classes";
+			sourceTree = "<group>";
+		};
+		EE69EB8A0E19E9BB00067F4A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */,
+				EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */,
+				EEB893000E3A160100580375 /* NSString-BBSAdditions.h */,
+				EEB893010E3A160100580375 /* NSString-BBSAdditions.m */,
+			);
+			name = Categories;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		EEDC2C000E62D71200432F2D /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				EE670F5D0E6A1B950011DAAF /* Xml Doc Classes */,
+				EEDC2C130E62D7A600432F2D /* Package Doc Classes */,
+				EEDC2C120E62D79000432F2D /* Control Doc Classes */,
+				EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */,
+				EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */,
+			);
+			name = Documents;
+			sourceTree = "<group>";
+		};
+		EEDC2C010E62D75E00432F2D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EE1808550E137F9700AEE163 /* BBSTalkingBook.h */,
+				EE1808560E137F9700AEE163 /* BBSTalkingBook.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		EEDC2C120E62D79000432F2D /* Control Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */,
+				EE22F9650E53B3DA006CB61F /* BBSTBControlDoc.m */,
+				EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */,
+				EE1808590E137F9700AEE163 /* BBSTBNCXDocument.m */,
+				EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */,
+				EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */,
+			);
+			name = "Control Doc Classes";
+			sourceTree = "<group>";
+		};
+		EEDC2C130E62D7A600432F2D /* Package Doc Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */,
+				EEDC2B800E62A59900432F2D /* BBSTBPackageDoc.m */,
+				EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */,
+				EE18085B0E137F9700AEE163 /* BBSTBOPFDocument.m */,
+			);
+			name = "Package Doc Classes";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EE1808470E137E4B00AEE163 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEB892380E38D73600580375 /* RegexKitLite.h in Headers */,
+				EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */,
+				EE1808600E137F9700AEE163 /* BBSTalkingBook.h in Headers */,
+				EE1808620E137F9700AEE163 /* BBSTalkingBookTypes.h in Headers */,
+				EE1808630E137F9700AEE163 /* BBSTBNCXDocument.h in Headers */,
+				EE1808650E137F9700AEE163 /* BBSTBOPFDocument.h in Headers */,
+				EE1808670E137F9700AEE163 /* BBSTBSMILDocument.h in Headers */,
+				EE1808690E137F9700AEE163 /* BBSTBTextDocument.h in Headers */,
+				EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */,
+				EEB893020E3A160100580375 /* NSString-BBSAdditions.h in Headers */,
+				EE22F9660E53B3DA006CB61F /* BBSTBControlDoc.h in Headers */,
+				EEDC2B810E62A59900432F2D /* BBSTBPackageDoc.h in Headers */,
+				EE670F650E6A1C590011DAAF /* BBSTBXmlContentDoc.h in Headers */,
+				EE1FC3D80E78EBBB00BE6453 /* BBSTBNCCDocument.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Olearia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Olearia" */;
+			buildPhases = (
+				EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */,
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				EE2159110DDB5BF4009155A1 /* Set Version */,
+				EE2159250DDB5E58009155A1 /* Strip Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE1808800E13803A00AEE163 /* PBXTargetDependency */,
+			);
+			name = Olearia;
+			productInstallPath = "$(HOME)/Applications";
+			productName = Olearia;
+			productReference = 8D1107320486CEB800E47090 /* Olearia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE18084B0E137E4B00AEE163 /* BBSTalkingBook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE1808500E137E4B00AEE163 /* Build configuration list for PBXNativeTarget "BBSTalkingBook" */;
+			buildPhases = (
+				EE1808470E137E4B00AEE163 /* Headers */,
+				EE1808480E137E4B00AEE163 /* Resources */,
+				EE1808490E137E4B00AEE163 /* Sources */,
+				EE18084A0E137E4B00AEE163 /* Frameworks */,
+				EEB890250E38208B00580375 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BBSTalkingBook;
+			productName = BBSTalkingBook;
+			productReference = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Olearia" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Olearia */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Olearia */,
+				EE18084B0E137E4B00AEE163 /* BBSTalkingBook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				EE9F79950E6628F5006AC5F8 /* MainMenu.xib in Resources */,
+				EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */,
+				EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */,
+				EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */,
+				EE0A74A40E3B5229001CF3C2 /* HC-Bookmark.png in Resources */,
+				EE0A74A50E3B5229001CF3C2 /* HC-DownLevel.png in Resources */,
+				EE0A74A60E3B5229001CF3C2 /* HC-FastBack.png in Resources */,
+				EE0A74A70E3B5229001CF3C2 /* HC-FastForward.png in Resources */,
+				EE0A74A80E3B522A001CF3C2 /* HC-GotoPage.png in Resources */,
+				EE0A74A90E3B522A001CF3C2 /* HC-info.png in Resources */,
+				EE0A74AA0E3B522A001CF3C2 /* HC-Next.png in Resources */,
+				EE0A74AB0E3B522A001CF3C2 /* HC-PAUSE.png in Resources */,
+				EE0A74AC0E3B522A001CF3C2 /* HC-Play.png in Resources */,
+				EE0A74AD0E3B522A001CF3C2 /* HC-Previous.png in Resources */,
+				EE0A74AE0E3B522A001CF3C2 /* HC-UpLevel.png in Resources */,
+				EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */,
+				EEC1AA970E3C7C160000512D /* gplv3.tiff in Resources */,
+				EEC1AB780E3C91F50000512D /* About.xib in Resources */,
+				EE9F79970E662903006AC5F8 /* Preferences.xib in Resources */,
+				EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */,
+				EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */,
+				EEEB96D30E8DE7B400D77B4D /* info.png in Resources */,
+				EEEB96D40E8DE7B400D77B4D /* gotoPage.png in Resources */,
+				EEEB96D50E8DE7B400D77B4D /* ForwardArrow.png in Resources */,
+				EEEB96D60E8DE7B400D77B4D /* DownArrow.png in Resources */,
+				EEEB96D70E8DE7B400D77B4D /* button-rewind.png in Resources */,
+				EEEB96D80E8DE7B400D77B4D /* button-play.png in Resources */,
+				EEEB96D90E8DE7B400D77B4D /* button-pause.png in Resources */,
+				EEEB96DA0E8DE7B400D77B4D /* button-foward.png in Resources */,
+				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
+				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
+				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
+				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
+				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
+				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE1808480E137E4B00AEE163 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EE2159110DDB5BF4009155A1 /* Set Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/perl;
+			shellScript = "#!/usr/bin/perl\n# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
+		};
+		EE2159250DDB5E58009155A1 /* Strip Headers */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Strip Headers";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n### We only run on \"Release\" builds...\nif [[ $BUILD_STYLE != 'Release' ]] ; then\n\texit 0\nfi\n\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\n\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\n\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */,
+				EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */,
+				EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */,
+				EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE1808490E137E4B00AEE163 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEB892390E38D73600580375 /* RegexKitLite.m in Sources */,
+				EE1808610E137F9700AEE163 /* BBSTalkingBook.m in Sources */,
+				EE1808640E137F9700AEE163 /* BBSTBNCXDocument.m in Sources */,
+				EE1808660E137F9700AEE163 /* BBSTBOPFDocument.m in Sources */,
+				EE1808680E137F9700AEE163 /* BBSTBSMILDocument.m in Sources */,
+				EE18086A0E137F9700AEE163 /* BBSTBTextDocument.m in Sources */,
+				EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */,
+				EEB893030E3A160100580375 /* NSString-BBSAdditions.m in Sources */,
+				EE22F9670E53B3DA006CB61F /* BBSTBControlDoc.m in Sources */,
+				EEDC2B820E62A59900432F2D /* BBSTBPackageDoc.m in Sources */,
+				EE670F660E6A1C590011DAAF /* BBSTBXmlContentDoc.m in Sources */,
+				EE1FC3D90E78EBBB00BE6453 /* BBSTBNCCDocument.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE1808800E13803A00AEE163 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE18084B0E137E4B00AEE163 /* BBSTalkingBook */;
+			targetProxy = EE18087F0E13803A00AEE163 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EE9F79940E6628F5006AC5F8 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		EE9F79960E662903006AC5F8 /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEC1AB850E3C93FF0000512D /* English */,
+			);
+			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		EEC1AB760E3C91F50000512D /* About.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEC1AB770E3C91F50000512D /* English */,
+			);
+			name = About.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				APPLICATION_VERSION = "0.9.2 RC3";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Olearia_Prefix.pch;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Olearia;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				APPLICATION_VERSION = "0.9.2 RC3";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Olearia_Prefix.pch;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Olearia;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_OPENMP_SUPPORT = NO;
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OBJC_CALL_CXX_CDTORS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBC_FLATTEN_NIBS = NO;
+				INFOPLIST_FILE = "";
+				INFOPLIST_PREPROCESS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OBJC_CALL_CXX_CDTORS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		EE18084E0E137E4B00AEE163 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_AUTO_VECTORIZATION = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Frameworks/TalkingBook Framework/Source/BBSTalkingBook_Prefix.pch";
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = NO;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = "Frameworks/TalkingBook Framework/Resources/info.plist";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-licucore",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = BBSTalkingBook;
+			};
+			name = Debug;
+		};
+		EE18084F0E137E4B00AEE163 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Frameworks/TalkingBook Framework/Source/BBSTalkingBook_Prefix.pch";
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = "Frameworks/TalkingBook Framework/Resources/info.plist";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-licucore",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = BBSTalkingBook;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Olearia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Olearia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE1808500E137E4B00AEE163 /* Build configuration list for PBXNativeTarget "BBSTalkingBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE18084E0E137E4B00AEE163 /* Debug */,
+				EE18084F0E137E4B00AEE163 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
