@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9E17</string>
-		<string key="IBDocument.InterfaceBuilderVersion">670</string>
-		<string key="IBDocument.AppKitVersion">949.33</string>
+		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.InterfaceBuilderVersion">672</string>
+		<string key="IBDocument.AppKitVersion">949.34</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -82,7 +82,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="903160850">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">138412032</int>
-								<string type="base64-UTF8" key="NSContents">PDxsZWF2ZSBlbXB0eT4+A</string>
+								<string key="NSContents"/>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">1.300000e+01</double>
@@ -118,7 +118,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="857062189">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">138412032</int>
-								<string type="base64-UTF8" key="NSContents">PDxsZWF2ZSBlbXB0eT4+A</string>
+								<string key="NSContents"/>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">2.400000e+01</double>
@@ -132,13 +132,13 @@
 						<object class="NSTextField" id="577111545">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{68, 81}, {313, 14}}</string>
+							<string key="NSFrame">{{68, 78}, {313, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="899735542">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">138412032</int>
-								<string type="base64-UTF8" key="NSContents">PDxsZWF2ZSBlbXB0eT4+A</string>
+								<string key="NSContents"/>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">1.100000e+01</double>
@@ -681,7 +681,6 @@
 							<string>aboutPanel</string>
 							<string>appNameField</string>
 							<string>copyrightField</string>
-							<string>creditsScrollView</string>
 							<string>creditsView</string>
 							<string>versionField</string>
 						</object>
@@ -690,7 +689,6 @@
 							<string>NSPanel</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
-							<string>NSScrollView</string>
 							<string>NSTextView</string>
 							<string>NSTextField</string>
 						</object>
