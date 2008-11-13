@@ -32,7 +32,9 @@ NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
 NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
+NSString * const OleariaShouldUseHighContrastIcons = @"OleariaShouldUseHighContrastIcons";
 NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemovableMedia";
+
 
 @interface OleariaDelegate ()
 
@@ -677,11 +679,15 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 
 - (void)populateRecentFilesMenu
 {
-	NSArray *bookTitles = [_recentBooks valueForKeyPath:@"Title"];
+	NSString *loadedFromPrefix = [NSString stringWithString:@"Loaded from - "];
 	
-	for(NSString *aTitle in bookTitles)
+	for (NSDictionary *aBook in _recentBooks)
 	{
-		[recentBooksMenu addItemWithTitle:aTitle action:@selector(openRecentBook:) keyEquivalent:@""];
+		NSMenuItem *theItem = [[NSMenuItem alloc] init];
+		[theItem setTitle:[aBook valueForKey:@"Title"]];
+		[theItem setAction:@selector(openRecentBook:)];
+		[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
+		[recentBooksMenu addItem:theItem];
 	}
 }
 
