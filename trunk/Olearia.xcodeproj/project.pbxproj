@@ -171,6 +171,7 @@
 		EEA915EC0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
+		EEAEF1D40ECB92D10064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEB892360E38D73600580375 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		EEB892370E38D73600580375 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		EEB893000E3A160100580375 /* NSString-BBSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-BBSAdditions.h"; sourceTree = "<group>"; };
@@ -734,6 +735,7 @@
 			children = (
 				EE0E8C340EC3F33800202257 /* English */,
 				EEA915E20ECA7882008E8A07 /* fr */,
+				EEAEF1D40ECB92D10064FF29 /* no */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
