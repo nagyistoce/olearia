@@ -138,6 +138,11 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
 	
+	// set the title of the play/pause menu item
+	[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
+	// resize all the menu items so they sho;; their entire content
+	[[[playPauseMenuItem menu] supermenu] sizeToFit];
+	
 	// load our recent books (if any) into the Recent Books menu
 	[self populateRecentFilesMenu];
 	
@@ -216,12 +221,10 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	{
 		// set the button stat and menuitem title 
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Pause         <space>",@"menu item pause string")];
+		[[playPauseMenuItem menu] sizeToFit];
 		
-		// switch the play and pause icons on the button
-		NSImage *tempImage = [playPauseButton image];
-		[playPauseButton setImage:[playPauseButton alternateImage]];
-		[playPauseButton setAlternateImage:tempImage];
-		
+		[playPauseButton setImage:[NSImage imageNamed:@"button-pause"]];
+				
 		isPlaying = YES;
 				
 		[talkingBook playAudio];
@@ -229,13 +232,11 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	else // isPlaying == YES
 	{
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
-		
+		[[playPauseMenuItem menu] sizeToFit];
+	
 		isPlaying = NO;
 		
-		// switch the play and pause icons on the button
-		NSImage *tempImage = [playPauseButton image];
-		[playPauseButton setImage:[playPauseButton alternateImage]];
-		[playPauseButton setAlternateImage:tempImage];
+		[playPauseButton setImage:[NSImage imageNamed:@"button-play"]];
 		
 		[talkingBook pauseAudio];
 		

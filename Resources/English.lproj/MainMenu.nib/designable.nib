@@ -8,9 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="477"/>
 			<integer value="956"/>
-			<integer value="21"/>
-			<integer value="24"/>
+			<integer value="315"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -752,7 +752,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="15734211">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">151027712</int>
+												<int key="NSCellFlags2">134250496</int>
 												<string key="NSContents">Play</string>
 												<reference key="NSSupport" ref="533438589"/>
 												<reference key="NSControlView" ref="572828041"/>
@@ -761,10 +761,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">button-play</string>
-												</object>
-												<object class="NSCustomResource" key="NSAlternateImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">button-pause</string>
 												</object>
 												<string key="NSAlternateContents">Pause</string>
 												<string key="NSKeyEquivalent"/>
@@ -804,6 +800,10 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<int key="NSBoxType">0</int>
 							<int key="NSTitlePosition">2</int>
 							<bool key="NSTransparent">NO</bool>
+							<object class="NSColor" key="NSFillColor2">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MCAwLjEAA</bytes>
+							</object>
 						</object>
 						<object class="NSBox" id="939407542">
 							<reference key="NSNextResponder" ref="865623825"/>
@@ -4778,7 +4778,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{189, 616}, {171, 193}}</string>
+					<string>{{332, 610}, {171, 193}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4827,7 +4827,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{147, 766}, {170, 43}}</string>
+					<string>{{290, 760}, {170, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4861,7 +4861,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<object class="IBAccessibilityAttribute">
 								<string key="name">AccessibilityDescription</string>
 								<reference key="object" ref="399801161"/>
-								<string key="accessibilityValue">Volume level slider</string>
+								<string key="accessibilityValue">Volume level</string>
 							</object>
 							<object class="IBAccessibilityAttribute">
 								<string key="name">AccessibilityHelp</string>
@@ -4890,7 +4890,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<object class="IBAccessibilityAttribute">
 								<string key="name">AccessibilityDescription</string>
 								<reference key="object" ref="758452174"/>
-								<string key="accessibilityValue">Playback Rate</string>
+								<string key="accessibilityValue">Playback rate</string>
 							</object>
 							<object class="IBAccessibilityAttribute">
 								<string key="name">AccessibilityHelp</string>
