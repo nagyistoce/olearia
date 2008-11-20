@@ -147,7 +147,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	[self populateRecentFilesMenu];
 	
 	BOOL shouldLoadLastBook = [_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead];
-	if(YES == shouldLoadLastBook)
+	if(shouldLoadLastBook && ([_recentBooks count] > 0))
 	{
 		// get the first item in the recent books list
 		NSString *validFilePath = [[_recentBooks objectAtIndex:0] valueForKey:@"FilePath"];
