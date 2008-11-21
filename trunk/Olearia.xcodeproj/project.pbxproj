@@ -29,6 +29,17 @@
 		EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */; };
 		EE1808760E13800400AEE163 /* BBSTalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */; };
 		EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */; };
+		EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07640ED68A730007E357 /* HC-BackArrow.png */; };
+		EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07650ED68A730007E357 /* HC-bookmark.png */; };
+		EE1A07710ED68A730007E357 /* HC-button-foward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07660ED68A730007E357 /* HC-button-foward.png */; };
+		EE1A07720ED68A730007E357 /* HC-button-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07670ED68A730007E357 /* HC-button-pause.png */; };
+		EE1A07730ED68A730007E357 /* HC-button-play.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07680ED68A730007E357 /* HC-button-play.png */; };
+		EE1A07740ED68A730007E357 /* HC-button-rewind.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07690ED68A730007E357 /* HC-button-rewind.png */; };
+		EE1A07750ED68A730007E357 /* HC-DownArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076A0ED68A730007E357 /* HC-DownArrow.png */; };
+		EE1A07760ED68A730007E357 /* HC-ForwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076B0ED68A730007E357 /* HC-ForwardArrow.png */; };
+		EE1A07770ED68A730007E357 /* HC-gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076C0ED68A730007E357 /* HC-gotoPage.png */; };
+		EE1A07780ED68A730007E357 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076D0ED68A730007E357 /* HC-info.png */; };
+		EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076E0ED68A730007E357 /* HC-UpArrow.png */; };
 		EE1FC3D80E78EBBB00BE6453 /* BBSTBNCCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */; };
 		EE1FC3D90E78EBBB00BE6453 /* BBSTBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
@@ -136,6 +147,17 @@
 		EE18085D0E137F9700AEE163 /* BBSTBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBSMILDocument.m; path = Source/BBSTBSMILDocument.m; sourceTree = "<group>"; };
 		EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBTextDocument.h; path = Source/BBSTBTextDocument.h; sourceTree = "<group>"; };
 		EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBTextDocument.m; path = Source/BBSTBTextDocument.m; sourceTree = "<group>"; };
+		EE1A07640ED68A730007E357 /* HC-BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-BackArrow.png"; sourceTree = "<group>"; };
+		EE1A07650ED68A730007E357 /* HC-bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-bookmark.png"; sourceTree = "<group>"; };
+		EE1A07660ED68A730007E357 /* HC-button-foward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-foward.png"; sourceTree = "<group>"; };
+		EE1A07670ED68A730007E357 /* HC-button-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-pause.png"; sourceTree = "<group>"; };
+		EE1A07680ED68A730007E357 /* HC-button-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-play.png"; sourceTree = "<group>"; };
+		EE1A07690ED68A730007E357 /* HC-button-rewind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-rewind.png"; sourceTree = "<group>"; };
+		EE1A076A0ED68A730007E357 /* HC-DownArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-DownArrow.png"; sourceTree = "<group>"; };
+		EE1A076B0ED68A730007E357 /* HC-ForwardArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-ForwardArrow.png"; sourceTree = "<group>"; };
+		EE1A076C0ED68A730007E357 /* HC-gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-gotoPage.png"; sourceTree = "<group>"; };
+		EE1A076D0ED68A730007E357 /* HC-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-info.png"; sourceTree = "<group>"; };
+		EE1A076E0ED68A730007E357 /* HC-UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpArrow.png"; sourceTree = "<group>"; };
 		EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBNCCDocument.h; path = Source/BBSTBNCCDocument.h; sourceTree = "<group>"; };
 		EE1FC3D70E78EBBB00BE6453 /* BBSTBNCCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBNCCDocument.m; path = Source/BBSTBNCCDocument.m; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
@@ -304,6 +326,17 @@
 		EE0A74840E3B509E001CF3C2 /* Button Images */ = {
 			isa = PBXGroup;
 			children = (
+				EE1A07640ED68A730007E357 /* HC-BackArrow.png */,
+				EE1A07650ED68A730007E357 /* HC-bookmark.png */,
+				EE1A07660ED68A730007E357 /* HC-button-foward.png */,
+				EE1A07670ED68A730007E357 /* HC-button-pause.png */,
+				EE1A07680ED68A730007E357 /* HC-button-play.png */,
+				EE1A07690ED68A730007E357 /* HC-button-rewind.png */,
+				EE1A076A0ED68A730007E357 /* HC-DownArrow.png */,
+				EE1A076B0ED68A730007E357 /* HC-ForwardArrow.png */,
+				EE1A076C0ED68A730007E357 /* HC-gotoPage.png */,
+				EE1A076D0ED68A730007E357 /* HC-info.png */,
+				EE1A076E0ED68A730007E357 /* HC-UpArrow.png */,
 				EEEB96E10E8DF22100D77B4D /* prefs_gen.png */,
 				EEEB96C50E8DE7B300D77B4D /* UpArrow.png */,
 				EEEB96C60E8DE7B300D77B4D /* SoundPref.png */,
@@ -594,6 +627,17 @@
 				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
 				EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */,
 				EE22786E0ECA51E800309491 /* About.nib in Resources */,
+				EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */,
+				EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */,
+				EE1A07710ED68A730007E357 /* HC-button-foward.png in Resources */,
+				EE1A07720ED68A730007E357 /* HC-button-pause.png in Resources */,
+				EE1A07730ED68A730007E357 /* HC-button-play.png in Resources */,
+				EE1A07740ED68A730007E357 /* HC-button-rewind.png in Resources */,
+				EE1A07750ED68A730007E357 /* HC-DownArrow.png in Resources */,
+				EE1A07760ED68A730007E357 /* HC-ForwardArrow.png in Resources */,
+				EE1A07770ED68A730007E357 /* HC-gotoPage.png in Resources */,
+				EE1A07780ED68A730007E357 /* HC-info.png in Resources */,
+				EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
