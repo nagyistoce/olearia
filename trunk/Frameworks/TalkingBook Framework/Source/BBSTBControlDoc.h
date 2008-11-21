@@ -40,6 +40,8 @@
 	NSString			*currentAudioFilename;
 	NSString			*currentPositionID;
 	
+	BOOL				navigateForChapters;
+	
 }
 
 - (void)moveToNextSegment;
@@ -51,6 +53,8 @@
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
 - (BOOL)canGoDownLevel;
+- (BOOL)nextSegmentIsAvailable;
+- (BOOL)PreviousSegmentIsAvailable;
 
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly, retain) NSString	*bookTitle;
@@ -63,6 +67,6 @@
 @property (readonly, retain) NSString *segmentTitle;
 @property (readonly, retain) NSString *currentAudioFilename;
 @property (readwrite,retain) NSString *currentPositionID;
-
+@property (readwrite) BOOL navigateForChapters;
 
 @end

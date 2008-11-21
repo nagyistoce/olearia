@@ -57,11 +57,10 @@ typedef enum
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	TalkingBookMediaFormat  _mediaFormat;
+	
 	NSInteger				maxLevels;
 	NSInteger				_totalChapters;
 	NSInteger				_currentLevelIndex;
-	
-	//NSString				*playPosition;
 	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
 	NSInteger				currentLevel;
@@ -118,8 +117,6 @@ typedef enum
 - (BOOL)nextSegmentOnLevel;
 - (BOOL)nextSegment;
 - (BOOL)previousSegment;
-
-- (BOOL)hasChapters;
 
 - (void)upOneLevel;
 - (void)downOneLevel;

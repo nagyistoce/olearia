@@ -187,7 +187,7 @@
 			[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
 			
 			[outputChapters addObject:thisChapter]; 
-			//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+			
 		}
 	}
 	
@@ -220,7 +220,6 @@
 			[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
 			
 			[outputChapters addObject:thisChapter]; 
-			//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
 		}
 	}
 	
@@ -295,6 +294,44 @@
 	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
 }
 
+- (BOOL)nextSegmentIsAvailable
+{
+	// return YES if there is a segment that will be available after the current one
+	// used in evaluation of continuous chapter logic
+	
+	BOOL segAvail = NO; // set the default
+	
+	if(YES == [self canGoDownLevel]) // first check if we can go down a level
+	{	
+		segAvail = YES;
+	}
+	else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+		segAvail = YES;
+	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+	{
+		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+		{	
+			segAvail = YES;
+		}
+	}
+	
+	return segAvail;
+}
+
+- (BOOL)PreviousSegmentIsAvailable
+{
+	// return YES if there is a segment that will be available before the current one
+	// used in evaluation of continuous chapter logic
+	
+	BOOL segAvail = NO; // set the default
+	
+	if(currentLevel > 1)
+		segAvail = YES;
+	else if([self canGoPrev])
+		segAvail = YES;
+	
+	return segAvail;
+}
 
 
 #pragma mark -
@@ -320,7 +357,7 @@
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
 				self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				self.currentLevel++; // increment the level index
+				self.currentLevel++; // increment the level
 			}
 			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
 				self.currentNavPoint = [currentNavPoint nextSibling];
@@ -358,14 +395,39 @@
 
 - (void)previousSegment
 {
-	if([self canGoPrev])
+	BOOL foundNode = NO;
+	
+	if(NO == navigateForChapters)
 	{
+		// we have a node on this level
 		currentNavPoint = [currentNavPoint previousSibling];
 	}
+	else
+	{
+		// we only make it here if we are travelling backwards across segments
 		
+		// reset the flag
+		navigateForChapters = NO;
+		
+		// look back through the previous nodes for a navpoint
+		while(NO == foundNode)
+		{
+			currentNavPoint = [currentNavPoint previousNode];
+			if([[currentNavPoint name] isEqualToString:@"navPoint"])
+				foundNode = YES;
+		}
+		
+		
+		self.currentLevel = [self levelOfNode:currentNavPoint];
+			
+			
+		
+		
+	}
+	
 	// set the segment attributes for the current NavPoint
-	NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-	self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
+	NSXMLElement *navPointAsElement = (NSXMLElement *)currentNavPoint;
+	self.segmentAttributes = [navPointAsElement dictionaryFromElement];
 	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
 	
 }

@@ -364,6 +364,11 @@
 	return hasLevelDown;
 }
 
+- (BOOL)nextSegmentIsAvailable
+{
+	return ([self canGoNext] || [self canGoDownLevel]);
+}
+
 - (void)updateAttributesForCurrentPosition
 {
 	
@@ -624,6 +629,10 @@
 {
 	
 	if([self canGoPrev])
+	{
+		_currentNodeIndex--;
+	}
+	else if([self canGoUpLevel])
 	{
 		_currentNodeIndex--;
 	}
