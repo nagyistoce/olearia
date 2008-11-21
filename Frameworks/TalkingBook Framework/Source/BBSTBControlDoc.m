@@ -115,11 +115,23 @@
 	
 }
 
+- (BOOL)nextSegmentIsAvailable
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+- (BOOL)PreviousSegmentIsAvailable
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
 @synthesize levelNavChapterIncrement;
 @synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;
 @synthesize segmentTitle, bookTitle, documentUID;
 @synthesize currentAudioFilename, currentPositionID;
+@synthesize navigateForChapters;
 
 
 @end
