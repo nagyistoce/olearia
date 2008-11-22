@@ -42,6 +42,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 - (NSString *)applicationSupportFolder;
 - (void)populateRecentFilesMenu;
 - (void)updateRecentBooks:(NSString *)pathToMove updateCurrentBookSettings:(BOOL)shouldUpdate;
+- (void)loadHighContrastImages;
 - (NSString *)controlFilenameFromFolder:(NSString *)aFolderPath;
 - (BOOL)loadBookAtPath:(NSString *)aFilePath;
 
@@ -81,6 +82,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 												 name:NSWindowDidDeminiaturizeNotification 
 											   object:mainWindow];
 
+	
 	
 	// init the book object
 	talkingBook = [[BBSTalkingBook alloc] init];
@@ -146,8 +148,12 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	// load our recent books (if any) into the Recent Books menu
 	[self populateRecentFilesMenu];
 	
-	BOOL shouldLoadLastBook = [_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead];
-	if(shouldLoadLastBook && ([_recentBooks count] > 0))
+	if([_userSetDefaults boolForKey:OleariaShouldUseHighContrastIcons])
+	{
+		[self loadHighContrastImages];
+	}
+	
+	if([_userSetDefaults boolForKey:OleariaShouldOpenLastBookRead] && ([_recentBooks count] > 0))
 	{
 		// get the first item in the recent books list
 		NSString *validFilePath = [[_recentBooks objectAtIndex:0] valueForKey:@"FilePath"];
@@ -223,7 +229,11 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Pause         <space>",@"menu item pause string")];
 		[[playPauseMenuItem menu] sizeToFit];
 		
-		[playPauseButton setImage:[NSImage imageNamed:@"button-pause"]];
+		// we switch the images like this to allow for differences between names when using normal 
+		// or high contrast icons.
+		NSImage *tempImage = [playPauseButton image];
+		[playPauseButton setImage:[playPauseButton alternateImage]];
+		[playPauseButton setAlternateImage:tempImage];
 				
 		isPlaying = YES;
 				
@@ -236,7 +246,11 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	
 		isPlaying = NO;
 		
-		[playPauseButton setImage:[NSImage imageNamed:@"button-play"]];
+		// we switch the images like this to allow for differences between names when using normal 
+		// or high contrast icons.
+		NSImage *tempImage = [playPauseButton image];
+		[playPauseButton setImage:[playPauseButton alternateImage]];
+		[playPauseButton setAlternateImage:tempImage];
 		
 		[talkingBook pauseAudio];
 		
@@ -452,6 +466,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	[minimizeMenuItem setEnabled:YES];
 }
 
+
+
 #pragma mark -
 #pragma mark View Display Methods
 
@@ -484,6 +500,22 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 
 #pragma mark -
 #pragma mark Private Methods
+
+- (void)loadHighContrastImages
+{
+	[playPauseButton setImage:[NSImage imageNamed:@"HC-button-play"]];
+	[playPauseButton setAlternateImage:[NSImage imageNamed:@"HC-button-pause"]];
+	[nextButton setImage:[NSImage imageNamed:@"HC-ForwardArrow"]];
+	[prevButton setImage:[NSImage imageNamed:@"HC-BackArrow"]];
+	[upLevelButton setImage:[NSImage imageNamed:@"HC-UpArrow"]];
+	[downLevelButton setImage:[NSImage imageNamed:@"HC-DownArrow"]];
+	[fastForwardButton setImage:[NSImage imageNamed:@"HC-button-forward"]];
+	[fastBackButton setImage:[NSImage imageNamed:@"HC-button-rewind"]];
+	[infoButton setImage:[NSImage imageNamed:@"HC-info"]];
+	[bookmarkButton setImage:[NSImage imageNamed:@"HC-bookmark"]];
+	[gotoPageButton setImage:[NSImage imageNamed:@"HC-gotoPage"]];
+	
+}
 
 - (NSString *)controlFilenameFromFolder:(NSString *)aFolderPath
 {
@@ -706,6 +738,7 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldOpenLastBookRead];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldUseHighContrastIcons];
 	
 	// set them in the shared user defaults
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -717,6 +750,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 					OleariaPlaybackVolume, 
 					OleariaUseVoiceForPlayback, 
 					OleariaChapterSkipIncrement,
+					OleariaShouldUseHighContrastIcons,
+					OleariaShouldOpenLastBookRead,
 					nil];
 	
     // get the values for the specified keys

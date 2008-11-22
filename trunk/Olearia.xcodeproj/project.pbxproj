@@ -31,7 +31,7 @@
 		EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */; };
 		EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07640ED68A730007E357 /* HC-BackArrow.png */; };
 		EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07650ED68A730007E357 /* HC-bookmark.png */; };
-		EE1A07710ED68A730007E357 /* HC-button-foward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07660ED68A730007E357 /* HC-button-foward.png */; };
+		EE1A07710ED68A730007E357 /* HC-button-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07660ED68A730007E357 /* HC-button-forward.png */; };
 		EE1A07720ED68A730007E357 /* HC-button-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07670ED68A730007E357 /* HC-button-pause.png */; };
 		EE1A07730ED68A730007E357 /* HC-button-play.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07680ED68A730007E357 /* HC-button-play.png */; };
 		EE1A07740ED68A730007E357 /* HC-button-rewind.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07690ED68A730007E357 /* HC-button-rewind.png */; };
@@ -79,7 +79,7 @@
 		EEEB96D70E8DE7B400D77B4D /* button-rewind.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */; };
 		EEEB96D80E8DE7B400D77B4D /* button-play.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CC0E8DE7B400D77B4D /* button-play.png */; };
 		EEEB96D90E8DE7B400D77B4D /* button-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CD0E8DE7B400D77B4D /* button-pause.png */; };
-		EEEB96DA0E8DE7B400D77B4D /* button-foward.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CE0E8DE7B400D77B4D /* button-foward.png */; };
+		EEEB96DA0E8DE7B400D77B4D /* button-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CE0E8DE7B400D77B4D /* button-forward.png */; };
 		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
 		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
 		EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96E10E8DF22100D77B4D /* prefs_gen.png */; };
@@ -149,7 +149,7 @@
 		EE18085F0E137F9700AEE163 /* BBSTBTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBTextDocument.m; path = Source/BBSTBTextDocument.m; sourceTree = "<group>"; };
 		EE1A07640ED68A730007E357 /* HC-BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-BackArrow.png"; sourceTree = "<group>"; };
 		EE1A07650ED68A730007E357 /* HC-bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-bookmark.png"; sourceTree = "<group>"; };
-		EE1A07660ED68A730007E357 /* HC-button-foward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-foward.png"; sourceTree = "<group>"; };
+		EE1A07660ED68A730007E357 /* HC-button-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-forward.png"; sourceTree = "<group>"; };
 		EE1A07670ED68A730007E357 /* HC-button-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-pause.png"; sourceTree = "<group>"; };
 		EE1A07680ED68A730007E357 /* HC-button-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-play.png"; sourceTree = "<group>"; };
 		EE1A07690ED68A730007E357 /* HC-button-rewind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-rewind.png"; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 		EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind.png"; sourceTree = "<group>"; };
 		EEEB96CC0E8DE7B400D77B4D /* button-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play.png"; sourceTree = "<group>"; };
 		EEEB96CD0E8DE7B400D77B4D /* button-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-pause.png"; sourceTree = "<group>"; };
-		EEEB96CE0E8DE7B400D77B4D /* button-foward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-foward.png"; sourceTree = "<group>"; };
+		EEEB96CE0E8DE7B400D77B4D /* button-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-forward.png"; sourceTree = "<group>"; };
 		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
 		EEEB96E10E8DF22100D77B4D /* prefs_gen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_gen.png; sourceTree = "<group>"; };
@@ -328,7 +328,7 @@
 			children = (
 				EE1A07640ED68A730007E357 /* HC-BackArrow.png */,
 				EE1A07650ED68A730007E357 /* HC-bookmark.png */,
-				EE1A07660ED68A730007E357 /* HC-button-foward.png */,
+				EE1A07660ED68A730007E357 /* HC-button-forward.png */,
 				EE1A07670ED68A730007E357 /* HC-button-pause.png */,
 				EE1A07680ED68A730007E357 /* HC-button-play.png */,
 				EE1A07690ED68A730007E357 /* HC-button-rewind.png */,
@@ -348,7 +348,7 @@
 				EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */,
 				EEEB96CC0E8DE7B400D77B4D /* button-play.png */,
 				EEEB96CD0E8DE7B400D77B4D /* button-pause.png */,
-				EEEB96CE0E8DE7B400D77B4D /* button-foward.png */,
+				EEEB96CE0E8DE7B400D77B4D /* button-forward.png */,
 				EEEB96CF0E8DE7B400D77B4D /* bookmark.png */,
 				EEEB96D00E8DE7B400D77B4D /* BackArrow.png */,
 			);
@@ -616,7 +616,7 @@
 				EEEB96D70E8DE7B400D77B4D /* button-rewind.png in Resources */,
 				EEEB96D80E8DE7B400D77B4D /* button-play.png in Resources */,
 				EEEB96D90E8DE7B400D77B4D /* button-pause.png in Resources */,
-				EEEB96DA0E8DE7B400D77B4D /* button-foward.png in Resources */,
+				EEEB96DA0E8DE7B400D77B4D /* button-forward.png in Resources */,
 				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
 				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
@@ -629,7 +629,7 @@
 				EE22786E0ECA51E800309491 /* About.nib in Resources */,
 				EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */,
 				EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */,
-				EE1A07710ED68A730007E357 /* HC-button-foward.png in Resources */,
+				EE1A07710ED68A730007E357 /* HC-button-forward.png in Resources */,
 				EE1A07720ED68A730007E357 /* HC-button-pause.png in Resources */,
 				EE1A07730ED68A730007E357 /* HC-button-play.png in Resources */,
 				EE1A07740ED68A730007E357 /* HC-button-rewind.png in Resources */,
