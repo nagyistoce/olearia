@@ -23,6 +23,13 @@
 #import "OleariaPrefsController.h"
 #import "OleariaDelegate.h"
 
+//@interface OleariaPrefsController(Private)
+
+//- (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+//@end
+
+
 @implementation OleariaPrefsController
 
 - (id) init
@@ -115,4 +122,29 @@
 	[defaults synchronize];
 }
 
+- (IBAction)toggleHighContrastIcons:(id)sender
+{
+	// put up a dialog the user if they would like to relaunch the app with the new icons.
+	NSAlert *alert = [[NSAlert alloc] init];
+	[alert setMessageText:NSLocalizedString(@"Relaunch Required",@"relaunch required short msg")];
+	[alert setInformativeText:NSLocalizedString(@"This setting will take effect on the next launch.",@"relaunch alert long msg")];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+	[alert addButtonWithTitle:NSLocalizedString(@"Relaunch Now", @"relaunch alert button 1")];
+	 [alert addButtonWithTitle:NSLocalizedString(@"Continue without relaunch", @"relaunch alert button 2")]; 
+	[alert beginSheetModalForWindow:[self window] 
+					  modalDelegate:self
+					 didEndSelector:@selector(relaunchAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:nil];
+	
+	 
+}
+
+- (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if(NSAlertFirstButtonReturn == returnCode)
+	{
+		[[NSApp delegate] doRelaunch];
+	}
+}
 @end

@@ -34,7 +34,7 @@ NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelCh
 NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
 NSString * const OleariaShouldUseHighContrastIcons = @"OleariaShouldUseHighContrastIcons";
 NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemovableMedia";
-
+NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNotification";
 
 @interface OleariaDelegate ()
 
@@ -63,6 +63,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 {
 	if (!(self=[super init])) return nil;
 	
+	shouldReLaunch = NO; 
+	
 	BOOL isDir;
 	// get the defaults
 	_userSetDefaults = [NSUserDefaults standardUserDefaults];
@@ -82,7 +84,10 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 												 name:NSWindowDidDeminiaturizeNotification 
 											   object:mainWindow];
 
-	
+	//[[NSNotificationCenter defaultCenter] addObserver:self
+	//										 selector:@selector(doRelaunch:)
+	//											 name:OleariaShouldRelaunchNotification
+	//										   object:nil];
 	
 	// init the book object
 	talkingBook = [[BBSTalkingBook alloc] init];
@@ -137,6 +142,8 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 
 - (void) awakeFromNib
 {
+	[mainWindow makeKeyAndOrderFront:self];
+	
 	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
 	
@@ -394,9 +401,15 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 	// update the current settings of the currently (if any) open Book
 	[self updateRecentBooks:nil updateCurrentBookSettings:talkingBook.bookIsAlreadyLoaded];
 	
-	// save the settings
-	[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+	// save the recent books settings
+	if([_recentBooks count] > 0)
+		[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
 	
+	if(shouldReLaunch)
+	{
+		NSArray *helperArguments = [NSArray arrayWithObjects: [[NSBundle mainBundle] bundlePath], nil];
+		[NSTask launchedTaskWithLaunchPath:[[NSBundle mainBundle] pathForResource:@"RelaunchHelper" ofType:@""] arguments:helperArguments];
+	}
 }
 
 
@@ -500,6 +513,14 @@ NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemo
 
 #pragma mark -
 #pragma mark Private Methods
+
+- (void)doRelaunch
+{
+	// set our flag to let us know that we want to restart
+	shouldReLaunch = YES;
+	// we use terminate: here instead of stop: to use the NSApp delegate methods for nice cleanup and shutdown
+	[NSApp terminate:self];
+}
 
 - (void)loadHighContrastImages
 {

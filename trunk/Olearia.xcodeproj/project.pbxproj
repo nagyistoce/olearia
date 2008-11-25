@@ -52,6 +52,8 @@
 		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
+		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
+		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE5D6DE60E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */; };
 		EE5D6DE70E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EE5FEBCC0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */; };
@@ -93,9 +95,26 @@
 			remoteGlobalIDString = EE18084B0E137E4B00AEE163;
 			remoteInfo = BBSTalkingBook;
 		};
+		EE5A11D20EDB914900398FFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE5A11CC0EDB912B00398FFC /* RelaunchHelper */;
+			remoteInfo = RelaunchHelper;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		EE5A13580EDB928000398FFC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -173,6 +192,8 @@
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
 		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
+		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
+		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5D6DE40E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement-BBSExtensions.h"; sourceTree = "<group>"; };
 		EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement-BBSExtensions.m"; sourceTree = "<group>"; };
 		EE5FEBCB0E15F1F700B1E0F4 /* BBSTalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSTalkingBook_Prefix.pch; sourceTree = "<group>"; };
@@ -224,8 +245,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				EE18086F0E137FEB00AEE163 /* BBSTalkingBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,10 +254,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */,
-				EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */,
 				EE9B9F790E1CB47C004A765F /* Foundation.framework in Frameworks */,
+				EE9BA0100E1CB65D004A765F /* AppKit.framework in Frameworks */,
+				EE1808D70E13830300AEE163 /* QTKit.framework in Frameworks */,
 				EE2908950E35674D002C08DC /* QuickTime.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE5A11CB0EDB912B00398FFC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,8 +274,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EE66492E0E5DB1750096304D /* QuartzCore.framework */,
-				EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -256,6 +282,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE9F9DB30E0B4A8900E0AD30 /* QTKit.framework */,
+				EE66492E0E5DB1750096304D /* QuartzCore.framework */,
 				EE2908940E35674D002C08DC /* QuickTime.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
@@ -269,6 +297,7 @@
 			children = (
 				8D1107320486CEB800E47090 /* Olearia.app */,
 				EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */,
+				EE5A11CD0EDB912B00398FFC /* RelaunchHelper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,6 +317,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Source */ = {
 			isa = PBXGroup;
 			children = (
+				EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */,
 				32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -382,8 +412,8 @@
 			children = (
 				EE4406000E666380002DEDBB /* ExpandingViewController.h */,
 				EE4406010E666380002DEDBB /* ExpandingViewController.m */,
-				EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */,
 				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
+				EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */,
 				EE436AE40E5D500F00276672 /* OleariaPrefsController.h */,
 				EE436AE50E5D500F00276672 /* OleariaPrefsController.m */,
 				EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */,
@@ -533,8 +563,9 @@
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Olearia" */;
 			buildPhases = (
 				EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */,
-				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
+				8D1107290486CEB800E47090 /* Resources */,
+				EE5A13580EDB928000398FFC /* CopyFiles */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				EE2159110DDB5BF4009155A1 /* Set Version */,
 				EE2159250DDB5E58009155A1 /* Strip Headers */,
@@ -542,6 +573,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EE5A11D30EDB914900398FFC /* PBXTargetDependency */,
 				EE1808800E13803A00AEE163 /* PBXTargetDependency */,
 			);
 			name = Olearia;
@@ -569,6 +601,22 @@
 			productReference = EE18084C0E137E4B00AEE163 /* BBSTalkingBook.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		EE5A11CC0EDB912B00398FFC /* RelaunchHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE5A11D40EDB916700398FFC /* Build configuration list for PBXNativeTarget "RelaunchHelper" */;
+			buildPhases = (
+				EE5A11CA0EDB912B00398FFC /* Sources */,
+				EE5A11CB0EDB912B00398FFC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RelaunchHelper;
+			productName = RelaunchHelper;
+			productReference = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -592,6 +640,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* Olearia */,
 				EE18084B0E137E4B00AEE163 /* BBSTalkingBook */,
+				EE5A11CC0EDB912B00398FFC /* RelaunchHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -714,6 +763,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE5A11CA0EDB912B00398FFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -721,6 +778,11 @@
 			isa = PBXTargetDependency;
 			target = EE18084B0E137E4B00AEE163 /* BBSTalkingBook */;
 			targetProxy = EE18087F0E13803A00AEE163 /* PBXContainerItemProxy */;
+		};
+		EE5A11D30EDB914900398FFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE5A11CC0EDB912B00398FFC /* RelaunchHelper */;
+			targetProxy = EE5A11D20EDB914900398FFC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -852,7 +914,7 @@
 					"@executable_path/../Frameworks",
 				);
 				GCC_AUTO_VECTORIZATION = YES;
-				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
@@ -935,7 +997,7 @@
 				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
@@ -1067,6 +1129,53 @@
 			};
 			name = Release;
 		};
+		EE5A11CF0EDB912C00398FFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = RelaunchHelper;
+			};
+			name = Debug;
+		};
+		EE5A11D00EDB912C00398FFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = RelaunchHelper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1093,6 +1202,15 @@
 			buildConfigurations = (
 				EE18084E0E137E4B00AEE163 /* Debug */,
 				EE18084F0E137E4B00AEE163 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE5A11D40EDB916700398FFC /* Build configuration list for PBXNativeTarget "RelaunchHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE5A11CF0EDB912C00398FFC /* Debug */,
+				EE5A11D00EDB912C00398FFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
