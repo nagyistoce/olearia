@@ -32,7 +32,7 @@ extern NSString * const OleariaEnableVoiceOnLevelChange;
 extern NSString * const OleariaShouldOpenLastBookRead;
 extern NSString * const OleariaShouldUseHighContrastIcons;
 extern NSString * const OleariaIgnoreBooksOnRemovableMedia;
-
+extern NSString * const OleariaShouldRelaunchNotification;
 
 @interface OleariaDelegate : NSObject
 {
@@ -47,6 +47,7 @@ extern NSString * const OleariaIgnoreBooksOnRemovableMedia;
 	NSString			*_recentBooksPlistPath;
 	
 	BOOL				isPlaying;
+	BOOL				shouldReLaunch;
 
 	NSRect				navBoxOrigSize;
 	NSRect				toolBoxOrigSize;
@@ -89,6 +90,7 @@ extern NSString * const OleariaIgnoreBooksOnRemovableMedia;
 	
 }
 
+- (void)doRelaunch;
 - (IBAction)displayPrefsPanel:(id)sender;
 - (IBAction)displayAboutPanel:(id)sender;
 
