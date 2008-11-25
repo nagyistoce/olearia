@@ -99,7 +99,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EE5A140F0EDBB23100398FFC /* TalkingBook */;
+			remoteGlobalIDString = EE5A140F0EDBB23100398FFC;
 			remoteInfo = TalkingBook;
 		};
 /* End PBXContainerItemProxy section */
