@@ -29,11 +29,12 @@
 @interface AboutBoxController : NSWindowController 
 
 {
-	IBOutlet NSPanel *aboutPanel;
+	IBOutlet NSPanel *licensePanel;
 	
 	IBOutlet NSTextField *appNameField;
     IBOutlet NSTextField *copyrightField;
     IBOutlet NSTextView *creditsView;
+	IBOutlet NSTextView *licenseView;
     IBOutlet NSTextField *versionField;
    /*
 	NSTimer *scrollTimer;
@@ -43,5 +44,10 @@
     BOOL restartAtTop;
 	*/
 }
+
+- (IBAction)donate:(NSButton *)sender;
+- (IBAction)gotoHomepage:(NSButton *)sender;
+- (IBAction)showLicense:(NSButton *)sender;
+- (IBAction)hideLicense:(NSButton *)sender;
 
 @end
