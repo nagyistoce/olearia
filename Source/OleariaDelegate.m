@@ -723,8 +723,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
+			NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
+			
 			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:talkingBook.bookTitle action:@selector(openRecentBook:) keyEquivalent:@""];
-			[newItem setToolTip:[@"Loaded from - " stringByAppendingString:[[defaultSettings valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
+			[newItem setToolTip:[loadedFromPrefix stringByAppendingString:[[defaultSettings valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
 			[recentBooksMenu insertItem:newItem atIndex:0];
 		}
 		
@@ -734,14 +736,14 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (void)populateRecentFilesMenu
 {
-	
+	NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
 	
 	for (NSDictionary *aBook in _recentBooks)
 	{
 		NSMenuItem *theItem = [[NSMenuItem alloc] init];
 		[theItem setTitle:[aBook valueForKey:@"Title"]];
 		[theItem setAction:@selector(openRecentBook:)];
-		[theItem setToolTip:[@"Loaded from - " stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
+		[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
 		[recentBooksMenu addItem:theItem];
 	}
 }
