@@ -783,7 +783,7 @@
 	if((nil == _currentAudioFile) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Audio File Error", @"audio error alert short msg")];
+		[theAlert setMessageText:NSLocalizedString(@"Error Opening Audio File", @"audio error alert short msg")];
 		[theAlert setInformativeText:NSLocalizedString(@"There was a problem loading an audio file.\n Please check the book format for problems.\nOlearia will now reset as this book will not play", @"audio error alert short msg")];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
 		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
