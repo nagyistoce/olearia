@@ -25,7 +25,7 @@
 @interface BBSTBTextDocument : BBSTBXmlContentDoc 
 {
 	BOOL			isFullText;
-	NSXMLDocument	*textDoc;
+	
 	
 }
 

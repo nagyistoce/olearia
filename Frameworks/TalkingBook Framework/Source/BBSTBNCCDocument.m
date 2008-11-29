@@ -32,7 +32,6 @@
 
 @property (readwrite, retain) BBSTBSMILDocument *smilDoc;
 
-@property (readwrite, retain) NSString *_parentFolderPath;
 @property (readwrite, retain) NSString *_currentSmilFilename;
 
 @property (readwrite, retain) NSString *bookTitle;
@@ -43,9 +42,7 @@
 @property (readwrite) NSInteger currentLevel;
 @property (readwrite) NSInteger currentPageNumber;
 @property (readwrite) TalkingBookMediaFormat bookMediaFormat; 
-@property (readwrite, retain) NSDictionary *segmentAttributes;
 
-@property (readwrite, retain) NSXMLElement	*nccRootElement;
 @property (readwrite, retain) NSXMLNode *currentNavPoint;
 @property (readwrite, retain) NSArray		*_bodyNodes;
 
@@ -58,11 +55,9 @@
 - (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel;
 - (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel;
 - (BOOL)isLevelNode:(NSInteger)anIndex;
-- (NSString *)attributeValueForXquery:(NSString *)aQuery;
 
 - (void)updateAttributesForCurrentPosition;
 
-- (void)processMetadata:(NSXMLElement *)rootElement;
 - (void)openSmilFile:(NSString *)smilFilename;
 
 @end
@@ -86,40 +81,78 @@
 	return self;
 }
 
-- (BOOL)openControlFileWithURL:(NSURL *)aURL
+- (BOOL)processMetadata
 {
 	BOOL isOK = NO;
-	
 	NSError *theError = nil;
-	
-	NSXMLDocument *nccDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-	
-	if((nccDoc != nil) && (nil == theError))
-	{
-		// get the root path for later use with smil and xmlcontent files
-		_parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
-		// these all may be nil depending on the type of book we are reading
-		nccRootElement = [nccDoc rootElement];
-				
-		[self processMetadata:nccRootElement]; 
+	NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
 		
+	NSXMLNode *rootNode = [xmlControlDoc rootElement];
+				
+	// these all may be nil depending on the type of book we are reading
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
+	// check if we found a title
+	if (0 == [extractedContent count])
+	{
+		// check the alternative place for the title in the meta data
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
+	}
+	self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
+	
+	// check for total page count
+	[extractedContent removeAllObjects];
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
+	self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
+	
+	// check if we found a page count
+	if(0 == totalPages)
+	{
+		[extractedContent removeAllObjects];
+		// check for the older alternative format
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
+		self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+	}
+	
+	// get the media type of the book
+	[extractedContent removeAllObjects];
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:multimediaType\"]/data(@content)" error:nil]];
+	
+	// try to get the string and if it exists convert it to lowercase
+	NSString *mediaTypeStr = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] lowercaseString] : nil;	
+	if(mediaTypeStr != nil)
+	{
+		// set the mediaformat accordingly
+		if([mediaTypeStr isEqualToString:@"audiofulltext"] == YES)
+			self.bookMediaFormat = AudioFullTextMediaFormat;
+		else if([mediaTypeStr isEqualToString:@"audioparttext"] == YES)
+			self.bookMediaFormat = AudioPartialTextMediaFormat;
+		else if([mediaTypeStr isEqualToString:@"audioonly"] == YES)
+			self.bookMediaFormat = AudioOnlyMediaFormat;
+		else if([mediaTypeStr isEqualToString:@"audioncc"] == YES)
+			self.bookMediaFormat = AudioNcxOrNccMediaFormat;
+		else if([mediaTypeStr isEqualToString:@"textpartaudio"] == YES)
+			self.bookMediaFormat = TextPartialAudioMediaFormat;
+		else if([mediaTypeStr isEqualToString:@"textncc"] == YES)
+			self.bookMediaFormat = TextNcxOrNccMediaFormat;
+		else 
+			self.bookMediaFormat = unknownMediaFormat;
+	}
+	else
+	{
+		self.bookMediaFormat = unknownMediaFormat;
+	}
+	
+	// get all the body nodes
+	_bodyNodes = [[[rootNode nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
+	_totalBodyNodes = [_bodyNodes count];
+	
+	if(_totalBodyNodes > 0)
+	{
 		self.currentLevel = 1;
 		isOK = YES;
-		nccDoc = nil;
 	}
-	else  
-	{	
-		// there was a problem opening the NCC document
-		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Control File Error", @"control open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the ncc.html file.\nPlease check the book Structure or you may have removed the media that the book was on.", @"control ncc open fail alert long msg")]; 
-		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
-	}
-	
 	return isOK;
- 
- 
 }
 
 
@@ -369,6 +402,10 @@
 	return ([self canGoNext] || [self canGoDownLevel]);
 }
 
+- (BOOL)PreviousSegmentIsAvailable
+{
+	return ([self canGoPrev] || [self canGoUpLevel] );
+}
 - (void)updateAttributesForCurrentPosition
 {
 	
@@ -389,7 +426,7 @@
 	}
 	else
 	{
-		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
+		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
@@ -397,84 +434,25 @@
 }
 
 
+
+
+
+
 #pragma mark -
 #pragma mark Private Methods
-
-
-- (void)processMetadata:(NSXMLElement *)rootElement
- {
-	 NSError *theError = nil;
-	 NSXMLNode *rootNode = (NSXMLNode *)rootElement;
-	 NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
-	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
-	 // check if we found a title
-	 if (0 == [extractedContent count])
-	 {
-		 // check the alternative place for the title in the meta data
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
-	 }
-	 self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
-	 
-	 // check for total page count
-	 [extractedContent removeAllObjects];
-	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
-	 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
-	 
-	 // check if we found a page count
-	 if(0 == totalPages)
-	 {
-		 [extractedContent removeAllObjects];
-		 // check for the older alternative format
-		 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
-		 self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
-	 }
-	 
-	 // get the media type of the book
-	 [extractedContent removeAllObjects];
-	 [extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:multimediaType\"]/data(@content)" error:nil]];
-	 
-	 // try to get the string and if it exists convert it to lowercase
-	 NSString *mediaTypeStr = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] lowercaseString] : nil;	
-	 if(mediaTypeStr != nil)
-	 {
-		 // set the mediaformat accordingly
-		 if([mediaTypeStr isEqualToString:@"audiofulltext"] == YES)
-			 self.bookMediaFormat = AudioFullTextMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioparttext"] == YES)
-			 self.bookMediaFormat = AudioPartialTextMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioonly"] == YES)
-			 self.bookMediaFormat = AudioOnlyMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"audioncc"] == YES)
-			 self.bookMediaFormat = AudioNcxOrNccMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"textpartaudio"] == YES)
-			 self.bookMediaFormat = TextPartialAudioMediaFormat;
-		 else if([mediaTypeStr isEqualToString:@"textncc"] == YES)
-			 self.bookMediaFormat = TextNcxOrNccMediaFormat;
-		 else 
-			 self.bookMediaFormat = unknownMediaFormat;
-	 }
-	 else
-	 {
-		 self.bookMediaFormat = unknownMediaFormat;
-	 }
-	 
-	 // get all the body nodes
-	 _bodyNodes = [[[rootElement nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
-	 _totalBodyNodes = [_bodyNodes count];
-}
 
 - (void)openSmilFile:(NSString *)smilFilename
 {
 	self.smilDoc = nil;
 	// build the path to the smil file
-	NSString *fullSmilFilePath = [_parentFolderPath stringByAppendingPathComponent:smilFilename];
+	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
 	// make a URL of it
 	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
 	// open the smil document
 	self.smilDoc = [[BBSTBSMILDocument alloc] init];
 	if(smilDoc)
 	{
-		[smilDoc openSmilFileWithURL:smilURL];
+		[smilDoc openWithContentsOfURL:smilURL];
 	}
 
 }
@@ -620,7 +598,7 @@
 	}
 	else
 	{
-		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
+		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 }
@@ -645,7 +623,7 @@
 	}
 	else
 	{
-		self.segmentTitle = [self attributeValueForXquery:@"./data(a)"];
+		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 }
@@ -664,7 +642,7 @@
 	
 	NSString *audioFilename = nil;
 	// get the filename from the segment attributes
-	NSString *filename = [self filenameFromID:[self attributeValueForXquery:@"./a/data(@href)"]];
+	NSString *filename = [self filenameFromID:[self stringForXquery:@"./a/data(@href)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]];
 	
 	if(nil != filename) // check that we got something back
 	{
@@ -680,20 +658,20 @@
 			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
 			{
 				[self openSmilFile:filename];	
-				NSString *idStr = [NSString stringWithString:[self attributeValueForXquery:@"./data(@id)"]];
+				NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 				
-				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
+				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
 				
 			}
 			else  
 			{
 				// create the full path to the file
-				audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:filename]];
+				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
 			}
 		}
 		else
 		{
-			audioFilename = [NSString stringWithString:[_parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self attributeValueForXquery:@"./data(@id)"]]]];
+			audioFilename = [parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]]];
 			
 		}
 	}
@@ -703,12 +681,12 @@
 	
 }
 
-
+/*
 - (NSString *)attributeValueForXquery:(NSString *)aQuery
 {
 	return [[[_bodyNodes objectAtIndex:_currentNodeIndex] objectsForXQuery:aQuery error:nil] objectAtIndex:0];
 }
-
+*/
 #pragma mark -
 #pragma mark Accessor Methods
 
@@ -727,9 +705,9 @@
 
 @synthesize currentLevel, totalPages, totalTargetPages, currentPageNumber;
 @synthesize loadFromCurrentLevel;
-@synthesize segmentAttributes, _currentSmilFilename, currentAudioFilename;
-@synthesize nccRootElement, currentNavPoint;
-@synthesize _parentFolderPath, documentUID, segmentTitle, bookTitle;
+@synthesize _currentSmilFilename, currentAudioFilename;
+@synthesize currentNavPoint;
+@synthesize documentUID, segmentTitle, bookTitle;
 @synthesize smilDoc;
 @synthesize _bodyNodes;
 @synthesize bookMediaFormat;

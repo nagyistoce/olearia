@@ -25,6 +25,10 @@
 
 @interface BBSTBControlDoc : NSObject 
 {
+	NSXMLDocument		*xmlControlDoc;
+	NSString			*parentFolderPath;
+	
+	
 	TalkingBookMediaFormat			bookMediaFormat;
 	NSInteger			currentLevel;
 	NSInteger			currentPageNumber;
@@ -44,6 +48,9 @@
 	
 }
 
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
+- (BOOL)processMetadata;
+
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
 - (void)goUpALevel;
@@ -55,6 +62,8 @@
 - (BOOL)canGoDownLevel;
 - (BOOL)nextSegmentIsAvailable;
 - (BOOL)PreviousSegmentIsAvailable;
+
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly, retain) NSString	*bookTitle;

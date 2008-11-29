@@ -41,9 +41,6 @@
 	
 	//BOOL				isAtPhraseLevel;
 	
-	NSXMLDocument		*ncxDoc;
-	
-	NSXMLElement		*ncxRootElement;
 	NSXMLNode			*currentNavPoint;
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
@@ -51,11 +48,9 @@
 	NSInteger			maxNavPointsAtThisLevel;
 
 	NSString			*versionString;
-	NSString			*parentFolderPath;
+	
 	
 }
-
-- (BOOL)openControlFileWithURL:(NSURL *)aURL;
 
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;

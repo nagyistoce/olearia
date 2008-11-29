@@ -68,7 +68,7 @@
 }
 
 
-- (BOOL)openSmilFileWithURL:(NSURL *)aURL 
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL 
 {
 	NSError *theError;
 	

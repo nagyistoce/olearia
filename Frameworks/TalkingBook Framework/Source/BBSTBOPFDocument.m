@@ -92,19 +92,12 @@
  */
 
 
-- (BOOL)openPackageFileWithURL:(NSURL *)aURL;
+//- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
+
+- (void)processMetadata
 {
-	BOOL isOK = NO;
-	
-	NSError *theError;
-	
-	// open the validated opf URL
-	NSXMLDocument	*xmlOpfDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-	
-	if(xmlOpfDoc != nil)
-	{
-		// get the root element of the tree
-		NSXMLElement *opfRoot = [xmlOpfDoc rootElement];
+				// get the root element of the tree
+		NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
 		
 		// check we have any valid metadata before adding the rest.
 		if([self processMetadataSection:opfRoot])
@@ -113,9 +106,6 @@
 			self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
 			self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
 			currentPosInSpine = -1;
-			
-			
-			
 			
 			NSMutableArray *tempData = [[NSMutableArray alloc] init];
 			
@@ -167,7 +157,6 @@
 					if([tempData count] == 1)
 					{
 						xmlContentFilename = [tempData objectAtIndex:0];
-						isOK = YES;
 					}
 				}
 			}
@@ -184,27 +173,16 @@
 					if([tempData count] == 1)
 					{
 						xmlContentFilename = [tempData objectAtIndex:0];
-						isOK = YES;
 					}
 				}
 			}
 			// release the tempdata array
 			tempData = nil;
 		}
-	}
-	else // we got a nil return so display the error to the user
-	{
-		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Package Open Error", @"package open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open OPF file.\n Please check book structure or try another book.", @"package open fail alert long msg")];
-		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
-							 modalDelegate:nil 
-							didEndSelector:nil 
-							   contextInfo:nil];
-	}
+	
+		
 	
 	
-	return isOK;
 }
 
 

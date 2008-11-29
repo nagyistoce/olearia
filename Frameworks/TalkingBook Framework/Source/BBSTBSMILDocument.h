@@ -33,7 +33,7 @@
 	NSDictionary	*parNodeIndexes;
 }
 
-- (BOOL)openSmilFileWithURL:(NSURL *)aURL;
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 //- (NSArray *)chapterMarkers;
 - (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
 - (NSString *)audioFilenameForId:(NSString *)anId;

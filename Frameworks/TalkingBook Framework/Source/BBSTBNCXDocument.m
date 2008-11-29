@@ -44,16 +44,14 @@
 @property (readwrite) NSInteger totalTargetPages;
 @property (readwrite) NSInteger currentLevel;
 
-@property (readwrite, retain) NSXMLElement	*ncxRootElement;
 @property (readwrite, retain) NSXMLNode		*currentNavPoint;
 @property (readwrite, retain) NSXMLNode		*navListNode;
 @property (readwrite, retain) NSArray		*navTargets;
 
 @property (readwrite, retain) NSString *versionString;
-@property (readwrite, retain) NSXMLDocument	*ncxDoc;
 @property (readwrite, retain) NSDictionary *metaData;
 
-- (NSDictionary *)processMetadata;
+
 - (NSDictionary *)processDocTitle;
 - (NSDictionary *)processDocAuthor;
 - (NSArray *)processNavMap; 
@@ -84,72 +82,74 @@
 	return self;
 }
 
-- (BOOL)openControlFileWithURL:(NSURL *)aURL
+
+
+- (BOOL)processMetadata
 {
 	BOOL isOK = NO;
+	metaData = nil;
 	
-		NSError *theError;
+	// these all may be nil depending on the type of book we are reading
+	NSXMLElement *ncxRootElement = [xmlControlDoc rootElement];
+
+	self.versionString = [[ncxRootElement attributeForName:@"version"] stringValue];
 	
-		self.ncxDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-				
-		if(ncxDoc != nil)
+	// get the head element , there will only ever be one.
+	NSXMLNode *headElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"head"]] objectAtIndex:0];
+	NSArray *elements = [NSArray arrayWithArray:[headElement children]];
+	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
+	// we have a DAISY 3 Book
+	for(NSXMLElement *anElement in elements)
+	{
+		if([[anElement name] isEqualToString:@"meta"])
 		{
-			
-			
-			
-			// get the root path for later use with smil and xmlcontent files
-			self.parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
-			// these all may be nil depending on the type of book we are reading
-			self.ncxRootElement = [ncxDoc rootElement];
-			//[ncxRootElement detach];
-			//self.ncxDoc = nil;
-			self.metaData = [self processMetadata]; 
-			
-			totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
-			totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
-			
-			self.documentTitleDict = [self processDocTitle];
-			self.documentAuthorDict = [self processDocAuthor];
-
-			maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
-			if(maxNavPointsAtThisLevel > 0)
+			NSString * nameString = [NSString stringWithString:[[anElement attributeForName:@"name"] stringValue]];
+			[tempData setObject:[[anElement attributeForName:@"content"] stringValue] forKey:nameString];
+		}
+		else if([[anElement name] isEqualToString:@"smilCustomTest"])
+		{
+			NSMutableDictionary *tempSmilCustomTest = [[NSMutableDictionary alloc] init];
+			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
+			for(NSXMLNode *aNode in attribs)
 			{
-				shouldUseNavmap = YES;
-				self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
+				[tempSmilCustomTest setObject:[aNode stringValue] forKey:[aNode name]];
+				
 			}
-			 
-			currentLevel = 1;
-			isOK = YES;
+			// check if there was anyting put into the dict
+			if([tempSmilCustomTest count] > 0)
+				self.smilCustomTest = tempSmilCustomTest;
 		}
-		else  
-		{	
-			// there was a problem opening the NCX document
-			NSAlert *theAlert = [NSAlert alertWithError:theError];
-			[theAlert setMessageText:NSLocalizedString(@"Control File Error" , @"control open fail alert short msg")];
-			[theAlert setInformativeText:NSLocalizedString(@"Failed to open the NCX file.\nPlease check the book Structure or you may have removed the media that the book was on.", @"control ncx open fail alert long msg")]; 
-			[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
-
-		}
+	}
 	
+	if([tempData count] > 0)
+		self.metaData = tempData; 
+	
+	if(metaData)
+	{
+		totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
+		totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
+		
+		self.documentTitleDict = [self processDocTitle];
+		self.documentAuthorDict = [self processDocAuthor];
+		
+		maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
+		if(maxNavPointsAtThisLevel > 0)
+		{
+			shouldUseNavmap = YES;
+			self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
+		}
+		
+		currentLevel = 1;
+		isOK = YES;
+		
+	}
+		
 	return isOK;
 }
 
 
 #pragma mark -
 #pragma mark Public Methods
-/*
-- (NSString *)nextSegmentAudioFilePath
-{
-	[self nextSegment];
-	return [self currentSegmentFilename];
-}
-
-- (NSString *)previousSegmentAudioFilePath
-{
-	[self previousSegment];
-	return [self currentSegmentFilename];
-}
-*/
 
 - (void)moveToNextSegment
 {
@@ -484,51 +484,11 @@
 	return thislevel;
 }
 
-
-- (NSDictionary *)processMetadata
-{
-	
-	self.versionString = [[ncxRootElement attributeForName:@"version"] stringValue];
-	
-	// get the head element , there will only ever be one.
-	NSXMLNode *headElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"head"]] objectAtIndex:0];
-	NSArray *elements = [NSArray arrayWithArray:[headElement children]];
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// we have a DAISY 3 Book
-	for(NSXMLElement *anElement in elements)
-	{
-		if([[anElement name] isEqualToString:@"meta"])
-		{
-			NSString * nameString = [NSString stringWithString:[[anElement attributeForName:@"name"] stringValue]];
-			[tempData setObject:[[anElement attributeForName:@"content"] stringValue] forKey:nameString];
-		}
-		else if([[anElement name] isEqualToString:@"smilCustomTest"])
-		{
-			NSMutableDictionary *tempSmilCustomTest = [[NSMutableDictionary alloc] init];
-			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-			for(NSXMLNode *aNode in attribs)
-			{
-				[tempSmilCustomTest setObject:[aNode stringValue] forKey:[aNode name]];
-				
-			}
-			// check if there was anyting put into the dict
-			if([tempSmilCustomTest count] > 0)
-				self.smilCustomTest = tempSmilCustomTest;
-		}
-	}
-	
-	if([tempData count] == 0)
-		return nil;
-	
-	return tempData;
-		
-}
-
 - (NSDictionary *)processDocTitle
 {
 	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
 	// get the doctitle element , there will only ever be one.
-	NSArray *titleElementArray = [ncxRootElement elementsForName:@"docTitle"];
+	NSArray *titleElementArray = [[xmlControlDoc rootElement] elementsForName:@"docTitle"];
 	if([titleElementArray count]  > 0)
 	{
 		NSXMLNode *docTitleElement = [titleElementArray objectAtIndex:0];
@@ -565,7 +525,7 @@
 {
 	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
 	// get the docAuthor element , there will only ever be one.
-	NSArray *authElementsArray = [ncxRootElement elementsForName:@"docAuthor"];
+	NSArray *authElementsArray = [[xmlControlDoc rootElement] elementsForName:@"docAuthor"];
 	if([authElementsArray count] > 0)
 	{
 		NSXMLElement *DocAuthorElement = [authElementsArray objectAtIndex:0];
@@ -606,7 +566,7 @@
 	self.smilDoc = [[BBSTBSMILDocument alloc] init];
 	if(smilDoc)
 	{
-		[smilDoc openSmilFileWithURL:smilURL];
+		[smilDoc openWithContentsOfURL:smilURL];
 	}
 }
 
@@ -625,7 +585,7 @@
 	NSMutableArray *tempNavMapPoints = [[NSMutableArray alloc] init];
 	
 	// get the navMap node
-	NSXMLNode *navMapHeadNode = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"navMap"]] objectAtIndex:0];
+	NSXMLNode *navMapHeadNode = [[NSArray arrayWithArray:[[xmlControlDoc rootElement] elementsForName:@"navMap"]] objectAtIndex:0];
 	if([navMapHeadNode childCount] > 0)
 		[tempNavMapPoints addObjectsFromArray:[navMapHeadNode children]];
 		
@@ -690,7 +650,7 @@
 	//{
 	//	NSString *newPath = [anID substringFromIndex:(rootEndPos.location + 1)]; 
 		//NSXMLNode *rootAsNode = (NSXMLNode *)ncxDoc;
-		NSArray *nodesFromQuery = [ncxDoc nodesForXPath:anID error:nil];
+		NSArray *nodesFromQuery = [xmlControlDoc nodesForXPath:anID error:nil];
 		
 		if([nodesFromQuery count] > 0)
 		{	
@@ -708,7 +668,7 @@
 
 @synthesize smilDoc, parentFolderPath;
 @synthesize loadFromCurrentLevel;
-@synthesize ncxDoc, ncxRootElement, navListNode;
+@synthesize navListNode;
 @synthesize currentLevel;
 @synthesize metaData, smilCustomTest, documentTitleDict, documentAuthorDict;
 @synthesize segmentAttributes;
