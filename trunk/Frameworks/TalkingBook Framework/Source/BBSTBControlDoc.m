@@ -43,21 +43,51 @@
 
 - (void)finalize
 {
-	documentUID = nil;
-	segmentTitle = nil;
-	bookTitle = nil;
-	
 	[super finalize];
 }
 
 #pragma mark -
 #pragma mark methods Overridden By Subclasses
 
-- (BOOL)openControlFileWithURL:(NSURL *)aURL
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL
+{
+	BOOL loadedOk = NO;
+	
+	NSError *theError;
+	
+	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+	
+	if(xmlControlDoc)
+	{
+		loadedOk = [self processMetadata];
+		if(loadedOk)
+		{
+			// get the root path for later use with smil and xmlcontent files
+			parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
+		}
+		
+
+	}
+	else // we got a nil return so display the error to the user
+	{
+		NSAlert *theAlert = [NSAlert alertWithError:theError];
+		[theAlert setMessageText:NSLocalizedString(@"Package Open Error", @"package open fail alert short msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"Failed to open Package file.\n Please check book structure or try another book.", @"package open fail alert long msg")];
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
+							 modalDelegate:nil 
+							didEndSelector:nil 
+							   contextInfo:nil];
+	}
+	
+	return loadedOk;
+}
+
+- (BOOL)processMetadata
 {
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
+
 
 - (void)moveToNextSegment
 {
@@ -126,6 +156,13 @@
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
+
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
+{
+	return [[theNode objectsForXQuery:aQuery error:nil] objectAtIndex:0];
+}
+
+
 @synthesize levelNavChapterIncrement;
 @synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;

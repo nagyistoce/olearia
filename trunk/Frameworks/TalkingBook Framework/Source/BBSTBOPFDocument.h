@@ -35,8 +35,6 @@
 	
 }
 
-- (BOOL)openPackageFileWithURL:(NSURL *)aURL;
-
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 

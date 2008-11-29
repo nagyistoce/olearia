@@ -24,4 +24,43 @@
 
 @implementation BBSTBXmlContentDoc
 
+- (id) init
+{
+	if (!(self=[super init])) return nil;
+		
+	return self;
+}
+
+- (BOOL)openWithContentsOfURL:(NSURL *)fileURL
+{
+	BOOL loadedOk = NO;
+	
+	NSError *theError;
+	
+	// open the validated URL
+	xmlContentDoc = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:NSXMLDocumentTidyXML error:&theError];
+	
+	if(xmlDoc)
+	{
+		loadedOk = YES;
+	}
+	
+	return loadedOk;
+}
+
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
+{
+	return [[theNode objectsForXQuery:aQuery error:nil] objectAtIndex:0];
+}
+
+#pragma mark -
+#pragma mark Subclass Overridden Methods
+
+- (BOOL)processMetadata
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return NO;
+}
+
+
 @end

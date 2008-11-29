@@ -41,7 +41,6 @@
 	BBSTBSMILDocument   *smilDoc;
 	NSArray				*_bodyNodes;
 	
-	NSString *_parentFolderPath;
 	NSString *_currentSmilFilename;
 	
 	
@@ -49,13 +48,11 @@
 	BOOL _isFirstRun;
 	
 }
-- (BOOL)openControlFileWithURL:(NSURL *)aURL;
 
 - (NSArray *)chaptersForSegment;
 - (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
 
 @property (readwrite) BOOL loadFromCurrentLevel;
-@property (readonly, retain) NSDictionary *segmentAttributes;
 
 @end

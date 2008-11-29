@@ -25,6 +25,8 @@
 @interface BBSTBPackageDoc : NSObject 
 {
 
+	NSXMLDocument			*xmlPackageDoc;
+	
 	NSString				*bookTitle;
 	NSString				*bookSubject;
 	NSString				*bookTotalTime;
@@ -37,7 +39,8 @@
 	
 }
 
-- (BOOL)openPackageFileWithURL:(NSURL *)aURL;
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
+- (BOOL)processMetadata;
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 

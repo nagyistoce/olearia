@@ -162,7 +162,7 @@
 			// it exists so make a url of it
 			fileURL = [[NSURL alloc] initFileURLWithPath:opfFilePath];
 			_packageDoc = [[BBSTBOPFDocument alloc] init];
-			_hasPackageFile = [_packageDoc openPackageFileWithURL:fileURL];
+			_hasPackageFile = [_packageDoc openWithContentsOfURL:fileURL];
 			if(_hasPackageFile)
 			{
 				
@@ -197,7 +197,7 @@
 		if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
 		{
 			_packageDoc = [[BBSTBOPFDocument alloc] init];
-			_hasPackageFile = [_packageDoc openPackageFileWithURL:aURL];
+			_hasPackageFile = [_packageDoc openWithContentsOfURL:aURL];
 			if(_hasPackageFile)
 			{				
 				fileOpenedOK = _hasPackageFile;
@@ -296,7 +296,7 @@
 		}
 				
 		// open the control file
-		 loadedOK = (nil != _controlDoc) ? [_controlDoc openControlFileWithURL:aDocUrl] : NO;
+		 loadedOK = (nil != _controlDoc) ? [_controlDoc openWithContentsOfURL:aDocUrl] : NO;
 	}
 	return loadedOK;
 }

@@ -25,6 +25,12 @@
 @interface BBSTBXmlContentDoc : NSObject 
 {
 
+	NSXMLDocument *xmlContentDoc;
+
+
 }
+
+- (BOOL)openWithContentsOfURL:(NSURL *)fileURL;
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
 @end
