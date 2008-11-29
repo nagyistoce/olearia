@@ -71,8 +71,8 @@
 	else // we got a nil return so display the error to the user
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Package Open Error", @"package open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open Package file.\n Please check book structure or try another book.", @"package open fail alert long msg")];
+		[theAlert setMessageText:NSLocalizedString(@"Error Opening Control File", @"control open fail alert short msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the control file.\n Please check book structure or try another book.", @"control open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
 							 modalDelegate:nil 
 							didEndSelector:nil 

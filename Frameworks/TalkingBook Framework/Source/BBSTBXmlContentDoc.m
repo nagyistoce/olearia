@@ -40,10 +40,21 @@
 	// open the validated URL
 	xmlContentDoc = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:NSXMLDocumentTidyXML error:&theError];
 	
-	if(xmlDoc)
+	if(xmlContentDoc)
 	{
 		loadedOk = YES;
 	}
+	else // we got a nil return so display the error to the user
+	{
+		NSAlert *theAlert = [NSAlert alertWithError:theError];
+		[theAlert setMessageText:NSLocalizedString(@"Error Opening Textual Content", @"text open fail alert short msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"Failed to open textual content file.\n Please check book structure or try another book.", @"text open fail alert long msg")];
+		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
+							 modalDelegate:nil 
+							didEndSelector:nil 
+							   contextInfo:nil];
+	}
+	
 	
 	return loadedOk;
 }
