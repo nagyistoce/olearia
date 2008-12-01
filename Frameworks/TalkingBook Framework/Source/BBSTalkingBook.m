@@ -100,6 +100,8 @@
 
 	TalkingBookNotificationCenter = [NSNotificationCenter defaultCenter];
 	
+	
+		
 	return self;
 }
 
@@ -263,9 +265,18 @@
 		if((TextNcxOrNccMediaFormat != _mediaFormat))
 			[self setupAudioNotifications];
 		
-		
 		//update the interface with the initial values
 		[self updateForPosInBook];		
+		
+		//update the information controller if it is already available
+		if(_infoController)
+		{
+			if(_hasPackageFile)
+				[_infoController updateMetaInfoFromNode:[_packageDoc metadataNode]];
+			else
+				[_infoController updateMetaInfoFromNode:[_controlDoc metadataNode]];
+		}
+		
 		
 	}
 	
@@ -588,10 +599,20 @@
 #pragma mark -
 #pragma mark Information Methods
 
-- (NSDictionary *)getBookInfo
+- (void)showBookInfo
 {
-
-	return nil;
+	// check if we should init the controller
+	if(!_infoController)
+	{
+		if(_hasPackageFile)
+			_infoController = [[BBSTBInfoController alloc] initWithMetadataNode:[_packageDoc metadataNode]];
+		else
+			_infoController = [[BBSTBInfoController alloc] initWithMetadataNode:[_controlDoc metadataNode]];
+	}
+		
+	
+	[_infoController displayInfoPanel];  	
+		
 }
 
 
@@ -703,6 +724,7 @@
 	_controlMode = UnknownBookType; // set the default book type
 	_currentSegmentFilename = @"";
 	_mediaFormat = unknownMediaFormat;
+	_infoController = nil;
 	
 	_totalChapters = 0;
 	

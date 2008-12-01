@@ -19,12 +19,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
+#import "BBSTBInfoController.h"
 #import <QTKit/QTKit.h>
 
-@class BBSTBSMILDocument, BBSTBTextDocument;
-@class BBSTBControlDoc, BBSTBPackageDoc;
+@class BBSTBSMILDocument, BBSTBTextDocument, BBSTBControlDoc, BBSTBPackageDoc;
 @class QTMovie;
 
 
@@ -40,6 +40,9 @@ typedef enum
 
 @interface BBSTalkingBook : NSObject 
 {
+	
+	
+	
 	// book user settings
 	NSString				*preferredVoice;
 	float					playbackRate;
@@ -78,6 +81,7 @@ typedef enum
 	NSString				*_currentSegmentFilename;
 	NSString				*fullBookPath;
 	
+	BBSTBInfoController		*_infoController;
 	
 	
 	NSNotificationCenter	*TalkingBookNotificationCenter;
@@ -124,7 +128,7 @@ typedef enum
 - (void)nextChapter;
 - (void)previousChapter;
 
-- (NSDictionary *)getBookInfo;
+- (void)showBookInfo;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 

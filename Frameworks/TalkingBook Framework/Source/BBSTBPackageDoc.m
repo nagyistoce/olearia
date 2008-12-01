@@ -53,6 +53,13 @@
 	return NO;
 }
 
+- (NSXMLNode *)metadataNode
+{
+	NSArray *metaNodes = [xmlPackageDoc objectsForXQuery:@"//metadata" error:nil];
+	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
+}
+
+
 - (NSString *)nextAudioSegmentFilename
 {
 	[self doesNotRecognizeSelector:_cmd];

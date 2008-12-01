@@ -41,6 +41,8 @@
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (BOOL)processMetadata;
+- (NSXMLNode *)metadataNode;
+
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
