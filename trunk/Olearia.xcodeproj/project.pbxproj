@@ -34,6 +34,7 @@
 		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
+		EE4911C20EE24BC3006FACEA /* BookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE4911C00EE24BC3006FACEA /* BookInfo.nib */; };
 		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
 		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE5A14170EDBB2D400398FFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A14160EDBB2D400398FFC /* Foundation.framework */; };
@@ -55,6 +56,10 @@
 		EE5A144C0EDBB37700398FFC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EEA915E00ECA7853008E8A07 /* Localizable.strings */; };
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
+		EEB83F640EE228CF00B5384A /* BBSTBInfoItem.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB83F620EE228CF00B5384A /* BBSTBInfoItem.h */; };
+		EEB83F650EE228CF00B5384A /* BBSTBInfoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB83F630EE228CF00B5384A /* BBSTBInfoItem.m */; };
+		EEB83F830EE2357E00B5384A /* BBSTBInfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB83F810EE2357E00B5384A /* BBSTBInfoController.h */; };
+		EEB83F840EE2357E00B5384A /* BBSTBInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB83F820EE2357E00B5384A /* BBSTBInfoController.m */; };
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
 		EED31C240EDBB89D008F1467 /* NSXMLElement-BBSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D6DE50E1C644300BA8CA7 /* NSXMLElement-BBSExtensions.m */; };
 		EED31C250EDBB89D008F1467 /* NSString-BBSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB893010E3A160100580375 /* NSString-BBSAdditions.m */; };
@@ -181,6 +186,9 @@
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
 		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
+		EE4911C10EE24BC3006FACEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/BookInfo.nib; sourceTree = "<group>"; };
+		EE4911C30EE24BD2006FACEA /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/BookInfo.nib; sourceTree = "<group>"; };
+		EE4911C40EE24BD7006FACEA /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = no.lproj/BookInfo.nib; sourceTree = "<group>"; };
 		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5A14100EDBB23100398FFC /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +217,11 @@
 		EEAEF1D40ECB92D10064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEAEF2220ECC0D650064FF29 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEAEF2230ECC0D760064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EEB83F620EE228CF00B5384A /* BBSTBInfoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBInfoItem.h; path = Source/BBSTBInfoItem.h; sourceTree = "<group>"; };
+		EEB83F630EE228CF00B5384A /* BBSTBInfoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBInfoItem.m; path = Source/BBSTBInfoItem.m; sourceTree = "<group>"; };
+		EEB83F810EE2357E00B5384A /* BBSTBInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBInfoController.h; path = Source/BBSTBInfoController.h; sourceTree = "<group>"; };
+		EEB83F820EE2357E00B5384A /* BBSTBInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBInfoController.m; path = Source/BBSTBInfoController.m; sourceTree = "<group>"; };
+		EEB83FD60EE2403500B5384A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Frameworks/TalkingBook Framework/Resources/English.lproj/Information.nib"; sourceTree = "<group>"; };
 		EEB892360E38D73600580375 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		EEB892370E38D73600580375 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		EEB893000E3A160100580375 /* NSString-BBSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-BBSAdditions.h"; sourceTree = "<group>"; };
@@ -303,6 +316,7 @@
 				EE5A14160EDBB2D400398FFC /* Foundation.framework */,
 				EE5A14180EDBB2D400398FFC /* QTKit.framework */,
 				EED31C4F0EDBB924008F1467 /* libicucore.dylib */,
+				EEB83FD50EE2403500B5384A /* Information.nib */,
 			);
 			name = Olearia;
 			sourceTree = "<group>";
@@ -432,6 +446,7 @@
 			children = (
 				EEDC2C010E62D75E00432F2D /* Controllers */,
 				EEDC2C000E62D71200432F2D /* Documents */,
+				EEB83F610EE2283100B5384A /* Information Panel */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -439,6 +454,7 @@
 		EE5FEC200E15F53000B1E0F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE4911C00EE24BC3006FACEA /* BookInfo.nib */,
 				EEA915E00ECA7853008E8A07 /* Localizable.strings */,
 				EE5FEC210E15F5B700B1E0F4 /* TalkingBook-Info.plist */,
 			);
@@ -478,6 +494,17 @@
 			);
 			name = Categories;
 			path = Source;
+			sourceTree = "<group>";
+		};
+		EEB83F610EE2283100B5384A /* Information Panel */ = {
+			isa = PBXGroup;
+			children = (
+				EEB83F620EE228CF00B5384A /* BBSTBInfoItem.h */,
+				EEB83F630EE228CF00B5384A /* BBSTBInfoItem.m */,
+				EEB83F810EE2357E00B5384A /* BBSTBInfoController.h */,
+				EEB83F820EE2357E00B5384A /* BBSTBInfoController.m */,
+			);
+			name = "Information Panel";
 			sourceTree = "<group>";
 		};
 		EEDC2C000E62D71200432F2D /* Documents */ = {
@@ -546,6 +573,8 @@
 				EE5A142A0EDBB34400398FFC /* BBSTBSMILDocument.h in Headers */,
 				EE5A142B0EDBB34400398FFC /* BBSTalkingBookTypes.h in Headers */,
 				EE5A142C0EDBB34400398FFC /* RegexKitLite.h in Headers */,
+				EEB83F640EE228CF00B5384A /* BBSTBInfoItem.h in Headers */,
+				EEB83F830EE2357E00B5384A /* BBSTBInfoController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +717,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE5A144C0EDBB37700398FFC /* Localizable.strings in Resources */,
+				EE4911C20EE24BC3006FACEA /* BookInfo.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,6 +791,8 @@
 				EED31C2D0EDBB89D008F1467 /* BBSTBNCCDocument.m in Sources */,
 				EED31C2E0EDBB89D008F1467 /* BBSTBSMILDocument.m in Sources */,
 				EED31C2F0EDBB89D008F1467 /* RegexKitLite.m in Sources */,
+				EEB83F650EE228CF00B5384A /* BBSTBInfoItem.m in Sources */,
+				EEB83F840EE2357E00B5384A /* BBSTBInfoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +865,16 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		EE4911C00EE24BC3006FACEA /* BookInfo.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE4911C10EE24BC3006FACEA /* English */,
+				EE4911C30EE24BD2006FACEA /* fr */,
+				EE4911C40EE24BD7006FACEA /* no */,
+			);
+			name = BookInfo.nib;
+			sourceTree = "<group>";
+		};
 		EEA915E00ECA7853008E8A07 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -841,6 +883,14 @@
 				EEAEF1D40ECB92D10064FF29 /* no */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		EEB83FD50EE2403500B5384A /* Information.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEB83FD60EE2403500B5384A /* English */,
+			);
+			name = Information.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

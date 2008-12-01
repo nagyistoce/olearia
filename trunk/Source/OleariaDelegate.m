@@ -325,6 +325,11 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		
 }
 
+- (IBAction)showBookInfo:(id)sender
+{
+	[talkingBook showBookInfo];
+}
+
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
 	talkingBook.playbackRate = [sender floatValue]; 

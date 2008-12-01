@@ -88,6 +88,11 @@
 	return NO;
 }
 
+- (NSXMLNode *)metadataNode
+{
+	NSArray *metaNodes = [xmlControlDoc objectsForXQuery:@"//head" error:nil];
+	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
+}
 
 - (void)moveToNextSegment
 {
@@ -169,6 +174,7 @@
 @synthesize segmentTitle, bookTitle, documentUID;
 @synthesize currentAudioFilename, currentPositionID;
 @synthesize navigateForChapters;
+@synthesize metadataNode;
 
 
 @end

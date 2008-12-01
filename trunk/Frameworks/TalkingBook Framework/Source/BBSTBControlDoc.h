@@ -28,6 +28,7 @@
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
 	
+	NSXMLNode			*metadataNode;
 	
 	TalkingBookMediaFormat			bookMediaFormat;
 	NSInteger			currentLevel;
@@ -50,6 +51,7 @@
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (BOOL)processMetadata;
+- (NSXMLNode *)metadataNode;
 
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
@@ -66,6 +68,7 @@
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
+@property (readonly) NSXMLNode *metadataNode;
 @property (readonly, retain) NSString	*bookTitle;
 @property (readonly) NSInteger currentLevel;
 @property (readonly) NSInteger currentPageNumber;
