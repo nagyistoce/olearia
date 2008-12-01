@@ -9,7 +9,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="21"/>
-			<integer value="24"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -44,7 +44,7 @@
 					<bool key="NSToolbarShowsBaselineSeparator">YES</bool>
 					<bool key="NSToolbarAllowsUserCustomization">NO</bool>
 					<bool key="NSToolbarAutosavesConfiguration">YES</bool>
-					<int key="NSToolbarDisplayMode">2</int>
+					<int key="NSToolbarDisplayMode">1</int>
 					<int key="NSToolbarSizeMode">1</int>
 					<object class="NSMutableDictionary" key="NSToolbarIBIdentifiedItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4493,10 +4493,10 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{68, 306}, {490, 423}}</string>
+					<string>{{69, 284}, {490, 423}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="8"/>
-					<string>{{68, 306}, {490, 423}}</string>
+					<string>{{69, 284}, {490, 423}}</string>
 					<reference ref="1404"/>
 					<reference ref="1404"/>
 					<reference ref="8"/>
@@ -4869,7 +4869,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{33, 758}, {616, 0}}</string>
+					<string>{{6, 707}, {616, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
