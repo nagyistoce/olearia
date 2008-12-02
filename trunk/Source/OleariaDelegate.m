@@ -199,7 +199,19 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (IBAction)openRecentBook:(id)sender
 {
+	
 	BOOL bookLoaded = NO;
+	
+	if(isPlaying)
+	{
+		isPlaying = NO;
+		// we switch the images like this to allow for differences between names when using normal 
+		// or high contrast icons.
+		NSImage *tempImage = [playPauseButton image];
+		[playPauseButton setImage:[playPauseButton alternateImage]];
+		[playPauseButton setAlternateImage:tempImage];
+		[talkingBook pauseAudio];
+	}
 	
 	// get the position of the selected book from the recent books menu and
 	// use that to get the path to the package or control file
@@ -430,6 +442,18 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	if(returnCode == NSOKButton)
 	{	
+		if(isPlaying)
+		{
+			isPlaying = NO;
+			// we switch the images like this to allow for differences between names when using normal 
+			// or high contrast icons.
+			NSImage *tempImage = [playPauseButton image];
+			[playPauseButton setImage:[playPauseButton alternateImage]];
+			[playPauseButton setAlternateImage:tempImage];
+			[talkingBook pauseAudio];
+		}
+		
+		
 		NSString *shortErrorMsg, *fullErrorMsg;
 		BOOL bookLoaded = NO;
 		
