@@ -28,8 +28,10 @@
 {
 	IBOutlet NSPanel		*infoPanel;
 	IBOutlet NSTableView	*infoTableView;
-	
+
 	NSMutableArray *metaInfo;
+
+	CGFloat _maxStrLen;
 }
 
 - (void)displayInfoPanel;

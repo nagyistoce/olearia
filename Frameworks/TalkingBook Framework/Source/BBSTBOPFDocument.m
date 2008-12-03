@@ -94,9 +94,11 @@
 
 //- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 
-- (void)processMetadata
+- (BOOL)processMetadata
 {
-				// get the root element of the tree
+	BOOL isOk = NO;	
+	
+	// get the root element of the tree
 		NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
 		
 		// check we have any valid metadata before adding the rest.
@@ -181,8 +183,10 @@
 		}
 	
 		
+	if(ncxFilename != nil)
+		isOk = YES;
 	
-	
+	return isOk;
 }
 
 

@@ -31,7 +31,7 @@
 - (id)initWithTitle:(NSString *)aTitle andContent:(NSString *)aContent;
 - (BOOL)isEqual:(id)anObject;
 
-@property (copy) NSString *title;
-@property (copy) NSString *content;
+@property (readwrite, copy) NSString *title;
+@property (readwrite, copy) NSString *content;
 
 @end

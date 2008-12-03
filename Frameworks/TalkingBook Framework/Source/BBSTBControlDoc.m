@@ -90,6 +90,8 @@
 
 - (NSXMLNode *)metadataNode
 {
+	// this method is only used for querying ncc.html control docs 
+	// as the NCX files do not hold as much info as the OPF ones
 	NSArray *metaNodes = [xmlControlDoc objectsForXQuery:@"//head" error:nil];
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
