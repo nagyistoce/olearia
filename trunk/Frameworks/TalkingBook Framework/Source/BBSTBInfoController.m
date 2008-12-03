@@ -27,6 +27,8 @@
 @interface BBSTBInfoController (Private)
 
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
+- (BBSTBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
+- (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement;
 
 @end
 
@@ -42,6 +44,8 @@
 	
 	metaInfo = [[NSMutableArray alloc] init];
 	
+	
+
 	return self;
 }
 
@@ -54,70 +58,125 @@
 	return self;
 }
 
-- (void)awakeFromNib
-{
-	
-}
+
+
 
 - (void)displayInfoPanel
 {
 	[infoPanel orderFront:self];
+	[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
 	[infoTableView reloadData];
 }
 
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode
 {
 	if([metaInfo count] > 0)
+	{	
 		[metaInfo removeAllObjects];
-	
-	//NSRange matchedRange = NSMakeRange(NSNotFound, 0); // setup the range
-	NSMutableString *optionTitle = [[NSMutableString alloc] init];
-	NSMutableString *optionContent = [[NSMutableString alloc] init];
-	
-	//NSXMLElement *nodeAsElement = (NSXMLElement *)metaNode;
+		_maxStrLen = 0.0;
+	}
+
 	NSArray *childNodes = [metaNode children];
+	
 	for(NSXMLElement *anElement in childNodes)
 	{
-		// check if it has a name "meta"
-		if([[anElement name] isEqualToString:@"meta"])
+		if([[[anElement name] lowercaseString] isEqualToString:@"dc-metadata"] || [[[anElement name] lowercaseString] isEqualToString:@"x-metadata"])
 		{
-			// check we have a name attribute this allows us to ignore all other extraneous meta nodes 
-			if([anElement attributeForName:@"name"])
+			NSArray *subChildNodes = [anElement children];
+			for(NSXMLElement *subElement in subChildNodes)
 			{
-				[optionTitle setString:[[anElement attributeForName:@"name"] stringValue]];
-				[optionContent setString:[[anElement attributeForName:@"content"] stringValue]];
+				BBSTBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
+				
+				// check for a duplicate item before adding it
+				if(newItem && ![metaInfo containsObject:newItem])
+					[metaInfo addObject:newItem];
 			}
 		}
 		else
 		{
-			// just a regular node with content
-			[optionTitle setString:[anElement name]];
-			[optionContent setString:[anElement stringValue]];
-		}
-		
-		if(![optionTitle isEqualToString:@""])
-		{
-			// strip off the namespace prefix if any from the title
-			[optionTitle setString:[optionTitle stringByReplacingOccurrencesOfRegex:@".+:(.+)" withString:@"$1"]];
-			
-			// expand the words if required and capitalize the first letter
-			[optionTitle setString:[self expandImpliedWhitespace:optionTitle]];
-			
-			
-			
-			BBSTBInfoItem *newItem = [[BBSTBInfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
-															   andContent:[NSString stringWithString:optionContent]]; 
-			
+			BBSTBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
 			// check for a duplicate item before adding it
-			if(![metaInfo containsObject:newItem])
+			if(newItem && ![metaInfo containsObject:newItem])
 				[metaInfo addObject:newItem];
 		}
-				
+		
 	}
-
+	
+	[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
 	[infoTableView reloadData];
+
+	
+}
+- (BBSTBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
+{
+	NSMutableString *optionTitle = [[NSMutableString alloc] init];
+	NSMutableString *optionContent = [[NSMutableString alloc] init];
+	BBSTBInfoItem	*newItem = nil;
+	
+	// check if it has a name "meta"
+	if([[anElement name] isEqualToString:@"meta"])
+	{
+		// check we have a name attribute this allows us to ignore all other extraneous meta nodes 
+		if([anElement attributeForName:@"name"])
+		{
+			[optionTitle setString:[[anElement attributeForName:@"name"] stringValue]];
+			[optionContent setString:[[anElement attributeForName:@"content"] stringValue]];
+		}
+	}
+	else
+	{
+		// just a regular node with content
+		[optionTitle setString:[anElement name]];
+		[optionContent setString:[anElement stringValue]];
+	}
+	
+	if(![optionTitle isEqualToString:@""])
+	{
+		// append any extra identifiers to the title
+		[optionTitle appendString:[self extraIdentifierNamesForElement:anElement]];
+		
+		// strip off the namespace prefix if any from the title
+		[optionTitle setString:[optionTitle stringByReplacingOccurrencesOfRegex:@"\\w*:(.*)" withString:@"$1"]];
+		
+		// expand the words if required and capitalize the first letter of the first word
+		[optionTitle setString:[self expandImpliedWhitespace:optionTitle]];
+		
+		// set the max length of the string so we can use it to set the table column width
+		_maxStrLen = ([optionContent sizeWithAttributes:nil].width > _maxStrLen) ? [optionContent sizeWithAttributes:nil].width : _maxStrLen;
+		
+		 newItem = [[BBSTBInfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
+											 andContent:[NSString stringWithString:optionContent]]; 
+	}
+		
+	return newItem;
+
 }
 
+- (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement
+{
+	// extract any attributes that will identify the name of the element further
+	NSArray *attributes = [[NSArray alloc] initWithArray:[anElement attributes]];
+	NSMutableString *addNames = [[NSMutableString alloc] init];
+	
+	// check if we have more than just the name and content attributes
+	if([attributes count] > 0)
+	{
+		for(NSXMLNode *anAttribute in attributes)
+		{
+			if(![[[anAttribute name] lowercaseString] isEqualToString:@"name"] && ![[[anAttribute name] lowercaseString] isEqualToString:@"content"])
+			{	
+				[addNames appendFormat:@" %@",[anAttribute XMLString]];
+				
+				// uppercase the first character of the word
+				[addNames replaceOccurrencesOfRegex:@"( [[:lowercase:]])" 
+										 withString:[[addNames stringByMatching:@"( [[:lowercase:]])" capture:1] uppercaseString]];
+			}
+		}
+	}
+	
+	return addNames;
+	
+}
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr
 {
 	NSMutableString *toExpand = [[NSMutableString alloc] initWithString:aStr];
@@ -169,7 +228,6 @@
 	else
 		return [[metaInfo objectAtIndex:rowIndex] content];
 }
-
 
 @synthesize metaInfo;
 

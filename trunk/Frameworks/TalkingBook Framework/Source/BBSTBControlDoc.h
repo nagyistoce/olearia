@@ -46,6 +46,8 @@
 	NSString			*currentPositionID;
 	
 	BOOL				navigateForChapters;
+	BOOL				_hasTextContent;
+	BOOL				_hasAudioContent;
 	
 }
 
