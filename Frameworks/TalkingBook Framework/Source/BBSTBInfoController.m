@@ -1,6 +1,6 @@
 //
 //  InfoWindowController.m
-//  BBSTalkingBook
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 30/11/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -43,8 +43,6 @@
 	if (![NSBundle loadNibNamed:@"BookInfo" owner:self]) return nil;
 	
 	metaInfo = [[NSMutableArray alloc] init];
-	
-	
 
 	return self;
 }

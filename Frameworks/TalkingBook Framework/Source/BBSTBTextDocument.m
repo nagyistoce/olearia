@@ -1,6 +1,6 @@
 //
 //  BBSTBTextDocument.m
-//  BBSTalkingBook
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 14/05/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.

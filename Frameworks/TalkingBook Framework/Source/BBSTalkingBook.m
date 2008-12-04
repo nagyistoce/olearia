@@ -1,6 +1,6 @@
 //
 //  BBSTalkingBook.m
-//  BBSTalkingBook
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 5/05/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -26,9 +26,10 @@
 #import "BBSTBNCXDocument.h"
 #import "BBSTBNCCDocument.h"
 #import "BBSTBSMILDocument.h"
+#import "BBSTBInfoController.h"
 #import <QTKit/QTKit.h>
 
-//@class BBSTBTextDocument;
+
 
 
 

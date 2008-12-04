@@ -1,6 +1,6 @@
 //
 //  BBSTBPackageDoc.h
-//  BBSTalkingBook
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 25/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.

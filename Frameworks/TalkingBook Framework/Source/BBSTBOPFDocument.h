@@ -1,6 +1,6 @@
 //
 //  BBSTBOPFDocument.h
-//  BBSTalkingBook
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 15/04/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -19,7 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
 #import "BBSTBPackageDoc.h"
 
