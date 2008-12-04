@@ -1,6 +1,6 @@
 //
 //  BBSTBNCCDocument.h
-//  Olearia
+//  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 11/09/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
