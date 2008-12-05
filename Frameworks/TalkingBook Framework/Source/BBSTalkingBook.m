@@ -29,15 +29,9 @@
 #import "BBSTBInfoController.h"
 #import <QTKit/QTKit.h>
 
-
-
-
-
 @interface BBSTalkingBook ()
 
 
-- (void)audioFileDidEnd:(NSNotification *)notification;
-- (void)loadStateDidChange:(NSNotification *)notification;
 - (void)errorDialogDidEnd;
 - (void)setDisplayDefaults;
 - (void)resetBook;
@@ -926,62 +920,6 @@
 #pragma mark -
 #pragma mark Delegate Methods
 
-- (void)audioFileDidEnd:(NSNotification *)notification
-{
-	if(YES == [self nextSegment])
-		[self playAudio];
-}
-
-
-- (void)loadStateDidChange:(NSNotification *)notification
-{
-	
-	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
-	{
-		
-		if(_hasControlFile)
-		{
-			NSArray *chaptersArray;
-			if(_levelNavConMode > levelNavigationControlMode) 
-			{
-				// populate the chapters array with a timescale the same as the movie file we just initialized
-				long movieTimescale = [[_currentAudioFile attributeForKey:QTMovieTimeScaleAttribute] longValue];
-				chaptersArray = [NSArray arrayWithArray:[_controlDoc chaptersForSegmentWithTimescale:movieTimescale]];
-			}
-			else // we are currently using basic level navigation 
-			{
-				// set the chapter markers to the ones set in the prefs
-				chaptersArray = [NSArray arrayWithArray:[self makeChaptersOfDuration:_skipDuration forMovie:_currentAudioFile]];
-			}
-			
-			if([chaptersArray count] > 0) // check we have some chapters to add
-			{
-				// get the track the chapter will be associated with
-				QTTrack *musicTrack = [[_currentAudioFile tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
-				_currentChapterIndex = -1;
-				NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
-				// add the chapters track to the movie data
-				// dont worry about errors because it doesnt really matter if we cant get chapter markers
-				NSError *chaptersError = nil;
-				[_currentAudioFile addChapters:chaptersArray withAttributes:trackDict error:&chaptersError];
-				if(chaptersError == nil) // we successfully added the chapters to the file
-				{
-					_totalChapters = [_currentAudioFile chapterCount];
-					_currentChapterIndex = [_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]];	
-				}
-			}
-			else
-			{
-				_totalChapters = 0;
-				_currentChapterIndex = 0;
-			}
-			
-			[self updateForPosInBook];
-		}
-		
-	}
-	
-}
 
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
