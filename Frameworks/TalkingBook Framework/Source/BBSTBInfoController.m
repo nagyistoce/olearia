@@ -24,7 +24,10 @@
 #import "BBSTBInfoItem.h"
 #import "RegexKitLite.h"
 
-@interface BBSTBInfoController (Private)
+@interface BBSTBInfoController ()
+
+@property (readwrite, copy)		*_currentMetaNode;
+@property (readwrite, retain) NSMutableArray *_metaInfo;
 
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
 - (BBSTBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
@@ -42,8 +45,10 @@
 	
 	if (![NSBundle loadNibNamed:@"BookInfo" owner:self]) return nil;
 	
-	metaInfo = [[NSMutableArray alloc] init];
+	_metaInfo = [[NSMutableArray alloc] init];
 
+	_currentMetaNode = nil;
+	
 	return self;
 }
 
@@ -56,7 +61,13 @@
 	return self;
 }
 
-
+- (void) dealloc
+{
+	[_currentMetaNode release];
+	[_metaInfo release];
+	
+	[super dealloc];
+}
 
 
 - (void)displayInfoPanel
@@ -68,43 +79,54 @@
 
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode
 {
-	if([metaInfo count] > 0)
-	{	
-		[metaInfo removeAllObjects];
-		_maxStrLen = 0.0;
-	}
-
-	NSArray *childNodes = [metaNode children];
-	
-	for(NSXMLElement *anElement in childNodes)
+	// check if the node has changed
+	if(![_currentMetaNode isEqualTo:metaNode])
 	{
-		if([[[anElement name] lowercaseString] isEqualToString:@"dc-metadata"] || [[[anElement name] lowercaseString] isEqualToString:@"x-metadata"])
-		{
-			NSArray *subChildNodes = [anElement children];
-			for(NSXMLElement *subElement in subChildNodes)
-			{
-				BBSTBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
-				
-				// check for a duplicate item before adding it
-				if(newItem && ![metaInfo containsObject:newItem])
-					[metaInfo addObject:newItem];
-			}
-		}
-		else
-		{
-			BBSTBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
-			// check for a duplicate item before adding it
-			if(newItem && ![metaInfo containsObject:newItem])
-				[metaInfo addObject:newItem];
+		_currentMetaNode = metaNode;
+		
+		if([_metaInfo count] > 0)
+		{	
+			[_metaInfo removeAllObjects];
+			_maxStrLen = 0.0;
 		}
 		
+		NSArray *childNodes = [_currentMetaNode children];
+		
+		for(NSXMLElement *anElement in childNodes)
+		{
+			if([[[anElement name] lowercaseString] isEqualToString:@"dc-metadata"] || [[[anElement name] lowercaseString] isEqualToString:@"x-metadata"])
+			{
+				NSArray *subChildNodes = [anElement children];
+				for(NSXMLElement *subElement in subChildNodes)
+				{
+					BBSTBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
+					
+					// check for a duplicate item before adding it
+					if(newItem && ![_metaInfo containsObject:newItem])
+						[_metaInfo addObject:newItem];
+				}
+			}
+			else
+			{
+				BBSTBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
+				// check for a duplicate item before adding it
+				if(newItem && ![_metaInfo containsObject:newItem])
+					[_metaInfo addObject:newItem];
+			}
+			
+		}
+		
+		[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
+		[infoTableView reloadData];
 	}
-	
-	[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
-	[infoTableView reloadData];
+
 
 	
 }
+
+#pragma mark -
+#pragma mark =========  Private Methods =========
+
 - (BBSTBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
 {
 	NSMutableString *optionTitle = [[NSMutableString alloc] init];
@@ -175,6 +197,7 @@
 	return addNames;
 	
 }
+	
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr
 {
 	NSMutableString *toExpand = [[NSMutableString alloc] initWithString:aStr];
@@ -216,17 +239,17 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	return [metaInfo count];
+	return [_metaInfo count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if([[aTableColumn identifier] isEqualToString:@"title"])
-		return [[metaInfo objectAtIndex:rowIndex] title];
+		return [[_metaInfo objectAtIndex:rowIndex] title];
 	else
-		return [[metaInfo objectAtIndex:rowIndex] content];
+		return [[_metaInfo objectAtIndex:rowIndex] content];
 }
 
-@synthesize metaInfo;
+@synthesize _metaInfo, _currentMetaNode;
 
 @end
