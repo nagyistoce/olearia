@@ -27,7 +27,9 @@
 	IBOutlet NSPanel		*infoPanel;
 	IBOutlet NSTableView	*infoTableView;
 
-	NSMutableArray *metaInfo;
+	NSMutableArray			*_metaInfo;
+	
+	NSXMLNode				*_currentMetaNode;
 
 	CGFloat _maxStrLen;
 }
@@ -36,6 +38,6 @@
 - (id)initWithMetadataNode:(NSXMLNode *)aNode;
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode;
 
-@property (readwrite, retain) NSMutableArray *metaInfo;
+
 
 @end
