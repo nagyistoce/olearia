@@ -7,19 +7,27 @@
 //
 
 #import "BBSTBPackageDoc.h"
+#import "BBSTBCommonDocClass.h"
 
 @implementation BBSTBPackageDoc
-
-
-#pragma mark -
-#pragma mark methods Overridden By Subclasses
 
 - (id) init
 {
 	if (!(self=[super init])) return nil;
 	
+	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	
 	return self;
 }
+
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
+{
+	NSArray *queryContents = [theNode objectsForXQuery:aQuery error:nil];
+	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
+}
+
+#pragma mark -
+#pragma mark methods Overridden By Subclasses
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
@@ -55,7 +63,7 @@
 
 - (NSXMLNode *)metadataNode
 {
-	NSArray *metaNodes = [xmlPackageDoc objectsForXQuery:@"//metadata" error:nil];
+	NSArray *metaNodes = [[xmlPackageDoc rootElement] objectsForXQuery:@"/metadata" error:nil];
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
@@ -71,9 +79,7 @@
 	return nil;
 }
 
-@synthesize bookTitle, bookSubject, bookTotalTime;
-@synthesize bookMediaFormat, bookType;
 @synthesize ncxFilename,xmlContentFilename;
-
+@synthesize commonDoc;
 
 @end

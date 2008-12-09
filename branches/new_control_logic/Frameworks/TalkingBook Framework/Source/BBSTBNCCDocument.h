@@ -23,8 +23,6 @@
 #import <Foundation/Foundation.h>
 #import "BBSTBControlDoc.h"
 
-@class BBSTBSMILDocument;
-
 @interface BBSTBNCCDocument : BBSTBControlDoc
 {
 
@@ -38,19 +36,16 @@
 	NSXMLElement		*nccRootElement;
 	NSXMLNode			*currentNavPoint;
 	
-	BBSTBSMILDocument   *smilDoc;
+
 	NSArray				*_bodyNodes;
-	
-	NSString *_currentSmilFilename;
-	
 	
 	BOOL loadFromCurrentLevel;
 	BOOL _isFirstRun;
 	
 }
 
-- (NSArray *)chaptersForSegment;
-- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
+//- (NSArray *)chaptersForSegment;
+//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
 
 @property (readwrite) BOOL loadFromCurrentLevel;

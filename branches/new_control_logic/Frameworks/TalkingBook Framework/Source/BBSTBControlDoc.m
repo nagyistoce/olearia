@@ -21,7 +21,7 @@
 
 
 #import "BBSTBControlDoc.h"
-#import "BBSTBNCXDocument.h"
+#import "BBSTBCommonDocClass.h"
 
 @implementation BBSTBControlDoc
 
@@ -29,14 +29,10 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	segmentTitle = @"";
-	bookTitle = @"";
-	totalPages = 0;
-	totalTargetPages = 0;
-	currentLevel = 0;
-	documentUID = @"";
 	bookMediaFormat = unknownMediaFormat;
 	currentAudioFilename = @"";
+	
+	commonDoc = [BBSTBCommonDocClass sharedInstance];
 	
 	return self;
 }
@@ -92,6 +88,7 @@
 {
 	// this method is only used for querying ncc.html control docs 
 	// as the NCX files do not hold as much info as the OPF ones
+	// will be subclassed as neccessary 
 	NSArray *metaNodes = [xmlControlDoc objectsForXQuery:@"//head" error:nil];
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
@@ -109,6 +106,12 @@
 - (NSString *)currentSegmentFilename
 {
 	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (NSString *)currentSmilFilename
+{
+	[self doesNotRecognizeSelector: _cmd];
 	return nil;
 }
 
@@ -166,15 +169,12 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
 {
-	return [[theNode objectsForXQuery:aQuery error:nil] objectAtIndex:0];
+	NSArray *queryContents = [theNode objectsForXQuery:aQuery error:nil];
+	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
 }
 
-
-@synthesize levelNavChapterIncrement;
-@synthesize currentLevel, currentPageNumber, totalPages, totalTargetPages;
 @synthesize bookMediaFormat;
-@synthesize segmentTitle, bookTitle, documentUID;
-@synthesize currentAudioFilename, currentPositionID;
+@synthesize currentPositionID;
 @synthesize navigateForChapters;
 @synthesize metadataNode;
 

@@ -20,13 +20,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@class NSSpeechSynthesizer, BBSTBCommonDocClass;
 
-
-@interface BBSTBXmlContentDoc : NSObject 
+@interface BBSTBTextContentDoc : NSObject 
 {
 
-	NSXMLDocument *xmlContentDoc;
+	NSXMLDocument		*xmlTextContentDoc;
 
+	BBSTBCommonDocClass		*commonDoc;
+	
+	NSSpeechSynthesizer *textSynth;
 
 }
 

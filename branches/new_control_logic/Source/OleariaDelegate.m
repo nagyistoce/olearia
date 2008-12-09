@@ -21,6 +21,7 @@
 
 #import "OleariaDelegate.h"
 #import "BBSTalkingBook.h"
+#import "BBSTBCommonDocClass.h"
 #import "OleariaPrefsController.h"
 #import "AboutBoxController.h"
 
@@ -734,7 +735,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		{
 			// this is the first time the book was opened so add its name and the current defaults 
 			// to the dictionary along with the folder path it was loaded from.
-			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook bookTitle] description],@"Title",
+			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook commonDoc] bookTitle],@"Title",
 											 [pathToMove description],@"FilePath",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackRate]],@"Rate",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackVolume]],@"Volume",
@@ -754,7 +755,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			
 			NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
 			
-			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:talkingBook.bookTitle action:@selector(openRecentBook:) keyEquivalent:@""];
+			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:[[talkingBook commonDoc] bookTitle] action:@selector(openRecentBook:) keyEquivalent:@""];
 			[newItem setToolTip:[loadedFromPrefix stringByAppendingString:[[defaultSettings valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
 			[recentBooksMenu insertItem:newItem atIndex:0];
 		}

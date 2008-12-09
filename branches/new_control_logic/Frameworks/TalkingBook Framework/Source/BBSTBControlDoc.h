@@ -22,23 +22,20 @@
 
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
+#import "BBSTBCommonDocClass.h"
 
-@interface BBSTBControlDoc : NSObject 
+
+@interface BBSTBControlDoc : NSObject
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
 	
+	BBSTBCommonDocClass	*commonDoc;
+	
 	NSXMLNode			*metadataNode;
 	
 	TalkingBookMediaFormat			bookMediaFormat;
-	NSInteger			currentLevel;
-	NSInteger			currentPageNumber;
-	
-	NSInteger			totalPages;			// dtb:maxPageNumber or dtb:maxPageNormal in pre 2005 spec
-	NSInteger			totalTargetPages;	// dtb:totalPageCount
-	NSString			*documentUID;		// dtb:uid
-	NSString			*segmentTitle;
-	NSString			*bookTitle;
+
 	float				levelNavChapterIncrement;
 	
 	id					controlDocument;
@@ -57,6 +54,9 @@
 
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
+- (NSString *)currentSegmentFilename;
+- (NSString *)currentSmilFilename;
+
 - (void)goUpALevel;
 - (void)goDownALevel;
 
@@ -71,14 +71,9 @@
 
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly) NSXMLNode *metadataNode;
-@property (readonly, retain) NSString	*bookTitle;
-@property (readonly) NSInteger currentLevel;
-@property (readonly) NSInteger currentPageNumber;
-@property (readonly) NSInteger totalPages;
-@property (readonly) NSInteger totalTargetPages;
+
 @property (readwrite) float levelNavChapterIncrement;
-@property (readonly, retain) NSString *documentUID;
-@property (readonly, retain) NSString *segmentTitle;
+
 @property (readonly, retain) NSString *currentAudioFilename;
 @property (readwrite,retain) NSString *currentPositionID;
 @property (readwrite) BOOL navigateForChapters;

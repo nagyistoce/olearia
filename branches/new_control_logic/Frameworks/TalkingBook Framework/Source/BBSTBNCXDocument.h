@@ -22,46 +22,24 @@
 #import <Foundation/Foundation.h>
 #import "BBSTBControlDoc.h"
 
-@class BBSTBSMILDocument;
-
 @interface BBSTBNCXDocument : BBSTBControlDoc 
 {
-
-	BBSTBSMILDocument	*smilDoc;
-	
-	NSDictionary		*metaData;
-	NSDictionary		*smilCustomTest;
-	NSDictionary		*documentTitleDict;
-	NSDictionary		*documentAuthorDict;
-	NSDictionary		*segmentAttributes;
 	
 	BOOL				shouldUseNavmap;
 	BOOL				isFirstRun;
 	BOOL				loadFromCurrentLevel;
 	
-	//BOOL				isAtPhraseLevel;
-	
-	NSXMLNode			*currentNavPoint;
+	NSXMLNode			*_currentNavPoint;
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
 	
 	NSInteger			maxNavPointsAtThisLevel;
-
-	NSString			*versionString;
-	
 	
 }
 
-- (NSArray *)chaptersForSegment;
-- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
+//- (NSArray *)chaptersForSegment;
+//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
 
-@property (readwrite, assign) BOOL loadFromCurrentLevel;
-@property (readonly, retain) NSDictionary *metaData;
-@property (readonly, retain) NSDictionary *documentTitleDict;
-
-@property (readonly, retain) NSDictionary *documentAuthorDict;
-
-@property (readonly, retain) NSDictionary *smilCustomTest;
-@property (readonly, retain) NSDictionary *segmentAttributes;
+@property (readwrite) BOOL loadFromCurrentLevel;
 
 @end

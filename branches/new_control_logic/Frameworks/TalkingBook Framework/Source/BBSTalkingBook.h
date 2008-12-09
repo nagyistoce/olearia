@@ -20,12 +20,10 @@
 //
 
 #import "BBSTalkingBookTypes.h"
-#import <QTKit/QTKit.h>
+#import <QTKit/QTTime.h>
 
-@class BBSTBSMILDocument, BBSTBTextDocument, BBSTBControlDoc, BBSTBPackageDoc, BBSTBInfoController;
-@class QTMovie;
-
-
+@class BBSTBInfoController;
+@class BBSTBCommonDocClass;
 
 typedef enum 
 {
@@ -64,51 +62,35 @@ typedef enum
 	NSInteger				_currentLevelIndex;
 	NSInteger				_currentChapterIndex;
 	NSInteger				bookFormatType;
-	NSInteger				currentLevel;
+	//NSInteger				currentLevel;
 	
-	QTTime					_skipDuration;
-	
+	id						_textDoc;
+	id						_smilDoc;
 	id						_controlDoc;
 	id						_packageDoc;
+	BBSTBCommonDocClass		*commonDoc;
 	
-	BBSTBTextDocument		*textDoc;
-	BBSTBSMILDocument		*smilDoc;
-	
-	
-	NSString				*_bookPath;
+	NSURL					*_baseBookURL;
 	NSString				*_currentSegmentFilename;
 	NSString				*fullBookPath;
 	
 	BBSTBInfoController		*_infoController;
 	
 	
-	NSNotificationCenter	*TalkingBookNotificationCenter;
-
-
 	BOOL					_didLoadOK;
 	BOOL					_hasPackageFile;
 	BOOL					_hasControlFile;
+
 	BOOL					_hasPageNavigation;
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
 	BOOL					_hasWordNavigation;
 
-	QTMovie					*_currentAudioFile;
-	
-	// bindings ivars
-	NSString				*bookTitle;
-	NSString				*currentSectionTitle;
-	NSString				*currentLevelString;
-	NSString				*currentPageString;
+	// bindings
 	BOOL					isPlaying;
 	BOOL					canPlay;
-	BOOL					hasNextChapter;
-	BOOL					hasPreviousChapter;
-	BOOL					hasLevelUp;
-	BOOL					hasLevelDown;
-	BOOL					hasNextSegment;
-	BOOL					hasPreviousSegment;
 	
+		
 }
 
 
@@ -119,20 +101,18 @@ typedef enum
 - (BOOL)nextSegmentOnLevel;
 - (BOOL)nextSegment;
 - (BOOL)previousSegment;
-
 - (void)upOneLevel;
 - (void)downOneLevel;
-
 - (void)nextChapter;
 - (void)previousChapter;
+
+- (void)updateSkipDuration:(float)newDuration;
 
 - (void)showBookInfo;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 
-
-@property (readwrite, retain) BBSTBControlDoc *_controlDoc;
-@property (readwrite, retain) BBSTBPackageDoc *_packageDoc;
+@property (readwrite,retain)	BBSTBCommonDocClass *commonDoc;
 
 @property (readwrite,retain)	NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
@@ -149,21 +129,7 @@ typedef enum
 
 @property (readonly)		NSInteger	maxLevels;
 
-@property (retain,readonly)		BBSTBTextDocument		*textDoc;
-
-// bindings ivars
-@property (readonly,retain)	NSString	*bookTitle;
-@property (readonly,retain) NSString	*currentSectionTitle;
-@property (readonly, retain) NSString	*currentLevelString;
-@property (readonly,retain) NSString	*currentPageString;
 @property (readonly) BOOL		canPlay;
 @property (readonly) BOOL		isPlaying;
-@property (readonly) BOOL		hasNextChapter;
-@property (readonly) BOOL		hasPreviousChapter;
-@property (readonly) BOOL		hasLevelUp;
-@property (readonly) BOOL		hasLevelDown;
-@property (readonly) BOOL		hasNextSegment;
-@property (readonly) BOOL		hasPreviousSegment;
-
 
 @end

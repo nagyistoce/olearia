@@ -26,7 +26,6 @@
 
 @interface BBSTBInfoController ()
 
-@property (readwrite, copy)		*_currentMetaNode;
 @property (readwrite, retain) NSMutableArray *_metaInfo;
 
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
@@ -47,8 +46,6 @@
 	
 	_metaInfo = [[NSMutableArray alloc] init];
 
-	_currentMetaNode = nil;
-	
 	return self;
 }
 
@@ -63,7 +60,6 @@
 
 - (void) dealloc
 {
-	[_currentMetaNode release];
 	[_metaInfo release];
 	
 	[super dealloc];
@@ -79,49 +75,41 @@
 
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode
 {
-	// check if the node has changed
-	if(![_currentMetaNode isEqualTo:metaNode])
+
+	if([_metaInfo count] > 0)
+	{	
+		[_metaInfo removeAllObjects];
+		_maxStrLen = 0.0;
+	}
+	
+	NSArray *childNodes = [metaNode children];
+	
+	for(NSXMLElement *anElement in childNodes)
 	{
-		_currentMetaNode = metaNode;
-		
-		if([_metaInfo count] > 0)
-		{	
-			[_metaInfo removeAllObjects];
-			_maxStrLen = 0.0;
-		}
-		
-		NSArray *childNodes = [_currentMetaNode children];
-		
-		for(NSXMLElement *anElement in childNodes)
+		if([[[anElement name] lowercaseString] isEqualToString:@"dc-metadata"] || [[[anElement name] lowercaseString] isEqualToString:@"x-metadata"])
 		{
-			if([[[anElement name] lowercaseString] isEqualToString:@"dc-metadata"] || [[[anElement name] lowercaseString] isEqualToString:@"x-metadata"])
+			NSArray *subChildNodes = [anElement children];
+			for(NSXMLElement *subElement in subChildNodes)
 			{
-				NSArray *subChildNodes = [anElement children];
-				for(NSXMLElement *subElement in subChildNodes)
-				{
-					BBSTBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
-					
-					// check for a duplicate item before adding it
-					if(newItem && ![_metaInfo containsObject:newItem])
-						[_metaInfo addObject:newItem];
-				}
-			}
-			else
-			{
-				BBSTBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
+				BBSTBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
+				
 				// check for a duplicate item before adding it
 				if(newItem && ![_metaInfo containsObject:newItem])
 					[_metaInfo addObject:newItem];
 			}
-			
+		}
+		else
+		{
+			BBSTBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
+			// check for a duplicate item before adding it
+			if(newItem && ![_metaInfo containsObject:newItem])
+				[_metaInfo addObject:newItem];
 		}
 		
-		[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
-		[infoTableView reloadData];
 	}
-
-
 	
+	[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
+	[infoTableView reloadData];
 }
 
 #pragma mark -
@@ -250,6 +238,6 @@
 		return [[_metaInfo objectAtIndex:rowIndex] content];
 }
 
-@synthesize _metaInfo, _currentMetaNode;
+@synthesize _metaInfo;
 
 @end

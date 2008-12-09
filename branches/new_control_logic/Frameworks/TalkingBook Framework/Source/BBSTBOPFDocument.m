@@ -35,21 +35,14 @@
 @property (readwrite, retain) NSArray *tour;
 @property (readwrite, retain) NSXMLNode *metaDataNode;
 
-@property (readwrite, retain) NSString *bookTitle;
-@property (readwrite, retain) NSString *bookSubject;
-@property (readwrite, retain) NSString *bookTotalTime;
-@property (readwrite) TalkingBookType bookType;
-@property (readwrite) TalkingBookMediaFormat bookMediaFormat;
-
-@property (readwrite, retain) NSString *ncxFilename;
-@property (readwrite, retain) NSString *xmlContentFilename;
+@property (readwrite, copy) NSString	*ncxFilename;
+@property (readwrite, copy) NSString	*xmlTextContentFilename;
 
 @property (readwrite) NSInteger	currentPosInSpine;
 
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement;
 - (NSArray *)processTourSection:(NSXMLElement *)aRootElement;
 - (NSDictionary *)processManifestSection:(NSXMLElement *)aRootElement;
-- (BOOL)processMetadataSection:(NSXMLElement *)aRootElement;
 - (NSDictionary *)processGuideSection:(NSXMLElement *)aRootElement;
 
 - (NSInteger)prevSpinePos;
@@ -67,9 +60,8 @@
 
 @synthesize currentPosInSpine;
 @synthesize metaDataNode;
-@synthesize bookType,bookMediaFormat;
-@synthesize bookTitle,bookTotalTime,bookSubject;
-@synthesize ncxFilename, xmlContentFilename;
+
+@synthesize ncxFilename, xmlTextContentFilename;
 
 - (id) init
 {
@@ -92,97 +84,84 @@
  */
 
 
-//- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
+
 
 - (BOOL)processMetadata
 {
 	BOOL isOk = NO;	
 	
-	// get the root element of the tree
-		NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
-		
-		// check we have any valid metadata before adding the rest.
-		if([self processMetadataSection:opfRoot])
-		{
-			self.manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
-			self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
-			self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
-			currentPosInSpine = -1;
-			
-			NSMutableArray *tempData = [[NSMutableArray alloc] init];
-			
-			// get the media format of the book.
-			[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/metadata/x-metadata/meta[@name=\"dtb:multimediaType\"]/data(@content)" error:nil]];
-			
-			// try to get the string and if it exists convert it to lowercase
-			NSString *mediaTypeStr = (1 == [tempData count]) ? [[tempData objectAtIndex:0] lowercaseString] : nil;	
-			if(mediaTypeStr != nil)
-			{
-				// set the mediaformat accordingly
-				if([mediaTypeStr isEqualToString:@"audiofulltext"])
-					self.bookMediaFormat = AudioFullTextMediaFormat;
-				else if([mediaTypeStr isEqualToString:@"audioparttext"])
-					self.bookMediaFormat = AudioPartialTextMediaFormat;
-				else if([mediaTypeStr isEqualToString:@"audioonly"])
-					self.bookMediaFormat = AudioOnlyMediaFormat;
-				else if([mediaTypeStr isEqualToString:@"audioncc"])
-					self.bookMediaFormat = AudioNcxOrNccMediaFormat;
-				else if([mediaTypeStr isEqualToString:@"textpartaudio"])
-					self.bookMediaFormat = TextPartialAudioMediaFormat;
-				else if([mediaTypeStr isEqualToString:@"textncc"])
-					self.bookMediaFormat = TextNcxOrNccMediaFormat;
-				else 
-					self.bookMediaFormat = unknownMediaFormat;
-				
-			}
-			else
-			{
-				self.bookMediaFormat = unknownMediaFormat;
-				
-			}
-			
-			
-			
-			[tempData removeAllObjects];
-			// get the ncx filename
-			// check th format type of the book
-			if(bookType == DTB2005Type)
-			{
-				[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" error:nil]]; 
-				if([tempData count] == 1)
-				{	
-					ncxFilename = [tempData objectAtIndex:0];
-					[tempData removeAllObjects];
-					
-					// now check for the xml content filename
-					[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" error:nil]];
-					if([tempData count] == 1)
-					{
-						xmlContentFilename = [tempData objectAtIndex:0];
-					}
-				}
-			}
-			else if((bookType == DTB2002Type) || (bookType == BookshareType))
-			{
-				[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" error:nil]];
-				if([tempData count] == 1)
-				{	
-					ncxFilename = [tempData objectAtIndex:0];
-					[tempData removeAllObjects];
-					
-					// now check for the xml content filename
-					[tempData addObjectsFromArray:[opfRoot objectsForXQuery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.xml')] /data(@href)" error:nil]];
-					if([tempData count] == 1)
-					{
-						xmlContentFilename = [tempData objectAtIndex:0];
-					}
-				}
-			}
-			// release the tempdata array
-			tempData = nil;
-		}
+	NSXMLNode *metaNode = [self metadataNode];
 	
+	// get the root element of the tree
+	NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
+	
+	// check we have any valid metadata before adding the rest.
+	
+	self.manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
+	self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
+	self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
+	currentPosInSpine = -1;
+	
+	// get the media format of the book.
+	[commonDoc setMediaFormatFromString:[self stringForXquery:@"//meta[@name=\"dtb:multimediaType\"]/data(@content)" ofNode:opfRoot]];
+	
+	// get the dc:Format node string
+	NSString *bookFormatString = [self stringForXquery:@"//dc-metadata/data(*:Format)" ofNode:metaNode];
+	
+	// check the type for DTB 2002 specifier
+	if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2002"])
+	{	
+			// set the type to DTB 2002
+		commonDoc.bookType = DTB2002Type;
 		
+		// it may be a bookshare book 
+		// check the identifier node for a bookshare scheme attribute containing "BKSH"
+		// check if the array returned is not nil ie contains the identifier node
+		if([metaNode objectsForXQuery:@"//dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
+		{
+			// change the book type to Bookshare
+			commonDoc.bookType = BookshareType;
+		}
+		
+		ncxFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:opfRoot];
+			
+		// now check for the xml content filename
+		xmlContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.xml')] /data(@href)" ofNode:opfRoot];
+					
+		
+	}
+	// check for DTB 2005 spec identifier
+	else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
+	{
+		commonDoc.bookType = DTB2005Type;
+		// get the ncx filename
+		ncxFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:opfRoot];
+		// get the text content filename
+		xmlContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:opfRoot];
+	}
+	else
+	{
+		// we dont know what type it is so set the unknown type
+		commonDoc.bookType = UnknownBookType;
+	}
+	
+	
+	// sanity check to see that we know what type of book we are opening
+	if(commonDoc.bookType != UnknownBookType)
+	{
+		// set the book title
+		NSString *titleStr = nil;
+		titleStr = [self stringForXquery:@"/dc-metadata/data(*:Title)" ofNode:metaNode];
+		commonDoc.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
+		
+		// set the subject
+		NSString *subjectStr = nil;
+		subjectStr = [self stringForXquery:@"/dc-metadata/data(*:Subject)" ofNode:metaNode];
+		commonDoc.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
+		
+		[commonDoc setMediaFormatFromString:[self stringForXquery:@"//meta[@name=\"dtb:multimediaType\"]/data(@content)" ofNode:metaNode]];
+	}
+	
 	if(ncxFilename != nil)
 		isOk = YES;
 	
@@ -314,95 +293,6 @@
 #pragma mark -
 #pragma mark Private Methods
 		
-- (BOOL)processMetadataSection:(NSXMLElement *)aRootElement
-{	
-	metaDataNode = nil;
-
-	metaDataNode = [[aRootElement nodesForXPath:@"metadata" error:nil] objectAtIndex:0];
-	//[metaDataNode detach];
-	
-	if(metaDataNode != nil)
-	{
-		// get the dc:Format node string
-		NSMutableArray *nodeObjects = [[NSMutableArray alloc] initWithArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Format)" error:nil]];
-		NSString *bookFormatString = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : @"" ;
-		
-		// check the type for DTB 2002 specifier
-		if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2002"])
-		{	
-			// it may be a bookshare book 
-			// check the identifier node for a bookshare scheme attribute containing "BKSH"
-			// check if the array returned is not nil ie contains the identifier node
-			if([metaDataNode objectsForXQuery:@"//dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
-			{
-				// change the book type to Bookshare
-				bookType = BookshareType;
-			}
-			else
-			{
-				// set the type to DTB 2002
-				bookType = DTB2002Type;
-			}
-			
-		}
-		// check for DTB 2005 spec identifier
-		else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
-		{
-			bookType = DTB2005Type;
-		}
-		else
-		{
-			// we dont know what type it is so set the unknown type
-			bookType = UnknownBookType;
-		}
-		
-		// sanity check to see that we know what type of book we are opening
-		if(bookType != UnknownBookType)
-		{
-			// set the book title
-			[nodeObjects removeAllObjects];
-			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Title)" error:nil]];
-			self.bookTitle = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string"); 
-		
-			// set the subject
-			[nodeObjects removeAllObjects];
-			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//dc-metadata/data(*:Subject)" error:nil]];
-			self.bookSubject =  ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : NSLocalizedString(@"No Subject", @"no subject string");
-
-			[nodeObjects removeAllObjects];
-			[nodeObjects setArray:[metaDataNode objectsForXQuery:@"//x-metadata/meta[@name=\"dtb:multimediaType\"]/data(@content)" error:nil]];
-			NSString *mediaStr = ([nodeObjects count] > 0) ? [nodeObjects objectAtIndex:0] : nil;
-			if(mediaStr != nil)
-			{
-				if([mediaStr isEqualToString:@"audioFullText"] == YES)
-					self.bookMediaFormat = AudioFullTextMediaFormat;
-				else if([mediaStr isEqualToString:@"audioPartText"] == YES)
-					self.bookMediaFormat = AudioPartialTextMediaFormat;
-				else if([mediaStr isEqualToString:@"audioOnly"] == YES)
-					self.bookMediaFormat = AudioOnlyMediaFormat;
-				else if([mediaStr isEqualToString:@"audioNCX"] == YES)
-					self.bookMediaFormat = AudioNcxOrNccMediaFormat;
-				else if([mediaStr isEqualToString:@"textPartAudio"] == YES)
-					self.bookMediaFormat = TextPartialAudioMediaFormat;
-				else if([mediaStr isEqualToString:@"textNCX"] == YES)
-					self.bookMediaFormat = TextNcxOrNccMediaFormat;
-				else 
-					self.bookMediaFormat = unknownMediaFormat;
-			}
-			else
-			{
-				self.bookMediaFormat = unknownMediaFormat;
-			}
-			
-		}
-		
-				
-		
-	}
-		
-	return (metaDataNode != nil) ? YES : NO;
-}
-
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement
 {
 	NSMutableArray * spineContents = nil;

@@ -22,49 +22,19 @@
 #import <Foundation/Foundation.h>
 #import "BBSTBControlDoc.h"
 #import "BBSTBNCXDocument.h"
-#import "BBSTBSMILDocument.h"
 #import "BBSTalkingBookTypes.h"
-#import "NSXMLElement-BBSExtensions.h"
-#import <QTKit/QTKit.h>
 
 @interface BBSTBNCXDocument ()
 
-@property (readwrite, retain) BBSTBSMILDocument *smilDoc;
-@property (readwrite, retain) NSString *parentFolderPath;
-@property (readwrite, retain) NSDictionary *smilCustomTest;
-@property (readwrite, retain) NSDictionary *documentTitleDict;
-@property (readwrite, retain) NSDictionary *documentAuthorDict;
-@property (readwrite, retain) NSDictionary *segmentAttributes;
+@property (readwrite, retain)	NSXMLNode		*_currentNavPoint;
+@property (readwrite, retain)	NSXMLNode		*navListNode;
+@property (readwrite, retain)	NSArray			*navTargets;
 
-@property (readwrite, assign) NSString *bookTitle;
-@property (readwrite, assign) NSString *documentUID;
-@property (readwrite, assign) NSString *segmentTitle;
-@property (readwrite, assign) NSString *currentAudioFilename;
-@property (readwrite) NSInteger totalPages;
-@property (readwrite) NSInteger totalTargetPages;
-@property (readwrite) NSInteger currentLevel;
-
-@property (readwrite, retain) NSXMLNode		*currentNavPoint;
-@property (readwrite, retain) NSXMLNode		*navListNode;
-@property (readwrite, retain) NSArray		*navTargets;
-
-@property (readwrite, retain) NSString *versionString;
-@property (readwrite, retain) NSDictionary *metaData;
-
-
-- (NSDictionary *)processDocTitle;
-- (NSDictionary *)processDocAuthor;
-- (NSArray *)processNavMap; 
-- (void)openSmilFile:(NSString *)smilFilename;
 - (NSUInteger)navPointsOnCurrentLevel;
 - (NSUInteger)navPointIndexOnCurrentLevel;
-
-- (NSInteger)documentVersion;
 - (NSString *)filenameFromID:(NSString *)anIdString;
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode;
-- (void)nextSegment;
-- (void)previousSegment;
-- (NSString *)currentSegmentFilename;
+
 
 @end
 
@@ -82,69 +52,17 @@
 	return self;
 }
 
-
+- (void) dealloc
+{
+	
+	
+	[super dealloc];
+}
 
 - (BOOL)processMetadata
 {
-	BOOL isOK = NO;
-	metaData = nil;
-	
-	// these all may be nil depending on the type of book we are reading
-	NSXMLElement *ncxRootElement = [xmlControlDoc rootElement];
-
-	self.versionString = [[ncxRootElement attributeForName:@"version"] stringValue];
-	
-	// get the head element , there will only ever be one.
-	NSXMLNode *headElement = [[NSArray arrayWithArray:[ncxRootElement elementsForName:@"head"]] objectAtIndex:0];
-	NSArray *elements = [NSArray arrayWithArray:[headElement children]];
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// we have a DAISY 3 Book
-	for(NSXMLElement *anElement in elements)
-	{
-		if([[anElement name] isEqualToString:@"meta"])
-		{
-			NSString * nameString = [NSString stringWithString:[[anElement attributeForName:@"name"] stringValue]];
-			[tempData setObject:[[anElement attributeForName:@"content"] stringValue] forKey:nameString];
-		}
-		else if([[anElement name] isEqualToString:@"smilCustomTest"])
-		{
-			NSMutableDictionary *tempSmilCustomTest = [[NSMutableDictionary alloc] init];
-			NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-			for(NSXMLNode *aNode in attribs)
-			{
-				[tempSmilCustomTest setObject:[aNode stringValue] forKey:[aNode name]];
-				
-			}
-			// check if there was anyting put into the dict
-			if([tempSmilCustomTest count] > 0)
-				self.smilCustomTest = tempSmilCustomTest;
-		}
-	}
-	
-	if([tempData count] > 0)
-		self.metaData = tempData; 
-	
-	if(metaData)
-	{
-		totalTargetPages = [[metaData valueForKey:@"dtb:totalPageCount"] intValue];
-		totalPages = [[metaData valueForKey:@"dtb:maxPageNumber"] intValue];
-		
-		self.documentTitleDict = [self processDocTitle];
-		self.documentAuthorDict = [self processDocAuthor];
-		
-		maxNavPointsAtThisLevel = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] count];
-		if(maxNavPointsAtThisLevel > 0)
-		{
-			shouldUseNavmap = YES;
-			self.currentNavPoint = [[ncxRootElement nodesForXPath:@"navMap/navPoint" error:nil] objectAtIndex:0];
-		}
-		
-		currentLevel = 1;
-		isOK = YES;
-		
-	}
-		
-	return isOK;
+	// we return yes here as the metadata was already processed in the opf file
+	return YES;
 }
 
 
@@ -153,16 +71,90 @@
 
 - (void)moveToNextSegment
 {
-	[self nextSegment];
-	self.currentAudioFilename =  [self currentSegmentFilename];
+	if(isFirstRun == NO)
+	{
+		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
+		{
+			if(YES == [self canGoDownLevel]) // first check if we can go down a level
+			{	
+				self._currentNavPoint = [[_currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+				commonDoc.currentLevel++; // increment the level
+			}
+			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+				self._currentNavPoint = [_currentNavPoint nextSibling];
+			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+			{
+				if(nil != [[_currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+				{	
+					// get the parent then its sibling as we have already played 
+					// the parent before dropping into this level
+					self._currentNavPoint = [[_currentNavPoint parent] nextSibling];
+					commonDoc.currentLevel--; // decrement the current level
+				}
+			}
+		}
+		else // loadFromCurrentLevel == YES
+		{
+			// this only used when the user chooses to go to the next file on a given level
+			self._currentNavPoint = [_currentNavPoint nextSibling];
+			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
+		}
+	}
+	else // isFirstRun == YES
+	{	
+		// we set NO because after playing the first file 
+		// because we have dealt with the skipping the first file problem
+		isFirstRun = NO;
+	}
+	
+	// set the segment attributes for the current navPoint
+	//NSXMLElement *navpPointAsElement = (NSXMLElement *)_currentNavPoint;
+	//self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
+	commonDoc.currentSectionTitle = [self stringForXquery:@"/navLabel/data(text)" ofNode:_currentNavPoint];
+	
+	
+
+	
 }
+
 - (void)moveToPreviousSegment
 {
-	[self previousSegment];
-	self.currentAudioFilename =  [self currentSegmentFilename];
+
+	BOOL foundNode = NO;
+	
+	if(NO == navigateForChapters)
+	{
+		// we have a node on this level
+		_currentNavPoint = [_currentNavPoint previousSibling];
+	}
+	else
+	{
+		// we only make it here if we are travelling backwards across segments
+		
+		// reset the flag
+		navigateForChapters = NO;
+		
+		// look back through the previous nodes for a navpoint
+		while(NO == foundNode)
+		{
+			_currentNavPoint = [_currentNavPoint previousNode];
+			if([[_currentNavPoint name] isEqualToString:@"navPoint"])
+				foundNode = YES;
+		}
+		
+		
+		commonDoc.currentLevel = [self levelOfNode:_currentNavPoint];
+		
+		
+		
+		
+	}
+	
+	commonDoc.currentSectionTitle = [self stringForXquery:@"/navLabel/data(text)" ofNode:_currentNavPoint];
+
 }
 
-
+/*
 - (NSArray *)chaptersForSegment
 {
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
@@ -228,47 +220,33 @@
 	
 	return outputChapters;
 }
+*/
 
+- (NSString *)currentSmilFilename
+{
+	return [self stringForXquery:@"/content/data(@src)" ofNode:_currentNavPoint];
+}
 
 - (void)goDownALevel
 {
-	NSString *audioFilename = nil;
-	
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
-		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-		currentLevel = [self levelOfNode:currentNavPoint]; // increment the level index
-		
-		// set the segment attributes for the current navPoint
-		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
-		audioFilename = [self currentSegmentFilename];
+		_currentNavPoint = [[_currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+		commonDoc.currentLevel = [self levelOfNode:_currentNavPoint]; // change the level index
 	}
-	
-	currentAudioFilename = audioFilename;
 }
 
 - (void)goUpALevel
 {
-	NSString *audioFilename = nil;
-	
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
-		currentNavPoint = [currentNavPoint parent];
-		currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
-		
-		// set the segment attributes for the current navPoint
-		NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-		segmentAttributes = [navpPointAsElement dictionaryFromElement];
-		segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
-		audioFilename = [self currentSegmentFilename];
+		_currentNavPoint = [_currentNavPoint parent];
+		commonDoc.currentLevel = [self levelOfNode:_currentNavPoint]; // decrement the level index
 	}
-
-	currentAudioFilename = audioFilename;
 }
+
+#pragma mark -
+#pragma mark ========  Navigation Query =======
 
 - (BOOL)canGoNext
 {
@@ -285,13 +263,13 @@
 - (BOOL)canGoUpLevel
 {
 	// return Yes if we are at a lower level
-	return (currentLevel > 1) ? YES : NO;
+	return (commonDoc.currentLevel > 1) ? YES : NO;
 }
 
 - (BOOL)canGoDownLevel
 {
 	// return YES if there are navPoint Nodes below this level
-	return ([[currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
+	return ([[_currentNavPoint nodesForXPath:@"navPoint" error:nil] count] > 0) ? YES : NO;
 }
 
 - (BOOL)nextSegmentIsAvailable
@@ -309,7 +287,7 @@
 		segAvail = YES;
 	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
 	{
-		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+		if(nil != [[_currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
 		{	
 			segAvail = YES;
 		}
@@ -325,7 +303,7 @@
 	
 	BOOL segAvail = NO; // set the default
 	
-	if(currentLevel > 1)
+	if(commonDoc.currentLevel > 1)
 		segAvail = YES;
 	else if([self canGoPrev])
 		segAvail = YES;
@@ -333,105 +311,7 @@
 	return segAvail;
 }
 
-
-#pragma mark -
-#pragma mark Private Methods
-
-- (NSUInteger)navPointsOnCurrentLevel
-{
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
-}
-
-- (NSUInteger)navPointIndexOnCurrentLevel
-{
-	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
-}
-
-- (void)nextSegment
-{
-	if(isFirstRun == NO)
-	{
-		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
-		{
-			if(YES == [self canGoDownLevel]) // first check if we can go down a level
-			{	
-				self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				self.currentLevel++; // increment the level
-			}
-			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-				self.currentNavPoint = [currentNavPoint nextSibling];
-			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
-			{
-				if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
-				{	
-					// get the parent then its sibling as we have already played 
-					// the parent before dropping into this level
-					self.currentNavPoint = [[currentNavPoint parent] nextSibling];
-					self.currentLevel--; // decrement the current level
-				}
-			}
-		}
-		else // loadFromCurrentLevel == YES
-		{
-			// this only used when the user chooses to go to the next file on a given level
-			self.currentNavPoint = [currentNavPoint nextSibling];
-			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
-		}
-	}
-	else // isFirstRun == YES
-	{	
-		// we set NO because after playing the first file 
-		// because we have dealt with the skipping the first file problem
-		isFirstRun = NO;
-	}
-	
-	// set the segment attributes for the current navPoint
-	NSXMLElement *navpPointAsElement = (NSXMLElement *)currentNavPoint;
-	self.segmentAttributes = [navpPointAsElement dictionaryFromElement];
-	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-
-}
-
-- (void)previousSegment
-{
-	BOOL foundNode = NO;
-	
-	if(NO == navigateForChapters)
-	{
-		// we have a node on this level
-		currentNavPoint = [currentNavPoint previousSibling];
-	}
-	else
-	{
-		// we only make it here if we are travelling backwards across segments
-		
-		// reset the flag
-		navigateForChapters = NO;
-		
-		// look back through the previous nodes for a navpoint
-		while(NO == foundNode)
-		{
-			currentNavPoint = [currentNavPoint previousNode];
-			if([[currentNavPoint name] isEqualToString:@"navPoint"])
-				foundNode = YES;
-		}
-		
-		
-		self.currentLevel = [self levelOfNode:currentNavPoint];
-			
-			
-		
-		
-	}
-	
-	// set the segment attributes for the current NavPoint
-	NSXMLElement *navPointAsElement = (NSXMLElement *)currentNavPoint;
-	self.segmentAttributes = [navPointAsElement dictionaryFromElement];
-	self.segmentTitle = [segmentAttributes valueForKeyPath:@"navLabel.text"];
-	
-}
-
+/*
 - (NSString *)currentSegmentFilename
 {
 	NSString *audioFilename = nil;
@@ -454,6 +334,23 @@
 	
 	return audioFilename;
 }
+*/
+
+
+#pragma mark -
+#pragma mark Private Methods
+
+- (NSUInteger)navPointsOnCurrentLevel
+{
+	return [[[_currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
+}
+
+- (NSUInteger)navPointIndexOnCurrentLevel
+{
+	// returns an index of the current navPoint relative to the other navPoints on the same level
+	return [[[_currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:_currentNavPoint];
+}
+
 
 - (NSString *)filenameFromID:(NSString *)anIdString
 {
@@ -463,9 +360,10 @@
 		
 }
 
+
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode
 {
-	NSInteger thislevel = currentLevel;
+	NSInteger thislevel = commonDoc.currentLevel;
 	NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
 	NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
 	
@@ -484,6 +382,7 @@
 	return thislevel;
 }
 
+/*
 - (NSDictionary *)processDocTitle
 {
 	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
@@ -555,7 +454,9 @@
 
 	return tempData;
 }
+ */
 
+/*
 - (void)openSmilFile:(NSString *)smilFilename
 {
 	// build the path to the smil file
@@ -569,7 +470,8 @@
 		[smilDoc openWithContentsOfURL:smilURL];
 	}
 }
-
+*/
+/*
 - (NSInteger)documentVersion
 {
 	// check for an earlier than 2005 version string
@@ -579,7 +481,7 @@
 	// return the default
 	return DTB2005Type;
 }
-
+*/
 - (NSArray *)processNavMap
 {
 	NSMutableArray *tempNavMapPoints = [[NSMutableArray alloc] init];
@@ -601,6 +503,7 @@
 #pragma mark -
 #pragma mark Dynamic Accessors
 
+/*
 - (NSInteger)totalPages
 {
 	
@@ -618,7 +521,8 @@
 	return 0;
 	
 }
-
+*/
+/*
 - (NSInteger)totalTargetPages
 {
 	if([metaData count] > 0)
@@ -636,10 +540,11 @@
 	return nil;
 	
 }
+*/
 
 - (NSString *)currentPositionID
 {
-	return [currentNavPoint XPath];
+	return [_currentNavPoint XPath];
 }
 
 - (void)setCurrentPositionID:(NSString *)anID
@@ -654,11 +559,9 @@
 		
 		if([nodesFromQuery count] > 0)
 		{	
-			currentNavPoint = [nodesFromQuery objectAtIndex:0];
-			currentLevel = [self levelOfNode:currentNavPoint];
+			_currentNavPoint = [nodesFromQuery objectAtIndex:0];
+			commonDoc.currentLevel = [self levelOfNode:_currentNavPoint];
 		}
-		
-	
 	//}
 }
 
@@ -666,19 +569,11 @@
 #pragma mark -
 #pragma mark Synthesized ivars
 
-@synthesize smilDoc, parentFolderPath;
+//@synthesize parentFolderPath;
 @synthesize loadFromCurrentLevel;
 @synthesize navListNode;
-@synthesize currentLevel;
-@synthesize metaData, smilCustomTest, documentTitleDict, documentAuthorDict;
-@synthesize segmentAttributes;
-@synthesize versionString;
 @synthesize navTargets; 
-@synthesize currentNavPoint;
-@synthesize segmentTitle;
-@synthesize bookTitle;
-@synthesize currentAudioFilename;
+@synthesize _currentNavPoint;
 
-@synthesize totalPages, totalTargetPages,documentUID;
 
 @end
