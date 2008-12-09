@@ -1,5 +1,5 @@
 //
-//  BBSTBXmlContentDoc.m
+//  BBSTBTextContentDoc.m
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 31/08/08.
@@ -19,17 +19,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import "BBSTBXmlContentDoc.h"
+#import "BBSTBTextContentDoc.h"
+#import "BBSTBCommonDocClass.h"
+#import <AppKit/NSSpeechSynthesizer.h>
 
-
-@implementation BBSTBXmlContentDoc
+@implementation BBSTBTextContentDoc
 
 - (id) init
 {
 	if (!(self=[super init])) return nil;
 		
+	textSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
+	[textSynth setDelegate:self];
+	
+	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	
 	return self;
 }
+
+- (void) dealloc
+{
+	if([textSynth isSpeaking])
+		[textSynth stopSpeaking];
+	
+	[textSynth release];
+	
+	[xmlTextContentDoc release];
+	
+	[super dealloc];
+}
+
 
 - (BOOL)openWithContentsOfURL:(NSURL *)fileURL
 {
@@ -38,9 +57,9 @@
 	NSError *theError;
 	
 	// open the validated URL
-	xmlContentDoc = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:NSXMLDocumentTidyXML error:&theError];
+	xmlTextContentDoc = [[NSXMLDocument alloc] initWithContentsOfURL:fileURL options:NSXMLDocumentTidyXML error:&theError];
 	
-	if(xmlContentDoc)
+	if(xmlTextContentDoc)
 	{
 		loadedOk = YES;
 	}

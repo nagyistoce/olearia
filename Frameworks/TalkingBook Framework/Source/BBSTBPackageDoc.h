@@ -21,23 +21,23 @@
 
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
+#import "BBSTBCommonDocClass.h"
+
 
 @interface BBSTBPackageDoc : NSObject 
 {
 
 	NSXMLDocument			*xmlPackageDoc;
 	
-	NSString				*bookTitle;
-	NSString				*bookSubject;
-	NSString				*bookTotalTime;
-	TalkingBookType			bookType;
-	TalkingBookMediaFormat	bookMediaFormat;
+	BBSTBCommonDocClass		*commonDoc;
 	
 	NSString				*ncxFilename;
 	NSString				*xmlContentFilename;
 	
 	
 }
+
+- (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (BOOL)processMetadata;
@@ -46,13 +46,9 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-@property (readonly, retain) NSString *bookTitle;
-@property (readonly, retain) NSString *bookSubject;
-@property (readonly, retain) NSString *bookTotalTime;
-@property (readonly) TalkingBookType bookType;
-@property (readonly) TalkingBookMediaFormat bookMediaFormat;
+@property (readwrite, retain) BBSTBCommonDocClass *commonDoc;
 
-@property (readonly, retain) NSString *ncxFilename;
-@property (readonly, retain) NSString *xmlContentFilename;
+@property (readonly, copy) NSString *ncxFilename;
+@property (readonly, copy) NSString *xmlContentFilename;
 
 @end

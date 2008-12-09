@@ -44,5 +44,6 @@
 - (IBAction)displayGeneralPrefsView:(id)sender;
 - (IBAction)setSelectedPlaybackVoice:(id)sender;
 - (IBAction)toggleHighContrastIcons:(id)sender;
+- (IBAction)setNewSkipDuration:(id)sender;
 
 @end

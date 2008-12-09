@@ -21,6 +21,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
+//#import "BBSTBCommonDoc.h"
 #import "BBSTBPackageDoc.h"
 
 @interface BBSTBOPFDocument : BBSTBPackageDoc 
@@ -33,6 +34,7 @@
 	
 	NSInteger		currentPosInSpine;
 	
+	NSString		*xmlTextContentFilename;
 }
 
 - (NSString *)nextAudioSegmentFilename;
@@ -44,6 +46,8 @@
 @property (readonly, retain) NSArray *tour;
 
 @property (readonly) NSInteger	currentPosInSpine;
+
+@property (readonly, copy) NSString	*xmlTextContentFilename;
 
 @end
 

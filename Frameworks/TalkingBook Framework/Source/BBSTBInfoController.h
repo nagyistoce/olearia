@@ -29,8 +29,6 @@
 
 	NSMutableArray			*_metaInfo;
 	
-	NSXMLNode				*_currentMetaNode;
-
 	CGFloat _maxStrLen;
 }
 

@@ -21,34 +21,31 @@
 
 #import <Cocoa/Cocoa.h>
 #import "BBSTBNCCDocument.h"
-#import "BBSTBSMILDocument.h"
-
-
+#import "BBSTBControlDoc.h"
+//#import "BBSTBCommonDoc.h"
 #import "NSXMLElement-BBSExtensions.h"
 
 
 
 @interface BBSTBNCCDocument ()
 
-@property (readwrite, retain) BBSTBSMILDocument *smilDoc;
+//@property (readwrite, retain) BBSTBSMILDocument *smilDoc;
 
-@property (readwrite, retain) NSString *_currentSmilFilename;
+//@property (readwrite, retain) NSString *_currentSmilFilename;
 
-@property (readwrite, retain) NSString *bookTitle;
-@property (readwrite, retain) NSString *documentUID;
-@property (readwrite, retain) NSString *segmentTitle;
-@property (readwrite, retain) NSString *currentAudioFilename;
-@property (readwrite) NSInteger totalPages;
-@property (readwrite) NSInteger currentLevel;
-@property (readwrite) NSInteger currentPageNumber;
+//@property (readwrite, retain) NSString *bookTitle;
+//@property (readwrite, retain) NSString *documentUID;
+//@property (readwrite, retain) NSString *segmentTitle;
+//@property (readwrite, retain) NSString *currentAudioFilename;
+//@property (readwrite) NSInteger totalPages;
+//@property (readwrite) NSInteger currentLevel;
+//@property (readwrite) NSInteger currentPageNumber;
 @property (readwrite) TalkingBookMediaFormat bookMediaFormat; 
 
 @property (readwrite, retain) NSXMLNode *currentNavPoint;
 @property (readwrite, retain) NSArray		*_bodyNodes;
 
 - (NSString *)filenameFromID:(NSString *)anIdString;
-- (void)nextSegment;
-- (void)previousSegment;
 - (NSString *)currentSegmentFilename;
 
 - (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex;
@@ -58,7 +55,7 @@
 
 - (void)updateAttributesForCurrentPosition;
 
-- (void)openSmilFile:(NSString *)smilFilename;
+
 
 @end
 
@@ -72,11 +69,10 @@
 	
 	self.loadFromCurrentLevel = NO;
 	_isFirstRun = YES;
-	self.currentLevel = 1;
+	commonDoc.currentLevel = 1;
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
-	_currentSmilFilename = @"";
-	self.currentAudioFilename = @"";
+
 	
 	return self;
 }
@@ -97,20 +93,20 @@
 		// check the alternative place for the title in the meta data
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
 	}
-	self.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
+	commonDoc.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
 	
 	// check for total page count
 	[extractedContent removeAllObjects];
 	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
-	self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
+	commonDoc.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
 	
 	// check if we found a page count
-	if(0 == totalPages)
+	if(0 == commonDoc.totalPages)
 	{
 		[extractedContent removeAllObjects];
 		// check for the older alternative format
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
-		self.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+		commonDoc.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
 	}
 	
 	// get the media type of the book
@@ -148,7 +144,7 @@
 	
 	if(_totalBodyNodes > 0)
 	{
-		self.currentLevel = 1;
+		commonDoc.currentLevel = 1;
 		isOK = YES;
 	}
 
@@ -162,35 +158,82 @@
 - (void)moveToNextSegment
 {
 	
-	[self nextSegment];
-	NSMutableString *filename = [[NSMutableString alloc] initWithString:[self currentSegmentFilename]];
-	while([filename isEqualToString:currentAudioFilename])
+	if(_isFirstRun == NO)
 	{
-		[self nextSegment];
-		[filename setString:[self currentSegmentFilename]];
+		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
+		{
+			_currentNodeIndex++;
+			/*
+			 if(YES == [self canGoDownLevel]) // first check if we can go down a level
+			 {	
+			 _currentNodeIndex++;
+			 }
+			 else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+			 {	
+			 _currentNodeIndex++;
+			 }
+			 else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+			 {
+			 _currentNodeIndex++; // increment the index so we go to the next node
+			 }
+			 */
+		}
+		else // loadFromCurrentLevel == YES
+		{
+			_currentNodeIndex = [self indexOfNextNodeAtLevel:commonDoc.currentLevel];
+			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
+		}
 	}
-
-	[self updateAttributesForCurrentPosition];
+	else // isFirstRun == YES
+	{	
+		// we set NO because after playing the first file 
+		// because we have dealt with the skipping the first file problem
+		_isFirstRun = NO;
+	}
+	
+	// check if its a span node which will indicate a new page number
+	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
+	{
+		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+	}
+	else
+	{
+		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+	}
+	
 }
 
 - (void)moveToPreviousSegment
 {
-	[self previousSegment];
-	NSMutableString *filename = [[NSMutableString alloc] initWithString:[self currentSegmentFilename]];
-	while([filename isEqualToString:currentAudioFilename])
+	if([self canGoPrev])
 	{
-		[self previousSegment];
-		[filename setString:[self currentSegmentFilename]];
+		_currentNodeIndex--;
 	}
-
-	[self updateAttributesForCurrentPosition];
+	else if([self canGoUpLevel])
+	{
+		_currentNodeIndex--;
+	}
+	
+	// check if its a span node which will indicate a new page number
+	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
+	{
+		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		[self moveToPreviousSegment];
+	}
+	else
+	{
+		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+	}
+	
 }
 
 
 
 
-- (NSArray *)chaptersForSegment
-{
+//- (NSArray *)chaptersForSegment
+//{
 	/*
 	NSAssert(smilDoc != nil,@"smilDoc is nil");
 	
@@ -222,43 +265,43 @@
 	return outputChapters;
 	 
 	*/
-	return nil;
-}
+//	return nil;
+//}
 
-- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale
-{
-	/*
-	
-	NSAssert(smilDoc != nil,@"smilDoc is nil");
-	
-	NSInteger inc = 0; // 
-	
-	NSArray *smilChapters = [smilDoc chapterMarkers];
-	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
-	for(NSDictionary *aChapter in smilChapters)
-	{
-		
-		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-		NSString *clipBeginWthScale = [[aChapter valueForKey:BBSTBClipBeginKey] stringByAppendingFormat:@"/%ld",aTimeScale];
-		QTTime aTime = QTTimeFromString(clipBeginWthScale);
-		
-		[thisChapter setObject:[NSValue valueWithQTTime:aTime] forKey:QTMovieChapterStartTime];
-		
-		inc++;
-		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
-		
-		[outputChapters addObject:thisChapter]; 
-		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
-	}
-	
-	if([outputChapters count] == 0)
-		return nil;
-	
-	return outputChapters;
-	 
-	*/ 
-	return nil;
-}
+//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale
+//{
+//	/*
+//	
+//	NSAssert(smilDoc != nil,@"smilDoc is nil");
+//	
+//	NSInteger inc = 0; // 
+//	
+//	NSArray *smilChapters = [smilDoc chapterMarkers];
+//	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
+//	for(NSDictionary *aChapter in smilChapters)
+//	{
+//		
+//		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
+//		NSString *clipBeginWthScale = [[aChapter valueForKey:BBSTBClipBeginKey] stringByAppendingFormat:@"/%ld",aTimeScale];
+//		QTTime aTime = QTTimeFromString(clipBeginWthScale);
+//		
+//		[thisChapter setObject:[NSValue valueWithQTTime:aTime] forKey:QTMovieChapterStartTime];
+//		
+//		inc++;
+//		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
+//		
+//		[outputChapters addObject:thisChapter]; 
+//		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
+//	}
+//	
+//	if([outputChapters count] == 0)
+//		return nil;
+//	
+//	return outputChapters;
+//	 
+//	*/ 
+//	return nil;
+//}
 
 
 - (void)goDownALevel
@@ -290,7 +333,7 @@
 - (void)goUpALevel
 {
 	// set the level we want to 1 above the current one
-	NSInteger wantedLevel = currentLevel - 1;
+	NSInteger wantedLevel = commonDoc.currentLevel - 1;
 	NSInteger testIndex = _currentNodeIndex - 1;
 	BOOL levelFound = NO;
 	
@@ -313,7 +356,7 @@
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	if([self indexOfNextNodeAtLevel:currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+	if([self indexOfNextNodeAtLevel:commonDoc.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
 		nodeAvail = YES;
 	/*
 	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
@@ -339,7 +382,7 @@
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	if([self indexOfPreviousNodeAtLevel:currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+	if([self indexOfPreviousNodeAtLevel:commonDoc.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
 		nodeAvail = YES;
 	
 	/*
@@ -369,12 +412,12 @@
 - (BOOL)canGoUpLevel
 {
 	// return Yes if we are at a lower level
-	return (currentLevel > 1) ? YES : NO;
+	return (commonDoc.currentLevel > 1) ? YES : NO;
 }
 
 - (BOOL)canGoDownLevel
 {
-	BOOL hasLevelDown = NO; // assume we have no levels below this
+	BOOL levelDownAvail = NO; // assume we have no levels below this
 	NSInteger newIndex = _currentNodeIndex + 1; // get the index of the next node in the array
 	
 	// check we are not at the bounds of the array and that the next node IS NOT a level header node
@@ -388,13 +431,14 @@
 	{
 		// check if the node has a level greater than the current one
 		// this denotes a level down 
-		if ([self levelOfNodeAtIndex:newIndex] > currentLevel)
+		if ([self levelOfNodeAtIndex:newIndex] > commonDoc.currentLevel)
 		{
-			hasLevelDown = YES;
+			commonDoc.hasLevelDown = YES;
+			levelDownAvail = YES;
 		}
 	}
 	
-	return hasLevelDown;
+	return levelDownAvail;
 }
 
 - (BOOL)nextSegmentIsAvailable
@@ -412,7 +456,7 @@
 	// check that the format of the book supports audio files
 	if(bookMediaFormat < TextPartialAudioMediaFormat)
 	{
-		self.currentAudioFilename = [self currentSegmentFilename];
+		//self.currentAudioFilename = [self currentSegmentFilename];
 	}
 	else
 	{
@@ -422,25 +466,28 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		self.currentPageNumber = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
 	}
 	else
 	{
-		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
 	
 }
 
-
+- (NSString *)currentSmilFilename
+{
+	return nil;
+}
 
 
 
 
 #pragma mark -
 #pragma mark Private Methods
-
+/*
 - (void)openSmilFile:(NSString *)smilFilename
 {
 	self.smilDoc = nil;
@@ -450,13 +497,13 @@
 	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
 	// open the smil document
 	self.smilDoc = [[BBSTBSMILDocument alloc] init];
-	if(smilDoc)
-	{
-		[smilDoc openWithContentsOfURL:smilURL];
-	}
+//	if(smilDoc)
+//	{
+//		[smilDoc openWithContentsOfURL:smilURL];
+//	}
 
 }
-
+*/
 
 - (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex
 {
@@ -516,7 +563,7 @@
 			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
 			if(testLevel == aLevel) // check if its the same as the current level
 				nodeAvail = YES; // its the same so we can go back
-			else if(testLevel < self.currentLevel)
+			else if(testLevel < commonDoc.currentLevel)
 				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
 			else
 				testIndex--; // the level was below the current one so skip over it by decrementing the index;
@@ -556,78 +603,6 @@
 	return (currentIndex < _totalBodyNodes) ? currentIndex : -1 ;
 }
 
-- (void)nextSegment
-{
-	if(_isFirstRun == NO)
-	{
-		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
-		{
-			_currentNodeIndex++;
-			/*
-			if(YES == [self canGoDownLevel]) // first check if we can go down a level
-			{	
-				_currentNodeIndex++;
-			}
-			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-			{	
-				_currentNodeIndex++;
-			}
-			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
-			{
-				_currentNodeIndex++; // increment the index so we go to the next node
-			}
-			 */
-		}
-		else // loadFromCurrentLevel == YES
-		{
-			_currentNodeIndex = [self indexOfNextNodeAtLevel:currentLevel];
-			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
-		}
-	}
-	else // isFirstRun == YES
-	{	
-		// we set NO because after playing the first file 
-		// because we have dealt with the skipping the first file problem
-		_isFirstRun = NO;
-	}
-	
-	// check if its a span node which will indicate a new page number
-	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
-	{
-		self.currentPageNumber = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
-	}
-	else
-	{
-		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
-	}
-}
-
-- (void)previousSegment
-{
-	
-	if([self canGoPrev])
-	{
-		_currentNodeIndex--;
-	}
-	else if([self canGoUpLevel])
-	{
-		_currentNodeIndex--;
-	}
-	
-	// check if its a span node which will indicate a new page number
-	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
-	{
-		self.currentPageNumber = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
-		[self previousSegment];
-	}
-	else
-	{
-		self.segmentTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		self.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
-	}
-}
-
 
 - (NSString *)filenameFromID:(NSString *)anIdString
 {
@@ -651,16 +626,16 @@
 		// check if the current file is the same as the new file
 		// smil files have multiple references to audio content within them
 		// so there is no point reloading the smil
-		if(NO == [filename isEqualToString:_currentSmilFilename])
-		{
-			_currentSmilFilename = filename;
+//		if(NO == [filename isEqualToString:_currentSmilFilename])
+//		{
+			//_currentSmilFilename = filename;
 			// check if the file is a smil file. which most of the time it will be	
 			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
 			{
-				[self openSmilFile:filename];	
+				//[self openSmilFile:filename];	
 				NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 				
-				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
+				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
 				
 			}
 			else  
@@ -668,12 +643,12 @@
 				// create the full path to the file
 				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
 			}
-		}
-		else
-		{
-			audioFilename = [parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]]];
-			
-		}
+//		}
+//		else
+//		{
+//			//audioFilename = [parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]]];
+//			
+//		}
 	}
 	
 	
@@ -703,12 +678,10 @@
 #pragma mark -
 #pragma mark Synthesized ivars
 
-@synthesize currentLevel, totalPages, totalTargetPages, currentPageNumber;
+
 @synthesize loadFromCurrentLevel;
-@synthesize _currentSmilFilename, currentAudioFilename;
 @synthesize currentNavPoint;
-@synthesize documentUID, segmentTitle, bookTitle;
-@synthesize smilDoc;
+
 @synthesize _bodyNodes;
 @synthesize bookMediaFormat;
 

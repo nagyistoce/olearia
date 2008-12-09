@@ -20,23 +20,29 @@
 //
 
 //#import <Cocoa/Cocoa.h>
+#import "BBSTBSMILDocument.h"
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 #import "NSString-BBSAdditions.h"
-#import "BBSTBSMILDocument.h"
+
 #import "BBSTalkingBookTypes.h"
 #import "NSXMLElement-BBSExtensions.h"
+#import "BBSTBAudioSegment.h"
+#import "BBSTBCommonDocClass.h"
 
 
-@interface BBSTBSMILDocument (Private)
+@interface BBSTBSMILDocument ()
 
 //@property (readwrite, retain) NSDictionary *smilContent;
-@property (readwrite, retain) NSArray *parNodes;
-@property (readwrite, retain) NSDictionary *parNodeIndexes;
+@property (readwrite, retain) NSArray *_parNodes;
+@property (readwrite, retain) NSDictionary *_parNodeIndexes;
 //@property (readwrite, retain) NSArray *smilContent;
-@property (readwrite, retain) NSString *xmlContentFilename;
+//@property (readwrite, retain) NSString *xmlContentFilename;
 @property (readwrite, retain) NSDictionary *smilChapterData;
 //@property (readwrite, retain) NSString *filename;
+
+@property (readwrite, retain)	NSXMLDocument		*_xmlSmilDoc;
+@property (readwrite, retain)   BBSTBAudioSegment	*_currentAudioFile;
 
 - (void)audioFileDidEnd:(NSNotification *)notification;
 - (void)loadStateDidChange:(NSNotification *)notification;
@@ -54,46 +60,94 @@
 
 @implementation BBSTBSMILDocument
 
-@synthesize  smilChapterData;
-@synthesize xmlContentFilename;
-@synthesize parNodes, parNodeIndexes;
 
 - (id) init
 {
 	if (!(self=[super init])) return nil;
 	
-	parNodes = [[NSArray alloc] init]; 
-	parNodeIndexes = [[ NSDictionary alloc] init];
+	_currentFilePath = [[NSURL alloc] init];
+	
+	_parNodes = [[NSArray alloc] init]; 
+	_parNodeIndexes = [[ NSDictionary alloc] init];
+	
+	_isPlaying = NO;
+	
+	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	
+	// watch for load state changes
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(loadStateDidChange:)
+												 name:QTMovieLoadStateDidChangeNotification
+											   object:_currentAudioFile];
+	
+	// start watching for notifications for reaching the end of the audio file
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(audioFileDidEnd:) 
+												 name:QTMovieDidEndNotification 
+											   object:_currentAudioFile];
 	
 	return self;
+}
+
+- (void) dealloc
+{
+	[_parNodes release];
+	[_parNodeIndexes release];
+	
+	[_currentFilePath release];
+	
+	if(_xmlSmilDoc)
+		[_xmlSmilDoc release];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	if(_currentAudioFile)
+		[_currentAudioFile release];
+	
+	[super dealloc];
 }
 
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL 
 {
 	NSError *theError;
+	BOOL openedOk = NO;
 	
-	// open the validated opf URL
-	NSXMLDocument	*xmlSmilDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	
-	if(xmlSmilDoc != nil)
+	// check that we are opening a new file
+	if(![aURL isEqualTo:_currentFilePath])
 	{
-		// get the all the <par> nodes from the main seq node. Some may be inside nested <seq> tags but these will be ignored
-		parNodes = [[xmlSmilDoc rootElement] objectsForXQuery:@"/smil/body/seq//par" error:nil];
-		parNodeIndexes = [self createParNodeIndex:parNodes];
+		
+		_currentFilePath = aURL;
+		// open the URL
+		if(_xmlSmilDoc)
+			[_xmlSmilDoc release];
+		
+		_xmlSmilDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+		
+		if(_xmlSmilDoc != nil)
+		{
+			// get the all the <par> nodes from the main seq node. Some may be inside nested <seq> tags but these will be ignored
+			_parNodes = [[_xmlSmilDoc rootElement] objectsForXQuery:@"/smil/body/seq//par" error:nil];
+			_parNodeIndexes = [self createParNodeIndex:_parNodes];
+			openedOk = YES;
+		}
+		
 	}
-	else // there was an error of some sort opening the smil file.
-		return NO;
-			
-	return YES;
+	else // we passed in a URL that is already open. 
+		// this will happen if multiple control document id tags point to the same smil file
+		// or there is only a single smil file for the whole book
+		openedOk = YES;
+	
+	return openedOk;
 }
 
 - (NSString *)audioFilenameForId:(NSString *)anId
 {
 	// get the index of the  id from the index dict
-	NSInteger idIndex = [[parNodeIndexes valueForKey:anId] integerValue];
+	NSInteger idIndex = [[_parNodeIndexes valueForKey:anId] integerValue];
 	// we get an array here because some par node have multiple time listings for the same file
-	NSArray *filenamesArray = [[parNodes objectAtIndex:idIndex] objectsForXQuery:@".//audio/data(@src)" error:nil];
+	NSArray *filenamesArray = [[_parNodes objectAtIndex:idIndex] objectsForXQuery:@".//audio/data(@src)" error:nil];
 	if(!filenamesArray)
 		return nil;
 	
@@ -139,8 +193,84 @@
 	return nil;
 }
 
+- (void)playAudio
+{
+	[_currentAudioFile play];
+	_isPlaying = YES;
+}
+
+- (void)pauseAudio
+{
+	[_currentAudioFile stop];
+	_isPlaying = NO;
+}
+
+- (BOOL)hasNextChapter
+{
+	return [_currentAudioFile nextChapterIsAvail];
+}
+
+- (void)nextChapter
+{
+	[_currentAudioFile jumpToNextChapter];
+}
+
+- (BOOL)hasPreviousChapter
+{
+	return [_currentAudioFile prevChapterIsAvail];
+}
+
+- (void)previousChapter
+{
+	[_currentAudioFile jumpToPrevChapter];
+}
+
 #pragma mark -
-#pragma mark Private Methods
+#pragma mark ========= Accessors =========
+
+- (NSString *)currentTimeString
+{
+	return QTStringFromTime([_currentAudioFile currentTime]);
+}
+
+- (void)setCurrentTimeString:(NSString *)aTimeString
+{
+	[_currentAudioFile setCurrentTime:QTTimeFromString(aTimeString)];
+}
+
+- (float)audioPlayRate
+{
+	return [_currentAudioFile rate];
+}
+
+- (void)setAudioPlayRate:(float)aRate
+{
+	if(!_isPlaying) 
+	{	
+		// this is a workaround for the current issue where setting the 
+		// playback speed using setRate: automatically starts playback
+		[_currentAudioFile stop];
+		[_currentAudioFile setAttribute:[NSNumber numberWithFloat:aRate] forKey:QTMoviePreferredRateAttribute];
+	}
+	else
+	{
+		[_currentAudioFile setRate:aRate];
+	}
+	
+}
+
+- (float)audioVolume
+{
+	return [_currentAudioFile volume];
+}
+	
+- (void)setAudioVolume:(float)aVolume
+{
+	[_currentAudioFile setVolume:aVolume];
+}
+
+#pragma mark -
+#pragma mark ========= Private Methods =========
 
 - (NSDictionary *)createParNodeIndex:(NSArray *)someParNodes
 {
@@ -149,7 +279,7 @@
 	NSInteger parIndex = 0;
 	
 
-	for(NSXMLElement *ParElement in parNodes)
+	for(NSXMLElement *ParElement in _parNodes)
 	{
 		[idTagString setString:@""];
 		
@@ -247,10 +377,90 @@
 	return ((position > 0) ? [contentString substringFromIndex:(position+1)] : nil); 
 }
 
+
+
+
+- (void)setPreferredAudioAttributes
+{
+//	[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
+//	[_currentAudioFile setAttribute:[NSNumber numberWithFloat:[audioAttributes valueForKey:@"]] forKey:QTMoviePreferredVolumeAttribute];
+//	[currentAudioFile setVolume:self.playbackVolume];
+//	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
+//	[currentAudioFile setDelegate:self];
+}
+
+- (BOOL)updateAudioFile:(NSString *)pathToFile
+{
+//	NSError *theError = nil;
+//	BOOL loadedOK = NO;
+//	
+//	// check that we have not passed in a nil string
+//	if(pathToFile != nil)
+//	{
+//		// check if we have the same file path as we used for the previous segment
+//		if(NO == [_currentSegmentFilename isEqualToString:pathToFile])
+//		{
+//			_currentSegmentFilename = pathToFile;
+//			
+//			[_currentAudioFile stop]; // pause the playback if there is any currently playing
+//			
+//			_currentAudioFile = nil;
+//			_currentAudioFile = [QTMovie movieWithFile:pathToFile error:&theError];
+//			
+//			
+//			if(_currentAudioFile != nil)
+//			{
+//				// make the file editable and set the timescale for it 
+//				[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
+//				[self setPreferredAudioAttributes];
+//				if(([[_currentAudioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete) && (NO == [_currentAudioFile hasChapters]))
+//				{
+//					[TalkingBookNotificationCenter postNotificationName:QTMovieLoadStateDidChangeNotification object:_currentAudioFile];
+//				}
+//				//[self updateForPosInBook];
+//				loadedOK = YES;
+//			}
+//		}
+//		else
+//		{
+//			loadedOK = YES;
+//			
+//			//shouldJumpToTime = YES;
+//			//audioSegmentTimePosition = [_curr];
+//		}
+//	}
+//	
+//	if(shouldJumpToTime) //
+//	{
+//		shouldJumpToTime = NO; // reset the flag
+//		[_currentAudioFile setCurrentTime:QTTimeFromString(audioSegmentTimePosition)];
+//	}
+//	
+//	[self updateForPosInBook];
+//	
+//	if((nil == _currentAudioFile) || (loadedOK == NO))
+//	{	
+//		NSAlert *theAlert = [NSAlert alertWithError:theError];
+//		[theAlert setMessageText:NSLocalizedString(@"Error Opening Audio File", @"audio error alert short msg")];
+//		[theAlert setInformativeText:NSLocalizedString(@"There was a problem loading an audio file.\n Please check the book format for problems.\nOlearia will now reset as this book will not play", @"audio error alert short msg")];
+//		[theAlert setAlertStyle:NSWarningAlertStyle];
+//		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
+//		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
+//		
+//		return NO;
+//	}
+	
+	return YES;
+}
+
+
+
+#pragma mark -
+#pragma mark --------- Notifications ---------
+
 - (void)audioFileDidEnd:(NSNotification *)notification
 {
-	if(YES == [self nextSegment])
-		[self playAudio];
+	
 }
 
 
@@ -259,50 +469,21 @@
 	
 	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 	{
+	
+		// add chapters to the current audio file
+		[_currentAudioFile addChaptersOfDuration:chapterSkipDuration];
 		
-		if(_hasControlFile)
-		{
-			NSArray *chaptersArray;
-			if(_levelNavConMode > levelNavigationControlMode) 
-			{
-				// populate the chapters array with a timescale the same as the movie file we just initialized
-				long movieTimescale = [[_currentAudioFile attributeForKey:QTMovieTimeScaleAttribute] longValue];
-				chaptersArray = [NSArray arrayWithArray:[_controlDoc chaptersForSegmentWithTimescale:movieTimescale]];
-			}
-			else // we are currently using basic level navigation 
-			{
-				// set the chapter markers to the ones set in the prefs
-				chaptersArray = [NSArray arrayWithArray:[self makeChaptersOfDuration:_skipDuration forMovie:_currentAudioFile]];
-			}
-			
-			if([chaptersArray count] > 0) // check we have some chapters to add
-			{
-				// get the track the chapter will be associated with
-				QTTrack *musicTrack = [[_currentAudioFile tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
-				_currentChapterIndex = -1;
-				NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
-				// add the chapters track to the movie data
-				// dont worry about errors because it doesnt really matter if we cant get chapter markers
-				NSError *chaptersError = nil;
-				[_currentAudioFile addChapters:chaptersArray withAttributes:trackDict error:&chaptersError];
-				if(chaptersError == nil) // we successfully added the chapters to the file
-				{
-					_totalChapters = [_currentAudioFile chapterCount];
-					_currentChapterIndex = [_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]];	
-				}
-			}
-			else
-			{
-				_totalChapters = 0;
-				_currentChapterIndex = 0;
-			}
-			
-			[self updateForPosInBook];
-		}
-		
+	
 	}
 	
+
 }
 
+
+@synthesize  smilChapterData;
+@synthesize _xmlSmilDoc, _currentAudioFile;
+@synthesize _parNodes, _parNodeIndexes;
+@synthesize includeSkippableContent, useSmilChapters;
+@synthesize  chapterSkipDuration, audioPlayRate, audioVolume;
 
 @end

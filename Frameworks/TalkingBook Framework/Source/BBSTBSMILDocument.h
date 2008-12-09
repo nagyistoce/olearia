@@ -20,27 +20,59 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QTKit/QTKit.h>
+
+@class BBSTBAudioSegment, BBSTBCommonDocClass;
 
 @interface BBSTBSMILDocument : NSObject 
 {
+		
+	
+	NSURL			*_currentFilePath;
 	
 	//NSDictionary	*smilContent;
 	//NSArray			*smilContent;
-	NSString		*xmlContentFilename;
+	//NSString		*xmlContentFilename;
 	NSDictionary	*smilChapterData;
 	//NSString		*filename;
-	NSArray			*parNodes;
-	NSDictionary	*parNodeIndexes;
+	NSArray			*_parNodes;
+	NSDictionary	*_parNodeIndexes;
+	
+	NSXMLDocument		*_xmlSmilDoc;
+	BBSTBAudioSegment	*_currentAudioFile;
+	BBSTBCommonDocClass *commonDoc;
+	BOOL				_isPlaying;
+	QTTime				skipDuration;
+	
+	
+	
+	// public ivars
+	float			audioPlayRate; 
+	float			audioVolume;
+	QTTime			chapterSkipDuration;
+	
+	BOOL			includeSkippableContent; 
+	BOOL			useSmilChapters;
+	NSString		*currentTime;
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 //- (NSArray *)chapterMarkers;
 - (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
 - (NSString *)audioFilenameForId:(NSString *)anId;
+- (void)playAudio;
+- (void)pauseAudio;
+- (BOOL)hasNextChapter;
+- (void)nextChapter;
+- (BOOL)hasPreviousChapter;
+- (void)previousChapter;
+- (void)setChapterSkipDuration:(QTTime)aDuration;
 
-
-//@property (readonly, retain) NSDictionary *chapters;
-@property (readonly, retain) NSString *xmlContentFilename;
-//@property (readonly, retain) NSString *filename;
+@property (readwrite)			float				audioPlayRate;
+@property (readwrite)			float				audioVolume;
+@property (readwrite)			QTTime				chapterSkipDuration;
+@property (readwrite)			BOOL				includeSkippableContent;
+@property (readwrite)			BOOL				useSmilChapters;
+@property (readwrite, copy)		NSString			*currentTimeString;
 
 @end

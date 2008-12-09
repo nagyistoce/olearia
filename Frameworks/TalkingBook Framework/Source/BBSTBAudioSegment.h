@@ -1,8 +1,8 @@
 //
-//  BBSTBTextDocument.h
+//  BBSTBAudioSegment.h
 //  TalkingBook Framework
 //
-//  Created by Kieren Eaton on 14/05/08.
+//  Created by Kieren Eaton on 6/12/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
-#import "BBSTBTextContentDoc.h"
 
-@interface BBSTBTextDocument : BBSTBTextContentDoc 
+#import <Cocoa/Cocoa.h>
+#import <QTKit/QTKit.h>
+
+
+@interface BBSTBAudioSegment : QTMovie 
 {
-	BOOL			isFullText;
-	
+
+	NSInteger _totalChapters;
 	
 }
 
-
+- (BOOL)nextChapterIsAvail;
+- (BOOL)prevChapterIsAvail;
+- (void)jumpToNextChapter;
+- (void)jumpToPrevChapter;
+- (void)addChaptersOfDuration:(QTTime)aDuration;
 
 @end

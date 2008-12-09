@@ -22,6 +22,7 @@
 
 #import "OleariaPrefsController.h"
 #import "OleariaDelegate.h"
+#import "BBSTalkingBook.h"
 
 //@interface OleariaPrefsController(Private)
 
@@ -139,6 +140,14 @@
 	
 	 
 }
+
+- (IBAction)setNewSkipDuration:(id)sender
+{
+	[[[NSApp delegate] talkingBook] updateSkipDuration:[sender floatValue]];
+}
+
+#pragma mark -
+
 
 - (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
