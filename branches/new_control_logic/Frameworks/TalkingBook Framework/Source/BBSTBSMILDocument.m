@@ -113,11 +113,9 @@
 	NSError *theError;
 	BOOL openedOk = NO;
 	
-	
 	// check that we are opening a new file
 	if(![aURL isEqualTo:_currentFilePath])
 	{
-		
 		_currentFilePath = aURL;
 		// open the URL
 		if(_xmlSmilDoc)
