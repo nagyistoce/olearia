@@ -108,13 +108,16 @@
 	[self doesNotRecognizeSelector:_cmd];
 }
 
-- (NSString *)currentSegmentFilename
+- (NSString *)filenameFromID:(NSString *)anIdString
 {
-	[self doesNotRecognizeSelector:_cmd];
-	return nil;
+	NSAssert(anIdString != nil, @"anIdString is nil");
+	int markerPos = [anIdString rangeOfString:@"#"].location;
+	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
+	
 }
 
-- (NSString *)currentSmilFilename
+
+- (NSString *)audioFilenameFromCurrentNode
 {
 	[self doesNotRecognizeSelector: _cmd];
 	return nil;

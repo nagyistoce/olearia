@@ -53,8 +53,8 @@
 
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
-- (NSString *)currentSegmentFilename;
-- (NSString *)currentSmilFilename;
+- (NSString *)audioFilenameFromCurrentNode;
+- (NSString *)filenameFromID:(NSString *)anIdString;
 
 - (void)goUpALevel;
 - (void)goDownALevel;
@@ -75,7 +75,7 @@
 @property (readonly)	NSXMLNode			*metadataNode;
 @property (readwrite, copy)	NSXMLNode		*currentNavPoint;
 
-@property (readonly, copy) NSString *currentAudioFilename;
+//@property (readonly, copy) NSString *currentAudioFilename;
 @property (readwrite, copy) NSString *currentPositionID;
 
 @property (readwrite) BOOL navigateForChapters;
