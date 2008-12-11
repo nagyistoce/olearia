@@ -28,8 +28,7 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	bookMediaFormat = unknownMediaFormat;
-	currentAudioFilename = @"";
+	//currentAudioFilename = @"";
 	
 	// get the shared instance which contains all our updatable data for the book
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
@@ -180,11 +179,11 @@
 	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
 }
 
-@synthesize bookMediaFormat;
 @synthesize currentPositionID, idToJumpTo;
 @synthesize navigateForChapters;
-@synthesize metadataNode;
+@synthesize metadataNode, currentNavPoint;
 @synthesize commonInstance;
+@synthesize mediaFormat;
 
 
 @end

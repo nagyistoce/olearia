@@ -26,27 +26,19 @@
 @interface BBSTBNCCDocument : BBSTBControlDoc
 {
 
-	NSDictionary		*metaData;
-	NSDictionary		*segmentAttributes;
-	
+	//NSDictionary		*metaData;
+	//NSDictionary		*segmentAttributes;
 	
 	NSInteger			_currentNodeIndex;
 	NSInteger			_totalBodyNodes;
 	
 	NSXMLElement		*nccRootElement;
-	NSXMLNode			*currentNavPoint;
 	
-
 	NSArray				*_bodyNodes;
 	
 	BOOL loadFromCurrentLevel;
-	BOOL _isFirstRun;
 	
 }
-
-//- (NSArray *)chaptersForSegment;
-//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
-
 
 @property (readwrite) BOOL loadFromCurrentLevel;
 

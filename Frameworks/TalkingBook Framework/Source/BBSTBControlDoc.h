@@ -34,18 +34,15 @@
 	BBSTBCommonDocClass	*commonInstance;
 	
 	NSXMLNode			*metadataNode;
+	NSXMLNode			*currentNavPoint;
 	
-	TalkingBookMediaFormat			bookMediaFormat;
-
-	float				levelNavChapterIncrement;
-	
-	id					controlDocument;
-	NSString			*currentAudioFilename;
 	NSString			*currentPositionID;
 	
 	BOOL				navigateForChapters;
 	BOOL				_hasTextContent;
 	BOOL				_hasAudioContent;
+	
+	TalkingBookMediaFormat mediaFormat;
 	
 }
 
@@ -74,10 +71,10 @@
 
 @property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
 
-@property (readonly) TalkingBookMediaFormat bookMediaFormat;
-@property (readonly) NSXMLNode *metadataNode;
+@property (readonly) TalkingBookMediaFormat mediaFormat;
 
-@property (readwrite) float levelNavChapterIncrement;
+@property (readonly)	NSXMLNode			*metadataNode;
+@property (readwrite, copy)	NSXMLNode		*currentNavPoint;
 
 @property (readonly, copy) NSString *currentAudioFilename;
 @property (readwrite, copy) NSString *currentPositionID;

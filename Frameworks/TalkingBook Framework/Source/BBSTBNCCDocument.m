@@ -28,20 +28,6 @@
 
 @interface BBSTBNCCDocument ()
 
-//@property (readwrite, retain) BBSTBSMILDocument *smilDoc;
-
-//@property (readwrite, retain) NSString *_currentSmilFilename;
-
-//@property (readwrite, retain) NSString *bookTitle;
-//@property (readwrite, retain) NSString *documentUID;
-//@property (readwrite, retain) NSString *segmentTitle;
-//@property (readwrite, retain) NSString *currentAudioFilename;
-//@property (readwrite) NSInteger totalPages;
-//@property (readwrite) NSInteger currentLevel;
-//@property (readwrite) NSInteger currentPageNumber;
-@property (readwrite) TalkingBookMediaFormat bookMediaFormat; 
-
-@property (readwrite, retain) NSXMLNode *currentNavPoint;
 @property (readwrite, retain) NSArray		*_bodyNodes;
 
 - (NSString *)filenameFromID:(NSString *)anIdString;
@@ -51,9 +37,6 @@
 - (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel;
 - (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel;
 - (BOOL)isLevelNode:(NSInteger)anIndex;
-
-- (void)updateAttributesForCurrentPosition;
-
 
 
 @end
@@ -67,13 +50,30 @@
 	if (!(self=[super init])) return nil;
 	
 	self.loadFromCurrentLevel = NO;
-	_isFirstRun = YES;
 	commonInstance.currentLevel = 1;
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
+	idToJumpTo = @"";
 
-	
 	return self;
+}
+
+- (void)jumpToInitialNode
+{
+	// check if we were given a node to jump to
+	if(![idToJumpTo isEqualToString:@""])
+	{
+		// set the current point to the saved one
+		currentNavPoint = [[xmlControlDoc nodesForXPath:idToJumpTo error:nil] objectAtIndex:0];
+	}
+	else
+	{
+		// find the first node
+		NSXMLNode *bodyNode = [[xmlControlDoc nodesForXPath:@"/html/body" error:nil] objectAtIndex:0];
+		currentNavPoint = [bodyNode nextNode];
+	}
+	
+	[self updateDataForCurrentPosition];
 }
 
 - (BOOL)processMetadata
@@ -88,55 +88,27 @@
 	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
 	// check if we found a title
 	if (0 == [extractedContent count])
-	{
 		// check the alternative place for the title in the meta data
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
-	}
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"*:title\"]/data(@content))" error:nil]];
 	commonInstance.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
 	
+	[extractedContent removeAllObjects];
 	// check for total page count
-	[extractedContent removeAllObjects];
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
-	commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
-	
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:pageNormal\"]/data(@content)" error:nil]];
 	// check if we found a page count
-	if(0 == commonInstance.totalPages)
-	{
-		[extractedContent removeAllObjects];
+	if(0 == [extractedContent count])
 		// check for the older alternative format
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
-		commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
-	}
-	
-	// get the media type of the book
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:page-Normal\"]/data(@content)" error:nil]];
+	commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+
 	[extractedContent removeAllObjects];
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:multimediaType\"]/data(@content)" error:nil]];
-	
+	// get the media type of the book
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:multimediaType\"]/data(@content)" error:nil]];
 	// try to get the string and if it exists convert it to lowercase
 	NSString *mediaTypeStr = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] lowercaseString] : nil;	
 	if(mediaTypeStr != nil)
-	{
-		// set the mediaformat accordingly
-		if([mediaTypeStr isEqualToString:@"audiofulltext"] == YES)
-			self.bookMediaFormat = AudioFullTextMediaFormat;
-		else if([mediaTypeStr isEqualToString:@"audioparttext"] == YES)
-			self.bookMediaFormat = AudioPartialTextMediaFormat;
-		else if([mediaTypeStr isEqualToString:@"audioonly"] == YES)
-			self.bookMediaFormat = AudioOnlyMediaFormat;
-		else if([mediaTypeStr isEqualToString:@"audioncc"] == YES)
-			self.bookMediaFormat = AudioNcxOrNccMediaFormat;
-		else if([mediaTypeStr isEqualToString:@"textpartaudio"] == YES)
-			self.bookMediaFormat = TextPartialAudioMediaFormat;
-		else if([mediaTypeStr isEqualToString:@"textncc"] == YES)
-			self.bookMediaFormat = TextNcxOrNccMediaFormat;
-		else 
-			self.bookMediaFormat = unknownMediaFormat;
-	}
-	else
-	{
-		self.bookMediaFormat = unknownMediaFormat;
-	}
-	
+		[commonInstance setMediaFormatFromString:mediaTypeStr];	
+
 	// get all the body nodes
 	_bodyNodes = [[[rootNode nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
 	_totalBodyNodes = [_bodyNodes count];
@@ -156,9 +128,6 @@
 
 - (void)moveToNextSegment
 {
-	
-	if(_isFirstRun == NO)
-	{
 		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
 		{
 			_currentNodeIndex++;
@@ -182,13 +151,6 @@
 			_currentNodeIndex = [self indexOfNextNodeAtLevel:commonInstance.currentLevel];
 			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
 		}
-	}
-	else // isFirstRun == YES
-	{	
-		// we set NO because after playing the first file 
-		// because we have dealt with the skipping the first file problem
-		_isFirstRun = NO;
-	}
 	
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
@@ -325,7 +287,7 @@
 			testIndex++;
 	}
 	
-	[self updateAttributesForCurrentPosition];
+	[self updateDataForCurrentPosition];
 	
 }
 
@@ -347,7 +309,7 @@
 			testIndex--;
 	}
 		
-	[self updateAttributesForCurrentPosition];
+	[self updateDataForCurrentPosition];
 	
 }
 
@@ -449,30 +411,35 @@
 {
 	return ([self canGoPrev] || [self canGoUpLevel] );
 }
-- (void)updateAttributesForCurrentPosition
+
+- (void)updateDataForCurrentPosition
 {
 	
-	// check that the format of the book supports audio files
-	if(bookMediaFormat < TextPartialAudioMediaFormat)
-	{
-		//self.currentAudioFilename = [self currentSegmentFilename];
-	}
-	else
-	{
-		// text only stuff here
-	}
+//	// check that the format of the book supports audio files
+//	if(bookMediaFormat < TextPartialAudioMediaFormat)
+//	{
+//		//self.currentAudioFilename = [self currentSegmentFilename];
+//	}
+//	else
+//	{
+//		// text only stuff here
+//	}
 	
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		commonInstance.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		self.commonInstance.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
 	}
 	else
 	{
-		commonInstance.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		commonInstance.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		self.commonInstance.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		self.commonInstance.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
+	self.commonInstance.hasLevelUp = [self canGoUpLevel];
+	self.commonInstance.hasLevelDown = [self canGoDownLevel];
+	self.commonInstance.hasPreviousSegment = [self canGoPrev];
+	self.commonInstance.hasNextSegment = [self canGoNext];
 	
 }
 
@@ -677,11 +644,8 @@
 #pragma mark -
 #pragma mark Synthesized ivars
 
-
 @synthesize loadFromCurrentLevel;
-@synthesize currentNavPoint;
 
 @synthesize _bodyNodes;
-@synthesize bookMediaFormat;
 
 @end
