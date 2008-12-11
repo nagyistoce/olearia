@@ -85,10 +85,18 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 	self.levelString = [NSString stringWithFormat:@"%d",aLevel];
 }
 
-- (void)setCurrentPage:(NSInteger)aPage
+- (void)setCurrentPage:(NSInteger)aPageNum
 {
-	currentPage = aPage;
-	self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+	currentPage = aPageNum;
+	if(totalPages > 0)
+		self.pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
+}
+
+- (void)setTotalPages:(NSInteger)totalPageNum
+{
+	totalPages = totalPageNum;
+	if(totalPageNum == 0)
+		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString

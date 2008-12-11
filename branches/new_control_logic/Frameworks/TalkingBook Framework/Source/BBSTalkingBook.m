@@ -215,23 +215,11 @@
 		}
 		else if(_hasControlFile)
 		{
-			//_mediaFormat = [_controlDoc mediaFormat];
-			
-			
-			if(0 == commonInstance.totalPages)
+			if(0 < commonInstance.totalPages)
 			{
-				//self.currentPageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
-			}
-			else
-			{
-				
-				//self.currentPageString = (0 != [_controlDoc totalPages]) ? [NSString stringWithFormat:@"%d",[_controlDoc totalPages]] : [NSString stringWithFormat:@"%d",[_controlDoc totalTargetPages]];
 				//_hasPageNavigation = YES;
 				//_maxLevelConMode = pageNavigationControlMode;
 			}
-			//self.bookTitle = (_hasPackageFile) ? [_packageDoc bookTitle] : [_controlDoc bookTitle];
-			//self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-			
 		}
 		
 		// setup for the media format of the book

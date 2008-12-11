@@ -80,25 +80,22 @@
 	NSXMLNode *rootNode = [xmlControlDoc rootElement];
 				
 	// these all may be nil depending on the type of book we are reading
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/data(title)" error:&theError]];
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/data(title)" error:&theError]];
 	// check if we found a title
 	if (0 == [extractedContent count])
 		// check the alternative place for the title in the meta data
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"*:title\"]/data(@content))" error:nil]];
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'title')]/data(@content)" error:nil]];
 	commonInstance.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
 	
 	[extractedContent removeAllObjects];
 	// check for total page count
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:pageNormal\"]/data(@content)" error:nil]];
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][contains(@name,'page')][ends-with(@name,'Normal')]/data(@content)" error:nil]];
 	// check if we found a page count
-	if(0 == [extractedContent count])
-		// check for the older alternative format
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:page-Normal\"]/data(@content)" error:nil]];
 	commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
-
+	
 	[extractedContent removeAllObjects];
 	// get the media type of the book
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"*:multimediaType\"]/data(@content)" error:nil]];
+	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'multimediaType')]/data(@content)" error:nil]];
 	// try to get the string and if it exists convert it to lowercase
 	NSString *mediaTypeStr = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] lowercaseString] : nil;	
 	if(mediaTypeStr != nil)

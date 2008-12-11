@@ -76,7 +76,18 @@
 
 - (BOOL)processMetadata
 {
-	// we return yes here as the metadata was already processed in the opf file
+	NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
+	
+	NSXMLNode *rootNode = [xmlControlDoc rootElement];
+
+	if(commonInstance.totalPages == 0)
+	{
+		// check for total page count
+		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" error:nil]];
+		commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+	}
+		
+	// we return yes here as the metadata was already processed in the opf file and we are just adding to it
 	return YES;
 }
 
