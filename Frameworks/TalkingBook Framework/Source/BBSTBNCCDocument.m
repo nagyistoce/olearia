@@ -53,25 +53,20 @@
 	commonInstance.currentLevel = 1;
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
-	idToJumpTo = @"";
 
 	return self;
 }
 
-- (void)jumpToInitialNode
+- (void)jumpToNodeWithId:(NSString *)fullPathToNode
 {
 	// check if we were given a node to jump to
-	if(![idToJumpTo isEqualToString:@""])
-	{
+	if(![fullPathToNode isEqualToString:@""])
 		// set the current point to the saved one
-		currentNavPoint = [[xmlControlDoc nodesForXPath:idToJumpTo error:nil] objectAtIndex:0];
-	}
+		_currentNodeIndex = [fullPathToNode intValue];
 	else
-	{
-		// find the first node
-		NSXMLNode *bodyNode = [[xmlControlDoc nodesForXPath:@"/html/body" error:nil] objectAtIndex:0];
-		currentNavPoint = [bodyNode nextNode];
-	}
+		// the first node in the body nodes
+		_currentNodeIndex = 0;
+	
 	
 	[self updateDataForCurrentPosition];
 }
@@ -636,10 +631,10 @@
 	return [NSString stringWithFormat:@"%d",_currentNodeIndex];
 }
 
-- (void)setCurrentPositionID:(NSString *)anID
-{
-	_currentNodeIndex = [anID intValue];
-}
+//- (void)setCurrentPositionID:(NSString *)anID
+//{
+//	_currentNodeIndex = [anID intValue];
+//}
 
 #pragma mark -
 #pragma mark Synthesized ivars

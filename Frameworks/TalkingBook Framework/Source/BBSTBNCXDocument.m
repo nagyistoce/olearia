@@ -46,7 +46,6 @@
 	
 	shouldUseNavmap = NO;
 	loadFromCurrentLevel = NO;
-	idToJumpTo = @"";
 	
 	return self;
 }
@@ -58,14 +57,12 @@
 	[super dealloc];
 }
 
-- (void)jumpToInitialNode
+- (void)jumpToNodeWithId:(NSString *)fullPathToNode
 {
 	// check if we were given a node to jump to
-	if(![idToJumpTo isEqualToString:@""])
-	{
+	if(![fullPathToNode isEqualToString:@""])
 		// set the current point to the saved one
-		currentNavPoint = [[xmlControlDoc nodesForXPath:idToJumpTo error:nil] objectAtIndex:0];
-	}
+		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
 	else
 	{
 		// find the first node
@@ -520,67 +517,28 @@
 #pragma mark -
 #pragma mark Dynamic Accessors
 
-/*
-- (NSInteger)totalPages
-{
-	
-	if([metaData count] > 0)
-	{	
-		// get the value of the 2005 spec attribute
-		NSString *value = [metaData objectForKey:@"dtb:maxPageNumber"];
-		if(value != nil) // if its nil we have a 2002 spec attribute
-			return (NSInteger)[value intValue];
-		else // return the 2002 spec attribute
-			return [[metaData objectForKey:@"dtb:maxPageNormal"] intValue];
-	}
-		
-	// there is no meta data so return 0
-	return 0;
-	
-}
-*/
-/*
-- (NSInteger)totalTargetPages
-{
-	if([metaData count] > 0)
-		return [[metaData objectForKey:@"dtb:totalPageCount"] intValue];
-	
-	return 0;
-	
-}
-
-- (NSString *)documentUID
-{
-	if([metaData count] > 0)
-		return [metaData objectForKey:@"dtb:uid"] ;
-	
-	return nil;
-	
-}
-*/
-
 - (NSString *)currentPositionID
 {
 	return [currentNavPoint XPath];
 }
 
-- (void)setCurrentPositionID:(NSString *)anID
-{
-	// we trim the root path off the passed in path
-	//NSRange rootEndPos = [anID rangeOfString:@"/"];
-	//if(rootEndPos.location > 0)
-	//{
-	//	NSString *newPath = [anID substringFromIndex:(rootEndPos.location + 1)]; 
-		//NSXMLNode *rootAsNode = (NSXMLNode *)ncxDoc;
-		NSArray *nodesFromQuery = [xmlControlDoc nodesForXPath:anID error:nil];
-		
-		if([nodesFromQuery count] > 0)
-		{	
-			currentNavPoint = [nodesFromQuery objectAtIndex:0];
-			commonInstance.currentLevel = [self levelOfNode:currentNavPoint];
-		}
-	//}
-}
+//- (void)setCurrentPositionID:(NSString *)anID
+//{
+//	// we trim the root path off the passed in path
+//	//NSRange rootEndPos = [anID rangeOfString:@"/"];
+//	//if(rootEndPos.location > 0)
+//	//{
+//	//	NSString *newPath = [anID substringFromIndex:(rootEndPos.location + 1)]; 
+//		//NSXMLNode *rootAsNode = (NSXMLNode *)ncxDoc;
+//		NSArray *nodesFromQuery = [xmlControlDoc nodesForXPath:anID error:nil];
+//		
+//		if([nodesFromQuery count] > 0)
+//		{	
+//			currentNavPoint = [nodesFromQuery objectAtIndex:0];
+//			commonInstance.currentLevel = [self levelOfNode:currentNavPoint];
+//		}
+//	//}
+//}
 
 
 #pragma mark -

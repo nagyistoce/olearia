@@ -36,18 +36,15 @@ typedef enum
 
 @interface BBSTalkingBook : NSObject 
 {
-	
-	
-	
 	// book user settings
 	NSString				*preferredVoice;
 	float					playbackRate;
 	float					playbackVolume;
-	float					chapterSkipIncrement;
+//	float					chapterSkipIncrement;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsAlreadyLoaded;
-	BOOL					shouldJumpToTime;
+//	BOOL					shouldJumpToTime;
 	NSString				*audioSegmentTimePosition;
 	
 	NSSpeechSynthesizer		*speechSynth;
@@ -55,13 +52,13 @@ typedef enum
 	TalkingBookType			_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
-	TalkingBookMediaFormat  _mediaFormat;
+//	TalkingBookMediaFormat  _mediaFormat;
 	
-	NSInteger				maxLevels;
-	NSInteger				_totalChapters;
-	NSInteger				_currentLevelIndex;
-	NSInteger				_currentChapterIndex;
-	NSInteger				bookFormatType;
+//	NSInteger				maxLevels;
+//	NSInteger				_totalChapters;
+//	NSInteger				_currentLevelIndex;
+//	NSInteger				_currentChapterIndex;
+//	NSInteger				bookFormatType;
 	//NSInteger				currentLevel;
 	
 	id						_textDoc;
@@ -69,16 +66,13 @@ typedef enum
 	id						_controlDoc;
 	id						_packageDoc;
 	BBSTBCommonDocClass		*commonInstance;
-	
-	NSURL					*_baseBookURL;
-	NSString				*_currentSegmentFilename;
-	NSString				*fullBookPath;
-	NSString				*playPositionID;
-	
 	BBSTBInfoController		*_infoController;
 	
+
+	NSString				*_currentSegmentFilename;
+	NSString				*playPositionID;
+	NSURL					*_bookBaseURL;
 	
-	BOOL					_didLoadOK;
 	BOOL					_hasPackageFile;
 	BOOL					_hasControlFile;
 
@@ -106,28 +100,24 @@ typedef enum
 - (void)nextChapter;
 - (void)previousChapter;
 
+- (void)jumpToPosition:(NSString *)aPosition;
 - (void)updateSkipDuration:(float)newDuration;
 
 - (void)showBookInfo;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 
-@property (readwrite,retain)	BBSTBCommonDocClass *commonInstance;
+@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
 
-@property (readwrite,retain)	NSString	*preferredVoice;
+@property (readwrite, copy)		NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
-@property (readwrite)			float		chapterSkipIncrement;
-@property (readwrite,copy)		NSString	*playPositionID;
+@property (readwrite, copy)		NSString	*playPositionID;
 
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
 @property (readwrite)			BOOL		speakUserLevelChange;
-@property (readwrite)			BOOL		shouldJumpToTime;
-@property (readwrite, retain)	NSString	*audioSegmentTimePosition;
-@property (readwrite, retain)	NSString	*fullBookPath;
-
-@property (readonly)		NSInteger	maxLevels;
+@property (readwrite, copy)		NSString	*audioSegmentTimePosition;
 
 @property (readonly) BOOL		canPlay;
 @property (readonly) BOOL		isPlaying;

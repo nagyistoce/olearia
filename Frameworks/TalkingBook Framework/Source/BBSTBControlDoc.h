@@ -29,7 +29,6 @@
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
-	NSString			*idToJumpTo;
 	
 	BBSTBCommonDocClass	*commonInstance;
 	
@@ -49,7 +48,7 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (BOOL)processMetadata;
 - (NSXMLNode *)metadataNode;
-- (void)jumpToInitialNode;
+- (void)jumpToNodeWithId:(NSString *)fullPathToNode;
 - (void)updateDataForCurrentPosition;
 
 - (void)moveToNextSegment;
@@ -78,7 +77,6 @@
 
 @property (readonly, copy) NSString *currentAudioFilename;
 @property (readwrite, copy) NSString *currentPositionID;
-@property (readwrite, copy) NSString *idToJumpTo;
 
 @property (readwrite) BOOL navigateForChapters;
 

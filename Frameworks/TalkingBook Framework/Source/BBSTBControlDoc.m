@@ -28,8 +28,6 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	//currentAudioFilename = @"";
-	
 	// get the shared instance which contains all our updatable data for the book
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
@@ -57,7 +55,8 @@
 		loadedOk = [self processMetadata];
 		if(loadedOk)
 		{
-			[self jumpToInitialNode];
+			// jump to the first node in the control file
+			[self jumpToNodeWithId:@""];
 			
 			// get the root path for later use with smil and xmlcontent files
 			parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
@@ -94,7 +93,7 @@
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
-- (void)jumpToInitialNode
+- (void)jumpToNodeWithId:(NSString *)fullPathToNode
 {
 	[self doesNotRecognizeSelector:_cmd];
 }
@@ -179,7 +178,7 @@
 	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
 }
 
-@synthesize currentPositionID, idToJumpTo;
+@synthesize currentPositionID;
 @synthesize navigateForChapters;
 @synthesize metadataNode, currentNavPoint;
 @synthesize commonInstance;
