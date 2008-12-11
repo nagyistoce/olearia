@@ -23,8 +23,8 @@
 
 @interface BBSTBCommonDocClass ()
 
-@property (readwrite, copy)	NSString	*currentLevelString;
-@property (readwrite, copy)	NSString	*currentPageString;
+@property (readwrite, copy)	NSString	*levelString;
+@property (readwrite, copy)	NSString	*pageString;
 
 @end
 
@@ -68,9 +68,9 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 {
 	self.bookTitle = @"Olearia";
 	self.bookSubject = @"";
-	self.currentLevelString = @"";
-	self.currentPageString = @"";
-	self.currentSectionTitle = @"";
+	self.levelString = @"";
+	self.pageString = @"";
+	self.sectionTitle = @"";
 	self.bookTotalTime = @""; 
 	
 	self.hasNextChapter = NO;
@@ -88,13 +88,13 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
 	currentLevel = aLevel;
-	currentLevelString = [NSString stringWithFormat:@"%d",aLevel];
+	levelString = [NSString stringWithFormat:@"%d",aLevel];
 }
 
 - (void)setCurrentPage:(NSInteger)aPage
 {
 	currentPage = aPage;
-	currentPageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+	pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString
@@ -126,13 +126,14 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 
 
 // bindings related
-@synthesize bookTitle, bookSubject, currentSectionTitle, bookTotalTime;
+@synthesize bookTitle, bookSubject, sectionTitle, bookTotalTime;
 @synthesize bookType, mediaFormat;
-@synthesize currentLevel, currentLevelString;
-@synthesize currentPage, totalPages, currentPageString;
+@synthesize currentLevel, levelString;
+@synthesize currentPage, totalPages, pageString;
 
 @synthesize hasNextChapter, hasPreviousChapter;
 @synthesize hasLevelUp, hasLevelDown;
 @synthesize hasNextSegment, hasPreviousSegment;
+@synthesize chapterSkipDuration;
 
 @end

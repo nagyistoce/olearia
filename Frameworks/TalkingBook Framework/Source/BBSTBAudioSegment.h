@@ -22,19 +22,22 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
-
+#import "BBSTBCommonDocClass.h"
 
 @interface BBSTBAudioSegment : QTMovie 
 {
 
 	NSInteger _totalChapters;
 	
+	BBSTBCommonDocClass		*commonInstance;
 }
 
-- (BOOL)nextChapterIsAvail;
-- (BOOL)prevChapterIsAvail;
+//- (BOOL)nextChapterIsAvail;
+//- (BOOL)prevChapterIsAvail;
 - (void)jumpToNextChapter;
 - (void)jumpToPrevChapter;
 - (void)addChaptersOfDuration:(QTTime)aDuration;
+
+@property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
 
 @end

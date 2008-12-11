@@ -40,7 +40,7 @@
 	
 	NSXMLDocument		*_xmlSmilDoc;
 	BBSTBAudioSegment	*_currentAudioFile;
-	BBSTBCommonDocClass *commonDoc;
+	BBSTBCommonDocClass *commonInstance;
 	BOOL				_isPlaying;
 	QTTime				skipDuration;
 	
@@ -62,9 +62,9 @@
 - (NSString *)audioFilenameForId:(NSString *)anId;
 - (void)playAudio;
 - (void)pauseAudio;
-- (BOOL)hasNextChapter;
+//- (BOOL)hasNextChapter;
 - (void)nextChapter;
-- (BOOL)hasPreviousChapter;
+//- (BOOL)hasPreviousChapter;
 - (void)previousChapter;
 - (void)setChapterSkipDuration:(QTTime)aDuration;
 

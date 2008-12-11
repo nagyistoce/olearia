@@ -21,7 +21,6 @@
 
 
 #import "BBSTBControlDoc.h"
-#import "BBSTBCommonDocClass.h"
 
 @implementation BBSTBControlDoc
 
@@ -32,7 +31,8 @@
 	bookMediaFormat = unknownMediaFormat;
 	currentAudioFilename = @"";
 	
-	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	// get the shared instance which contains all our updatable data for the book
+	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
 	return self;
 }
@@ -58,6 +58,8 @@
 		loadedOk = [self processMetadata];
 		if(loadedOk)
 		{
+			[self jumpToInitialNode];
+			
 			// get the root path for later use with smil and xmlcontent files
 			parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
 		}
@@ -93,6 +95,11 @@
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
+- (void)jumpToInitialNode
+{
+	[self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)moveToNextSegment
 {
 	[self doesNotRecognizeSelector:_cmd];
@@ -115,7 +122,7 @@
 	return nil;
 }
 
-- (void)updateAttributesForCurrentPosition
+- (void)updateDataForCurrentPosition
 {
 	[self doesNotRecognizeSelector:_cmd];
 }
@@ -174,9 +181,10 @@
 }
 
 @synthesize bookMediaFormat;
-@synthesize currentPositionID;
+@synthesize currentPositionID, idToJumpTo;
 @synthesize navigateForChapters;
 @synthesize metadataNode;
+@synthesize commonInstance;
 
 
 @end

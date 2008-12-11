@@ -32,7 +32,7 @@
 	textSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[textSynth setDelegate:self];
 	
-	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
 	return self;
 }

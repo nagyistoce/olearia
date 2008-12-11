@@ -21,20 +21,21 @@
 
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
+#import <QTKit/QTTime.h>
 
 @interface BBSTBCommonDocClass : NSObject 
 {
 	// bindings ivars
 	NSString				*bookTitle;
 	NSString				*bookSubject;
-	NSString				*currentSectionTitle;
+	NSString				*sectionTitle;
 
 	NSInteger				totalPages;
 	NSInteger				currentPage;
-	NSString				*currentPageString;
+	NSString				*pageString;
 	NSString				*bookTotalTime;
 	
-	NSString				*currentLevelString;
+	NSString				*levelString;
 	NSInteger				currentLevel;
 	
 	BOOL					hasNextChapter;
@@ -47,19 +48,20 @@
 	TalkingBookType			bookType;
 	TalkingBookMediaFormat	mediaFormat;
 	
+	QTTime					chapterSkipDuration;
 }
 
 // bindings ivars
 @property (readwrite, copy)	NSString	*bookTitle;
 @property (readwrite, copy) NSString	*bookSubject;
-@property (readwrite, copy)	NSString	*currentSectionTitle;
+@property (readwrite, copy)	NSString	*sectionTitle;
 
 @property (readwrite)		NSInteger	currentLevel;
-@property (readonly, copy)	NSString	*currentLevelString;
+@property (readonly, copy)	NSString	*levelString;
 
 @property (readwrite)		NSInteger	currentPage;
 @property (readwrite)		NSInteger	totalPages;
-@property (readonly,copy)	NSString	*currentPageString;
+@property (readonly,copy)	NSString	*pageString;
 
 @property (readwrite,copy)	NSString	*bookTotalTime;
 
@@ -72,6 +74,8 @@
 
 @property (readwrite) TalkingBookType bookType;
 @property (readwrite) TalkingBookMediaFormat mediaFormat;
+
+@property (readwrite) QTTime	chapterSkipDuration;
 
 + (BBSTBCommonDocClass *)sharedInstance;
 - (void)resetForNewBook;

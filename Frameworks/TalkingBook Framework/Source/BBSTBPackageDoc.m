@@ -7,7 +7,6 @@
 //
 
 #import "BBSTBPackageDoc.h"
-#import "BBSTBCommonDocClass.h"
 
 @implementation BBSTBPackageDoc
 
@@ -15,7 +14,7 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
 	return self;
 }
@@ -63,7 +62,7 @@
 
 - (NSXMLNode *)metadataNode
 {
-	NSArray *metaNodes = [[xmlPackageDoc rootElement] objectsForXQuery:@"/metadata" error:nil];
+	NSArray *metaNodes = [xmlPackageDoc  objectsForXQuery:@"/package/metadata" error:nil];
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
@@ -80,6 +79,6 @@
 }
 
 @synthesize ncxFilename,xmlContentFilename;
-@synthesize commonDoc;
+@synthesize commonInstance;
 
 @end
