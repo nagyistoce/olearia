@@ -85,11 +85,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 												 name:NSWindowDidDeminiaturizeNotification 
 											   object:mainWindow];
 
-	//[[NSNotificationCenter defaultCenter] addObserver:self
-	//										 selector:@selector(doRelaunch:)
-	//											 name:OleariaShouldRelaunchNotification
-	//										   object:nil];
-	
 	// init the book object
 	talkingBook = [[BBSTalkingBook alloc] init];
 	
@@ -98,7 +93,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
 	talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
 	talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
-	talkingBook.chapterSkipIncrement = [_userSetDefaults floatForKey:OleariaChapterSkipIncrement];
+	[talkingBook updateSkipDuration:[_userSetDefaults floatForKey:OleariaChapterSkipIncrement]];
 	
 	isPlaying = NO;
 	
@@ -657,7 +652,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	if(loadedOK)
 	{
 		//update the recent files list
-		[self updateRecentBooks:[talkingBook fullBookPath] updateCurrentBookSettings:NO];
+		[self updateRecentBooks:[validFileURL path] updateCurrentBookSettings:NO];
 	}
 	
 	return loadedOK;
@@ -703,11 +698,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			if(nil != [newSettings valueForKey:@"PlayPosition"])
 			{	
-				talkingBook.playPositionID = [newSettings valueForKey:@"PlayPosition"];
+				[talkingBook jumpToPosition:[newSettings valueForKey:@"PlayPosition"]];
 				if(nil != [newSettings valueForKey:@"TimePosition"])
 				{
+				
 					talkingBook.audioSegmentTimePosition = [newSettings valueForKey:@"TimePosition"];
-					talkingBook.shouldJumpToTime = YES;
+
 				}
 				
 			}

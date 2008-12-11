@@ -37,46 +37,22 @@
 - (void)errorDialogDidEnd;
 - (void)resetBook;
 
-//- (void)setupAudioNotifications;
-//- (NSArray *)makeChaptersOfDuration:(QTTime)aDuration forMovie:(QTMovie *)aMovie;
-
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-//- (void)setPreferredAudioAttributes;
-//- (BOOL)updateAudioFile:(NSString *)pathToFile;
-//- (void)updateForPosInBook;
-//- (void)updateChapterIndex;
-
 - (BOOL)openControlDocument:(NSURL *)aDocUrl;
 
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
-
-@property (readwrite) NSInteger	maxLevels;
-
-@property (readwrite) NSInteger _totalChapters;
-@property (readwrite) NSInteger _currentChapterIndex;
-
 @property (readwrite) TalkingBookType _controlMode;
 
-@property (readwrite, retain) id		_controlDoc;
-@property (readwrite, retain) id		_packageDoc;
-@property (readwrite, retain) id		_textDoc;
-@property (readwrite, retain) id		_smilDoc;
+@property (readwrite, retain)	id		_controlDoc;
+@property (readwrite, retain)	id		_packageDoc;
+@property (readwrite, retain)	id		_textDoc;
+@property (readwrite, retain)	id		_smilDoc;
 
-@property (readwrite, retain) NSURL *_baseBookURL;
+@property (readwrite, copy)		NSURL		*_bookBaseURL;
 
 // Bindings related
-//@property (readwrite, retain) NSString	*bookTitle;
-//@property (readwrite, retain) NSString	*currentSectionTitle;
-//@property (readwrite, retain) NSString	*currentPageString;
-//@property (readwrite, retain) NSString	*currentLevelString;
 @property (readwrite) BOOL		canPlay;
 @property (readwrite) BOOL		isPlaying;
-//@property (readwrite) BOOL		hasNextChapter;
-//@property (readwrite) BOOL		hasPreviousChapter;
-//@property (readwrite) BOOL		hasLevelUp;
-//@property (readwrite) BOOL		hasLevelDown;
-//@property (readwrite) BOOL		hasNextSegment;
-//@property (readwrite) BOOL		hasPreviousSegment;
 
 @end
 
@@ -134,7 +110,7 @@
 	BOOL fileOpenedOK = NO;
 	
 	// get the parent folder path as a string
-	_baseBookURL = [[NSURL alloc] initFileURLWithPath:[[aURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+	_bookBaseURL = [[NSURL alloc] initFileURLWithPath:[[aURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 	
 	// when we do zip files we will check internally for one of the package or control files
 	// also direct loading of .iso files would be good too
@@ -170,7 +146,7 @@
 				//NSString *ncxPathString = [[NSString alloc] initWithString:[[_baseBookURL stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
 					
 				// make a URL of the full path
-				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] relativeToURL:_baseBookURL];
+				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] relativeToURL:_bookBaseURL];
 
 				// open the control file
 				_hasControlFile = [self openControlDocument:ncxURL];
@@ -183,8 +159,10 @@
 			}
 
 		}
-		else // no opf file found - so dropback to the ncx file.
+		else 
 		{	
+			// no opf file found - so dropback to the ncx file.
+			// this should not happen but it is a precaution
 			_hasControlFile = [self openControlDocument:aURL];
 			fileOpenedOK = _hasControlFile;
 		}
@@ -207,13 +185,12 @@
 				//NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
 						
 				// make a URL of the full path
-				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] relativeToURL:_baseBookURL];
+				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] 
+												relativeToURL:_bookBaseURL];
 					
 				_hasControlFile = [self openControlDocument:ncxURL];
-				
 			}
 		}
-		
 		else //check for a control file of some form
 		{
 			_hasControlFile = [self openControlDocument:aURL];
@@ -228,8 +205,6 @@
 		self.canPlay = YES;
 		bookIsAlreadyLoaded = YES;
 		
-		fullBookPath = [aURL path];
-		
 		if(_hasPackageFile)
 		{
 			//_mediaFormat = [_packageDoc bookMediaFormat];
@@ -240,10 +215,10 @@
 		}
 		else if(_hasControlFile)
 		{
-			_mediaFormat = [_controlDoc mediaFormat];
+			//_mediaFormat = [_controlDoc mediaFormat];
 			
 			
-			if(0 == [_controlDoc totalPages])
+			if(0 == commonInstance.totalPages)
 			{
 				//self.currentPageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 			}
@@ -260,7 +235,7 @@
 		}
 		
 		// setup for the media format of the book
-		if(_mediaFormat <= AudioOnlyMediaFormat)
+		if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
 		{
 			if([_controlDoc currentSmilFilename])
 			{
@@ -325,6 +300,14 @@
 	return loadedOK;
 }
 
+- (void)jumpToPosition:(NSString *)aPosition
+{
+	if(![aPosition isEqualToString:@""])
+		if(_hasControlFile)
+			[_controlDoc jumpToNodeWithId:aPosition];
+		
+}
+
 - (void)updateSkipDuration:(float)newDuration
 {
 	self.commonInstance.chapterSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
@@ -384,7 +367,7 @@
 			if(!_smilDoc)
 				_smilDoc = [[BBSTBSMILDocument alloc] init];
 			
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_baseBookURL];
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 		}
 		
@@ -405,7 +388,8 @@
 		
 		if([_controlDoc currentSmilFilename])
 		{	
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_baseBookURL];
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+											 relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 			
 		}		
@@ -426,7 +410,8 @@
 
 		if([_controlDoc currentSmilFilename])
 		{	
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_baseBookURL];
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+											 relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 			
 		}
@@ -476,7 +461,8 @@
 			
 			if([_controlDoc currentSmilFilename])
 			{	
-				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_baseBookURL];
+				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+												 relativeToURL:_bookBaseURL];
 				[_smilDoc openWithContentsOfURL:smilUrl];
 			}
 			
@@ -767,13 +753,10 @@
 	_hasControlFile = NO;
 
 	bookIsAlreadyLoaded = NO;
-	//shouldJumpToTime = NO;
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
 	_controlMode = UnknownBookType; // set the default control mode to unknown
-	_mediaFormat = unknownMediaFormat; // set the default media format
-	
 	
 	_hasPageNavigation = NO;
 	_hasPhraseNavigation = NO;
@@ -871,7 +854,7 @@
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	if(_mediaFormat <= AudioOnlyMediaFormat)
+	if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
 	{
 		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
 		if(_smilDoc)
@@ -886,12 +869,11 @@
 
 @synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, commonInstance;
 @synthesize speechSynth, preferredVoice;
-@synthesize playbackRate, playbackVolume,  chapterSkipIncrement, maxLevels;
-@synthesize _currentChapterIndex, _totalChapters;
+@synthesize playbackRate, playbackVolume;
 @synthesize _controlMode;
-@synthesize _baseBookURL, fullBookPath;
+@synthesize _bookBaseURL;
 @synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
-@synthesize playPositionID, audioSegmentTimePosition, shouldJumpToTime;
+@synthesize playPositionID, audioSegmentTimePosition;
 
 //bindings
 @synthesize canPlay, isPlaying;
