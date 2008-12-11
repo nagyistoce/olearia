@@ -21,13 +21,6 @@
 
 #import "BBSTBCommonDocClass.h"
 
-@interface BBSTBCommonDocClass ()
-
-@property (readwrite, copy)	NSString	*levelString;
-@property (readwrite, copy)	NSString	*pageString;
-
-@end
-
 static BBSTBCommonDocClass *sharedInstanceManager = nil;
 
 @implementation BBSTBCommonDocClass
@@ -40,8 +33,6 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 		{
             [[self alloc] init]; 
         }
-		
-
     }
 	
     return sharedInstanceManager;
@@ -66,13 +57,16 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 
 - (void)resetForNewBook
 {
-	self.bookTitle = @"Olearia";
+	// set the defaults for the newly loaded book before they are updated
+	self.totalPages = 0;
+	self.currentLevel = 1;
+	self.currentPage = 0;
+	self.bookTitle = @"";
 	self.bookSubject = @"";
 	self.levelString = @"";
 	self.pageString = @"";
 	self.sectionTitle = @"";
-	self.bookTotalTime = @""; 
-	
+	self.bookTotalTime = @"";
 	self.hasNextChapter = NO;
 	self.hasPreviousChapter = NO;
 	self.hasLevelUp = NO;
@@ -88,13 +82,13 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
 	currentLevel = aLevel;
-	levelString = [NSString stringWithFormat:@"%d",aLevel];
+	self.levelString = [NSString stringWithFormat:@"%d",aLevel];
 }
 
 - (void)setCurrentPage:(NSInteger)aPage
 {
 	currentPage = aPage;
-	pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+	self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString

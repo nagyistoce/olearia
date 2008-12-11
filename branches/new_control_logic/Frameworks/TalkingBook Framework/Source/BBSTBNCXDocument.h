@@ -26,10 +26,8 @@
 {
 	
 	BOOL				shouldUseNavmap;
-	BOOL				isFirstRun;
 	BOOL				loadFromCurrentLevel;
 	
-	NSXMLNode			*_currentNavPoint;
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
 	

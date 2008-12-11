@@ -57,11 +57,11 @@
 @property (readwrite, copy)	NSString	*sectionTitle;
 
 @property (readwrite)		NSInteger	currentLevel;
-@property (readonly, copy)	NSString	*levelString;
+@property (readwrite, copy)	NSString	*levelString;
 
 @property (readwrite)		NSInteger	currentPage;
 @property (readwrite)		NSInteger	totalPages;
-@property (readonly,copy)	NSString	*pageString;
+@property (readwrite,copy)	NSString	*pageString;
 
 @property (readwrite,copy)	NSString	*bookTotalTime;
 

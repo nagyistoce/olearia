@@ -240,7 +240,7 @@
 		}
 		else if(_hasControlFile)
 		{
-			_mediaFormat = [_controlDoc bookMediaFormat];
+			_mediaFormat = [_controlDoc mediaFormat];
 			
 			
 			if(0 == [_controlDoc totalPages])
@@ -342,6 +342,7 @@
 			[_smilDoc playAudio];
 			self.isPlaying = YES;
 		}
+		self.isPlaying = YES;
 	}
 	//else // isPlaying == YES
 //	{
@@ -364,7 +365,7 @@
 		self.isPlaying = NO;
 	}
 	
-	
+	self.isPlaying = NO;
 }
 
 #pragma mark -
@@ -766,7 +767,7 @@
 	_hasControlFile = NO;
 
 	bookIsAlreadyLoaded = NO;
-	shouldJumpToTime = NO;
+	//shouldJumpToTime = NO;
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
