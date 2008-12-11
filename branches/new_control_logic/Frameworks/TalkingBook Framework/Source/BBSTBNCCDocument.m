@@ -22,7 +22,6 @@
 #import <Cocoa/Cocoa.h>
 #import "BBSTBNCCDocument.h"
 #import "BBSTBControlDoc.h"
-//#import "BBSTBCommonDoc.h"
 #import "NSXMLElement-BBSExtensions.h"
 
 
@@ -69,7 +68,7 @@
 	
 	self.loadFromCurrentLevel = NO;
 	_isFirstRun = YES;
-	commonDoc.currentLevel = 1;
+	commonInstance.currentLevel = 1;
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
 
@@ -93,20 +92,20 @@
 		// check the alternative place for the title in the meta data
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"(//head/meta[@name=\"dc:title\"]/data(@content))" error:nil]];
 	}
-	commonDoc.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
+	commonInstance.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
 	
 	// check for total page count
 	[extractedContent removeAllObjects];
 	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:pageNormal\"]/data(@content)" error:nil]];
-	commonDoc.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
+	commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0;
 	
 	// check if we found a page count
-	if(0 == commonDoc.totalPages)
+	if(0 == commonInstance.totalPages)
 	{
 		[extractedContent removeAllObjects];
 		// check for the older alternative format
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"//head/meta[@name=\"ncc:page-Normal\"]/data(@content)" error:nil]];
-		commonDoc.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+		commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
 	}
 	
 	// get the media type of the book
@@ -144,7 +143,7 @@
 	
 	if(_totalBodyNodes > 0)
 	{
-		commonDoc.currentLevel = 1;
+		commonInstance.currentLevel = 1;
 		isOK = YES;
 	}
 
@@ -180,7 +179,7 @@
 		}
 		else // loadFromCurrentLevel == YES
 		{
-			_currentNodeIndex = [self indexOfNextNodeAtLevel:commonDoc.currentLevel];
+			_currentNodeIndex = [self indexOfNextNodeAtLevel:commonInstance.currentLevel];
 			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
 		}
 	}
@@ -194,12 +193,12 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		commonInstance.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
 	}
 	else
 	{
-		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		commonInstance.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonInstance.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 	
 }
@@ -218,13 +217,13 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		commonInstance.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
 		[self moveToPreviousSegment];
 	}
 	else
 	{
-		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		commonInstance.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonInstance.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 	
 }
@@ -333,7 +332,7 @@
 - (void)goUpALevel
 {
 	// set the level we want to 1 above the current one
-	NSInteger wantedLevel = commonDoc.currentLevel - 1;
+	NSInteger wantedLevel = commonInstance.currentLevel - 1;
 	NSInteger testIndex = _currentNodeIndex - 1;
 	BOOL levelFound = NO;
 	
@@ -356,7 +355,7 @@
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	if([self indexOfNextNodeAtLevel:commonDoc.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+	if([self indexOfNextNodeAtLevel:commonInstance.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
 		nodeAvail = YES;
 	/*
 	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
@@ -382,7 +381,7 @@
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	if([self indexOfPreviousNodeAtLevel:commonDoc.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+	if([self indexOfPreviousNodeAtLevel:commonInstance.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
 		nodeAvail = YES;
 	
 	/*
@@ -412,7 +411,7 @@
 - (BOOL)canGoUpLevel
 {
 	// return Yes if we are at a lower level
-	return (commonDoc.currentLevel > 1) ? YES : NO;
+	return (commonInstance.currentLevel > 1) ? YES : NO;
 }
 
 - (BOOL)canGoDownLevel
@@ -431,9 +430,9 @@
 	{
 		// check if the node has a level greater than the current one
 		// this denotes a level down 
-		if ([self levelOfNodeAtIndex:newIndex] > commonDoc.currentLevel)
+		if ([self levelOfNodeAtIndex:newIndex] > commonInstance.currentLevel)
 		{
-			commonDoc.hasLevelDown = YES;
+			commonInstance.hasLevelDown = YES;
 			levelDownAvail = YES;
 		}
 	}
@@ -466,12 +465,12 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		commonDoc.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		commonInstance.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
 	}
 	else
 	{
-		commonDoc.currentSectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		commonDoc.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		commonInstance.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		commonInstance.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
 	
@@ -563,7 +562,7 @@
 			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
 			if(testLevel == aLevel) // check if its the same as the current level
 				nodeAvail = YES; // its the same so we can go back
-			else if(testLevel < commonDoc.currentLevel)
+			else if(testLevel < commonInstance.currentLevel)
 				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
 			else
 				testIndex--; // the level was below the current one so skip over it by decrementing the index;

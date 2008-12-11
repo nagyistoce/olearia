@@ -658,9 +658,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	{
 		//update the recent files list
 		[self updateRecentBooks:[talkingBook fullBookPath] updateCurrentBookSettings:NO];
-		
-		// load the first segment ready for play
-		[talkingBook nextSegment]; 
 	}
 	
 	return loadedOK;
@@ -735,7 +732,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		{
 			// this is the first time the book was opened so add its name and the current defaults 
 			// to the dictionary along with the folder path it was loaded from.
-			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook commonDoc] bookTitle],@"Title",
+			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook commonInstance] bookTitle],@"Title",
 											 [pathToMove description],@"FilePath",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackRate]],@"Rate",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackVolume]],@"Volume",
@@ -755,7 +752,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			
 			NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
 			
-			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:[[talkingBook commonDoc] bookTitle] action:@selector(openRecentBook:) keyEquivalent:@""];
+			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:[[talkingBook commonInstance] bookTitle] action:@selector(openRecentBook:) keyEquivalent:@""];
 			[newItem setToolTip:[loadedFromPrefix stringByAppendingString:[[defaultSettings valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
 			[recentBooksMenu insertItem:newItem atIndex:0];
 		}

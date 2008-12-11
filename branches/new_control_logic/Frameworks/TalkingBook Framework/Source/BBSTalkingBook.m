@@ -89,7 +89,7 @@
 	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[speechSynth setDelegate:self];
 	
-	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	commonInstance = [BBSTBCommonDocClass sharedInstance];
 		
 	[self resetBook];
 	
@@ -202,7 +202,7 @@
 				fileOpenedOK = _hasPackageFile;
 				
 				// get the book type so we know how to control acces to it
-				_controlMode = [_packageDoc bookType];
+				_controlMode = commonInstance.bookType;
 				// successfully opened the opf document so get the ncx filename from it
 				//NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
 						
@@ -234,8 +234,8 @@
 		{
 			//_mediaFormat = [_packageDoc bookMediaFormat];
 
-			//commonDoc.bookTitle = [_packageDoc bookTitle];
-			//commonDoc.currentLevel = [_controlDoc currentLevel];
+			//commonInstance.bookTitle = [_packageDoc bookTitle];
+			//commonInstance.currentLevel = [_controlDoc currentLevel];
 							
 		}
 		else if(_hasControlFile)
@@ -310,15 +310,24 @@
 		}
 				
 		// open the control file
-		 loadedOK = (nil != _controlDoc) ? [_controlDoc openWithContentsOfURL:aDocUrl] : NO;
+		if(nil != _controlDoc)
+		{
+			// check if we have a saved position that we need to start from
+			if(![playPositionID isEqualToString:@""]) 
+			{	
+				[_controlDoc setCurrentPositionID:playPositionID];
+				playPositionID = @""; // reset the position skip so we dont accidentally jump there on the next open
+			}
+			loadedOK = [_controlDoc openWithContentsOfURL:aDocUrl];
+		
+		}
 	}
 	return loadedOK;
 }
 
 - (void)updateSkipDuration:(float)newDuration
 {
-	if(_smilDoc)
-		[_smilDoc setChapterSkipDuration:QTMakeTimeWithTimeInterval((double)newDuration * (double)60)];
+	self.commonInstance.chapterSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
 }
 
 #pragma mark -
@@ -704,7 +713,7 @@
 	preferredVoice = aVoiceID;
 }
 
-
+/*
 - (void)setPlayPositionID:(NSString *)aPos
 {
 	if(_hasControlFile)
@@ -712,7 +721,8 @@
 		[_controlDoc setCurrentPositionID:aPos];
 	}
 }
-
+*/
+ 
 - (NSString *)playPositionID
 {
 	if(_hasControlFile)
@@ -772,7 +782,9 @@
 	self.canPlay = NO;
 	self.isPlaying = NO;
 	
-	[commonDoc resetForNewBook];
+	playPositionID = @"";
+	
+	[commonInstance resetForNewBook];
 
 }
 
@@ -871,8 +883,7 @@
 	
 }
 
-
-@synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, commonDoc;
+@synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, commonInstance;
 @synthesize speechSynth, preferredVoice;
 @synthesize playbackRate, playbackVolume,  chapterSkipIncrement, maxLevels;
 @synthesize _currentChapterIndex, _totalChapters;

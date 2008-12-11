@@ -45,7 +45,7 @@
 @property (readwrite, retain)   BBSTBAudioSegment	*_currentAudioFile;
 
 - (void)audioFileDidEnd:(NSNotification *)notification;
-- (void)loadStateDidChange:(NSNotification *)notification;
+//- (void)loadStateDidChange:(NSNotification *)notification;
 
 - (NSString *)extractXmlContentFilename:(NSString *)contentString;
 - (NSString *)extractIdString:(NSString *)contentString;
@@ -72,13 +72,13 @@
 	
 	_isPlaying = NO;
 	
-	commonDoc = [BBSTBCommonDocClass sharedInstance];
+	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
-	// watch for load state changes
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(loadStateDidChange:)
-												 name:QTMovieLoadStateDidChangeNotification
-											   object:_currentAudioFile];
+//	// watch for load state changes
+//	[[NSNotificationCenter defaultCenter] addObserver:self
+//											 selector:@selector(loadStateDidChange:)
+//												 name:QTMovieLoadStateDidChangeNotification
+//											   object:_currentAudioFile];
 	
 	// start watching for notifications for reaching the end of the audio file
 	[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -204,21 +204,21 @@
 	[_currentAudioFile stop];
 	_isPlaying = NO;
 }
-
-- (BOOL)hasNextChapter
-{
-	return [_currentAudioFile nextChapterIsAvail];
-}
+//
+//- (BOOL)hasNextChapter
+//{
+//	return [_currentAudioFile nextChapterIsAvail];
+//}
 
 - (void)nextChapter
 {
 	[_currentAudioFile jumpToNextChapter];
 }
-
-- (BOOL)hasPreviousChapter
-{
-	return [_currentAudioFile prevChapterIsAvail];
-}
+//
+//- (BOOL)hasPreviousChapter
+//{
+//	return [_currentAudioFile prevChapterIsAvail];
+//}
 
 - (void)previousChapter
 {
@@ -464,20 +464,20 @@
 }
 
 
-- (void)loadStateDidChange:(NSNotification *)notification
-{
-	
-	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
-	{
-	
-		// add chapters to the current audio file
-		[_currentAudioFile addChaptersOfDuration:chapterSkipDuration];
-		
-	
-	}
-	
-
-}
+//- (void)loadStateDidChange:(NSNotification *)notification
+//{
+//	
+//	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
+//	{
+//	
+//		// add chapters to the current audio file
+//		[_currentAudioFile addChaptersOfDuration:chapterSkipDuration];
+//		
+//	
+//	}
+//	
+//
+//}
 
 
 @synthesize  smilChapterData;

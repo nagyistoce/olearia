@@ -27,7 +27,7 @@
 
 	NSXMLDocument		*xmlTextContentDoc;
 
-	BBSTBCommonDocClass		*commonDoc;
+	BBSTBCommonDocClass		*commonInstance;
 	
 	NSSpeechSynthesizer *textSynth;
 

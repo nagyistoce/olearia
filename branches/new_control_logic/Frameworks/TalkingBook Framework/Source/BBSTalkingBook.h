@@ -68,11 +68,12 @@ typedef enum
 	id						_smilDoc;
 	id						_controlDoc;
 	id						_packageDoc;
-	BBSTBCommonDocClass		*commonDoc;
+	BBSTBCommonDocClass		*commonInstance;
 	
 	NSURL					*_baseBookURL;
 	NSString				*_currentSegmentFilename;
 	NSString				*fullBookPath;
+	NSString				*playPositionID;
 	
 	BBSTBInfoController		*_infoController;
 	
@@ -89,8 +90,7 @@ typedef enum
 	// bindings
 	BOOL					isPlaying;
 	BOOL					canPlay;
-	
-		
+
 }
 
 
@@ -112,13 +112,13 @@ typedef enum
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 
-@property (readwrite,retain)	BBSTBCommonDocClass *commonDoc;
+@property (readwrite,retain)	BBSTBCommonDocClass *commonInstance;
 
 @property (readwrite,retain)	NSString	*preferredVoice;
 @property (readwrite)			float		playbackRate;
 @property (readwrite)			float		playbackVolume;
 @property (readwrite)			float		chapterSkipIncrement;
-@property (readwrite,retain)	NSString	*playPositionID;
+@property (readwrite,copy)		NSString	*playPositionID;
 
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
@@ -131,5 +131,6 @@ typedef enum
 
 @property (readonly) BOOL		canPlay;
 @property (readonly) BOOL		isPlaying;
+
 
 @end

@@ -29,8 +29,9 @@
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
+	NSString			*idToJumpTo;
 	
-	BBSTBCommonDocClass	*commonDoc;
+	BBSTBCommonDocClass	*commonInstance;
 	
 	NSXMLNode			*metadataNode;
 	
@@ -51,6 +52,8 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (BOOL)processMetadata;
 - (NSXMLNode *)metadataNode;
+- (void)jumpToInitialNode;
+- (void)updateDataForCurrentPosition;
 
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
@@ -69,13 +72,17 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
+@property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
+
 @property (readonly) TalkingBookMediaFormat bookMediaFormat;
 @property (readonly) NSXMLNode *metadataNode;
 
 @property (readwrite) float levelNavChapterIncrement;
 
-@property (readonly, retain) NSString *currentAudioFilename;
-@property (readwrite,retain) NSString *currentPositionID;
+@property (readonly, copy) NSString *currentAudioFilename;
+@property (readwrite, copy) NSString *currentPositionID;
+@property (readwrite, copy) NSString *idToJumpTo;
+
 @property (readwrite) BOOL navigateForChapters;
 
 @end

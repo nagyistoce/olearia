@@ -23,13 +23,12 @@
 #import "BBSTalkingBookTypes.h"
 #import "BBSTBCommonDocClass.h"
 
-
 @interface BBSTBPackageDoc : NSObject 
 {
 
 	NSXMLDocument			*xmlPackageDoc;
 	
-	BBSTBCommonDocClass		*commonDoc;
+	BBSTBCommonDocClass		*commonInstance;
 	
 	NSString				*ncxFilename;
 	NSString				*xmlContentFilename;
@@ -46,7 +45,7 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-@property (readwrite, retain) BBSTBCommonDocClass *commonDoc;
+@property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
 
 @property (readonly, copy) NSString *ncxFilename;
 @property (readonly, copy) NSString *xmlContentFilename;
