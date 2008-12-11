@@ -39,6 +39,7 @@
 
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
 - (BOOL)openControlDocument:(NSURL *)aDocUrl;
+- (BOOL)isSmilFilename:(NSString *)aFilename;
 
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
 @property (readwrite) TalkingBookType _controlMode;
@@ -207,14 +208,13 @@
 		
 		if(_hasPackageFile)
 		{
-			//_mediaFormat = [_packageDoc bookMediaFormat];
-
-			//commonInstance.bookTitle = [_packageDoc bookTitle];
-			//commonInstance.currentLevel = [_controlDoc currentLevel];
+			// do some package doc specific loading stuff here
 							
 		}
-		else if(_hasControlFile)
+		
+		if(_hasControlFile)
 		{
+			// control doc specific loading
 			if(0 < commonInstance.totalPages)
 			{
 				//_hasPageNavigation = YES;
@@ -225,14 +225,16 @@
 		// setup for the media format of the book
 		if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
 		{
-			if([_controlDoc currentSmilFilename])
+			// audio files in the book so load the first one 
+			NSString *audioFilename = [_controlDoc audioFilenameFromCurrentNode];
+			if([self isSmilFilename:audioFilename])
 			{
+				if(!_smilDoc)
+					_smilDoc = [[BBSTBSMILDocument alloc] init];
 				
+				[_smilDoc openWithContentsOfURL:[[NSURL alloc] initWithString:audioFilename relativeToURL:_bookBaseURL]];
 			}
 		}
-		
-		//update the interface with the initial values
-		//[self updateForPosInBook];		
 		
 		//update the information controller if it has been previously loaded
 		if(_infoController)
@@ -242,8 +244,6 @@
 			else
 				[_infoController updateMetaInfoFromNode:[_controlDoc metadataNode]];
 		}
-		
-		
 	}
 	
 	
@@ -350,12 +350,12 @@
 		// get the filename of the next audio file to play from the ncx file
 		[_controlDoc moveToNextSegment];
 
-		if([_controlDoc currentSmilFilename])
+		if([_controlDoc audioFilenameFromCurrentNode])
 		{	
 			if(!_smilDoc)
 				_smilDoc = [[BBSTBSMILDocument alloc] init];
 			
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] relativeToURL:_bookBaseURL];
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 		}
 		
@@ -374,9 +374,9 @@
 		[_controlDoc setLoadFromCurrentLevel:YES];
 		[_controlDoc moveToNextSegment];
 		
-		if([_controlDoc currentSmilFilename])
+		if([_controlDoc audioFilenameFromCurrentNode])
 		{	
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
 											 relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 			
@@ -396,9 +396,9 @@
 		// move to the previous segment of the book
 		[_controlDoc moveToPreviousSegment];
 
-		if([_controlDoc currentSmilFilename])
+		if([_controlDoc audioFilenameFromCurrentNode])
 		{	
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
 											 relativeToURL:_bookBaseURL];
 			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 			
@@ -447,9 +447,9 @@
 		{	
 			[_controlDoc goDownALevel];
 			
-			if([_controlDoc currentSmilFilename])
+			if([_controlDoc audioFilenameFromCurrentNode])
 			{	
-				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc currentSmilFilename] 
+				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
 												 relativeToURL:_bookBaseURL];
 				[_smilDoc openWithContentsOfURL:smilUrl];
 			}
@@ -760,6 +760,10 @@
 
 }
 
+- (BOOL)isSmilFilename:(NSString *)aFilename
+{
+	return [[[aFilename pathExtension] lowercaseString] isEqualToString:@"smil"];
+}
 
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL
 {

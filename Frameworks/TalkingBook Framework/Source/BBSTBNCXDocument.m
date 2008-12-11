@@ -31,9 +31,7 @@
 
 - (NSUInteger)navPointsOnCurrentLevel;
 - (NSUInteger)navPointIndexOnCurrentLevel;
-- (NSString *)filenameFromID:(NSString *)anIdString;
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode;
-
 
 @end
 
@@ -245,9 +243,10 @@
 }
 */
 
-- (NSString *)currentSmilFilename
+- (NSString *)audioFilenameFromCurrentNode
 {
-	return [self stringForXquery:@"/content/data(@src)" ofNode:currentNavPoint];
+	NSString *filenameWithID = [self stringForXquery:@"content/data(@src)" ofNode:currentNavPoint];
+	return (filenameWithID) ? [self filenameFromID:filenameWithID] : nil;
 }
 
 - (void)goDownALevel
@@ -373,16 +372,6 @@
 	// returns an index of the current navPoint relative to the other navPoints on the same level
 	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
 }
-
-
-- (NSString *)filenameFromID:(NSString *)anIdString
-{
-	NSAssert(anIdString != nil, @"anIdString is nil");
-	int markerPos = [anIdString rangeOfString:@"#"].location;
-	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
-		
-}
-
 
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode
 {

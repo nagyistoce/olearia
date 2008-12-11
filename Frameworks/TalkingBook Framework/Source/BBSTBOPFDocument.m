@@ -101,7 +101,7 @@
 	currentPosInSpine = -1;
 	
 	// get the media format of the book.
-	[commonInstance setMediaFormatFromString:[self stringForXquery:@"//meta[@name=\"dtb:multimediaType\"]/data(@content)" ofNode:opfRoot]];
+	[commonInstance setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
 	
 	// get the dc:Format node string
 	NSString *bookFormatString = [self stringForXquery:@"dc-metadata/data(*:Format)" ofNode:metaNode];
@@ -113,13 +113,11 @@
 		self.commonInstance.bookType = DTB2002Type;
 		
 		// it may be a bookshare book 
-		// check the identifier node for a bookshare scheme attribute containing "BKSH"
-		// check if the array returned is not nil ie contains the identifier node
+		// check the identifier node for a scheme attribute containing "BKSH"
 		if([metaNode objectsForXQuery:@"dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
-		{
 			// change the book type to Bookshare
 			commonInstance.bookType = BookshareType;
-		}
+
 		
 		ncxFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:opfRoot];
 			
