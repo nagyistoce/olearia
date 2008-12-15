@@ -25,8 +25,7 @@
 
 @interface BBSTBAudioSegment ()
 
-- (void)loadStateDidChange:(NSNotification *)notification;
-- (void)updateForChapterChange:(NSNotification *)notification;
+
 
 @end
 
@@ -41,23 +40,18 @@
 	
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
-	//[[NSNotificationCenter defaultCenter] addObserver:self 
-//											 selector:@selector(updateForChapterChange:) 
-//												 name:QTMovieChapterDidChangeNotification
-//											   object:self];
 	
-//	[[NSNotificationCenter defaultCenter] addObserver:self 
-//											 selector:@selector(loadStateDidChange:) 
-//												 name:QTMovieLoadStateDidChangeNotification 
-//											   object:self];
+
 	return self;
 }
 - (void) dealloc
 {
-	
-	
 	[super dealloc];
 }
+
+
+
+
 
 
 #pragma mark -
@@ -134,25 +128,8 @@
 #pragma mark -
 #pragma mark ===== Notification Methods =====
 
-- (void)loadStateDidChange:(NSNotification *)notification
-{
-	
-	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
-	{
-		
-		// add chapters to the current audio file
-		[self addChaptersOfDuration:commonInstance.chapterSkipDuration];
-		
-		
-	}
-}
 
-- (void)updateForChapterChange:(NSNotification *)notification
-{
-	self.commonInstance.hasNextChapter = ([self chapterIndexForTime:[self currentTime]] < _totalChapters) ? YES : NO;
-	self.commonInstance.hasPreviousChapter = ([self chapterIndexForTime:[self currentTime]] > 0) ? YES : NO;
 
-}
 
 
 @synthesize commonInstance;

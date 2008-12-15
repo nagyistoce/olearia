@@ -73,6 +73,7 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 	self.hasLevelDown = NO;
 	self.hasNextSegment = NO;
 	self.hasPreviousSegment = NO;
+	self.isPlaying = NO;
 	
 }
 
@@ -137,5 +138,7 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 @synthesize hasLevelUp, hasLevelDown;
 @synthesize hasNextSegment, hasPreviousSegment;
 @synthesize chapterSkipDuration;
+@synthesize playbackRate, playbackVolume;
+@synthesize isPlaying;
 
 @end
