@@ -53,7 +53,7 @@
 
 // Bindings related
 @property (readwrite) BOOL		canPlay;
-@property (readwrite) BOOL		isPlaying;
+//@property (readwrite) BOOL		isPlaying;
 
 @end
 
@@ -306,38 +306,14 @@
 
 - (void)playAudio
 {
-	if(self.isPlaying == NO)
-	{
-		if(_smilDoc) // check if we have an audio file to play
-		{
-			[_smilDoc playAudio];
-			self.isPlaying = YES;
-		}
-		self.isPlaying = YES;
-	}
-	//else // isPlaying == YES
-//	{
-//		if(_smilDoc)
-//		{
-//			[_smilDoc pauseAudio];
-//			self.isPlaying = NO;
-//		}
-//		
-//	}
-	
-	//[self updateForPosInBook];
+	self.commonInstance.isPlaying = YES;
 }
 
 - (void)pauseAudio
 {	
-	if(_smilDoc)
-	{
-		[_smilDoc pauseAudio];
-		self.isPlaying = NO;
-	}
-	
-	self.isPlaying = NO;
+	self.commonInstance.isPlaying = NO;
 }
+
 
 #pragma mark -
 #pragma mark Navigation Methods
@@ -670,23 +646,12 @@
 #pragma mark -
 #pragma mark Overridden Attribute Methods
 
-- (void)setPlaybackRate:(float)aRate
-{
-	if(_smilDoc)
-		[_smilDoc setAudioPlayRate:aRate];
-}
-
-- (void)setPlaybackVolume:(float)aLevel
-{
-	if(_smilDoc)
-		[_smilDoc setAudioVolume:aLevel];	
-}
-
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
 	[speechSynth setVoice:aVoiceID];
 	preferredVoice = aVoiceID;
 }
+
 
 /*
 - (void)setPlayPositionID:(NSString *)aPos
@@ -717,6 +682,15 @@
 	return nowTime;
 }
 
+- (void)setAudioPlayRate:(float)aRate
+{
+	self.commonInstance.playbackRate = aRate;
+}
+
+- (void)setAudioVolume:(float)aVolumeLevel
+{
+	self.commonInstance.playbackVolume = aVolumeLevel;
+}
 #pragma mark -
 #pragma mark Private Methods
 
@@ -752,7 +726,7 @@
 	_hasWordNavigation = NO;
 	
 	self.canPlay = NO;
-	self.isPlaying = NO;
+	//self.isPlaying = NO;
 	
 	playPositionID = @"";
 	
@@ -861,13 +835,13 @@
 
 @synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, commonInstance;
 @synthesize speechSynth, preferredVoice;
-@synthesize playbackRate, playbackVolume;
+
 @synthesize _controlMode;
 @synthesize _bookBaseURL;
 @synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
 @synthesize playPositionID, audioSegmentTimePosition;
 
 //bindings
-@synthesize canPlay, isPlaying;
+@synthesize canPlay;
 
 @end

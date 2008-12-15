@@ -51,7 +51,7 @@
 	
 	BOOL			includeSkippableContent; 
 	BOOL			useSmilChapters;
-	BOOL			_isPlaying;
+
 	NSString		*currentTime;
 }
 
@@ -59,8 +59,8 @@
 //- (NSArray *)chapterMarkers;
 - (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
 - (NSString *)audioFilenameForId:(NSString *)anId;
-- (void)playAudio;
-- (void)pauseAudio;
+//- (void)playAudio;
+//- (void)pauseAudio;
 //- (BOOL)hasNextChapter;
 - (void)nextChapter;
 //- (BOOL)hasPreviousChapter;

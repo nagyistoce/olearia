@@ -38,12 +38,17 @@
 	NSString				*levelString;
 	NSInteger				currentLevel;
 	
+	float					playbackRate;
+	float					playbackVolume;
+	
 	BOOL					hasNextChapter;
 	BOOL					hasPreviousChapter;
 	BOOL					hasLevelUp;
 	BOOL					hasLevelDown;
 	BOOL					hasNextSegment;
 	BOOL					hasPreviousSegment;
+	
+	BOOL					isPlaying;
 	
 	TalkingBookType			bookType;
 	TalkingBookMediaFormat	mediaFormat;
@@ -59,6 +64,9 @@
 @property (readwrite)		NSInteger	currentLevel;
 @property (readwrite, copy)	NSString	*levelString;
 
+@property (readwrite)		float		playbackRate;
+@property (readwrite)		float		playbackVolume;
+
 @property (readwrite)		NSInteger	currentPage;
 @property (readwrite)		NSInteger	totalPages;
 @property (readwrite,copy)	NSString	*pageString;
@@ -71,6 +79,8 @@
 @property (readwrite) BOOL		hasLevelDown;
 @property (readwrite) BOOL		hasNextSegment;
 @property (readwrite) BOOL		hasPreviousSegment;
+
+@property (readwrite) BOOL		isPlaying;
 
 @property (readwrite) TalkingBookType bookType;
 @property (readwrite) TalkingBookMediaFormat mediaFormat;

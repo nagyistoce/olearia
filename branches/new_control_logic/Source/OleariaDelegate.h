@@ -46,7 +46,6 @@ extern NSString * const OleariaShouldRelaunchNotification;
 	
 	NSString			*_recentBooksPlistPath;
 	
-	BOOL				isPlaying;
 	BOOL				shouldReLaunch;
 
 	NSRect				navBoxOrigSize;

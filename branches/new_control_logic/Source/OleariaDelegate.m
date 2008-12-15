@@ -90,12 +90,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	// set the defaults before any book is loaded
 	// these defaults will change after the book is loaded
-	talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
-	talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
+	talkingBook.commonInstance.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
+	talkingBook.commonInstance.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
 	talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
 	[talkingBook updateSkipDuration:[_userSetDefaults floatForKey:OleariaChapterSkipIncrement]];
-	
-	isPlaying = NO;
 	
 	validFileTypes = [[NSArray alloc] initWithObjects:@"opf",@"ncx",@"html",nil];
 	
@@ -198,15 +196,15 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	BOOL bookLoaded = NO;
 	
-	if(isPlaying)
+	if(talkingBook.commonInstance.isPlaying)
 	{
-		isPlaying = NO;
+		talkingBook.commonInstance.isPlaying = NO;
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
 		NSImage *tempImage = [playPauseButton image];
 		[playPauseButton setImage:[playPauseButton alternateImage]];
 		[playPauseButton setAlternateImage:tempImage];
-		[talkingBook pauseAudio];
+		//[talkingBook pauseAudio];
 	}
 	
 	// get the position of the selected book from the recent books menu and
@@ -238,9 +236,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (IBAction)PlayPause:(id)sender
 {
-	if(isPlaying == NO)
+	if(talkingBook.commonInstance.isPlaying == NO)
 	{
-		// set the button stat and menuitem title 
+		// set the button status and menuitem title 
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Pause         <space>",@"menu item pause string")];
 		[[playPauseMenuItem menu] sizeToFit];
 		
@@ -250,7 +248,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[playPauseButton setImage:[playPauseButton alternateImage]];
 		[playPauseButton setAlternateImage:tempImage];
 				
-		isPlaying = YES;
+		talkingBook.commonInstance.isPlaying = YES;
 				
 		[talkingBook playAudio];
 	}
@@ -259,7 +257,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
 		[[playPauseMenuItem menu] sizeToFit];
 	
-		isPlaying = NO;
+		talkingBook.commonInstance.isPlaying = NO;
 		
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
@@ -269,8 +267,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		
 		[talkingBook pauseAudio];
 		
-		[playPauseMenuItem setEnabled:YES];
-		[playPauseButton setEnabled:YES];
 	}
 }
 
@@ -289,7 +285,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// check if we traversed to the next segment ok
 	if(YES == [talkingBook nextSegmentOnLevel])
 	{
-		[talkingBook playAudio];
+		//[talkingBook playAudio];
 	}
 
 }
@@ -299,7 +295,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// check if we traversed to the previous segment ok
 	if(YES == [talkingBook previousSegment]);
 	{
-		[talkingBook playAudio];
+		//[talkingBook playAudio];
 	}
 }
 
@@ -338,14 +334,15 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[talkingBook showBookInfo];
 }
 
+
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	
-	talkingBook.playbackRate = [sender floatValue]; 
+	[talkingBook setAudioPlayRate:[sender floatValue]]; 
 }
 
 - (IBAction)setPlaybackVolume:(NSSlider *)sender
 {
-	talkingBook.playbackVolume = [sender floatValue];
+	[talkingBook setAudioVolume:[sender floatValue]];
 }
 
 
@@ -408,9 +405,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	// stop playing if we are playing
-	if(talkingBook.isPlaying)
-		[talkingBook pauseAudio];
-
+	if(talkingBook.commonInstance.isPlaying)
+		//[talkingBook pauseAudio];
+		talkingBook.commonInstance.isPlaying = NO;
+	
 	// update the current settings of the currently (if any) open Book
 	[self updateRecentBooks:nil updateCurrentBookSettings:talkingBook.bookIsAlreadyLoaded];
 	
@@ -438,9 +436,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	if(returnCode == NSOKButton)
 	{	
-		if(isPlaying)
+		if(talkingBook.commonInstance.isPlaying)
 		{
-			isPlaying = NO;
+			talkingBook.commonInstance.isPlaying = NO;
 			// we switch the images like this to allow for differences between names when using normal 
 			// or high contrast icons.
 			NSImage *tempImage = [playPauseButton image];
@@ -667,8 +665,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:0]];
 		
 		// get the current settings from the book and save them to the recent files list
-		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackRate] forKey:@"Rate"];
-		[oldSettings setValue:[NSNumber numberWithFloat:self.talkingBook.playbackVolume] forKey:@"Volume"];
+		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.commonInstance.playbackRate] forKey:@"Rate"];
+		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.commonInstance.playbackVolume] forKey:@"Volume"];
 		[oldSettings setValue:talkingBook.preferredVoice forKey:@"Voice"];
 		[oldSettings setValue:talkingBook.playPositionID forKey:@"PlayPosition"];
 		[oldSettings setValue:talkingBook.audioSegmentTimePosition forKey:@"TimePosition"];
@@ -692,8 +690,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			
 			
 			// set the newly loaded book to the settings that were saved for it	
-			talkingBook.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
-			talkingBook.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
+			talkingBook.commonInstance.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
+			talkingBook.commonInstance.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
 			talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			if(nil != [newSettings valueForKey:@"PlayPosition"])
@@ -741,8 +739,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES]; // save the newly added book
 			
 			// set the book to the defaults set in the preferences	
-			talkingBook.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
-			talkingBook.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
+			talkingBook.commonInstance.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
+			talkingBook.commonInstance.playbackVolume = [_userSetDefaults floatForKey:OleariaPlaybackVolume];
 			talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
@@ -829,10 +827,11 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		if(nil != controlFilePath)
 		{
 			// check if we are playing a book
-			if(talkingBook.isPlaying)
+			if(talkingBook.commonInstance.isPlaying)
 			{
 				// pause the audio to make the user take notice of the dialog
-				[talkingBook pauseAudio];
+				//[talkingBook pauseAudio];
+				talkingBook.commonInstance.isPlaying = NO;
 			}
 			
 			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Book on Removable Media Found", @"removable media open alert short msg") 

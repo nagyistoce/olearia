@@ -38,13 +38,9 @@ typedef enum
 {
 	// book user settings
 	NSString				*preferredVoice;
-	float					playbackRate;
-	float					playbackVolume;
-//	float					chapterSkipIncrement;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsAlreadyLoaded;
-//	BOOL					shouldJumpToTime;
 	NSString				*audioSegmentTimePosition;
 	
 	NSSpeechSynthesizer		*speechSynth;
@@ -52,14 +48,6 @@ typedef enum
 	TalkingBookType			_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
-//	TalkingBookMediaFormat  _mediaFormat;
-	
-//	NSInteger				maxLevels;
-//	NSInteger				_totalChapters;
-//	NSInteger				_currentLevelIndex;
-//	NSInteger				_currentChapterIndex;
-//	NSInteger				bookFormatType;
-	//NSInteger				currentLevel;
 	
 	id						_textDoc;
 	id						_smilDoc;
@@ -82,7 +70,6 @@ typedef enum
 	BOOL					_hasWordNavigation;
 
 	// bindings
-	BOOL					isPlaying;
 	BOOL					canPlay;
 
 }
@@ -106,12 +93,12 @@ typedef enum
 - (void)showBookInfo;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
+- (void)setAudioPlayRate:(float)aRate;
+- (void)setAudioVolume:(float)aVolumeLevel;
 
 @property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
 
 @property (readwrite, copy)		NSString	*preferredVoice;
-@property (readwrite)			float		playbackRate;
-@property (readwrite)			float		playbackVolume;
 @property (readwrite, copy)		NSString	*playPositionID;
 
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
@@ -120,7 +107,5 @@ typedef enum
 @property (readwrite, copy)		NSString	*audioSegmentTimePosition;
 
 @property (readonly) BOOL		canPlay;
-@property (readonly) BOOL		isPlaying;
-
 
 @end

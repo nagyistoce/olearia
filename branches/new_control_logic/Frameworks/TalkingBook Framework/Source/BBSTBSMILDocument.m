@@ -68,8 +68,6 @@
 	
 	_currentFileURL = [[NSURL alloc] init];
 	
-	_isPlaying = NO;
-	
 	_parNodes = [[NSArray alloc] init]; 
 	_parNodeIndexes = [[ NSDictionary alloc] init];
 	
@@ -89,6 +87,28 @@
 												 name:QTMovieDidEndNotification 
 											   object:_currentAudioFile];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(updateForChapterChange:) 
+												 name:QTMovieChapterDidChangeNotification 
+											   object:_currentAudioFile];
+	
+	[commonInstance addObserver:self
+					 forKeyPath:@"playbackRate" 
+						options:NSKeyValueObservingOptionNew
+						context:NULL]; 
+	
+	[commonInstance addObserver:self
+					 forKeyPath:@"playbackVolume" 
+						options:NSKeyValueObservingOptionNew
+						context:NULL]; 
+	
+	[commonInstance addObserver:self
+					 forKeyPath:@"isPlaying"
+						options:NSKeyValueObservingOptionNew
+						context:NULL];
+	
+	
+	
 	return self;
 }
 
@@ -103,6 +123,10 @@
 		[_xmlSmilDoc release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[commonInstance removeObserver:self forKeyPath:@"playbackRate"];
+	[commonInstance removeObserver:self forKeyPath:@"playbackVolume"];
+	[commonInstance removeObserver:self forKeyPath:@"isPlaying"];
 	
 	if(_currentAudioFile)
 		[_currentAudioFile release];
@@ -199,6 +223,7 @@
 	return nil;
 }
 
+/*
 - (void)playAudio
 {
 	[_currentAudioFile play];
@@ -210,6 +235,7 @@
 	[_currentAudioFile stop];
 	_isPlaying = NO;
 }
+ */
 //
 //- (BOOL)hasNextChapter
 //{
@@ -244,36 +270,9 @@
 	[_currentAudioFile setCurrentTime:QTTimeFromString(aTimeString)];
 }
 
-- (float)audioPlayRate
-{
-	return [_currentAudioFile rate];
-}
 
-- (void)setAudioPlayRate:(float)aRate
-{
-	if(!_isPlaying) 
-	{	
-		// this is a workaround for the current issue where setting the 
-		// playback speed using setRate: automatically starts playback
-		[_currentAudioFile stop];
-		[_currentAudioFile setAttribute:[NSNumber numberWithFloat:aRate] forKey:QTMoviePreferredRateAttribute];
-	}
-	else
-	{
-		[_currentAudioFile setRate:aRate];
-	}
-	
-}
 
-- (float)audioVolume
-{
-	return [_currentAudioFile volume];
-}
-	
-- (void)setAudioVolume:(float)aVolume
-{
-	[_currentAudioFile setVolume:aVolume];
-}
+
 
 #pragma mark -
 #pragma mark ========= Private Methods =========
@@ -382,11 +381,21 @@
 
 - (void)setPreferredAudioAttributes
 {
-//	[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
-//	[_currentAudioFile setAttribute:[NSNumber numberWithFloat:[audioAttributes valueForKey:@"]] forKey:QTMoviePreferredVolumeAttribute];
-//	[currentAudioFile setVolume:self.playbackVolume];
-//	[currentAudioFile setAttribute:[NSNumber numberWithFloat:self.playbackRate] forKey:QTMoviePreferredRateAttribute];
-//	[currentAudioFile setDelegate:self];
+	[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
+	[_currentAudioFile setAttribute:[NSNumber numberWithFloat:commonInstance.playbackVolume] forKey:QTMoviePreferredVolumeAttribute];
+	[_currentAudioFile setVolume:commonInstance.playbackVolume];
+	if(!commonInstance.isPlaying)
+	{	
+		[_currentAudioFile setAttribute:[NSNumber numberWithFloat:commonInstance.playbackRate] forKey:QTMoviePreferredRateAttribute];
+		[_currentAudioFile stop];
+	}
+	else
+	{	
+		[_currentAudioFile setAttribute:[NSNumber numberWithFloat:commonInstance.playbackRate] forKey:QTMoviePreferredRateAttribute];
+		[_currentAudioFile setRate:commonInstance.playbackRate];
+	}
+	
+	[_currentAudioFile setDelegate:self];
 }
 
 - (BOOL)updateAudioFile:(NSString *)pathToFile
@@ -400,8 +409,8 @@
 			[_currentAudioFile stop]; // pause the playback if there is any currently playing
 			
 			_currentAudioFile = nil;
+		
 			_currentAudioFile = [QTMovie movieWithFile:pathToFile error:&theError];
-			
 			
 			if(_currentAudioFile != nil)
 			{
@@ -412,7 +421,7 @@
 				{
 					[[NSNotificationCenter defaultCenter] postNotificationName:QTMovieLoadStateDidChangeNotification object:_currentAudioFile];
 				}
-
+				
 				loadedOK = YES;
 			}
 		}
@@ -474,7 +483,7 @@
 
 - (void)audioFileDidEnd:(NSNotification *)notification
 {
-	
+	NSLog(@"audio file did end");
 }
 
 
@@ -485,6 +494,11 @@
 		// work out how to add the chapter mechanism
 		if((commonInstance.mediaFormat != AudioOnlyMediaFormat) && (commonInstance.mediaFormat != AudioNcxOrNccMediaFormat))
 		{
+			if(!_idChapterMarkers)
+				_idChapterMarkers = [[NSMutableArray alloc] init];
+			
+			[_idChapterMarkers removeAllObjects];
+			
 			// for books with text content we have to add chapters which mark where the text content changes
 			[self makeIdChapterMarkersForCurrentAudio];
 			NSError *theError = nil;
@@ -502,12 +516,48 @@
 			NSLog(@"now has %d chapters",[_currentAudioFile chapterCount]);
 		}
 		
-		
+		[self setPreferredAudioAttributes];
 		
 	}
 	
 
 }
+
+- (void)updateForChapterChange:(NSNotification *)notification
+{
+	self.commonInstance.hasNextChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] < [_currentAudioFile chapterCount]) ? YES : NO;
+	self.commonInstance.hasPreviousChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] > 0) ? YES : NO;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	//NSLog(@"keypath %@",keyPath);
+	if([keyPath isEqualToString:@"isPlaying"])
+		(commonInstance.isPlaying) ? [_currentAudioFile play] : [_currentAudioFile stop];
+	else if([keyPath isEqualToString:@"playbackVolume"])
+		[_currentAudioFile setVolume:commonInstance.playbackVolume];
+	else if([keyPath isEqualToString:@"playbackRate"])
+	{
+		if(!commonInstance.isPlaying) 
+		{	
+			// this is a workaround for the current issue where setting the 
+			// playback speed using setRate: automatically starts playback
+			[_currentAudioFile setAttribute:[NSNumber numberWithFloat:commonInstance.playbackRate] forKey:QTMoviePreferredRateAttribute];
+			[_currentAudioFile stop];
+		}
+		else
+		{	
+			[_currentAudioFile setAttribute:[NSNumber numberWithFloat:commonInstance.playbackRate] forKey:QTMoviePreferredRateAttribute];
+			[_currentAudioFile setRate:commonInstance.playbackRate];
+		}
+	}
+	else
+		[super observeValueForKeyPath:keyPath
+							 ofObject:object
+							   change:change
+							  context:context];
+}
+
 
 
 @synthesize  _idChapterMarkers, idToStartFrom, idToFinishWith;
