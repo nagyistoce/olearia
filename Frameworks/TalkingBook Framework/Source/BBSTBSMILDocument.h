@@ -20,31 +20,29 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <QTKit/QTKit.h>
+#import <QTKit/QTTime.h>
 
 @class BBSTBAudioSegment, BBSTBCommonDocClass;
 
 @interface BBSTBSMILDocument : NSObject 
 {
-		
 	
-	NSURL			*_currentFilePath;
+	NSXMLNode		*_currentNode;
+	NSMutableArray  *_idChapterMarkers;
+	NSString		*idToStartFrom;
+	NSString		*idToFinishWith;
+	NSURL			*_currentFileURL;
 	
 	//NSDictionary	*smilContent;
 	//NSArray			*smilContent;
 	//NSString		*xmlContentFilename;
 	NSDictionary	*smilChapterData;
-	//NSString		*filename;
 	NSArray			*_parNodes;
 	NSDictionary	*_parNodeIndexes;
 	
 	NSXMLDocument		*_xmlSmilDoc;
 	BBSTBAudioSegment	*_currentAudioFile;
 	BBSTBCommonDocClass *commonInstance;
-	BOOL				_isPlaying;
-	QTTime				skipDuration;
-	
-	
 	
 	// public ivars
 	float			audioPlayRate; 
@@ -53,6 +51,7 @@
 	
 	BOOL			includeSkippableContent; 
 	BOOL			useSmilChapters;
+	BOOL			_isPlaying;
 	NSString		*currentTime;
 }
 
@@ -68,11 +67,16 @@
 - (void)previousChapter;
 - (void)setChapterSkipDuration:(QTTime)aDuration;
 
-@property (readwrite)			float				audioPlayRate;
-@property (readwrite)			float				audioVolume;
-@property (readwrite)			QTTime				chapterSkipDuration;
-@property (readwrite)			BOOL				includeSkippableContent;
-@property (readwrite)			BOOL				useSmilChapters;
-@property (readwrite, copy)		NSString			*currentTimeString;
+@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
+
+@property (readwrite)			float		audioPlayRate;
+@property (readwrite)			float		audioVolume;
+@property (readwrite)			QTTime		chapterSkipDuration;
+@property (readwrite)			BOOL		includeSkippableContent;
+@property (readwrite)			BOOL		useSmilChapters;
+@property (readwrite, copy)		NSString	*currentTimeString;
+@property (readwrite, copy)		NSString	*idToStartFrom;
+@property (readwrite, copy)		NSString	*idToFinishWith;
+
 
 @end

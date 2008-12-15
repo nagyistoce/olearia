@@ -41,15 +41,15 @@
 	
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(updateForChapterChange:) 
-												 name:QTMovieChapterDidChangeNotification
-											   object:self];
+	//[[NSNotificationCenter defaultCenter] addObserver:self 
+//											 selector:@selector(updateForChapterChange:) 
+//												 name:QTMovieChapterDidChangeNotification
+//											   object:self];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(loadStateDidChange:) 
-												 name:QTMovieLoadStateDidChangeNotification 
-											   object:self];
+//	[[NSNotificationCenter defaultCenter] addObserver:self 
+//											 selector:@selector(loadStateDidChange:) 
+//												 name:QTMovieLoadStateDidChangeNotification 
+//											   object:self];
 	return self;
 }
 - (void) dealloc
@@ -107,6 +107,15 @@
 
 }
 
+- (BOOL)nextChapterIsAvail
+{
+	return ([self chapterIndexForTime:[self currentTime]] < _totalChapters);
+}
+
+- (BOOL)prevChapterIsAvail
+{
+	return ([self chapterIndexForTime:[self currentTime]] > 0);
+}
 
 - (void)jumpToNextChapter
 {
@@ -119,6 +128,8 @@
 	NSAssert(([self chapterIndexForTime:[self currentTime]]+1) < _totalChapters,@"trying to go before the first chapter");
 	[self setCurrentTime:[self startTimeOfChapter:([self chapterIndexForTime:[self currentTime]]-1)]];
 }
+
+
 
 #pragma mark -
 #pragma mark ===== Notification Methods =====

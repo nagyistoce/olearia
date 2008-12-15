@@ -54,13 +54,6 @@
 
 @implementation BBSTBOPFDocument
 
-@synthesize spine,manifest,tour,guide;
-
-@synthesize currentPosInSpine;
-@synthesize metaDataNode;
-
-@synthesize ncxFilename, xmlTextContentFilename;
-
 - (id) init
 {
 	if (!(self=[super init])) return nil;
@@ -100,7 +93,10 @@
 	self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
 	currentPosInSpine = -1;
 	
-	// get the media format of the book.
+	// ends-with is used extensively here to avoid issues if the namespaces attached to the content 
+	// ever change
+	
+	// get the media format of the book. 
 	[commonInstance setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
 	
 	// get the dc:Format node string
@@ -123,8 +119,6 @@
 			
 		// now check for the xml content filename
 		xmlContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.xml')] /data(@href)" ofNode:opfRoot];
-					
-		
 	}
 	// check for DTB 2005 spec identifier
 	else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
@@ -270,7 +264,6 @@
 	}
 	
 	return nil;
-
 }
 
 
@@ -376,6 +369,13 @@
 	
 	return tourContents;
 }
+
+@synthesize spine,manifest,tour,guide;
+
+@synthesize currentPosInSpine;
+@synthesize metaDataNode;
+
+@synthesize ncxFilename, xmlTextContentFilename;
 
 
 

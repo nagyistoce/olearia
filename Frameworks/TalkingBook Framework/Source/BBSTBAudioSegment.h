@@ -30,14 +30,15 @@
 	NSInteger _totalChapters;
 	
 	BBSTBCommonDocClass		*commonInstance;
+	
 }
 
-//- (BOOL)nextChapterIsAvail;
-//- (BOOL)prevChapterIsAvail;
+- (BOOL)nextChapterIsAvail;
+- (BOOL)prevChapterIsAvail;
 - (void)jumpToNextChapter;
 - (void)jumpToPrevChapter;
 - (void)addChaptersOfDuration:(QTTime)aDuration;
 
-@property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
+@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
 
 @end
