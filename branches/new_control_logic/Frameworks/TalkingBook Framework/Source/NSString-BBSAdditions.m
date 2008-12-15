@@ -27,9 +27,9 @@
 
 @implementation NSString (BBSAdditions)
 
-- (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString
++ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString
 {
-	NSString *qtFormattedString = nil;
+
 	NSInteger hours = 0, minutes = 0, seconds = 0, fractions = 0;
 	
 	// check for a specifically set timescale first
@@ -122,16 +122,13 @@
 		}
 	}
 	// no Days so use 00
-	qtFormattedString = [NSString stringWithFormat:@"00:%d:%d:%d.%d", hours, minutes, seconds, fractions];
-	return qtFormattedString;
+	return [self stringWithFormat:@"00:%d:%d:%d.%d", hours, minutes, seconds, fractions];
+
 }
 
-- (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale
++ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale
 {
-	NSMutableString *qtTimeString = [NSMutableString stringWithString:[self qtTimeStringFromSmilTimeString:aTimeString]];
-	[qtTimeString stringByAppendingFormat:@"/%ld",aTimeScale];
-	
-	return qtTimeString;
+	return [self stringWithFormat:@"%@/%ld",[self qtTimeStringFromSmilTimeString:aTimeString], aTimeScale];
 }
 
 
