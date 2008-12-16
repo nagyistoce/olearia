@@ -96,6 +96,7 @@
 		modalDelegate:nil
 	   didEndSelector:nil
 		  contextInfo:nil];
+	
 }
 
 - (IBAction)hideLicense:(NSButton *)sender
