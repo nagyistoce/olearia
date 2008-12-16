@@ -198,13 +198,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	if(talkingBook.commonInstance.isPlaying)
 	{
-		talkingBook.commonInstance.isPlaying = NO;
+		[talkingBook pauseAudio];
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
 		NSImage *tempImage = [playPauseButton image];
 		[playPauseButton setImage:[playPauseButton alternateImage]];
 		[playPauseButton setAlternateImage:tempImage];
-		//[talkingBook pauseAudio];
 	}
 	
 	// get the position of the selected book from the recent books menu and

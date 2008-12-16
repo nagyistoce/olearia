@@ -9,7 +9,6 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="315"/>
-			<integer value="956"/>
 			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -788,7 +787,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 													<int key="NSfFlags">16</int>
 												</object>
 												<reference key="NSControlView" ref="572828041"/>
-												<int key="NSButtonFlags">138690815</int>
+												<int key="NSButtonFlags">-2042347265</int>
 												<int key="NSButtonFlags2">130</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
@@ -1311,6 +1310,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 								<object class="NSMenuItem" id="1048411460">
 									<reference key="NSMenu" ref="311610927"/>
 									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsHidden">YES</bool>
 									<string type="base64-UTF8" key="NSTitle">R28gdG8gUGFnZeKApg</string>
 									<string key="NSKeyEquiv">g</string>
 									<int key="NSKeyEquivModMask">1048576</int>
@@ -1422,6 +1422,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 104}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="200395421">
 							<int key="NSCellFlags">-1543110912</int>
@@ -1448,6 +1449,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{175, 138}, {65, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="203774473">
 							<int key="NSCellFlags">68288064</int>
@@ -1464,6 +1466,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{158, 77}, {113, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="252880672">
 							<int key="NSCellFlags">68288064</int>
@@ -1480,6 +1483,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{242, 138}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="139382963">
 							<int key="NSCellFlags">68288064</int>
@@ -1571,6 +1575,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{273, 77}, {25, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="88537448">
 							<int key="NSCellFlags">68288064</int>
@@ -1653,6 +1658,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 43}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="755523758">
 							<int key="NSCellFlags">604372736</int>
@@ -1673,6 +1679,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -1761,14 +1768,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="402644559"/>
 					</object>
 					<int key="connectionID">212</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">currentPageTextfield</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="559037786"/>
-					</object>
-					<int key="connectionID">615</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1875,54 +1874,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<int key="connectionID">687</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">upLevelMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="280615846"/>
-					</object>
-					<int key="connectionID">688</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">downLevelMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="257890739"/>
-					</object>
-					<int key="connectionID">689</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextSegmentMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="569294429"/>
-					</object>
-					<int key="connectionID">690</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">prevSegmentMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="153666750"/>
-					</object>
-					<int key="connectionID">691</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">fastForwardMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="671725080"/>
-					</object>
-					<int key="connectionID">692</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">fastBackMenuItem</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="710170702"/>
-					</object>
-					<int key="connectionID">693</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">nextSegment:</string>
 						<reference key="source" ref="402644559"/>
@@ -2001,14 +1952,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="887495891"/>
 					</object>
 					<int key="connectionID">717</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">segmentTitleTextfield</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="78723870"/>
-					</object>
-					<int key="connectionID">793</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2161,22 +2104,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="697057443"/>
 					</object>
 					<int key="connectionID">1144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">playbackVolumeSlider</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="399801161"/>
-					</object>
-					<int key="connectionID">1148</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">playbackSpeedSlider</string>
-						<reference key="source" ref="402644559"/>
-						<reference key="destination" ref="758452174"/>
-					</object>
-					<int key="connectionID">1149</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3048,6 +2975,472 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1523</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.isPlaying</string>
+						<reference key="source" ref="44108939"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="44108939"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled: selection.isPlaying</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1527</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="160943319"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="160943319"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1530</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="280615846"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="825700809">
+							<reference key="NSSource" ref="280615846"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1532</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="257890739"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="298256828">
+							<reference key="NSSource" ref="257890739"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1533</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="569294429"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="412339715">
+							<reference key="NSSource" ref="569294429"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1534</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="153666750"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="549129033">
+							<reference key="NSSource" ref="153666750"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1535</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="671725080"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="140005280">
+							<reference key="NSSource" ref="671725080"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1536</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="710170702"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="772952476">
+							<reference key="NSSource" ref="710170702"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="1048411460"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector" id="872237014">
+							<reference key="NSSource" ref="1048411460"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1538</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="787152904"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="787152904"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1539</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="355040709"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="355040709"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1540</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="168438454"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="168438454"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1541</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="279293236"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="279293236"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1542</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="550239071"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="550239071"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1543</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="280615846"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="280615846"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="825700809"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1547</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="257890739"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="257890739"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="298256828"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1548</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="569294429"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="569294429"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="412339715"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1549</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="153666750"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="153666750"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="549129033"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1550</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="671725080"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="671725080"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="140005280"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1551</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="710170702"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="710170702"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="772952476"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1552</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.isPlaying</string>
+						<reference key="source" ref="1048411460"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1048411460"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">enabled2: selection.isPlaying</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+									<reference ref="7"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="872237014"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1553</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3156,8 +3549,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="785733105"/>
-							<reference ref="572828041"/>
 							<reference ref="486881740"/>
+							<reference ref="572828041"/>
 						</object>
 						<reference key="parent" ref="865623825"/>
 					</object>
@@ -4125,7 +4518,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{317, 783}, {64, 6}}</string>
+					<string>{{460, 777}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4709,7 +5102,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1523</int>
+			<int key="maxID">1559</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4798,68 +5191,42 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>bookmarkButton</string>
-							<string>currentLevelTextfield</string>
-							<string>currentPageTextfield</string>
 							<string>downLevelButton</string>
-							<string>downLevelMenuItem</string>
 							<string>fastBackButton</string>
-							<string>fastBackMenuItem</string>
 							<string>fastForwardButton</string>
-							<string>fastForwardMenuItem</string>
 							<string>gotoPageButton</string>
 							<string>infoButton</string>
 							<string>mainWindow</string>
 							<string>minimizeMenuItem</string>
 							<string>nextButton</string>
-							<string>nextSegmentMenuItem</string>
 							<string>playPauseButton</string>
 							<string>playPauseMenuItem</string>
-							<string>playbackSpeedSlider</string>
-							<string>playbackSpeedTextfield</string>
-							<string>playbackVolumeSlider</string>
-							<string>playbackVolumeTextfield</string>
 							<string>prevButton</string>
-							<string>prevSegmentMenuItem</string>
 							<string>recentBooksMenu</string>
-							<string>segmentTitleTextfield</string>
 							<string>soundView</string>
 							<string>toolsBox</string>
 							<string>toolsView</string>
 							<string>upLevelButton</string>
-							<string>upLevelMenuItem</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSButton</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSWindow</string>
 							<string>NSMenuItem</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
-							<string>NSSlider</string>
-							<string>NSTextField</string>
-							<string>NSSlider</string>
-							<string>NSTextField</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 							<string>NSMenu</string>
-							<string>NSTextField</string>
 							<string>NSView</string>
 							<string>NSBox</string>
 							<string>NSView</string>
 							<string>NSButton</string>
-							<string>NSMenuItem</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
