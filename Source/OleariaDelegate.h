@@ -68,22 +68,7 @@ extern NSString * const OleariaShouldRelaunchNotification;
 	IBOutlet NSButton		*bookmarkButton;
 	IBOutlet NSButton		*gotoPageButton;
 	
-	IBOutlet NSTextField	*currentLevelTextfield;
-	IBOutlet NSTextField	*currentPageTextfield;
-	IBOutlet NSTextField	*segmentTitleTextfield;
-	
-	IBOutlet NSSlider		*playbackSpeedSlider;
-	IBOutlet NSSlider		*playbackVolumeSlider;
-	IBOutlet NSTextField	*playbackSpeedTextfield;
-	IBOutlet NSTextField	*playbackVolumeTextfield;
-
 	IBOutlet NSMenuItem		*playPauseMenuItem;
-	IBOutlet NSMenuItem		*upLevelMenuItem;
-	IBOutlet NSMenuItem		*downLevelMenuItem;
-	IBOutlet NSMenuItem		*nextSegmentMenuItem;
-	IBOutlet NSMenuItem		*prevSegmentMenuItem;
-	IBOutlet NSMenuItem		*fastForwardMenuItem;
-	IBOutlet NSMenuItem		*fastBackMenuItem;
 	IBOutlet NSMenuItem		*minimizeMenuItem;
 	IBOutlet NSMenu			*recentBooksMenu;
 	
