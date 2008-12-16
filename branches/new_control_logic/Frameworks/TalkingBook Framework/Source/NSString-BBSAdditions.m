@@ -19,11 +19,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #import "NSString-BBSAdditions.h"
 #import "RegexKitLite.h"
 
-#define TIMECODEREGEX @"(?:(\\d?\\d):)?(?:(\\d?\\d):)?(?:(\\d?\\d))(?:\\.(\\d\\d?\\d?))?"
+#define TIMECODEREGEX @"(?:(^\\d\\d?):(\\d\\d?):|(^\\d\\d?):)?(\\d*)(?:\\.(\\d{1,3}))?"
 
 @implementation NSString (BBSAdditions)
 
@@ -37,7 +36,7 @@
 	{
 		// we have a specific timescaled clock-value
 		
-		NSInteger  value;
+		NSInteger  capt4=0,capt5=0;
 		long long totalTimeInSeconds = 0;
 		// get the values from the string
 
@@ -49,15 +48,15 @@
 			matchedRange = [aTimeString rangeOfRegex:@"(h|min|ms)|(s)" capture:2];
 		NSString *scaleStr = [aTimeString substringWithRange:matchedRange];
 		
-		// get the value so we can work with it
-		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:3]; // get the value if any 
-		value = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+		// get the fourth capture value -- usually seconds 
+		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:4]; // get the value if any 
+		capt4 = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
 		
-		// get the fractional value
-		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:4]; // get the fraction if any
-		fractions = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
-		
-		//we check for miliseconds as a default specifier
+		// get the fractional value if it exists
+		matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:5]; // get the fraction if any
+		capt5 = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+				
+		// check for miliseconds as a default specifier
 		if(NO == [scaleStr isEqualToString:@"ms"])
 		{
 			// check the multiplier
@@ -66,39 +65,39 @@
 				
 				if((fractions != 0) && (fractions > 999)) // check if there was a milisecond value larger than 1 second
 				{
-					totalTimeInSeconds = (NSInteger)(fractions / 1000);
+					totalTimeInSeconds = (NSInteger)(capt5 / 1000);
 					fractions = fractions % 1000; // leftover milliseconds 
 				}
-				totalTimeInSeconds = totalTimeInSeconds + value;  // total number of whole seconds 
+				totalTimeInSeconds = totalTimeInSeconds + capt4;  // total number of whole seconds 
 			}
 			else if(YES == [scaleStr isEqualToString:@"min"]) // minutes
 			{
 				// 60 seconds in a minute
-				totalTimeInSeconds = (60 * value) + (fractions * 60);  
+				totalTimeInSeconds = (60 * capt4) + (capt5 * 60);  
 				fractions = 0; // we have added the seconds to the total time so set this to 0
 			}
 			else // scaleStr == "h" for hours
 			{
 				// 60 Secs * 60 Mins = 3600 seconds in an hour
-				totalTimeInSeconds = (3600 * value) + (fractions * 60); 
+				totalTimeInSeconds = (3600 * capt4) + (capt5 * 60); 
 			}
 		}
 		else  // scaleStr 
 		{
-			if(value < 1000) // milliseconds value less than 1 second?
+			if(capt4 < 1000) // milliseconds value less than 1 second?
 			{
-				totalTimeInSeconds = (int)(value * 10);
-				fractions = (int)(fractions * 10); // leftover milliseconds 
+				totalTimeInSeconds = (int)(capt4 * 10);
+				fractions = (int)(capt5 * 10); // leftover milliseconds 
 			}
-			else
-			{	
-				totalTimeInSeconds = (int)((value * 10) / 1000);
-				fractions = (int)((value * 10) % 1000) + (int)(fractions * 10); // leftover milliseconds 
+			else 
+			{	// more than 1 second of milliseconds 
+				totalTimeInSeconds = (int)(capt4 / 1000);
+				fractions = (int)(capt4 % 1000) + (int)(capt5 * 10); // leftover milliseconds 
 			}
 		}
 		hours = totalTimeInSeconds / 3600; 
 		minutes = (totalTimeInSeconds / 3600) % 60; 
-		seconds = totalTimeInSeconds % 60;
+		seconds = ((totalTimeInSeconds / 3600) % 60) % 60;
 	}
 	else 
 	{	
@@ -107,17 +106,27 @@
 		{
 			NSRange matchedRange = NSMakeRange(NSNotFound, 0); // setup the range
 			
-			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:1]; // check for the hours
-			hours = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
-			
-			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:2]; // check for the minutes
-			minutes = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
-			
-			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:3]; // check for seconds
+			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:4]; // seconds
 			seconds = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
 			
-			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:4]; // check for fractions of a second
+			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:5]; // fractions
 			fractions = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+			
+			// get the third capture value --  usually minutes
+			matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:3];
+			if(NSNotFound == matchedRange.location)
+			{	 
+				// if there is not third capture we may have hours and minutes
+				// which due to the way the regex works get moved to positions 1 and 2 and 3 is empty
+				matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:1]; // get the value if any 
+				hours = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+				matchedRange = [aTimeString rangeOfRegex:TIMECODEREGEX capture:2]; // get the value if any 
+				minutes = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+			}
+			else // get the value of the third capture value 
+				minutes = (matchedRange.location != NSNotFound) ? [[aTimeString substringWithRange:matchedRange] intValue] : 0;
+			
+			
 			
 		}
 	}
