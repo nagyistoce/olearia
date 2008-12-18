@@ -22,12 +22,12 @@
 // document type Names
 #define NCX_Document_Type_Name  @"Talking Book Navigation Control Document"
 #define OPF_Document_Type_Name @"IDPF Package Document"
-#define SMIL_Document_Type_Name @"SMIL Audio Playback Control Document"
+#define SMIL_Document_Type_Name @"SMIL Multimedia Control Document"
 
 #define DTB_Short_Description @"Daisy Talking Book"
 #define BOOKSHARE_Short_Description @"Bookshare Talking Book"
 
-#define BBSTBClipBeginKey @"clipBegin"
+//#define BBSTBClipBeginKey @"clipBegin"
 
 
 typedef enum 
