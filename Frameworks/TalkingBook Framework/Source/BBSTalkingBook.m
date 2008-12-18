@@ -119,24 +119,29 @@
 	NSURL *fileURL; 
 	// check the extension first
 	NSString *filename = [[NSString alloc] initWithString:[aURL path]];
-	
-	// do a sanity check to see if the user chose a NCX file and there 
-	// is actually an OPF file available
-	
+
 	// check for an ncx file first
 	if([self typeOfControlDoc:aURL] == ncxControlDocType)
-	{
-		// we assume that the opf file has the same filename as the ncx file sans extension
+	{	
+		// do a sanity check to see if the user chose a NCX file and there 
+		// is actually an OPF file available
 		NSFileManager *fm = [NSFileManager defaultManager];
-		// delete the extension from the NCX filename
-		NSMutableString *opfFilePath = [[NSMutableString alloc] initWithString:[filename stringByDeletingPathExtension]];
-		// add the OPF extension to the filename
-		[opfFilePath appendString:@".opf"];
-		// check if the filename exists
-		if ([fm fileExistsAtPath:opfFilePath] )
+		// check if an OPF file exists 
+		NSString *opfFilename = nil;
+		NSArray *folderContents = [fm directoryContentsAtPath:[[aURL path] stringByDeletingLastPathComponent]];
+		for(NSString *aPath in folderContents)
+		{
+			if([[[aPath pathExtension] lowercaseString] isEqualToString:@"opf"])
+			{	
+				opfFilename = aPath;
+				break;
+			}
+		}
+		
+		if (opfFilename)
 		{	
 			// it exists so make a url of it
-			fileURL = [[NSURL alloc] initFileURLWithPath:opfFilePath];
+			fileURL = [[NSURL alloc] initWithString:opfFilename relativeToURL:_bookBaseURL];
 			_packageDoc = [[BBSTBOPFDocument alloc] init];
 			_hasPackageFile = [_packageDoc openWithContentsOfURL:fileURL];
 			if(_hasPackageFile)
@@ -182,17 +187,14 @@
 				
 				// get the book type so we know how to control acces to it
 				_controlMode = commonInstance.bookType;
-				// successfully opened the opf document so get the ncx filename from it
-				//NSString *ncxPathString = [[NSString alloc] initWithString:[_bookPath stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
-						
-				// make a URL of the full path
+				// successfully opened the opf document so get the ncx filename from it and make a URL of the full path
 				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] 
 												relativeToURL:_bookBaseURL];
-					
+				// open the control document	
 				_hasControlFile = [self openControlDocument:ncxURL];
 			}
 		}
-		else //check for a control file of some form
+		else // no opf file so check for a control file of some form
 		{
 			_hasControlFile = [self openControlDocument:aURL];
 			fileOpenedOK = _hasControlFile;
