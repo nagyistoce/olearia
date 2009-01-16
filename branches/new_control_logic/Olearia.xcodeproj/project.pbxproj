@@ -440,8 +440,8 @@
 		EE5FEC1F0E15F50B00B1E0F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				EE8F49950EEA646500B5F004 /* Audio */,
 				EEDC2C010E62D75E00432F2D /* Controllers */,
+				EE8F49950EEA646500B5F004 /* Audio */,
 				EEDC2C000E62D71200432F2D /* Documents */,
 				EEB83F610EE2283100B5384A /* Information Panel */,
 			);

@@ -21,7 +21,7 @@
 
 @interface NSString (BBSAdditions)
 
-+ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString;
-+ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale;
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString;
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale;
 
 @end

@@ -26,18 +26,19 @@
 
 @interface BBSTBAudioSegment : QTMovie 
 {
-
-	NSInteger _totalChapters;
-	
+		
 	BBSTBCommonDocClass		*commonInstance;
 	
 }
 
 - (BOOL)nextChapterIsAvail;
 - (BOOL)prevChapterIsAvail;
+- (void)updateForChapterPosition;
 - (void)jumpToNextChapter;
 - (void)jumpToPrevChapter;
 - (void)addChaptersOfDuration:(QTTime)aDuration;
+- (NSString *)currentChapterName;
+- (NSInteger)currentChapterNumber;
 
 @property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
 

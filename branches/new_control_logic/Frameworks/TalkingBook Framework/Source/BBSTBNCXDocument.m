@@ -43,7 +43,7 @@
 	if (!(self=[super init])) return nil;
 	
 	shouldUseNavmap = NO;
-	loadFromCurrentLevel = NO;
+	self.stayOnCurrentLevel = NO;
 	
 	return self;
 }
@@ -104,7 +104,7 @@
 
 - (void)moveToNextSegment
 {
-		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
+		if(NO == stayOnCurrentLevel) // always NO in regular play through mode
 		{
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
@@ -128,7 +128,7 @@
 		{
 			// this only used when the user chooses to go to the next file on a given level
 			currentNavPoint = [currentNavPoint nextSibling];
-			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
+			self.stayOnCurrentLevel = NO; // reset the flag so we are in auto play mode
 		}
 
 	[self updateDataForCurrentPosition];
@@ -544,7 +544,6 @@
 #pragma mark -
 #pragma mark Synthesized ivars
 
-@synthesize loadFromCurrentLevel;
 @synthesize navListNode;
 @synthesize navTargets; 
 

@@ -23,6 +23,8 @@
 #import "BBSTalkingBookTypes.h"
 #import <QTKit/QTTime.h>
 
+extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
+
 @interface BBSTBCommonDocClass : NSObject 
 {
 	// bindings ivars

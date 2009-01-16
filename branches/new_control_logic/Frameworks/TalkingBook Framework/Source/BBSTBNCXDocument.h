@@ -26,7 +26,7 @@
 {
 	
 	BOOL				shouldUseNavmap;
-	BOOL				loadFromCurrentLevel;
+	
 	
 	NSXMLNode			*navListNode;
 	NSArray				*navTargets;
@@ -34,10 +34,5 @@
 	NSInteger			maxNavPointsAtThisLevel;
 	
 }
-
-//- (NSArray *)chaptersForSegment;
-//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale;
-
-@property (readwrite) BOOL loadFromCurrentLevel;
 
 @end

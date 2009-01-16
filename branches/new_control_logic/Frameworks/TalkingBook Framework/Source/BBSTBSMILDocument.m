@@ -35,6 +35,7 @@
 
 @property (readwrite, retain)   NSXMLNode		*_currentNode;
 @property (readwrite, retain)	NSMutableArray	*_idChapterMarkers;
+@property (readwrite, copy)		NSString		*_relativeAudioFilePath;
 
 @property (readwrite, retain)	NSArray			*_parNodes;
 @property (readwrite, retain)	NSDictionary	*_parNodeIndexes;
@@ -47,7 +48,6 @@
 - (void)audioFileDidEnd:(NSNotification *)notification;
 
 - (void)makeIdChapterMarkersForCurrentAudio;
-
 - (NSString *)extractXmlContentFilename:(NSString *)contentString;
 //- (NSArray *)processData:(NSXMLDocument *)aDoc;
 - (NSDictionary *)createParNodeIndex:(NSArray *)someParNodes;
@@ -72,6 +72,7 @@
 	_parNodeIndexes = [[ NSDictionary alloc] init];
 	
 	_idChapterMarkers = nil;
+	_relativeAudioFilePath = @"";
 	
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
@@ -157,10 +158,19 @@
 			//_parNodeIndexes = [self createParNodeIndex:_parNodes];
 			
 			// get the first node
-			_currentNode = [[_xmlSmilDoc nodesForXPath:@"/smil/body/seq/par[1]" error:nil] objectAtIndex:0];
-			NSString *audioFilename = [[[_currentFileURL path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[[_currentNode objectsForXQuery:@"//audio/data(@src)" error:nil] objectAtIndex:0]];
-			[self updateAudioFile:audioFilename];
-			openedOk = YES;
+			NSArray *nodes = nil;
+			nodes = [_xmlSmilDoc nodesForXPath:@"/smil/body/seq/par[1]" error:nil];
+			if([nodes count] == 0)
+				nodes = [_xmlSmilDoc nodesForXPath:@"/smil/body/seq[1]" error:nil];
+			
+			if([nodes count] > 0)
+			{_currentNode = [nodes objectAtIndex:0];
+				_relativeAudioFilePath = [[_currentNode objectsForXQuery:@"//audio/data(@src)" error:nil] objectAtIndex:0];
+				NSString *fullAudioFilePath = [[[_currentFileURL path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:_relativeAudioFilePath];
+				[self updateAudioFile:fullAudioFilePath];
+				openedOk = YES;
+				
+			}
 		}
 		
 	}
@@ -269,10 +279,6 @@
 {
 	[_currentAudioFile setCurrentTime:QTTimeFromString(aTimeString)];
 }
-
-
-
-
 
 #pragma mark -
 #pragma mark ========= Private Methods =========
@@ -406,27 +412,26 @@
 	// check that we have not passed in a nil string
 	if(pathToFile != nil)
 	{
-			[_currentAudioFile stop]; // pause the playback if there is any currently playing
-			
-			_currentAudioFile = nil;
+		[_currentAudioFile stop]; // pause the playback if there is any currently playing
+		_currentAudioFile = nil;
+		_currentAudioFile = [[BBSTBAudioSegment alloc] initWithFile:pathToFile error:&theError];
 		
-			_currentAudioFile = [QTMovie movieWithFile:pathToFile error:&theError];
-			
-			if(_currentAudioFile != nil)
-			{
-				// make the file editable and set the timescale for it 
-				[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
-				[self setPreferredAudioAttributes];
-				if(([[_currentAudioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete) && (NO == [_currentAudioFile hasChapters]))
-				{
-					[[NSNotificationCenter defaultCenter] postNotificationName:QTMovieLoadStateDidChangeNotification object:_currentAudioFile];
-				}
-				
-				loadedOK = YES;
+		if(_currentAudioFile != nil)
+		{
+			// make the file editable and set the timescale for it 
+			[_currentAudioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
+			[self setPreferredAudioAttributes];
+			// check the load state for complete which will not trigger a notification on small files
+			if(([[_currentAudioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete) && (NO == [_currentAudioFile hasChapters]))
+			{	
+				// no chapters and its loaded so post a notification to add chapters
+				[[NSNotificationCenter defaultCenter] postNotificationName:QTMovieLoadStateDidChangeNotification object:_currentAudioFile];
 			}
+			loadedOK = YES;
 		}
+	}
 	
-		
+	
 	if((nil == _currentAudioFile) || (loadedOK == NO))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
@@ -442,41 +447,32 @@
 	return YES;
 }
 
-
-/*
- 
- NOTES:
-
- text/data(@src) -- get the textual reference id from the text node given the current pr node
- 
- 
- 
-*/
-
 - (void)makeIdChapterMarkersForCurrentAudio
 {
-	NSString *queryStr = [NSString stringWithFormat:@"/smil/body/seq/par[.//audio[@src=\"%@\"]]",[[_currentAudioFile attributeForKey:QTMovieFileNameAttribute] lastPathComponent]];
+	NSString *queryStr = [NSString stringWithFormat:@"/smil/body/seq/(.//par[.//audio[1][@src='%@']]|.//audio[1][@src='%@'])/data(@id)",_relativeAudioFilePath];
 	NSArray *parNodes = [_xmlSmilDoc nodesForXPath:queryStr error:nil];
 	long audioTimescale = [_currentAudioFile duration].timeScale;
 	
 	for(NSXMLNode *theNode in parNodes)
 	{
-		NSArray *nameItems = [theNode objectsForXQuery:@"text/data(@src)" error:nil];
+		NSString *xPathStr = [theNode XPath];
+		// text/data(@src) -- get the textual reference id from the text node given the current node
+		NSArray *nameItems = [theNode objectsForXQuery:@".//text/data(@src)" error:nil];
 		NSString *chapName = ([nameItems count] > 0) ? [self idTagFromSrcString:[nameItems objectAtIndex:0]] : nil;
 		NSArray *clipBeginItems = [theNode objectsForXQuery:@".//audio/data(@clip-begin|@clipBegin)" error:nil];
-		NSString *timeStr = ([clipBeginItems count] > 0) ? [NSString qtTimeStringFromSmilTimeString:[clipBeginItems objectAtIndex:0] withTimescale:audioTimescale] : nil ;  
+		NSString *timeStr = ([clipBeginItems count] > 0) ? [NSString QTStringFromSmilTimeString:[clipBeginItems objectAtIndex:0] withTimescale:audioTimescale] : nil ;  
 		
 		if(chapName && timeStr)
 		{
+			NSLog(@"chapname = %@  -- timestr = %@\n",chapName,timeStr);
 			NSDictionary *thisChapter = [[NSDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithQTTime:(QTTimeFromString(timeStr))],QTMovieChapterStartTime,
 										 chapName,QTMovieChapterName,
+										 xPathStr,@"XPath",
 										 nil];
 			[_idChapterMarkers addObject:thisChapter];
 		}
 	}
 }
-
-
 
 #pragma mark -
 #pragma mark --------- Notifications ---------
@@ -484,6 +480,45 @@
 - (void)audioFileDidEnd:(NSNotification *)notification
 {
 	NSLog(@"audio file did end");
+	NSLog(@"current Time is %@",QTStringFromTime([_currentAudioFile currentTime]));
+	NSArray *nodes = [_xmlSmilDoc nodesForXPath:[[_idChapterMarkers lastObject] valueForKey:@"XPath"] error:nil];
+	
+	if([nodes count] > 0)
+	{
+		NSLog(@"chapter name for node is %@",[[_idChapterMarkers lastObject] valueForKey:QTMovieChapterName]);
+		if(nil != [[nodes objectAtIndex:0] nextSibling])
+		{	
+			NSLog(@"has next play item");
+			// get the next node
+			_currentNode = [[nodes objectAtIndex:0] nextSibling];
+			_relativeAudioFilePath = [[_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil] objectAtIndex:0];
+			NSString *fullAudioFilePath = [[[_currentFileURL path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:_relativeAudioFilePath];
+			if([self updateAudioFile:fullAudioFilePath] && commonInstance.isPlaying)
+				[_currentAudioFile play];
+			NSString *nodeId = [[[nodes objectAtIndex:0] attributeForName:@"id"] stringValue];
+		}
+		else if(![[[[nodes objectAtIndex:0] parent] XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"])
+		{	
+			//NSLog(@"xpath = %@",[[[nodes objectAtIndex:0] parent] XPath]);
+			// get the next node
+			_currentNode = [[[nodes objectAtIndex:0] parent] nextSibling];
+			_relativeAudioFilePath = [[_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil] objectAtIndex:0];
+			NSString *fullAudioFilePath = [[[_currentFileURL path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:_relativeAudioFilePath];
+			if([self updateAudioFile:fullAudioFilePath] && commonInstance.isPlaying)
+				[_currentAudioFile play];
+			
+			NSLog(@"id = %@",[[(NSXMLElement *)[nodes objectAtIndex:0] attributeForName:@"id"] stringValue]);
+		}
+		else
+		{
+			NSLog(@"no more play items -- get next id from control doc" );
+		}
+	}
+	else
+	{
+		
+	}
+
 }
 
 
@@ -491,8 +526,8 @@
 {
 	if([[[notification object] attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 	{
-		// work out how to add the chapter mechanism
-		if((commonInstance.mediaFormat != AudioOnlyMediaFormat) && (commonInstance.mediaFormat != AudioNcxOrNccMediaFormat))
+		// work out how to add the chapters
+		if((AudioOnlyMediaFormat != commonInstance.mediaFormat) && (AudioNcxOrNccMediaFormat != commonInstance.mediaFormat))
 		{
 			if(!_idChapterMarkers)
 				_idChapterMarkers = [[NSMutableArray alloc] init];
@@ -505,17 +540,18 @@
 			// get the track the chapter will be associated with
 			QTTrack *musicTrack = [[_currentAudioFile tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
 			NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
+			// add the chapters
 			[_currentAudioFile addChapters:_idChapterMarkers withAttributes:trackDict error:&theError];
-			NSLog(@"now has %d chapters",[_currentAudioFile chapterCount]);
+			
 		}
 		else
 		{
 			// for audio only books we can just add chapters of the user set duration.
 			// add chapters to the current audio file
-			[_currentAudioFile addChaptersOfDuration:chapterSkipDuration];
-			NSLog(@"now has %d chapters",[_currentAudioFile chapterCount]);
+			[_currentAudioFile addChaptersOfDuration:commonInstance.chapterSkipDuration];
+			
 		}
-		
+		NSLog(@"now has %d chapters",[_currentAudioFile chapterCount]);
 		[self setPreferredAudioAttributes];
 		
 	}
@@ -525,13 +561,28 @@
 
 - (void)updateForChapterChange:(NSNotification *)notification
 {
-	self.commonInstance.hasNextChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] < [_currentAudioFile chapterCount]) ? YES : NO;
-	self.commonInstance.hasPreviousChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] > 0) ? YES : NO;
+	
+	//self.commonInstance.hasNextChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] < [_currentAudioFile chapterCount]) ? YES : NO;
+	//self.commonInstance.hasPreviousChapter = ([_currentAudioFile chapterIndexForTime:[_currentAudioFile currentTime]] > 0) ? YES : NO;
+
+	// check the media type of the book so we can make a decision on how to update
+	if((commonInstance.mediaFormat != AudioOnlyMediaFormat) && (commonInstance.mediaFormat != AudioNcxOrNccMediaFormat))
+	{
+		// send a notification that the text position has changed
+		// get the text id of the new position
+		NSString *idTag =  [_currentAudioFile currentChapterName];
+		NSLog(@"new text tag is %@, current time is %@",idTag,QTStringFromTime([_currentAudioFile currentTime]));
+		//[_currentAudioFile updateForChapterPosition];
+	}
+	else // audio only book 
+	{	
+		NSLog(@"chapter name = %@",[_currentAudioFile currentChapterName]);
+		//[_currentAudioFile updateForChapterPosition];
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	//NSLog(@"keypath %@",keyPath);
 	if([keyPath isEqualToString:@"isPlaying"])
 		(commonInstance.isPlaying) ? [_currentAudioFile play] : [_currentAudioFile stop];
 	else if([keyPath isEqualToString:@"playbackVolume"])
@@ -561,10 +612,10 @@
 
 
 @synthesize  _idChapterMarkers, idToStartFrom, idToFinishWith;
-@synthesize _xmlSmilDoc, _currentAudioFile, _currentFileURL, _currentNode;
+@synthesize _xmlSmilDoc, _currentAudioFile, _currentFileURL, _relativeAudioFilePath, _currentNode;
 @synthesize _parNodes, _parNodeIndexes;
 @synthesize includeSkippableContent, useSmilChapters;
-@synthesize  chapterSkipDuration, audioPlayRate, audioVolume;
+@synthesize audioPlayRate, audioVolume;
 @synthesize commonInstance;
 
 @end

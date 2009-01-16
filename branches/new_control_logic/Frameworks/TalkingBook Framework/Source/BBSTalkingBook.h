@@ -79,9 +79,9 @@ typedef enum
 - (void)playAudio;
 - (void)pauseAudio;
 
-- (BOOL)nextSegmentOnLevel;
-- (BOOL)nextSegment;
-- (BOOL)previousSegment;
+- (void)nextSegmentOnLevel;
+- (void)nextSegment;
+- (void)previousSegment;
 - (void)upOneLevel;
 - (void)downOneLevel;
 - (void)nextChapter;

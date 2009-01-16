@@ -320,30 +320,40 @@
 #pragma mark -
 #pragma mark Navigation Methods
 
-- (BOOL)nextSegment
+- (void)nextSegment
 {
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
 	{	
-		// get the filename of the next audio file to play from the ncx file
-		[_controlDoc moveToNextSegment];
-
-		if([_controlDoc audioFilenameFromCurrentNode])
-		{	
-			if(!_smilDoc)
-				_smilDoc = [[BBSTBSMILDocument alloc] init];
-			
-			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] relativeToURL:_bookBaseURL];
-			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
+		// check that there is another segment available
+		if(commonInstance.hasNextSegment)
+		{
+			[_controlDoc moveToNextSegment];
+			// get the filename of the next audio file to play from the ncx file
+			if([_controlDoc audioFilenameFromCurrentNode])
+			{	
+				if(!_smilDoc)
+					_smilDoc = [[BBSTBSMILDocument alloc] init];
+				
+				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] relativeToURL:_bookBaseURL];
+				fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
+			}
+		}
+		else
+		{
+			// we have reached the end of the book so tell the user and reset the book to the beginning
 		}
 		
 		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 	
-	return fileDidUpdate;
+	if (!fileDidUpdate)
+	{
+		// call the method for posting a msg that there was a problem loading the file
+	}
 }
 
-- (BOOL)nextSegmentOnLevel
+- (void)nextSegmentOnLevel
 {
 	BOOL fileDidUpdate = NO;
 	if(YES == _hasControlFile)
@@ -363,10 +373,10 @@
 		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 	}
 			
-	return fileDidUpdate;
+	
 }
 
-- (BOOL)previousSegment 
+- (void)previousSegment 
 {
 	BOOL	fileDidUpdate = NO;
 	if(YES == _hasControlFile)
@@ -402,9 +412,8 @@
 	
 	if(speakUserLevelChange)
 	{
-		if(_smilDoc)
-			[_smilDoc pauseAudio];
-		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),[_controlDoc currentLevel]]];
+		self.commonInstance.isPlaying = NO;
+		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),commonInstance.currentLevel]];
 	}
 	else
 	{
@@ -440,16 +449,14 @@
 		
 		if(speakUserLevelChange)
 		{
-			if(_smilDoc)
-				[_smilDoc pauseAudio];
-			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),[_controlDoc currentLevel]]];
+			self.commonInstance.isPlaying = NO;
+			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),commonInstance.currentLevel]];
 		}
 		else
 		{
 			// update the audio segment 
 			//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-			if(_smilDoc)
-				[_smilDoc playAudio];
+			self.commonInstance.isPlaying = YES;
 
 		}
 	}
@@ -460,7 +467,7 @@
 {
 	if(_smilDoc)
 	{
-		if([_smilDoc hasNextChapter])
+		if(commonInstance.hasNextChapter)
 			[_smilDoc nextChapter];
 
 	}
@@ -530,7 +537,7 @@
 {
 	if(_smilDoc)
 	{
-		if([_smilDoc hasPreviousChapter])
+		if(commonInstance.hasPreviousChapter)
 			[_smilDoc previousChapter];
 	}
 	
@@ -825,8 +832,7 @@
 	if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
 	{
 		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-		if(_smilDoc)
-			[_smilDoc playAudio];
+		self.commonInstance.isPlaying = YES;
 	}
 	else
 	{

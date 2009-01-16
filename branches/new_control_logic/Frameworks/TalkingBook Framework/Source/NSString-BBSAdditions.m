@@ -26,7 +26,7 @@
 
 @implementation NSString (BBSAdditions)
 
-+ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString
 {
 
 	NSInteger hours = 0, minutes = 0, seconds = 0, fractions = 0;
@@ -135,9 +135,9 @@
 
 }
 
-+ (NSString *)qtTimeStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale
 {
-	return [self stringWithFormat:@"%@/%ld",[self qtTimeStringFromSmilTimeString:aTimeString], aTimeScale];
+	return [self stringWithFormat:@"%@/%ld",[self QTStringFromSmilTimeString:aTimeString], aTimeScale];
 }
 
 
