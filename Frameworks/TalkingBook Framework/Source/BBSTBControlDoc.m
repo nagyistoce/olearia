@@ -31,6 +31,11 @@
 	// get the shared instance which contains all our updatable data for the book
 	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(doPositionalUpdate:) 
+												 name:TalkingBookAudioSegmentDidChangeNotification 
+											   object:nil];
+	
 	return self;
 }
 
@@ -38,6 +43,13 @@
 {
 	[super finalize];
 }
+
+- (void) dealloc
+{
+	commonInstance = nil;
+	[super dealloc];
+}
+
 
 #pragma mark -
 #pragma mark methods Overridden By Subclasses
@@ -181,8 +193,17 @@
 	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
 }
 
+#pragma mark -
+#pragma mark ===== Notification Methods =====
+
+- (void)doPositionalUpdate:(NSNotification *)aNote
+{
+	NSLog(@"idtag = %@",(NSString*)[aNote object]);
+	//[self updateDataForCurrentPosition];
+}
+
 @synthesize currentPositionID;
-@synthesize navigateForChapters;
+@synthesize navigateForChapters, stayOnCurrentLevel;
 @synthesize metadataNode, currentNavPoint;
 @synthesize commonInstance;
 @synthesize mediaFormat;

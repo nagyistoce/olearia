@@ -22,35 +22,19 @@
 
 #import "BBSTBAudioSegment.h"
 #import <QTKit/QTKit.h>
-
-@interface BBSTBAudioSegment ()
-
-
-
-@end
-
+#import "BBSTBCommonDocClass.h"
 
 @implementation BBSTBAudioSegment
 
-- (id) init
+- (id)initWithFile:(NSString *)fileName error:(NSError **)errorPtr
 {
-	if (!(self=[super init])) return nil;
-	
-	_totalChapters = 0;
-	
-	commonInstance = [BBSTBCommonDocClass sharedInstance];
 	
 	
-
-	return self;
+	
+	//commonInstance = [BBSTBCommonDocClass sharedInstance];
+	
+	return [super initWithFile:fileName error:errorPtr];
 }
-- (void) dealloc
-{
-	[super dealloc];
-}
-
-
-
 
 
 
@@ -59,51 +43,54 @@
 
 - (void)addChaptersOfDuration:(QTTime)aDuration
 {
-	
+	NSAssert(aDuration.timeValue != 0,@"Chapter Duration is Zero and should not be");
 	NSMutableArray *tempChapts = [[NSMutableArray alloc] init];
 	QTTime movieDur = [self duration];
-	// check that the actual audio duration is longer than the chapter duration
+
 	if(NSOrderedDescending == QTTimeCompare(movieDur, aDuration))
 	{	
 		
 		QTTime chapterStart = QTZeroTime;
 		NSInteger chIndex = 0;
+		
 		while(NSOrderedAscending == QTTimeCompare(chapterStart, movieDur))
 		{
 			NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-			
 			[thisChapter setObject:[NSValue valueWithQTTime:(chapterStart)] forKey:QTMovieChapterStartTime];
-			
 			[thisChapter setObject:[[NSNumber numberWithInt:chIndex] stringValue] forKey:QTMovieChapterName];
-			
 			[tempChapts addObject:thisChapter];
-			
 			chIndex++;
-			
 			chapterStart = QTTimeIncrement(chapterStart, aDuration);
 		}
 		
 	}
+	// get the track the chapter will be associated with
+	QTTrack *musicTrack = [[self tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
+	NSDictionary *musicTrackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
+
 	if([tempChapts count] > 0) // check we have some chapters to add
 	{
-		// get the track the chapter will be associated with
-		QTTrack *musicTrack = [[self tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
 		
-		NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
 		// add the chapters track to the movie data
 		// dont worry about errors because it doesnt really matter if we cant get chapter markers
-
-		[self addChapters:tempChapts withAttributes:trackDict error:nil];
+		[self addChapters:tempChapts withAttributes:musicTrackDict error:nil];
 		
 	}
-
-	_totalChapters = [self chapterCount];
-
+	else
+	{
+		// there were no chapters added so add a first chapter 
+		NSDictionary *thisChapter = [[NSDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithQTTime:(QTZeroTime)],QTMovieChapterStartTime,
+									 @"1",QTMovieChapterName,
+									 nil];
+		[tempChapts addObject:thisChapter];
+		[self addChapters:tempChapts withAttributes:musicTrackDict error:nil];
+	}
+	
 }
 
 - (BOOL)nextChapterIsAvail
 {
-	return ([self chapterIndexForTime:[self currentTime]] < _totalChapters);
+	return ([self chapterIndexForTime:[self currentTime]] < [self chapterCount]);
 }
 
 - (BOOL)prevChapterIsAvail
@@ -111,15 +98,32 @@
 	return ([self chapterIndexForTime:[self currentTime]] > 0);
 }
 
+- (NSInteger)currentChapterNumber
+{
+	return [self chapterIndexForTime:[self currentTime]];
+}
+- (NSString *)currentChapterName
+{
+	return [[[self chapters] objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName]; 
+}
+
+- (void)updateForChapterPosition
+{
+	self.commonInstance.hasNextChapter = [self nextChapterIsAvail];
+	self.commonInstance.hasPreviousChapter = [self prevChapterIsAvail];
+}
+
 - (void)jumpToNextChapter
 {
-	NSAssert(([self chapterIndexForTime:[self currentTime]]+1) < _totalChapters,@"trying to go past max chapters");
+	NSAssert(([self chapterIndexForTime:[self currentTime]]+1) < [self chapterCount],@"trying to go past max chapters");
 	[self setCurrentTime:[self startTimeOfChapter:([self chapterIndexForTime:[self currentTime]]+1)]];
 }
 
+
+
 - (void)jumpToPrevChapter
 {
-	NSAssert(([self chapterIndexForTime:[self currentTime]]+1) < _totalChapters,@"trying to go before the first chapter");
+	NSAssert(([self chapterIndexForTime:[self currentTime]]-1) < 0,@"trying to go before the first chapter");
 	[self setCurrentTime:[self startTimeOfChapter:([self chapterIndexForTime:[self currentTime]]-1)]];
 }
 

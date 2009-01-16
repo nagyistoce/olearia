@@ -24,7 +24,6 @@
 #import "BBSTalkingBookTypes.h"
 #import "BBSTBCommonDocClass.h"
 
-
 @interface BBSTBControlDoc : NSObject
 {
 	NSXMLDocument		*xmlControlDoc;
@@ -40,6 +39,7 @@
 	BOOL				navigateForChapters;
 	BOOL				_hasTextContent;
 	BOOL				_hasAudioContent;
+	BOOL				stayOnCurrentLevel;
 	
 	TalkingBookMediaFormat mediaFormat;
 	
@@ -79,5 +79,6 @@
 @property (readwrite, copy) NSString *currentPositionID;
 
 @property (readwrite) BOOL navigateForChapters;
+@property (readwrite) BOOL stayOnCurrentLevel;
 
 @end

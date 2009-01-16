@@ -21,6 +21,8 @@
 
 #import "BBSTBCommonDocClass.h"
 
+NSString * const TalkingBookAudioSegmentDidChangeNotification = @"TalkingBookAudioSegmentDidChangeNotification";
+
 static BBSTBCommonDocClass *sharedInstanceManager = nil;
 
 @implementation BBSTBCommonDocClass
@@ -113,7 +115,7 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 			mediaFormat = AudioPartialTextMediaFormat;
 		else if([typeStr isEqualToString:@"audioonly"])
 			mediaFormat = AudioOnlyMediaFormat;
-		else if([typeStr isEqualToString:@"audioncc"])
+		else if([typeStr isEqualToString:@"audioncc"]||[typeStr isEqualToString:@"audioncx"])
 			mediaFormat = AudioNcxOrNccMediaFormat;
 		else if([typeStr isEqualToString:@"textpartaudio"])
 			mediaFormat = TextPartialAudioMediaFormat;

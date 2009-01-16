@@ -31,11 +31,10 @@
 	NSMutableArray  *_idChapterMarkers;
 	NSString		*idToStartFrom;
 	NSString		*idToFinishWith;
-	NSURL			*_currentFileURL;
 	
-	//NSDictionary	*smilContent;
-	//NSArray			*smilContent;
-	//NSString		*xmlContentFilename;
+	NSURL			*_currentFileURL;
+	NSString		*_relativeAudioFilePath;
+
 	NSDictionary	*smilChapterData;
 	NSArray			*_parNodes;
 	NSDictionary	*_parNodeIndexes;
@@ -47,7 +46,6 @@
 	// public ivars
 	float			audioPlayRate; 
 	float			audioVolume;
-	QTTime			chapterSkipDuration;
 	
 	BOOL			includeSkippableContent; 
 	BOOL			useSmilChapters;
@@ -65,13 +63,11 @@
 - (void)nextChapter;
 //- (BOOL)hasPreviousChapter;
 - (void)previousChapter;
-- (void)setChapterSkipDuration:(QTTime)aDuration;
 
 @property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
 
 @property (readwrite)			float		audioPlayRate;
 @property (readwrite)			float		audioVolume;
-@property (readwrite)			QTTime		chapterSkipDuration;
 @property (readwrite)			BOOL		includeSkippableContent;
 @property (readwrite)			BOOL		useSmilChapters;
 @property (readwrite, copy)		NSString	*currentTimeString;

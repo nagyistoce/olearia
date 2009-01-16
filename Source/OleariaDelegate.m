@@ -281,21 +281,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (IBAction)nextSegment:(id)sender
 {
-	// check if we traversed to the next segment ok
-	if(YES == [talkingBook nextSegmentOnLevel])
-	{
-		//[talkingBook playAudio];
-	}
-
+	[talkingBook nextSegment];
 }
 
 - (IBAction)previousSegment:(id)sender
 {
-	// check if we traversed to the previous segment ok
-	if(YES == [talkingBook previousSegment]);
-	{
-		//[talkingBook playAudio];
-	}
+	[talkingBook previousSegment];
 }
 
 - (IBAction)fastForward:(id)sender
