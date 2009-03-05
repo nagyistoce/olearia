@@ -20,6 +20,7 @@
 //
 
 #import "BBSTalkingBook.h"
+#import "BBSTalkingBookTypes.h"
 #import "BBSTBControlDoc.h"
 #import "BBSTBPackageDoc.h"
 #import "BBSTBOPFDocument.h"
@@ -27,7 +28,7 @@
 #import "BBSTBNCCDocument.h"
 #import "BBSTBSMILDocument.h"
 #import "BBSTBInfoController.h"
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 
 #import <QTKit/QTKit.h>
 
@@ -41,6 +42,9 @@
 - (BOOL)openControlDocument:(NSURL *)aDocUrl;
 - (BOOL)isSmilFilename:(NSString *)aFilename;
 
+
+@property (readwrite, retain) NSMutableArray	*pluginClasses;
+@property (readwrite, retain) NSMutableArray	*pluginInstances;
 @property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
 @property (readwrite) TalkingBookType _controlMode;
 
@@ -66,14 +70,53 @@
 	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[speechSynth setDelegate:self];
 	
-	commonInstance = [BBSTBCommonDocClass sharedInstance];
+	pluginClasses = [[NSMutableArray alloc] init];
+	pluginInstances = [[NSMutableArray alloc] init];
+	
+	bookData = [BBSTBSharedBookData sharedInstance];
 		
 	[self resetBook];
 	
 	bookIsAlreadyLoaded = NO;
 
+
+	// look for plugins in the internal plugins folder
+	NSString* folderPath = [[NSBundle bundleForClass:[self class]] builtInPlugInsPath];
+	//[[NSBundle pr] bundlep] builtInPlugInsPath];
+	//NSLog(@"talkingbook plugins folder : %@",folderPath);
+	
+	if (folderPath) 
+	{
+		NSArray *pathsArray = [NSBundle pathsForResourcesOfType:@"plugin" inDirectory:folderPath];
+		
+		for (NSString *pluginPath in pathsArray) 
+		{
+			[self activatePlugin:pluginPath];
+		}
+	}
+	
 	return self;
 }
+
+- (void)activatePlugin:(NSString*)path {
+	NSBundle* pluginBundle = [NSBundle bundleWithPath:path];
+	if (pluginBundle) {
+		NSDictionary* pluginDict = [pluginBundle infoDictionary];
+		NSString* pluginName = [pluginDict objectForKey:@"NSPrincipalClass"];
+		if (pluginName) 
+		{
+			Class pluginClass = NSClassFromString(pluginName);
+			if (!pluginClass) 
+			{
+				pluginClass = [pluginBundle principalClass];
+				//if ([pluginClass conformsToProtocol:@protocol(PAPluginProtocol)] && [pluginClass isKindOfClass:[NSObject class]] && [pluginClass initializeClass:pluginBundle]) {
+				//	[pluginClasses addObject:pluginClass];
+				//}
+			}
+		}
+	}
+}
+
 
 - (void) dealloc
 {
@@ -186,7 +229,7 @@
 				fileOpenedOK = _hasPackageFile;
 				
 				// get the book type so we know how to control acces to it
-				_controlMode = commonInstance.bookType;
+				_controlMode = bookData.bookType;
 				// successfully opened the opf document so get the ncx filename from it and make a URL of the full path
 				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] 
 												relativeToURL:_bookBaseURL];
@@ -217,7 +260,7 @@
 		if(_hasControlFile)
 		{
 			// control doc specific loading
-			if(0 < commonInstance.totalPages)
+			if(0 < bookData.totalPages)
 			{
 				//_hasPageNavigation = YES;
 				//_maxLevelConMode = pageNavigationControlMode;
@@ -225,9 +268,17 @@
 		}
 		
 		// setup for the media format of the book
-		if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
+		if(bookData.mediaFormat <= AudioOnlyMediaFormat)
 		{
-			// audio files in the book so load the first one 
+			if (_hasControlFile)
+			{
+				// add ourselves as an observer for audio notifications 
+				[[NSNotificationCenter defaultCenter] addObserver:_controlDoc
+														 selector:@selector(doPositionalUpdate:) 
+															 name:TalkingBookAudioSegmentDidChangeNotification 
+														   object:nil];
+			}
+						// audio files in the book so load the first one 
 			NSString *audioFilename = [_controlDoc audioFilenameFromCurrentNode];
 			if([self isSmilFilename:audioFilename])
 			{
@@ -300,7 +351,7 @@
 
 - (void)updateSkipDuration:(float)newDuration
 {
-	self.commonInstance.chapterSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
+	self.bookData.chapterSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
 }
 
 #pragma mark -
@@ -308,12 +359,12 @@
 
 - (void)playAudio
 {
-	self.commonInstance.isPlaying = YES;
+	self.bookData.isPlaying = YES;
 }
 
 - (void)pauseAudio
 {	
-	self.commonInstance.isPlaying = NO;
+	self.bookData.isPlaying = NO;
 }
 
 
@@ -326,7 +377,7 @@
 	if(YES == _hasControlFile)
 	{	
 		// check that there is another segment available
-		if(commonInstance.hasNextSegment)
+		if(bookData.hasNextSegment)
 		{
 			[_controlDoc moveToNextSegment];
 			// get the filename of the next audio file to play from the ncx file
@@ -412,8 +463,8 @@
 	
 	if(speakUserLevelChange)
 	{
-		self.commonInstance.isPlaying = NO;
-		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),commonInstance.currentLevel]];
+		self.bookData.isPlaying = NO;
+		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),bookData.currentLevel]];
 	}
 	else
 	{
@@ -449,14 +500,14 @@
 		
 		if(speakUserLevelChange)
 		{
-			self.commonInstance.isPlaying = NO;
-			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),commonInstance.currentLevel]];
+			self.bookData.isPlaying = NO;
+			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),bookData.currentLevel]];
 		}
 		else
 		{
 			// update the audio segment 
 			//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-			self.commonInstance.isPlaying = YES;
+			self.bookData.isPlaying = YES;
 
 		}
 	}
@@ -467,7 +518,7 @@
 {
 	if(_smilDoc)
 	{
-		if(commonInstance.hasNextChapter)
+		if(bookData.hasNextChapter)
 			[_smilDoc nextChapter];
 
 	}
@@ -537,7 +588,7 @@
 {
 	if(_smilDoc)
 	{
-		if(commonInstance.hasPreviousChapter)
+		if(bookData.hasPreviousChapter)
 			[_smilDoc previousChapter];
 	}
 	
@@ -693,12 +744,12 @@
 
 - (void)setAudioPlayRate:(float)aRate
 {
-	self.commonInstance.playbackRate = aRate;
+	self.bookData.playbackRate = aRate;
 }
 
 - (void)setAudioVolume:(float)aVolumeLevel
 {
-	self.commonInstance.playbackVolume = aVolumeLevel;
+	self.bookData.playbackVolume = aVolumeLevel;
 }
 #pragma mark -
 #pragma mark Private Methods
@@ -739,7 +790,7 @@
 	
 	playPositionID = @"";
 	
-	[commonInstance resetForNewBook];
+	[bookData resetForNewBook];
 
 }
 
@@ -829,10 +880,10 @@
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	if(commonInstance.mediaFormat <= AudioOnlyMediaFormat)
+	if(bookData.mediaFormat <= AudioOnlyMediaFormat)
 	{
 		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-		self.commonInstance.isPlaying = YES;
+		self.bookData.isPlaying = YES;
 	}
 	else
 	{
@@ -841,7 +892,9 @@
 	
 }
 
-@synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, commonInstance;
+@synthesize pluginClasses, pluginInstances;
+
+@synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, bookData;
 @synthesize speechSynth, preferredVoice;
 
 @synthesize _controlMode;

@@ -78,11 +78,11 @@
 	
 	NSXMLNode *rootNode = [xmlControlDoc rootElement];
 
-	if(commonInstance.totalPages == 0)
+	if(bookData.totalPages == 0)
 	{
 		// check for total page count
 		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" error:nil]];
-		commonInstance.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+		bookData.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
 	}
 		
 	// we return yes here as the metadata was already processed in the opf file and we are just adding to it
@@ -91,12 +91,12 @@
 
 - (void)updateDataForCurrentPosition
 {
-	self.commonInstance.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
-	self.commonInstance.currentLevel = [self levelOfNode:currentNavPoint];
-	self.commonInstance.hasLevelUp = [self canGoUpLevel];
-	self.commonInstance.hasLevelDown = [self canGoDownLevel];
-	self.commonInstance.hasPreviousSegment = [self canGoPrev];
-	self.commonInstance.hasNextSegment = [self canGoNext];
+	self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
+	self.bookData.currentLevel = [self levelOfNode:currentNavPoint];
+	self.bookData.hasLevelUp = [self canGoUpLevel];
+	self.bookData.hasLevelDown = [self canGoDownLevel];
+	self.bookData.hasPreviousSegment = [self canGoPrev];
+	self.bookData.hasNextSegment = [self canGoNext];
 }
 
 #pragma mark -
@@ -109,7 +109,7 @@
 			if(YES == [self canGoDownLevel]) // first check if we can go down a level
 			{	
 				currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				commonInstance.currentLevel++; // increment the level
+				bookData.currentLevel++; // increment the level
 			}
 			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
 				currentNavPoint = [currentNavPoint nextSibling];
@@ -120,7 +120,7 @@
 					// get the parent then its sibling as we have already played 
 					// the parent before dropping into this level
 					currentNavPoint = [[currentNavPoint parent] nextSibling];
-					commonInstance.currentLevel--; // decrement the current level
+					bookData.currentLevel--; // decrement the current level
 				}
 			}
 		}
@@ -163,14 +163,14 @@
 		}
 		
 		
-		//self.commonInstance.currentLevel = [self levelOfNode:_currentNavPoint];
+		//self.bookData.currentLevel = [self levelOfNode:_currentNavPoint];
 		
 		
 		
 		
 	}
 	
-	//self.commonInstance.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:_currentNavPoint];
+	//self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:_currentNavPoint];
 
 	[self updateDataForCurrentPosition];
 }
@@ -254,7 +254,7 @@
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
 		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-		commonInstance.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
+		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
 	}
 }
 
@@ -263,7 +263,7 @@
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
 		currentNavPoint = [currentNavPoint parent];
-		commonInstance.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
+		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
 	}
 }
 
@@ -285,7 +285,7 @@
 - (BOOL)canGoUpLevel
 {
 	// return Yes if we are at a lower level
-	return (commonInstance.currentLevel > 1) ? YES : NO;
+	return (bookData.currentLevel > 1) ? YES : NO;
 }
 
 - (BOOL)canGoDownLevel
@@ -325,7 +325,7 @@
 	
 	BOOL segAvail = NO; // set the default
 	
-	if(commonInstance.currentLevel > 1)
+	if(bookData.currentLevel > 1)
 		segAvail = YES;
 	else if([self canGoPrev])
 		segAvail = YES;
@@ -376,7 +376,7 @@
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode
 {
 	// we set this so that if the node does not contain level information we return the same level
-	NSInteger thislevel = commonInstance.currentLevel;
+	NSInteger thislevel = bookData.currentLevel;
 	//NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
 	//NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
 	NSString *attribContent = [self stringForXquery:@"data(@class)" ofNode:aNode];
@@ -535,7 +535,7 @@
 //		if([nodesFromQuery count] > 0)
 //		{	
 //			currentNavPoint = [nodesFromQuery objectAtIndex:0];
-//			commonInstance.currentLevel = [self levelOfNode:currentNavPoint];
+//			bookData.currentLevel = [self levelOfNode:currentNavPoint];
 //		}
 //	//}
 //}

@@ -1,5 +1,5 @@
 //
-//  BBSTBCommonDocClass.m
+//  BBSTBSharedBookData.m
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 9/12/08.
@@ -19,15 +19,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 
 NSString * const TalkingBookAudioSegmentDidChangeNotification = @"TalkingBookAudioSegmentDidChangeNotification";
 
-static BBSTBCommonDocClass *sharedInstanceManager = nil;
+static BBSTBSharedBookData *sharedInstanceManager = nil;
 
-@implementation BBSTBCommonDocClass
+@implementation BBSTBSharedBookData
 
-+ (BBSTBCommonDocClass *)sharedInstance
++ (BBSTBSharedBookData *)sharedInstance
 {
     @synchronized(self) 
 	{
@@ -76,6 +76,7 @@ static BBSTBCommonDocClass *sharedInstanceManager = nil;
 	self.hasNextSegment = NO;
 	self.hasPreviousSegment = NO;
 	self.isPlaying = NO;
+	
 	
 }
 

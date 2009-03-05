@@ -22,7 +22,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTTime.h>
 
-@class BBSTBAudioSegment, BBSTBCommonDocClass;
+@class BBSTBAudioSegment, BBSTBSharedBookData;
 
 @interface BBSTBSMILDocument : NSObject 
 {
@@ -41,7 +41,7 @@
 	
 	NSXMLDocument		*_xmlSmilDoc;
 	BBSTBAudioSegment	*_currentAudioFile;
-	BBSTBCommonDocClass *commonInstance;
+	BBSTBSharedBookData *bookData;
 	
 	// public ivars
 	float			audioPlayRate; 
@@ -64,7 +64,7 @@
 //- (BOOL)hasPreviousChapter;
 - (void)previousChapter;
 
-@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
+@property (readwrite, retain)	BBSTBSharedBookData *bookData;
 
 @property (readwrite)			float		audioPlayRate;
 @property (readwrite)			float		audioVolume;

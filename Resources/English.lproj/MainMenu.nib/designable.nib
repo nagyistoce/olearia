@@ -2,14 +2,14 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.SystemVersion">9G55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.34</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="315"/>
 			<integer value="29"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1413,7 +1413,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1422,7 +1422,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 104}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="200395421">
 							<int key="NSCellFlags">-1543110912</int>
@@ -1449,7 +1448,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{175, 138}, {65, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="203774473">
 							<int key="NSCellFlags">68288064</int>
@@ -1466,7 +1464,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{158, 77}, {113, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="252880672">
 							<int key="NSCellFlags">68288064</int>
@@ -1483,7 +1480,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{242, 138}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="139382963">
 							<int key="NSCellFlags">68288064</int>
@@ -1575,7 +1571,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{273, 77}, {25, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="88537448">
 							<int key="NSCellFlags">68288064</int>
@@ -1658,7 +1653,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 43}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="755523758">
 							<int key="NSCellFlags">604372736</int>
@@ -1678,8 +1672,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -1713,7 +1705,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<object class="NSMutableArray" key="NSDeclaredKeys">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>canPlay</string>
-					<string>commonInstance</string>
+					<string>bookData</string>
 				</object>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
@@ -2380,26 +2372,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						</object>
 					</object>
 					<int key="connectionID">1481</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentObject: selection.commonInstance</string>
-						<reference key="source" ref="564195892"/>
-						<reference key="destination" ref="580350136"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="564195892"/>
-							<reference key="NSDestination" ref="580350136"/>
-							<string key="NSLabel">contentObject: selection.commonInstance</string>
-							<string key="NSBinding">contentObject</string>
-							<string key="NSKeyPath">selection.commonInstance</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEditable</string>
-								<reference key="NS.object.0" ref="6"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1486</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3441,6 +3413,26 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1553</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentObject: selection.bookData</string>
+						<reference key="source" ref="564195892"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="564195892"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">contentObject: selection.bookData</string>
+							<string key="NSBinding">contentObject</string>
+							<string key="NSKeyPath">selection.bookData</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEditable</string>
+								<reference key="NS.object.0" ref="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1561</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -4230,7 +4222,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="objectID">1057</int>
 						<reference key="object" ref="564195892"/>
 						<reference key="parent" ref="0"/>
-						<string key="objectName">Common Instance Controller</string>
+						<string key="objectName">Shared Data Controller</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1137</int>
@@ -5102,7 +5094,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1559</int>
+			<int key="maxID">1561</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

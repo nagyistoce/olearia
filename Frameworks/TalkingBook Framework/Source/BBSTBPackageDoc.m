@@ -14,7 +14,7 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	commonInstance = [BBSTBCommonDocClass sharedInstance];
+	bookData = [BBSTBSharedBookData sharedInstance];
 	
 	return self;
 }
@@ -79,6 +79,6 @@
 }
 
 @synthesize ncxFilename,xmlContentFilename;
-@synthesize commonInstance;
+@synthesize bookData;
 
 @end

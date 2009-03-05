@@ -23,7 +23,7 @@
 #import <QTKit/QTTime.h>
 
 @class BBSTBInfoController;
-@class BBSTBCommonDocClass;
+@class BBSTBSharedBookData;
 
 typedef enum 
 {
@@ -43,6 +43,9 @@ typedef enum
 	BOOL					bookIsAlreadyLoaded;
 	NSString				*audioSegmentTimePosition;
 	
+	NSMutableArray			*pluginClasses;
+	NSMutableArray			*pluginInstances;
+	
 	NSSpeechSynthesizer		*speechSynth;
 	
 	TalkingBookType			_controlMode;
@@ -53,7 +56,7 @@ typedef enum
 	id						_smilDoc;
 	id						_controlDoc;
 	id						_packageDoc;
-	BBSTBCommonDocClass		*commonInstance;
+	BBSTBSharedBookData		*bookData;
 	BBSTBInfoController		*_infoController;
 	
 
@@ -96,7 +99,7 @@ typedef enum
 - (void)setAudioPlayRate:(float)aRate;
 - (void)setAudioVolume:(float)aVolumeLevel;
 
-@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
+@property (readwrite, retain)	BBSTBSharedBookData *bookData;
 
 @property (readwrite, copy)		NSString	*preferredVoice;
 @property (readwrite, copy)		NSString	*playPositionID;

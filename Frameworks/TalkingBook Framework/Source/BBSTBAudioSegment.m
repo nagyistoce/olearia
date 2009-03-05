@@ -22,17 +22,12 @@
 
 #import "BBSTBAudioSegment.h"
 #import <QTKit/QTKit.h>
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 
 @implementation BBSTBAudioSegment
 
 - (id)initWithFile:(NSString *)fileName error:(NSError **)errorPtr
 {
-	
-	
-	
-	//commonInstance = [BBSTBCommonDocClass sharedInstance];
-	
 	return [super initWithFile:fileName error:errorPtr];
 }
 
@@ -109,8 +104,8 @@
 
 - (void)updateForChapterPosition
 {
-	self.commonInstance.hasNextChapter = [self nextChapterIsAvail];
-	self.commonInstance.hasPreviousChapter = [self prevChapterIsAvail];
+	self.bookData.hasNextChapter = [self nextChapterIsAvail];
+	self.bookData.hasPreviousChapter = [self prevChapterIsAvail];
 }
 
 - (void)jumpToNextChapter
@@ -136,6 +131,6 @@
 
 
 
-@synthesize commonInstance;
+@synthesize bookData;
 
 @end

@@ -29,12 +29,7 @@
 	if (!(self=[super init])) return nil;
 	
 	// get the shared instance which contains all our updatable data for the book
-	commonInstance = [BBSTBCommonDocClass sharedInstance];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(doPositionalUpdate:) 
-												 name:TalkingBookAudioSegmentDidChangeNotification 
-											   object:nil];
+	bookData = [BBSTBSharedBookData sharedInstance];
 	
 	return self;
 }
@@ -46,7 +41,7 @@
 
 - (void) dealloc
 {
-	commonInstance = nil;
+	bookData = nil;
 	[super dealloc];
 }
 
@@ -199,14 +194,12 @@
 - (void)doPositionalUpdate:(NSNotification *)aNote
 {
 	NSLog(@"idtag = %@",(NSString*)[aNote object]);
-	//[self updateDataForCurrentPosition];
+
 }
 
 @synthesize currentPositionID;
 @synthesize navigateForChapters, stayOnCurrentLevel;
 @synthesize metadataNode, currentNavPoint;
-@synthesize commonInstance;
-@synthesize mediaFormat;
-
+@synthesize bookData;
 
 @end
