@@ -97,7 +97,7 @@
 	// ever change
 	
 	// get the media format of the book. 
-	[commonInstance setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
+	[bookData setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
 	
 	// get the dc:Format node string
 	NSString *bookFormatString = [self stringForXquery:@"dc-metadata/data(*:Format)" ofNode:metaNode];
@@ -106,13 +106,13 @@
 	if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2002"])
 	{	
 			// set the type to DTB 2002
-		self.commonInstance.bookType = DTB2002Type;
+		self.bookData.bookType = DTB2002Type;
 		
 		// it may be a bookshare book 
 		// check the identifier node for a scheme attribute containing "BKSH"
 		if([metaNode objectsForXQuery:@"dc-metadata/*:Identifier[@scheme=\"BKSH\"]/." error:nil] != nil)
 			// change the book type to Bookshare
-			commonInstance.bookType = BookshareType;
+			bookData.bookType = BookshareType;
 
 		
 		ncxFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:opfRoot];
@@ -123,7 +123,7 @@
 	// check for DTB 2005 spec identifier
 	else if(YES == [[bookFormatString uppercaseString] isEqualToString:@"ANSI/NISO Z39.86-2005"])
 	{
-		commonInstance.bookType = DTB2005Type;
+		bookData.bookType = DTB2005Type;
 		// get the ncx filename
 		ncxFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:opfRoot];
 		// get the text content filename
@@ -132,24 +132,24 @@
 	else
 	{
 		// we dont know what type it is so set the unknown type
-		commonInstance.bookType = UnknownBookType;
+		bookData.bookType = UnknownBookType;
 	}
 	
 	
 	// sanity check to see that we know what type of book we are opening
-	if(commonInstance.bookType != UnknownBookType)
+	if(bookData.bookType != UnknownBookType)
 	{
 		// set the book title
 		NSString *titleStr = nil;
 		titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:metaNode];
-		self.commonInstance.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
+		self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
 		
 		// set the subject
 		NSString *subjectStr = nil;
 		subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:metaNode];
-		self.commonInstance.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
+		self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
 		
-		[commonInstance setMediaFormatFromString:[self stringForXquery:@"//meta[@name=\"dtb:multimediaType\"]/data(@content)" ofNode:metaNode]];
+		[bookData setMediaFormatFromString:[self stringForXquery:@"//meta[@name=\"dtb:multimediaType\"]/data(@content)" ofNode:metaNode]];
 	}
 	
 	if(ncxFilename != nil)

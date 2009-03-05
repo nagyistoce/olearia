@@ -43,7 +43,7 @@
 		EE5A14240EDBB34400398FFC /* BBSTBTextDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085E0E137F9700AEE163 /* BBSTBTextDocument.h */; };
 		EE5A14250EDBB34400398FFC /* BBSTBPackageDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDC2B7F0E62A59900432F2D /* BBSTBPackageDoc.h */; };
 		EE5A14260EDBB34400398FFC /* BBSTBOPFDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085A0E137F9700AEE163 /* BBSTBOPFDocument.h */; };
-		EE5A14270EDBB34400398FFC /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; };
+		EE5A14270EDBB34400398FFC /* BBSTBControlDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = EE22F9640E53B3DA006CB61F /* BBSTBControlDoc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE5A14280EDBB34400398FFC /* BBSTBNCXDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1808580E137F9700AEE163 /* BBSTBNCXDocument.h */; };
 		EE5A14290EDBB34400398FFC /* BBSTBNCCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1FC3D60E78EBBB00BE6453 /* BBSTBNCCDocument.h */; };
 		EE5A142A0EDBB34400398FFC /* BBSTBSMILDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = EE18085C0E137F9700AEE163 /* BBSTBSMILDocument.h */; };
@@ -53,8 +53,8 @@
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
 		EE8F49740EEA627E00B5F004 /* BBSTBAudioSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = EE8F49720EEA627E00B5F004 /* BBSTBAudioSegment.h */; };
 		EE8F49750EEA627E00B5F004 /* BBSTBAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8F49730EEA627E00B5F004 /* BBSTBAudioSegment.m */; };
-		EEA352C00EEDEA4E004FD419 /* BBSTBCommonDocClass.h in Headers */ = {isa = PBXBuildFile; fileRef = EEA352BE0EEDEA4E004FD419 /* BBSTBCommonDocClass.h */; };
-		EEA352C10EEDEA4E004FD419 /* BBSTBCommonDocClass.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA352BF0EEDEA4E004FD419 /* BBSTBCommonDocClass.m */; };
+		EEA352C00EEDEA4E004FD419 /* BBSTBSharedBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EEA352BE0EEDEA4E004FD419 /* BBSTBSharedBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EEA352C10EEDEA4E004FD419 /* BBSTBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA352BF0EEDEA4E004FD419 /* BBSTBSharedBookData.m */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEB83F640EE228CF00B5384A /* BBSTBInfoItem.h in Headers */ = {isa = PBXBuildFile; fileRef = EEB83F620EE228CF00B5384A /* BBSTBInfoItem.h */; };
 		EEB83F650EE228CF00B5384A /* BBSTBInfoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB83F630EE228CF00B5384A /* BBSTBInfoItem.m */; };
@@ -202,8 +202,8 @@
 		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
 		EE8F49720EEA627E00B5F004 /* BBSTBAudioSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBAudioSegment.h; path = Source/BBSTBAudioSegment.h; sourceTree = "<group>"; };
 		EE8F49730EEA627E00B5F004 /* BBSTBAudioSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBAudioSegment.m; path = Source/BBSTBAudioSegment.m; sourceTree = "<group>"; };
-		EEA352BE0EEDEA4E004FD419 /* BBSTBCommonDocClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBCommonDocClass.h; path = Source/BBSTBCommonDocClass.h; sourceTree = "<group>"; };
-		EEA352BF0EEDEA4E004FD419 /* BBSTBCommonDocClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBCommonDocClass.m; path = Source/BBSTBCommonDocClass.m; sourceTree = "<group>"; };
+		EEA352BE0EEDEA4E004FD419 /* BBSTBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSTBSharedBookData.h; path = Source/BBSTBSharedBookData.h; sourceTree = "<group>"; };
+		EEA352BF0EEDEA4E004FD419 /* BBSTBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSTBSharedBookData.m; path = Source/BBSTBSharedBookData.m; sourceTree = "<group>"; };
 		EEA915E20ECA7882008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEA915E50ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/About.nib; sourceTree = "<group>"; };
 		EEA915E60ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -402,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				EE69EB8A0E19E9BB00067F4A /* Categories */,
+				EE5D5B660F5FDCA20053D92B /* Plugins */,
 				EE5FEC1F0E15F50B00B1E0F4 /* Source */,
 				EE5FEC230E15F5F600B1E0F4 /* Other Source */,
 				EE5FEC200E15F53000B1E0F4 /* Resources */,
@@ -435,6 +436,13 @@
 			);
 			name = "Applcation Icons";
 			path = Icons;
+			sourceTree = "<group>";
+		};
+		EE5D5B660F5FDCA20053D92B /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Plugins;
 			sourceTree = "<group>";
 		};
 		EE5FEC1F0E15F50B00B1E0F4 /* Source */ = {
@@ -552,8 +560,8 @@
 		EEDC2C000E62D71200432F2D /* Documents */ = {
 			isa = PBXGroup;
 			children = (
-				EEA352BE0EEDEA4E004FD419 /* BBSTBCommonDocClass.h */,
-				EEA352BF0EEDEA4E004FD419 /* BBSTBCommonDocClass.m */,
+				EEA352BE0EEDEA4E004FD419 /* BBSTBSharedBookData.h */,
+				EEA352BF0EEDEA4E004FD419 /* BBSTBSharedBookData.m */,
 				EE8F49960EEA64B500B5F004 /* Smil Doc Classes */,
 				EE670F5D0E6A1B950011DAAF /* Text Doc Classes */,
 				EEDC2C130E62D7A600432F2D /* Package Doc Classes */,
@@ -619,7 +627,7 @@
 				EEB83F640EE228CF00B5384A /* BBSTBInfoItem.h in Headers */,
 				EEB83F830EE2357E00B5384A /* BBSTBInfoController.h in Headers */,
 				EE8F49740EEA627E00B5F004 /* BBSTBAudioSegment.h in Headers */,
-				EEA352C00EEDEA4E004FD419 /* BBSTBCommonDocClass.h in Headers */,
+				EEA352C00EEDEA4E004FD419 /* BBSTBSharedBookData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,7 +847,7 @@
 				EEB83F650EE228CF00B5384A /* BBSTBInfoItem.m in Sources */,
 				EEB83F840EE2357E00B5384A /* BBSTBInfoController.m in Sources */,
 				EE8F49750EEA627E00B5F004 /* BBSTBAudioSegment.m in Sources */,
-				EEA352C10EEDEA4E004FD419 /* BBSTBCommonDocClass.m in Sources */,
+				EEA352C10EEDEA4E004FD419 /* BBSTBSharedBookData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

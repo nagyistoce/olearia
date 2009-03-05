@@ -22,12 +22,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 
 @interface BBSTBAudioSegment : QTMovie 
 {
 		
-	BBSTBCommonDocClass		*commonInstance;
+	BBSTBSharedBookData		*bookData;
 	
 }
 
@@ -40,6 +40,6 @@
 - (NSString *)currentChapterName;
 - (NSInteger)currentChapterNumber;
 
-@property (readwrite, retain)	BBSTBCommonDocClass *commonInstance;
+@property (readwrite, retain)	BBSTBSharedBookData *bookData;
 
 @end

@@ -20,7 +20,7 @@
 //
 
 #import "BBSTBTextContentDoc.h"
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 #import <AppKit/NSSpeechSynthesizer.h>
 
 @implementation BBSTBTextContentDoc
@@ -32,7 +32,7 @@
 	textSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[textSynth setDelegate:self];
 	
-	commonInstance = [BBSTBCommonDocClass sharedInstance];
+	bookData = [BBSTBSharedBookData sharedInstance];
 	
 	return self;
 }

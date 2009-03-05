@@ -22,14 +22,14 @@
 
 #import <Foundation/Foundation.h>
 #import "BBSTalkingBookTypes.h"
-#import "BBSTBCommonDocClass.h"
+#import "BBSTBSharedBookData.h"
 
 @interface BBSTBControlDoc : NSObject
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
 	
-	BBSTBCommonDocClass	*commonInstance;
+	BBSTBSharedBookData	*bookData;
 	
 	NSXMLNode			*metadataNode;
 	NSXMLNode			*currentNavPoint;
@@ -41,8 +41,7 @@
 	BOOL				_hasAudioContent;
 	BOOL				stayOnCurrentLevel;
 	
-	TalkingBookMediaFormat mediaFormat;
-	
+		
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
@@ -68,14 +67,11 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
-@property (readwrite, retain) BBSTBCommonDocClass *commonInstance;
-
-@property (readonly) TalkingBookMediaFormat mediaFormat;
+@property (readwrite, retain) BBSTBSharedBookData *bookData;
 
 @property (readonly)	NSXMLNode			*metadataNode;
 @property (readwrite, copy)	NSXMLNode		*currentNavPoint;
 
-//@property (readonly, copy) NSString *currentAudioFilename;
 @property (readwrite, copy) NSString *currentPositionID;
 
 @property (readwrite) BOOL navigateForChapters;

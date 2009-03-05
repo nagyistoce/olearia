@@ -32,23 +32,23 @@
 
 typedef enum 
 {
-	DTB2002Type = 20,
-	DTB2005Type = 21,
-	BookshareType = 22,
-	DTBPre2002Type = 30,
-	NIMASType = 40,
-	UnknownBookType = 99
+	DTB2002Type,
+	DTB2005Type,
+	BookshareType,
+	DTBPre2002Type,
+	NIMASType,
+	UnknownBookType
 } TalkingBookType;
 
 typedef enum 
 {
-	AudioFullTextMediaFormat = 10,
-	AudioPartialTextMediaFormat = 12,
-	AudioNcxOrNccMediaFormat = 14,
-	AudioOnlyMediaFormat = 16,
-	TextPartialAudioMediaFormat = 20,
-	TextNcxOrNccMediaFormat = 22,
-	unknownMediaFormat = 99
+	AudioFullTextMediaFormat,
+	AudioPartialTextMediaFormat,
+	AudioNcxOrNccMediaFormat,
+	AudioOnlyMediaFormat,
+	TextPartialAudioMediaFormat,
+	TextNcxOrNccMediaFormat,
+	unknownMediaFormat
 } TalkingBookMediaFormat;
 
 typedef enum

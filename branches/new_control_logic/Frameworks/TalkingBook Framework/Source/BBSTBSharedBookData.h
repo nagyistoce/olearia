@@ -1,5 +1,5 @@
 //
-//  BBSTBCommonDocClass.h
+//  BBSTBSharedBookData.h
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 9/12/08.
@@ -25,7 +25,7 @@
 
 extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
-@interface BBSTBCommonDocClass : NSObject 
+@interface BBSTBSharedBookData : NSObject 
 {
 	// bindings ivars
 	NSString				*bookTitle;
@@ -89,7 +89,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite) QTTime	chapterSkipDuration;
 
-+ (BBSTBCommonDocClass *)sharedInstance;
++ (BBSTBSharedBookData *)sharedInstance;
 - (void)resetForNewBook;
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString;
 
