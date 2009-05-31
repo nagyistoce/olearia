@@ -19,19 +19,27 @@
 		EE05F86F0FCE3AEA00DFB1F1 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F86D0FCE3AEA00DFB1F1 /* RegexKitLite.m */; };
 		EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88A0FCE439000DFB1F1 /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */; };
-		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (); }; };
+		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE0A68CC0FCF828400778D38 /* TBTalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE0A68CB0FCF828400778D38 /* TBTalkingBookTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE5AB95B0FCF8E5F00D4C4B8 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F86C0FCE3AEA00DFB1F1 /* RegexKitLite.h */; settings = {ATTRIBUTES = (); }; };
 		EE5AB99F0FCF909E00D4C4B8 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */; };
 		EE5AB9DD0FCF913200D4C4B8 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB9DC0FCF913200D4C4B8 /* libicucore.dylib */; };
+		EE7905480FD267FB001545B4 /* StdDaisyFormats.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = EEFED0580FD2661900BF6A99 /* StdDaisyFormats.plugin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EE7905450FD267D8001545B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7134150FC91FDB00197A65 /* StdDaisyFormats.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = StdDaisyFormats;
+		};
 		EEFED0570FD2661900BF6A99 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EE7134150FC91FDB00197A65 /* StdDaisyFormats.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
 			remoteInfo = StdDaisyFormats;
 		};
 /* End PBXContainerItemProxy section */
@@ -43,6 +51,7 @@
 			dstPath = PlugIns;
 			dstSubfolderSpec = 1;
 			files = (
+				EE7905480FD267FB001545B4 /* StdDaisyFormats.plugin in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,12 +211,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */,
 				EE5AB95B0FCF8E5F00D4C4B8 /* RegexKitLite.h in Headers */,
 				EE05F8550FCE35A700DFB1F1 /* TBTalkingBook.h in Headers */,
 				EE05F8630FCE37BF00DFB1F1 /* TBInfoController.h in Headers */,
 				EE05F8650FCE37BF00DFB1F1 /* TBInfoItem.h in Headers */,
 				EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */,
-				EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */,
 				EE0A68CC0FCF828400778D38 /* TBTalkingBookTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +237,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EE7905460FD267D8001545B4 /* PBXTargetDependency */,
 			);
 			name = TalkingBook;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -295,6 +305,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE7905460FD267D8001545B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = StdDaisyFormats;
+			targetProxy = EE7905450FD267D8001545B4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {

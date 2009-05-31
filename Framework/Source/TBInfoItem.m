@@ -43,10 +43,10 @@
 {
 	if (!(self=[self init])) return nil;
 
-	if(!aTitle)
-		title = aTitle ;
+	if(![aTitle isEqualToString:@""])
+		title = aTitle;
 	if(![aContent isEqualToString:@""])
-		content = aContent;
+		content = [aContent copy];
 	
 	return self;
 }

@@ -20,6 +20,7 @@
 //
 
 #import "TBTalkingBookTypes.h"
+#import "TBPluginInterface.h"
 #import <QTKit/QTTime.h>
 
 @class TBInfoController;
@@ -44,7 +45,7 @@ typedef enum
 	NSString				*audioSegmentTimePosition;
 	
 	NSMutableArray			*plugins;
-	id						currentPlugin;
+	id<TBPluginInterface>	currentPlugin;
 	
 	NSSpeechSynthesizer		*speechSynth;
 	
@@ -110,5 +111,7 @@ typedef enum
 @property (readwrite, copy)		NSString	*audioSegmentTimePosition;
 
 @property (readonly) BOOL		canPlay;
+
+@property (readonly, copy)		id<TBPluginInterface>	currentPlugin;
 
 @end

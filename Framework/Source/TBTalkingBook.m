@@ -21,12 +21,6 @@
 
 #import "TBTalkingBook.h"
 #import "TBTalkingBookTypes.h"
-//#import "BBSTBControlDoc.h"
-//#import "BBSTBPackageDoc.h"
-//#import "BBSTBOPFDocument.h"
-//#import "BBSTBNCXDocument.h"
-//#import "BBSTBNCCDocument.h"
-//#import "BBSTBSMILDocument.h"
 #import "TBInfoController.h"
 #import "TBSharedBookData.h"
 #import "TBPluginInterface.h"
@@ -45,10 +39,10 @@
 - (BOOL)plugInClassIsValid:(Class)plugInClass;
 - (void)loadPlugins;
 
-@property (readwrite, retain) NSMutableArray	*plugins;
-@property (readwrite, retain) id				currentPlugin;
-@property (readwrite, retain) NSSpeechSynthesizer *speechSynth;
-@property (readwrite) TalkingBookType _controlMode;
+@property (readwrite, retain)	NSMutableArray	*plugins;
+@property (readwrite, copy)		id<TBPluginInterface>	currentPlugin;
+@property (readwrite, retain)	NSSpeechSynthesizer *speechSynth;
+@property (readwrite)			TalkingBookType _controlMode;
 
 @property (readwrite, retain)	id		_controlDoc;
 @property (readwrite, retain)	id		_packageDoc;
@@ -59,7 +53,7 @@
 
 // Bindings related
 @property (readwrite) BOOL		canPlay;
-//@property (readwrite) BOOL		isPlaying;
+
 
 @end
 
@@ -124,197 +118,19 @@
 			// set the currentplugin to the plugin that did open the book
 			currentPlugin = thePlugin;
 			bookDidOpen = YES;
+			self.canPlay = YES;
 			break;
 		}
 	}
 	
-//	// get the parent folder path as a string
-//	_bookBaseURL = [[NSURL alloc] initFileURLWithPath:[[aURL path] stringByDeletingLastPathComponent] isDirectory:YES];
-//	
-//	// when we do zip files we will check internally for one of the package or control files
-//	// also direct loading of .iso files would be good too
-//	
-//	NSURL *fileURL; 
-//	// check the extension first
-//	NSString *filename = [[NSString alloc] initWithString:[aURL path]];
-//
-//	// check for an ncx file first
-//	if([self typeOfControlDoc:aURL] == ncxControlDocType)
-//	{	
-//		// do a sanity check to see if the user chose a NCX file and there 
-//		// is actually an OPF file available
-//		NSFileManager *fm = [NSFileManager defaultManager];
-//		// check if an OPF file exists 
-//		NSString *opfFilename = nil;
-//		NSArray *folderContents = [fm directoryContentsAtPath:[[aURL path] stringByDeletingLastPathComponent]];
-//		for(NSString *aPath in folderContents)
-//		{
-//			if([[[aPath pathExtension] lowercaseString] isEqualToString:@"opf"])
-//			{	
-//				opfFilename = aPath;
-//				break;
-//			}
-//		}
-//		
-//		if (opfFilename)
-//		{	
-//			// it exists so make a url of it
-//			fileURL = [[NSURL alloc] initWithString:opfFilename relativeToURL:_bookBaseURL];
-//			//_packageDoc = [[TBOPFDocument alloc] init];
-//			_hasPackageFile = [_packageDoc openWithContentsOfURL:fileURL];
-//			if(_hasPackageFile)
-//			{
-//				
-//				fileOpenedOK = _hasPackageFile;
-//				// successfully opened the opf document so get the ncx filename from it
-//				//NSString *ncxPathString = [[NSString alloc] initWithString:[[_baseBookURL stringByAppendingPathComponent:[_packageDoc ncxFilename]]];
-//					
-//				// make a URL of the full path
-//				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] relativeToURL:_bookBaseURL];
-//
-//				// open the control file
-//				_hasControlFile = [self openControlDocument:ncxURL];
-//			}
-//			else // package file failed opening so drop back to the NCX file 
-//			{	
-//				// open the control file
-//				_hasControlFile = [self openControlDocument:aURL];
-//				fileOpenedOK = _hasControlFile;
-//			}
-//
-//		}
-//		else 
-//		{	
-//			// no opf file found - so dropback to the ncx file.
-//			// this should not happen but it is a precaution
-//			_hasControlFile = [self openControlDocument:aURL];
-//			fileOpenedOK = _hasControlFile;
-//		}
-//	}
-//	else
-//	{	
-//		// we have chosen an opf or ncc.html open and process it.
-//		// check if its an OPF package file
-//		if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
-//		{
-//			//_packageDoc = [[BBSTBOPFDocument alloc] init];
-//			_hasPackageFile = [_packageDoc openWithContentsOfURL:aURL];
-//			if(_hasPackageFile)
-//			{				
-//				fileOpenedOK = _hasPackageFile;
-//				
-//				// get the book type so we know how to control acces to it
-//				_controlMode = bookData.bookType;
-//				// successfully opened the opf document so get the ncx filename from it and make a URL of the full path
-//				NSURL *ncxURL = [[NSURL alloc] initWithString:[_packageDoc ncxFilename] 
-//												relativeToURL:_bookBaseURL];
-//				// open the control document	
-//				_hasControlFile = [self openControlDocument:ncxURL];
-//			}
-//		}
-//		else // no opf file so check for a control file of some form
-//		{
-//			_hasControlFile = [self openControlDocument:aURL];
-//			fileOpenedOK = _hasControlFile;
-//		}
-//	}
-//	
-//	
-//	if (fileOpenedOK)
-//	{
-//		
-//		self.canPlay = YES;
-//		bookIsAlreadyLoaded = YES;
-//		
-//		if(_hasPackageFile)
-//		{
-//			// do some package doc specific loading stuff here
-//							
-//		}
-//		
-//		if(_hasControlFile)
-//		{
-//			// control doc specific loading
-//			if(0 < bookData.totalPages)
-//			{
-//				//_hasPageNavigation = YES;
-//				//_maxLevelConMode = pageNavigationControlMode;
-//			}
-//		}
-//		
-//		// setup for the media format of the book
-//		if(bookData.mediaFormat <= AudioOnlyMediaFormat)
-//		{
-//			if (_hasControlFile)
-//			{
-//				// add ourselves as an observer for audio notifications 
-//				[[NSNotificationCenter defaultCenter] addObserver:_controlDoc
-//														 selector:@selector(doPositionalUpdate:) 
-//															 name:TalkingBookAudioSegmentDidChangeNotification 
-//														   object:nil];
-//			}
-//						// audio files in the book so load the first one 
-//			NSString *audioFilename = [_controlDoc audioFilenameFromCurrentNode];
-//			if([self isSmilFilename:audioFilename])
-//			{
-//				if(!_smilDoc)
-//					//_smilDoc = [[TBSMILDocument alloc] init];
-//				
-//				[_smilDoc openWithContentsOfURL:[[NSURL alloc] initWithString:audioFilename relativeToURL:_bookBaseURL]];
-//			}
-//		}
-//		
-//		//update the information controller if it has been previously loaded
-//		if(_infoController)
-//		{
-//			if(_hasPackageFile)
-//				[_infoController updateMetaInfoFromNode:[_packageDoc metadataNode]];
-//			else
-//				[_infoController updateMetaInfoFromNode:[_controlDoc metadataNode]];
-//		}
-//	}
-	
+	//update the information controller if it has been previously loaded
+	if(_infoController)
+		[_infoController updateMetaInfoFromNode:[currentPlugin infoMetadataNode]];
 	
 	return bookDidOpen;
 	
 }
 
-//- (BOOL)openControlDocument:(NSURL *)aDocUrl 
-//{
-//	BOOL loadedOK = NO;
-//	
-//	
-//	if(nil != aDocUrl)
-//	{
-//		TalkingBookControlDocType aType = [self typeOfControlDoc:aDocUrl];
-//		switch (aType)
-//		{
-//			case ncxControlDocType:
-//				//_controlDoc = [[BBSTBNCXDocument alloc] init];
-//				break;
-//			case bookshareNcxControlDocType:
-//				break;
-//			case nccControlDocType:
-//				//_controlDoc = [[BBSTBNCCDocument alloc] init];
-//			default:
-//				break;
-//		}
-//				
-//		// open the control file
-//		if(nil != _controlDoc)
-//		{
-//			// check if we have a saved position that we need to start from
-//			if(![playPositionID isEqualToString:@""]) 
-//			{	
-//				[_controlDoc setCurrentPositionID:playPositionID];
-//				playPositionID = @""; // reset the position skip so we dont accidentally jump there on the next open
-//			}
-//			loadedOK = [_controlDoc openWithContentsOfURL:aDocUrl];
-//		
-//		}
-//	}
-//	return loadedOK;
-//}
 
 - (void)jumpToPosition:(NSString *)aPosition
 {
@@ -654,21 +470,11 @@
 - (void)showBookInfo
 {
 	// check if we should init the controller
-	if(!_infoController)
-	{
-//		if(_hasPackageFile)
-//			_infoController = [[TBInfoController alloc] initWithMetadataNode:[_packageDoc metadataNode]];
-//		else if(_hasControlFile)
-//			_infoController = [[TBInfoController alloc] initWithMetadataNode:[_controlDoc metadataNode]];
-	}
+	if(_infoController)
+		[_infoController updateMetaInfoFromNode:[currentPlugin infoMetadataNode]];
 	else
-	{
-//		if(_hasPackageFile)
-//			[_infoController updateMetaInfoFromNode:[_packageDoc metadataNode]];
-//		else if(_hasControlFile)
-//			[_infoController updateMetaInfoFromNode:[_controlDoc metadataNode]];
-	}
-		
+		_infoController = [[TBInfoController alloc] initWithMetadataNode:[currentPlugin infoMetadataNode]];
+
 	if(_infoController)
 		[_infoController displayInfoPanel];  	
 		
