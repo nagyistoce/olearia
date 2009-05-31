@@ -20,8 +20,8 @@
 //
 
 #import "OleariaDelegate.h"
-#import "BBSTalkingBook.h"
-#import "BBSTBSharedBookData.h"
+#import <TalkingBook/TBTalkingBook.h>
+#import <TalkingBook/TBSharedBookData.h>
 #import "OleariaPrefsController.h"
 #import "AboutBoxController.h"
 
@@ -86,7 +86,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 											   object:mainWindow];
 
 	// init the book object
-	talkingBook = [[BBSTalkingBook alloc] init];
+	talkingBook = [[TBTalkingBook alloc] init];
 	
 	// set the defaults before any book is loaded
 	// these defaults will change after the book is loaded
@@ -636,7 +636,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	}
 	
 	// load the talking book package or control file
-	loadedOK = [talkingBook openWithFile:validFileURL];
+	loadedOK = [talkingBook openBookWithURL:validFileURL];
 	if(loadedOK)
 	{
 		//update the recent files list

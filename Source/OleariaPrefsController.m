@@ -22,7 +22,7 @@
 
 #import "OleariaPrefsController.h"
 #import "OleariaDelegate.h"
-#import "BBSTalkingBook.h"
+#import <TalkingBook/TBTalkingBook.h>
 
 //@interface OleariaPrefsController(Private)
 
