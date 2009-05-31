@@ -1,6 +1,6 @@
 //
-//  BBSTBControlDoc.m
-//  TalkingBook Framework
+//  TBControlDoc.m
+//  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 14/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -19,21 +19,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #import "TBControlDoc.h"
 
+@interface TBControlDoc ()
+
+@property (readwrite, copy)	NSURL	*fileURL;
+
+@end
+
+
+
+
 @implementation TBControlDoc
-
-//+ (TBControlDoc *)controlDoc
-//{
-//	if (!([[self alloc] init])) return nil;
-//	
-//	// get the shared instance which contains all our updatable data for the book
-//	bookData = [TBSharedBookData sharedInstance];
-//	
-//	return self;
-//}
-
 
 - (id) init
 {
@@ -70,6 +67,7 @@
 	
 	if(xmlControlDoc)
 	{
+		fileURL = aURL;
 		[self processData];
 		
 		
@@ -224,6 +222,6 @@
 @synthesize currentPositionID;
 @synthesize navigateForChapters, stayOnCurrentLevel;
 @synthesize metadataNode, currentNavPoint;
-@synthesize bookData;
+@synthesize bookData, fileURL;
 
 @end

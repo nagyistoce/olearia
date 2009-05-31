@@ -153,6 +153,11 @@
 					opfLoaded = YES;
 				}
 			}
+			else
+			{
+				[packageDocument release];
+				packageDocument = nil;
+			}
 		}
 				
 		if (controlFileURL)
@@ -168,6 +173,26 @@
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
 	return ((packageFileUrl && opfLoaded) || (controlFileURL && ncxLoaded));
+}
+
+- (NSURL *)loadedURL
+{
+	if(packageDocument)
+		return [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];
+	if(controlDocument)
+		return [controlDocument fileURL];
+	
+	return nil;
+}
+
+- (NSXMLNode *)infoMetadataNode
+{
+	if(packageDocument)
+		return [packageDocument metadataNode];
+	if(controlDocument)
+		return [controlDocument metadataNode];
+	
+	return nil;
 }
 
 #pragma mark -

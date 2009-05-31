@@ -1,6 +1,6 @@
 //
-//  BBSTBControlDoc.h
-//  TalkingBook Framework
+//  TBControlDoc.h
+//  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 14/08/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -28,6 +28,7 @@
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSString			*parentFolderPath;
+	NSURL				*fileURL;
 	
 	TBSharedBookData	*bookData;
 	
@@ -43,10 +44,6 @@
 	
 		
 }
-
-//+ (TBControlDoc *)controlDoc;
-
-
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
@@ -76,7 +73,8 @@
 @property (readwrite, retain) TBSharedBookData *bookData;
 
 @property (readonly)		NSXMLNode			*metadataNode;
-@property (readwrite, copy)	NSXMLNode		*currentNavPoint;
+@property (readwrite, copy)	NSXMLNode			*currentNavPoint;
+@property (readonly, copy)	NSURL				*fileURL;
 
 @property (readwrite, copy) NSString *currentPositionID;
 

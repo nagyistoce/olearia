@@ -16,13 +16,11 @@
 // return an enumerated list of instances of all the classes available in the bundle
 + (NSArray *)plugins;
 
-// return an instance of the booktype. 
-//+ (id)bookType;
-// return the class of a types superclass. Nil otherwise 
-//- (id)variantOfType;
-// return a pointer to the text document parser class if it has one. Nil otherwise.
+// return a pointer to the text document instance if it has one. Nil otherwise.
+// this will allow different plugins to return their specific variation of the text plugin
 - (id)textPlugin;
-// return a pointer to the SMIL document parser class if it has one. nil otherwise.
+// return a pointer to the SMIL document instance if it has one. Nil otherwise.
+// this will allow different plugins to return their specific variation of the SMIL plugin
 - (id)smilPlugin;
 // return a textual description of the book type
 - (NSString *)FormatDescription;
@@ -33,8 +31,12 @@
 // returns the node of the book that contains the full metadata
 - (NSXMLNode *)infoMetadataNode;
 
+// start or continue playback of the book
 - (void)startPlayback;
+// stop or pause playback of the book
 - (void)stopPlayback;
+// returns the URL of the file that was deemed by the plugin as the correct one to load first
+- (NSURL *)loadedURL;
 
 
 @end

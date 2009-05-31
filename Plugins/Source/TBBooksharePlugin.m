@@ -178,6 +178,8 @@
 	return (((nil != packageFileUrl) && opfLoaded) || ((nil != controlFileURL) && ncxLoaded));
 }
 
+
+
 #pragma mark -
 
 - (void) dealloc

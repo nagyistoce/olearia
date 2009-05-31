@@ -103,6 +103,9 @@ static NSBundle* pluginBundle = nil;
 }
 - (NSXMLNode *)infoMetadataNode
 {
+#ifdef DEBUG
+	NSLog(@"Super Class method infoMetadataNode used instead of subclass method");
+#endif
 	return nil;
 }
 
@@ -121,6 +124,13 @@ static NSBundle* pluginBundle = nil;
 {
 	// dummy method placeholder
 }
+
+- (NSURL *)loadedURL
+{
+	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
+	return nil;
+}
+
 #pragma mark -
 
 - (NSMutableArray *)insertIntoArray:(NSArray *)anArray
