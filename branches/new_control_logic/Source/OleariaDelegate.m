@@ -443,11 +443,11 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		
 		[openPanel close];  // close the panel so it doesnt confuse the user that we are busy processing the book
 		
-		NSString *validFilePath = [self controlFilenameFromFolder:[[openPanel URL] path]];
+		NSString *bookPath = [[openPanel URL] path];
 				
-		if(nil != validFilePath)
+		if(nil != bookPath)
 		{
-			bookLoaded = [self loadBookAtPath:validFilePath];
+			bookLoaded = [self loadBookAtPath:bookPath];
 			if (!bookLoaded)
 			{
 				shortErrorMsg = [NSString stringWithString:NSLocalizedString(@"Invalid File", @"invalid file short msg")];
@@ -640,7 +640,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	if(loadedOK)
 	{
 		//update the recent files list
-		[self updateRecentBooks:[validFileURL path] updateCurrentBookSettings:NO];
+		[self updateRecentBooks:[[[talkingBook currentPlugin] loadedURL] path] updateCurrentBookSettings:NO];
 	}
 	
 	return loadedOK;
