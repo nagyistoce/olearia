@@ -34,8 +34,6 @@
 		EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */; };
 		EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE436AE40E5D500F00276672 /* OleariaPrefsController.h */; };
 		EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */; };
-		EE24ED770FCFA1F200D88546 /* TalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE24ED6E0FCFA11D00D88546 /* TalkingBook.framework */; };
-		EE24EEF70FCFB33300D88546 /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE24ED6E0FCFA11D00D88546 /* TalkingBook.framework */; };
 		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
@@ -61,26 +59,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EE24ED6D0FCFA11D00D88546 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = TalkingBook;
-		};
-		EE24ED750FCFA19A00D88546 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = TalkingBook;
-		};
 		EE5A11D20EDB914900398FFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5A11CC0EDB912B00398FFC;
 			remoteInfo = RelaunchHelper;
+		};
+		EEFED03A0FD265E500BF6A99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TalkingBook.framework */;
+			remoteInfo = TalkingBook;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -101,7 +92,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EE24ED770FCFA1F200D88546 /* TalkingBook.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +127,7 @@
 		EE2278670ECA518A00309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
-		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBook/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
+		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = "../TalkingBook Framework/TalkingBook.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
@@ -180,7 +170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE24EEF70FCFB33300D88546 /* TalkingBook.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,14 +303,6 @@
 			path = Source;
 			sourceTree = SOURCE_ROOT;
 		};
-		EE24ED6A0FCFA11D00D88546 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EE24ED6E0FCFA11D00D88546 /* TalkingBook.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,6 +327,14 @@
 			);
 			name = "Applcation Icons";
 			path = Icons;
+			sourceTree = "<group>";
+		};
+		EEFED0370FD265E500BF6A99 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EEFED03B0FD265E500BF6A99 /* TalkingBook.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,7 +370,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EE24ED760FCFA19A00D88546 /* PBXTargetDependency */,
 				EE5A11D30EDB914900398FFC /* PBXTargetDependency */,
 			);
 			name = Olearia;
@@ -427,7 +415,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EE24ED6A0FCFA11D00D88546 /* Products */;
+					ProductGroup = EEFED0370FD265E500BF6A99 /* Products */;
 					ProjectRef = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
 				},
 			);
@@ -440,11 +428,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EE24ED6E0FCFA11D00D88546 /* TalkingBook.framework */ = {
+		EEFED03B0FD265E500BF6A99 /* TalkingBook.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = TalkingBook.framework;
-			remoteRef = EE24ED6D0FCFA11D00D88546 /* PBXContainerItemProxy */;
+			remoteRef = EEFED03A0FD265E500BF6A99 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -551,11 +539,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EE24ED760FCFA19A00D88546 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TalkingBook;
-			targetProxy = EE24ED750FCFA19A00D88546 /* PBXContainerItemProxy */;
-		};
 		EE5A11D30EDB914900398FFC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EE5A11CC0EDB912B00398FFC /* RelaunchHelper */;
