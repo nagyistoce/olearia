@@ -20,8 +20,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <TalkingBook/TBTalkingBook.h>
 
-@class BBSTalkingBook, OleariaPrefsController, AboutBoxController;
+@class OleariaPrefsController, AboutBoxController;
 
 extern NSString * const OleariaPlaybackVolume;
 extern NSString * const OleariaPlaybackRate;
@@ -37,7 +38,7 @@ extern NSString * const OleariaShouldRelaunchNotification;
 @interface OleariaDelegate : NSObject
 {
 	NSArray				*validFileTypes;
-	BBSTalkingBook		*talkingBook;
+	TBTalkingBook		*talkingBook;
 	
 	OleariaPrefsController *_prefsController;
 	AboutBoxController	*_aboutController;
@@ -96,6 +97,6 @@ extern NSString * const OleariaShouldRelaunchNotification;
 
 - (IBAction)showBookmarks:(id)sender;
 
-@property (readwrite,retain) BBSTalkingBook *talkingBook;
+@property (readwrite,retain) TBTalkingBook *talkingBook;
 
 @end
