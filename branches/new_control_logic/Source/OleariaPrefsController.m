@@ -24,13 +24,6 @@
 #import "OleariaDelegate.h"
 #import <TalkingBook/TBTalkingBook.h>
 
-//@interface OleariaPrefsController(Private)
-
-//- (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
-//@end
-
-
 @implementation OleariaPrefsController
 
 - (id) init
@@ -45,7 +38,6 @@
 - (void)windowDidLoad
 {
 	[prefsWindow makeKeyWindow];
-	[[prefsWindow contentView] addSubview:generalPrefsView];
 	
 	[voicesPopup removeAllItems];
 	// populate the voices popup with the names of all the voices available.
@@ -65,55 +57,6 @@
 
 #pragma mark -
 #pragma mark Action Methods
-
-- (IBAction)displaySoundPrefsView:(id)sender
-{
-	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
-	if(currentView != soundPrefsView)
-	{
-		[[NSAnimationContext currentContext] setDuration:0.5];
-		[[[prefsWindow contentView] animator] replaceSubview:currentView with:soundPrefsView];
-	}
-	
-}
-
-- (IBAction)displayTextPrefsView:(id)sender
-{
-	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
-	if(currentView != textPrefsView)
-	{
-
-		[[NSAnimationContext currentContext] setDuration:0.5];
-		[[[prefsWindow contentView] animator] replaceSubview:currentView with:textPrefsView];
-
-	}
-	
-}
-
-- (IBAction)displayVoicePrefsView:(id)sender
-{
-	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
-	if(currentView != voicePrefsView)
-	{
-		[[NSAnimationContext currentContext] setDuration:0.5];
-		[[[prefsWindow contentView] animator] replaceSubview:currentView with:voicePrefsView];
-	}
-	
-	
-}
-
-- (IBAction)displayGeneralPrefsView:(id)sender
-{
-	NSView * currentView = [[[prefsWindow contentView] subviews] objectAtIndex:0];
-	if(currentView != generalPrefsView)
-	{
-		[[NSAnimationContext currentContext] setDuration:0.5];
-		[[[prefsWindow contentView] animator] replaceSubview:currentView with:generalPrefsView];
-	}
-	
-	
-}
-
 
 - (IBAction)setSelectedPlaybackVoice:(id)sender
 {
