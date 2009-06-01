@@ -34,6 +34,7 @@
 - (id)textPlugin
 {
 	
+	return nil;
 }
 
 - (id)smilPlugin

@@ -50,6 +50,7 @@ typedef enum
 	AudioOnlyMediaFormat,
 	TextPartialAudioMediaFormat,
 	TextNcxOrNccMediaFormat,
+	TextOnlyNIMASMediaFormat,
 	unknownMediaFormat
 } TalkingBookMediaFormat;
 

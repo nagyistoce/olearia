@@ -27,14 +27,24 @@
 	return nil;
 }
 
+- (BOOL)openBook:(NSURL *)bookURL
+{
+	
+	
+	
+	return NO;
+}
+
 - (id)textPlugin
 {
 	
+	return nil;
 }
 
 - (id)smilPlugin
 {
 	
+	return nil;
 }
 
 

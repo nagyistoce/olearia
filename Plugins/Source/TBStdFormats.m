@@ -171,6 +171,8 @@ static NSBundle* pluginBundle = nil;
 {
 	[bookData release];
 	[fileUtils release];
+	if(validFileExtensions) 
+		[validFileExtensions release];
 	
 	[super dealloc];
 }

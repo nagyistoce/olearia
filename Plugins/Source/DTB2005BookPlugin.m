@@ -12,15 +12,22 @@
 
 @property (readwrite, retain)	NSArray *validFileExtensions;
 
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+
 @end
 
 
 @implementation DTB2005BookPlugin
 
-- (void)setupPluginSpecifics
-{
-	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
 
+- (id)textPlugin
+{
+	return nil;
+}
+
+- (id)smilPlugin
+{
+	return nil;
 }
 
 + (DTB2005BookPlugin *)bookType
@@ -33,43 +40,6 @@
 	}
 	
 	return nil;
-}
-
-- (id)textPlugin
-{
-	return nil;
-}
-
-- (id)smilPlugin
-{
-	return nil;
-}
-
-// this method checks the url for a file with a valid extension
-// if a directory URL is passed the 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
-{
-	NSURL *fileURL = nil;
-	// first check if we were passed a folder
-	if ([fileUtils URLisDirectory:bookURL])
-	{	// we were so first check for an OPF file 
-		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
-		// check if we found the OPF file
-		if (!fileURL)
-			// check for the NCX file
-			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
-		if (fileURL)
-			return YES;		
-	}
-	else
-	{
-		// check the path contains a file with a valid extension
-		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
-			return YES;
-	}
-	
-	// this did not find a valid extension that it could attempt to open
-	return NO;
 }
 
 
@@ -99,34 +69,29 @@
 		}
 		else
 		{
-			// file url
-			// check the path contains a file with a valid extension
-			if([fileUtils URL:bookURL hasExtension:validFileExtensions])
-			{	
-				NSString *filename = [bookURL path];
-				// check for an opf extension
-				if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
+			// valid file url passed in 
+			
+			NSString *filename = [bookURL path];
+			// check for an opf extension
+			if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
+			{
+				packageFileUrl = bookURL;
+			}
+			else if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
+			{
+				// check if there is an OPF file to use instead
+				packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
+				// check if we found the OPF file
+				if (!packageFileUrl)
 				{
-					packageFileUrl = bookURL;
-				}
-				else if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
-				{
-					// check if there is an OPF file to use instead
-					packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
-					// check if we found the OPF file
-					if (!packageFileUrl)
-					{
-						// no OPF file found fall back to the ncx one instead
-						// this should not happen that often but might occasionally 
-						// with badly authored books.
-						controlFileURL = bookURL;  
-						
-						self.packageDocument = nil;
-					}
+					// no OPF file found fall back to the ncx one instead
+					// this should not happen that often but might occasionally 
+					// with badly authored books.
+					controlFileURL = bookURL;  
 					
+					self.packageDocument = nil;
 				}
 			}
-			
 		}
 		
 		if(packageFileUrl)
@@ -197,10 +162,45 @@
 
 #pragma mark -
 
+- (void)setupPluginSpecifics
+{
+	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+
+}
+
 - (void) dealloc
 {	
+	
 	[super dealloc];
 }
+
+// this method checks the url for a file with a valid extension
+// if a directory URL is passed in the entire folder is scanned 
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+{
+	NSURL *fileURL = nil;
+	// first check if we were passed a folder
+	if ([fileUtils URLisDirectory:bookURL])
+	{	// we were so first check for an OPF file 
+		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
+		// check if we found the OPF file
+		if (!fileURL)
+			// check for the NCX file
+			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
+		if (fileURL)
+			return YES;		
+	}
+	else
+	{
+		// check the path contains a file with a valid extension
+		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
+			return YES;
+	}
+	
+	// this did not find a valid extension that it could attempt to open
+	return NO;
+}
+
 
 @synthesize validFileExtensions;
 

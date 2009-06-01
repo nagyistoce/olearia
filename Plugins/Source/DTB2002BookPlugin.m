@@ -78,7 +78,6 @@
 	
 	if(isValidUrl)
 	{
-		
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
@@ -92,38 +91,33 @@
 		}
 		else
 		{
-			// file url
-			// check the path contains a file with a valid extension
-			if([fileUtils URL:bookURL hasExtension:validFileExtensions])
-			{	
-				NSString *filename = [bookURL path];
-				// check for an opf extension
-				if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
+			// valid file url passed in
+			NSString *filename = [bookURL path];
+			// check for an opf extension
+			if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"opf"])
+			{
+				packageFileUrl = bookURL;
+			}
+			else if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
+			{
+				// check if there is an OPF file to use instead
+				packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
+				// check if we found the OPF file
+				if (!packageFileUrl)
 				{
-					packageFileUrl = bookURL;
-				}
-				else if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
-				{
-					// check if there is an OPF file to use instead
-					packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
-					// check if we found the OPF file
-					if (!packageFileUrl)
-					{
-						// no OPF file found fall back to the ncx one instead
-						// this should not happen that often but might occasionally 
-						// with badly authored books.
-						controlFileURL = bookURL;  
-						
-						packageDocument = nil;
-					}
+					// no OPF file found fall back to the ncx one instead
+					// this should not happen that often but might occasionally 
+					// with badly authored books.
+					controlFileURL = bookURL;  
 					
+					packageDocument = nil;
 				}
 			}
-			
 		}
 		
 		if(packageFileUrl)
 		{
+			packageDocument = [[TBOPFDocument alloc] init];
 			if([packageDocument openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
@@ -136,9 +130,9 @@
 					self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the ncx filename
-					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
 					// get the text content filename
-					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"text/xml\" ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
 					[packageDocument processData];
 					controlFileURL = [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];  
 					
@@ -159,7 +153,7 @@
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return (((nil != packageFileUrl) && opfLoaded) || ((nil != controlFileURL) && ncxLoaded)) ? YES : NO;
+	return ((packageFileUrl && opfLoaded) || (controlFileURL && ncxLoaded));
 }
 
 #pragma mark -
