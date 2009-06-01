@@ -26,6 +26,9 @@
 		EE1A07770ED68A730007E357 /* HC-gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076C0ED68A730007E357 /* HC-gotoPage.png */; };
 		EE1A07780ED68A730007E357 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076D0ED68A730007E357 /* HC-info.png */; };
 		EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076E0ED68A730007E357 /* HC-UpArrow.png */; };
+		EE2107ED0FD3E6D200AFB19A /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */; };
+		EE21081D0FD3E70300AFB19A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */; };
+		EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* file-doc.icns */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
 		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
 		EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278690ECA51B200309491 /* MainMenu.nib */; };
@@ -56,7 +59,6 @@
 		EEEB96DA0E8DE7B400D77B4D /* button-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CE0E8DE7B400D77B4D /* button-forward.png */; };
 		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
 		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
-		EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96E10E8DF22100D77B4D /* prefs_gen.png */; };
 		EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF98E810EED4DE5002F50BC /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +103,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EE2107ED0FD3E6D200AFB19A /* BWToolkitFramework.framework in Copy Frameworks */,
 				EE7905910FD26CF8001545B4 /* TalkingBook.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -132,6 +135,8 @@
 		EE1A076C0ED68A730007E357 /* HC-gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-gotoPage.png"; sourceTree = "<group>"; };
 		EE1A076D0ED68A730007E357 /* HC-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-info.png"; sourceTree = "<group>"; };
 		EE1A076E0ED68A730007E357 /* HC-UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpArrow.png"; sourceTree = "<group>"; };
+		EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Frameworks/BWToolkitFramework.framework; sourceTree = "<group>"; };
+		EE21082C0FD3E86300AFB19A /* file-doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "file-doc.icns"; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
 		EE2278670ECA518A00309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
@@ -171,7 +176,6 @@
 		EEEB96CE0E8DE7B400D77B4D /* button-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-forward.png"; sourceTree = "<group>"; };
 		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
-		EEEB96E10E8DF22100D77B4D /* prefs_gen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_gen.png; sourceTree = "<group>"; };
 		EEF98E810EED4DE5002F50BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -180,6 +184,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE21081D0FD3E70300AFB19A /* BWToolkitFramework.framework in Frameworks */,
 				EE7905940FD26D19001545B4 /* TalkingBook.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
 			);
@@ -198,6 +203,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */,
 				EEF98E810EED4DE5002F50BC /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -284,8 +290,8 @@
 				EE1A076C0ED68A730007E357 /* HC-gotoPage.png */,
 				EE1A076D0ED68A730007E357 /* HC-info.png */,
 				EE1A076E0ED68A730007E357 /* HC-UpArrow.png */,
-				EEEB96E10E8DF22100D77B4D /* prefs_gen.png */,
 				EEEB96C50E8DE7B300D77B4D /* UpArrow.png */,
+				EE21082C0FD3E86300AFB19A /* file-doc.icns */,
 				EEEB96C60E8DE7B300D77B4D /* SoundPref.png */,
 				EE89DED50EB5BFCB0017EB9D /* Speech.png */,
 				EEEB96C70E8DE7B300D77B4D /* info.png */,
@@ -471,7 +477,6 @@
 				EEEB96DA0E8DE7B400D77B4D /* button-forward.png in Resources */,
 				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
-				EEEB96E20E8DF22100D77B4D /* prefs_gen.png in Resources */,
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
@@ -491,6 +496,7 @@
 				EE1A07780ED68A730007E357 /* HC-info.png in Resources */,
 				EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */,
 				EE083D5E0EDD2544009F5020 /* License.txt in Resources */,
+				EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +640,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_AUTO_VECTORIZATION = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
@@ -682,6 +689,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_DEBUGGING_SYMBOLS = default;

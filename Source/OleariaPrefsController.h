@@ -21,6 +21,7 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import <BWToolkitFramework/BWToolkitFramework.h>
 
 @interface OleariaPrefsController : NSWindowController 
 {
@@ -30,18 +31,9 @@
 	IBOutlet NSButton		*highContrastCheckBox;
 	
 	IBOutlet NSWindow		*prefsWindow;
-	IBOutlet NSView			*soundPrefsView;
-	IBOutlet NSView			*textPrefsView;
-	IBOutlet NSView			*voicePrefsView;
-	IBOutlet NSView			*generalPrefsView;
-	
 	
 }
 
-- (IBAction)displaySoundPrefsView:(id)sender;
-- (IBAction)displayTextPrefsView:(id)sender;
-- (IBAction)displayVoicePrefsView:(id)sender;
-- (IBAction)displayGeneralPrefsView:(id)sender;
 - (IBAction)setSelectedPlaybackVoice:(id)sender;
 - (IBAction)toggleHighContrastIcons:(id)sender;
 - (IBAction)setNewSkipDuration:(id)sender;
