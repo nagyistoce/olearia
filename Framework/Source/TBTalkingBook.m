@@ -33,8 +33,9 @@
 - (void)resetBook;
 
 - (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-- (BOOL)openControlDocument:(NSURL *)aDocUrl;
+
 - (BOOL)isSmilFilename:(NSString *)aFilename;
+
 // Pkugin Loading and Validation
 - (BOOL)plugInClassIsValid:(Class)plugInClass;
 - (void)loadPlugins;
@@ -43,13 +44,6 @@
 @property (readwrite, copy)		id<TBPluginInterface>	currentPlugin;
 @property (readwrite, retain)	NSSpeechSynthesizer *speechSynth;
 @property (readwrite)			TalkingBookType _controlMode;
-
-@property (readwrite, retain)	id		_controlDoc;
-@property (readwrite, retain)	id		_packageDoc;
-@property (readwrite, retain)	id		_textDoc;
-@property (readwrite, retain)	id		_smilDoc;
-
-@property (readwrite, copy)		NSURL		*_bookBaseURL;
 
 // Bindings related
 @property (readwrite) BOOL		canPlay;
@@ -164,7 +158,7 @@
 
 - (void)nextSegment
 {
-	BOOL	fileDidUpdate = NO;
+//	BOOL	fileDidUpdate = NO;
 //	if(YES == _hasControlFile)
 //	{	
 //		// check that there is another segment available
@@ -199,9 +193,9 @@
 
 - (void)nextSegmentOnLevel
 {
-	BOOL fileDidUpdate = NO;
-	if(YES == _hasControlFile)
-	{	
+//	BOOL fileDidUpdate = NO;
+//	if(YES == _hasControlFile)
+//	{	
 		// move to the next segment at the current level
 //		[_controlDoc setLoadFromCurrentLevel:YES];
 //		[_controlDoc moveToNextSegment];
@@ -212,7 +206,7 @@
 //											 relativeToURL:_bookBaseURL];
 //			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
 //			
-		}		
+//		}		
 		// update the audio segment
 		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 //	}
@@ -222,9 +216,9 @@
 
 - (void)previousSegment 
 {
-	BOOL	fileDidUpdate = NO;
-	if(YES == _hasControlFile)
-	{	
+//	BOOL	fileDidUpdate = NO;
+//	if(YES == _hasControlFile)
+//	{	
 		// move to the previous segment of the book
 //		[_controlDoc moveToPreviousSegment];
 //
@@ -238,19 +232,19 @@
 		// update the audio segment 
 		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
 
-	}
+//	}
 	
 	//return fileDidUpdate;
 }
 
 - (void)upOneLevel
 {
-	if(_hasControlFile)
-	{
-		//[_controlDoc goUpALevel];
-		
-		//self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-	}
+//	if(_hasControlFile)
+//	{
+//		//[_controlDoc goUpALevel];
+//		
+//		//self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
+//	}
 	
 	//[self updateForPosInBook];
 	
@@ -271,8 +265,8 @@
 - (void)downOneLevel
 {
 	// check that we have a control document to use
-	if(_hasControlFile)
-	{
+//	if(_hasControlFile)
+//	{
 		// check that we can go down a level
 	//	if([_controlDoc canGoDownLevel])
 //		{	
@@ -303,18 +297,18 @@
 			self.bookData.isPlaying = YES;
 
 		}
-	}
+//	}
 	
 }
 
 - (void)nextChapter
 {
-	if(_smilDoc)
-	{
-		if(bookData.hasNextChapter)
-			[_smilDoc nextChapter];
-
-	}
+//	if(_smilDoc)
+//	{
+//		if(bookData.hasNextChapter)
+//			[_smilDoc nextChapter];
+//
+//	}
 	
 //	BOOL segmentAvailable = NO;
 //	QTTime timeOffset = QTZeroTime;
@@ -379,11 +373,11 @@
 
 - (void)previousChapter
 {
-	if(_smilDoc)
-	{
-		if(bookData.hasPreviousChapter)
-			[_smilDoc previousChapter];
-	}
+//	if(_smilDoc)
+//	{
+//		if(bookData.hasPreviousChapter)
+//			[_smilDoc previousChapter];
+//	}
 	
 	
 //	BOOL segmentAvailable = NO;
@@ -508,10 +502,10 @@
  
 - (NSString *)playPositionID
 {
-	if(_hasControlFile)
-	{
-		return [_controlDoc currentPositionID];
-	}
+//	if(_hasControlFile)
+//	{
+//		return [_controlDoc currentPositionID];
+//	}
 	
 	return nil;
 }
@@ -519,8 +513,8 @@
 - (NSString *)audioSegmentTimePosition
 {
 	NSString *nowTime = nil;
-	if(_smilDoc)
-		nowTime = [_smilDoc currentTimeString];
+//	if(_smilDoc)
+//		nowTime = [_smilDoc currentTimeString];
 	
 	return nowTime;
 }
@@ -541,23 +535,19 @@
 - (void)resetBook
 {
 	
-	if(_hasControlFile) 
-		[_controlDoc release];
-	
-	if(_hasPackageFile) 
-		[_packageDoc release];
-	
-	if(_smilDoc) 
-		[_smilDoc release];
-	if(_textDoc) 
-		[_textDoc release];
+//	if(_hasControlFile) 
+//		[_controlDoc release];
+//	
+//	if(_hasPackageFile) 
+//		[_packageDoc release];
+//	
+//	if(_smilDoc) 
+//		[_smilDoc release];
+//	if(_textDoc) 
+//		[_textDoc release];
 			
 	bookIsAlreadyLoaded = NO;
 	
-	_hasPackageFile = NO;
-	_hasControlFile = NO;
-
-	bookIsAlreadyLoaded = NO;
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
@@ -717,11 +707,10 @@
 
 @synthesize plugins, currentPlugin;
 
-@synthesize _controlDoc, _packageDoc, _textDoc, _smilDoc, bookData;
+@synthesize bookData;
 @synthesize speechSynth, preferredVoice;
 
 @synthesize _controlMode;
-@synthesize _bookBaseURL;
 @synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
 @synthesize playPositionID, audioSegmentTimePosition;
 

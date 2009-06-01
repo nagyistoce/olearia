@@ -53,21 +53,13 @@ typedef enum
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	
-	id						_textDoc;
-	id						_smilDoc;
-	id						_controlDoc;
-	id						_packageDoc;
 	TBSharedBookData		*bookData;
 	TBInfoController		*_infoController;
 	
 
 	NSString				*_currentSegmentFilename;
 	NSString				*playPositionID;
-	NSURL					*_bookBaseURL;
 	
-	BOOL					_hasPackageFile;
-	BOOL					_hasControlFile;
-
 	BOOL					_hasPageNavigation;
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
