@@ -21,7 +21,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TBNCXDocument.h"
-#import "TBControlDoc.h"
 //#import "BBSTalkingBookTypes.h"
 
 @interface TBNCXDocument ()
@@ -82,7 +81,7 @@
 	{
 		// set the book title
 		NSString *titleStr = nil;
-		titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:metadataNode];
+		titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
 		self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
 	}
 	
@@ -90,7 +89,7 @@
 	{
 		// set the subject
 		NSString *subjectStr = nil;
-		subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:metadataNode];
+		subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
 		self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
 	}
 	
@@ -119,6 +118,13 @@
 
 #pragma mark -
 #pragma mark Public Methods
+
+- (NSXMLNode *)metadataNode
+{
+	NSArray *metaNodes = [xmlControlDoc nodesForXPath:@"/ncx/head" error:nil];
+	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
+}
+
 
 - (void)moveToNextSegment
 {

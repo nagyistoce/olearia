@@ -1,6 +1,6 @@
 //
-//  BBSTBNCCDocument.m
-//  TalkingBook Framework
+//  TBNCCDocument.m
+//  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 11/09/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -71,52 +71,50 @@
 	[self updateDataForCurrentPosition];
 }
 
-- (BOOL)processMetadata
+- (void)processData
 {
-	BOOL isOK = NO;
-	NSError *theError = nil;
-	NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
-		
 	NSXMLNode *rootNode = [xmlControlDoc rootElement];
-				
-	// these all may be nil depending on the type of book we are reading
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/data(title)" error:&theError]];
-	// check if we found a title
-	if (0 == [extractedContent count])
-		// check the alternative place for the title in the meta data
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'title')]/data(@content)" error:nil]];
-	self.bookData.bookTitle = ( 1 == [extractedContent count]) ? [extractedContent objectAtIndex:0] : NSLocalizedString(@"No Title", @"no title string");
+	NSMutableString *tempString = [[NSMutableString alloc] init];
 	
-	[extractedContent removeAllObjects];
+	// check the default node for a title
+	[tempString  setString:[self stringForXquery:@"/html/head/data(title)" ofNode:nil]]; 
+	if(!tempString) // check the alternative location
+		[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'title')]/data(@content)" ofNode:nil]];
+	self.bookData.bookTitle = (tempString) ? tempString : NSLocalizedString(@"No Title", @"no title string");
+	
+	
 	// check for total page count
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][contains(@name,'page')][ends-with(@name,'Normal')]/data(@content)" error:nil]];
+	[tempString setString:[self stringForXquery:@"/html/head/meta[@name][contains(@name,'page')][ends-with(@name,'Normal')]/data(@content)" ofNode:nil]];
 	// check if we found a page count
-	bookData.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+	bookData.totalPages = (tempString) ? [tempString intValue] : 0; 
 	
-	[extractedContent removeAllObjects];
+	
 	// get the media type of the book
-	[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'multimediaType')]/data(@content)" error:nil]];
-	// try to get the string and if it exists convert it to lowercase
-	NSString *mediaTypeStr = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] lowercaseString] : nil;	
-	if(mediaTypeStr != nil)
-		[bookData setMediaFormatFromString:mediaTypeStr];	
+	[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:nil]];
+	
+	[tempString setString:(tempString) ? [tempString lowercaseString] : nil];	
+	if(tempString)
+		[bookData setMediaFormatFromString:tempString];	
 
 	// get all the body nodes
 	_bodyNodes = [[[rootNode nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
 	_totalBodyNodes = [_bodyNodes count];
 	
-	if(_totalBodyNodes > 0)
-	{
-		bookData.currentLevel = 1;
-		isOK = YES;
-	}
-
-	return isOK;
+	bookData.currentLevel = (_totalBodyNodes > 0) ? 1 : -1;
+	
 }
+
+
 
 
 #pragma mark -
 #pragma mark Public Methods
+
+- (NSXMLNode *)metadataNode
+{
+	NSArray *metaNodes = [xmlControlDoc nodesForXPath:@"/html/head" error:nil];
+	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
+}
 
 - (void)moveToNextSegment
 {

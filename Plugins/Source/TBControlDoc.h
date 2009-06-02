@@ -19,10 +19,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #import <Foundation/Foundation.h>
 #import "TalkingBookTypes.h"
-#import "TBSharedBookData.h"
 
 @interface TBControlDoc : NSObject
 {
@@ -32,7 +30,6 @@
 	
 	TBSharedBookData	*bookData;
 	
-	NSXMLNode			*metadataNode;
 	NSXMLNode			*currentNavPoint;
 	
 	NSString			*currentPositionID;
@@ -72,7 +69,6 @@
 
 @property (readwrite, retain) TBSharedBookData *bookData;
 
-@property (readonly)		NSXMLNode			*metadataNode;
 @property (readwrite, copy)	NSXMLNode			*currentNavPoint;
 @property (readonly, copy)	NSURL				*fileURL;
 

@@ -5,8 +5,25 @@
 //  Created by Kieren Eaton on 20/05/09.
 //  Copyright 2009 BrainBender Software. All rights reserved.
 //
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
 
 #import "DTB2002BookPlugin.h"
+#import "TBOPFDocument.h"
+#import "TBNCXDocument.h"
+
 
 @implementation DTB2002BookPlugin
 
@@ -154,6 +171,16 @@
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
 	return ((packageFileUrl && opfLoaded) || (controlFileURL && ncxLoaded));
+}
+
+- (NSURL *)loadedURL
+{
+	if(packageDocument)
+		return [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];
+	if(controlDocument)
+		return [controlDocument fileURL];
+	
+	return nil;
 }
 
 #pragma mark -

@@ -51,7 +51,6 @@
 
 - (NSURL *)fileURLFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension
 {
-	// check if an OPF file exists 
 	BOOL isDir;
 	NSArray *folderContents = nil;
 	NSString *folderPath = nil;
@@ -83,6 +82,39 @@
 	
 	// we didnt find a file with wanted extension
 	return newURL;
+	
+}
+
+- (NSArray *)fileURLsFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension
+{
+	BOOL isDir;
+	NSString *folderPath = nil;
+	NSDirectoryEnumerator *dirEnum = nil;
+	NSMutableArray *foundPaths = [[NSMutableArray alloc] init];
+	
+	// check if the passed in path is not a folder
+	if(([fileManager fileExistsAtPath:aPath isDirectory:&isDir]) && !isDir)
+	{
+		folderPath = [aPath stringByDeletingLastPathComponent];
+		dirEnum = [fileManager enumeratorAtPath:folderPath];
+	}
+	else
+	{	
+		dirEnum = [fileManager enumeratorAtPath:aPath];	
+		folderPath = aPath;
+	}
+	
+	// iterate through the folder contents to see if there is any files with the wanted extension.
+	for(NSString *anItem in dirEnum)
+	{
+		if([[[anItem pathExtension] lowercaseString] isEqualToString:anExtension])
+		{	
+			[foundPaths addObject:[[NSURL alloc] initFileURLWithPath:[folderPath stringByAppendingPathComponent:anItem]]];
+		}
+	}
+	
+	
+	return foundPaths;
 	
 }
 

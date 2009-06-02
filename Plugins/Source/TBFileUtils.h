@@ -17,6 +17,6 @@
 - (BOOL)URL:(NSURL *)aURL hasExtension:(NSArray *)validExtensions;
 - (BOOL)URLisDirectory:(NSURL *)aDir;
 - (NSURL *)fileURLFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension;
-
+- (NSArray *)fileURLsFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension;
 
 @end

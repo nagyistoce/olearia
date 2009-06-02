@@ -65,22 +65,7 @@
 	
 	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	
-	if(xmlControlDoc)
-	{
-		fileURL = aURL;
-		[self processData];
-		
-		
-			// jump to the first node in the control file
-			[self jumpToNodeWithId:@""];
-			
-			// get the root path for later use with smil and xmlcontent files
-			parentFolderPath = [[aURL path] stringByDeletingLastPathComponent]; 
-		
-		
-
-	}
-	else // we got a nil return so display the error to the user
+	if(!xmlControlDoc)
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Control File", @"control open fail alert short msg")];
@@ -90,36 +75,49 @@
 							didEndSelector:nil 
 							   contextInfo:nil];
 	}
+	else
+		loadedOk = YES;
 	
 	return loadedOk;
 }
 
 - (void)processData
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSXMLNode *)metadataNode
 {
-	// this super class method will only be used for querying ncc.html control docs 
-	// as the NCX files do not hold as much info as the OPF ones
-	// will be subclassed as neccessary 
-	NSArray *metaNodes = [xmlControlDoc objectsForXQuery:@"//head" error:nil];
-	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
+	return nil;
 }
 
 - (void)jumpToNodeWithId:(NSString *)fullPathToNode
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)moveToNextSegment
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)moveToPreviousSegment
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 }
 
@@ -134,76 +132,104 @@
 
 - (NSString *)audioFilenameFromCurrentNode
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector: _cmd];
 	return nil;
 }
 
 - (void)updateDataForCurrentPosition
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (BOOL)canGoNext
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 - (BOOL)canGoPrev;
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
 - (BOOL)canGoUpLevel;
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
 - (BOOL)canGoDownLevel;
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
 - (void)goUpALevel;
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	
 }
 
 - (void)goDownALevel;
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	
 }
 
 - (BOOL)nextSegmentIsAvailable
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
 - (BOOL)PreviousSegmentIsAvailable
 {
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
 {
-	NSArray *queryContents;
+	NSArray *queryContents = nil;
+	// if we pass in nil for the node we use the root node as a default 
 	if(!theNode)
-	{
 		queryContents = [[xmlControlDoc rootElement] objectsForXQuery:aQuery error:nil];
-	}
-	else
-	{
-		queryContents = [theNode objectsForXQuery:aQuery error:nil];	
-	}
+	else	
+		queryContents = [theNode objectsForXQuery:aQuery error:nil];
 	
 	return ([queryContents count] > 0) ? [queryContents objectAtIndex:0] : nil;
 }
+
 
 - (TalkingBookType)supportedType
 {
@@ -219,9 +245,10 @@
 
 }
 
+@synthesize bookData;
 @synthesize currentPositionID;
 @synthesize navigateForChapters, stayOnCurrentLevel;
-@synthesize metadataNode, currentNavPoint;
-@synthesize bookData, fileURL;
+@synthesize currentNavPoint;
+@synthesize fileURL;
 
 @end
