@@ -88,21 +88,17 @@
 - (NSArray *)fileURLsFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension
 {
 	BOOL isDir;
-	NSString *folderPath = [[[NSString alloc] init] autorelease];
+	NSString *folderPath;
 	NSDirectoryEnumerator *dirEnum = [[[NSDirectoryEnumerator alloc] init] autorelease];
 	NSMutableArray *foundPaths = [[[NSMutableArray alloc] init] autorelease];
 	
 	// check if the passed in path is not a folder
 	if(([fileManager fileExistsAtPath:aPath isDirectory:&isDir]) && !isDir)
-	{
 		folderPath = [[aPath stringByDeletingLastPathComponent] copy];
-		dirEnum = [fileManager enumeratorAtPath:folderPath];
-	}
 	else
-	{	
-		dirEnum = [fileManager enumeratorAtPath:aPath];	
 		folderPath = [aPath copy];
-	}
+	
+	dirEnum = [fileManager enumeratorAtPath:folderPath];
 	
 	// iterate through the folder contents to see if there is any files with the wanted extension.
 	for(NSString *anItem in dirEnum)
@@ -113,9 +109,7 @@
 		}
 	}
 	
-	
 	return foundPaths;
-	
 }
 
 - (BOOL)URLisDirectory:(NSURL *)aPath
