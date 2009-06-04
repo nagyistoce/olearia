@@ -33,6 +33,23 @@
 
 @implementation DTB202BookPlugin
 
++ (BOOL)initializeClass:(NSBundle*)theBundle 
+{
+	// Dummy Method never gets called
+	return NO;
+}
+
++ (NSArray *)plugins
+{
+	// dummy method never gets called
+	return nil;
+}
+
++ (void)terminateClass
+{
+	// dummy method never gets called
+}
+
 - (void)setupPluginSpecifics
 {
 	
@@ -105,14 +122,13 @@
 		
 		if (controlFileURL)
 		{
-			
-			// check if the folder path has already been set
-			if (!bookData.folderPath)
-				self.bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
 			// attempt to load the ncc.html file
 			controlDocument = [[TBNCCDocument alloc] init];
 			if([controlDocument openWithContentsOfURL:controlFileURL])
 			{
+				// check if the folder path has already been set
+				if (!bookData.folderPath)
+					self.bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
 				NSString *bookFormatString = [[controlDocument stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
@@ -120,6 +136,11 @@
 				{
 					[controlDocument processData];
 					nccLoaded = YES;
+				}
+				else 
+				{
+					[controlDocument release];
+					controlDocument = nil;
 				}
 			}
 			else 
@@ -166,9 +187,31 @@
 }
 
 
+- (void)startPlayback
+{
+	
+}
+
+- (void)stopPlayback
+{
+	
+}
+- (NSString *)FormatDescription
+{
+	return NSLocalizedString(@"This Book has been authored with the Daisy 2.02 standard",@"Daisy 2.02 Standard description");
+}
+
 #pragma mark -
 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
+- (void) dealloc
+{
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark Private Methods
+
+- (BOOL)canOpenBook:(NSURL *)bookURL
 {
 	NSURL *fileURL = nil;
 	// first check if we were passed a folder
@@ -193,10 +236,6 @@
 }
 
 
-- (void) dealloc
-{
-	[super dealloc];
-}
 
 @synthesize validFileExtensions;
 

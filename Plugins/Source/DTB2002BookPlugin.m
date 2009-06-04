@@ -24,8 +24,31 @@
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
 
+@interface DTB2002BookPlugin ()
+
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+
+@end
+
 
 @implementation DTB2002BookPlugin
+
++ (BOOL)initializeClass:(NSBundle*)theBundle 
+{
+	// Dummy Method never gets called
+	return NO;
+}
+
++ (NSArray *)plugins
+{
+	// dummy method never gets called
+	return nil;
+}
+
++ (void)terminateClass
+{
+	// dummy method never gets called
+}
 
 - (void)setupPluginSpecifics
 {
@@ -55,32 +78,6 @@
 }
 
 
-// this method checks the url for a file with a valid extension
-// if a directory URL is passed the 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
-{
-	NSURL *fileURL = nil;
-	// first check if we were passed a folder
-	if ([fileUtils URLisDirectory:bookURL])
-	{	// we were so first check for an OPF file 
-		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
-		// check if we found the OPF file
-		if (!fileURL)
-			// check for the NCX file
-			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
-		if (fileURL)
-			return YES;		
-	}
-	else
-	{
-		// check the path contains a file with a valid extension
-		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
-			return YES;
-	}
-	
-	// this did not find a valid extension that it could attempt to open
-	return NO;
-}
 
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -143,8 +140,8 @@
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"])
 				{
 					// the opf file specifies that it is a 2002 format book
-					
-					self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
+					if(!bookData.folderPath)
+						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the ncx filename
 					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
@@ -155,6 +152,16 @@
 					
 					opfLoaded = YES;
 				}
+				else 
+				{
+					[packageDocument release];
+					packageDocument = nil;
+				}
+			}
+			else 
+			{
+				[packageDocument release];
+				packageDocument = nil;
 			}
 		}
 		
@@ -183,6 +190,32 @@
 	return nil;
 }
 
+- (void)startPlayback
+{
+	// dummy method placeholder
+}
+
+- (void)stopPlayback
+{
+	// dummy method placeholder
+}
+
+- (NSString *)FormatDescription
+{
+	return NSLocalizedString(@"This Book has been authored with the Daisy 2002 standard",@"Daisy 2002 Standard description");
+}
+
+- (NSXMLNode *)infoMetadataNode
+{
+	if(packageDocument)
+		return [packageDocument metadataNode];
+	if(controlDocument)
+		return [controlDocument metadataNode];
+	
+	return nil;
+}
+
+
 #pragma mark -
 
 
@@ -192,6 +225,35 @@
 	[super dealloc];
 }
 
+#pragma mark -
+#pragma mark Private Methods
+
+// this method checks the url for a file with a valid extension
+// if a directory URL is passed the directory is scanned for a file with a valid extension
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+{
+	NSURL *fileURL = nil;
+	// first check if we were passed a folder
+	if ([fileUtils URLisDirectory:bookURL])
+	{	// we were so first check for an OPF file 
+		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
+		// check if we found the OPF file
+		if (!fileURL)
+			// check for the NCX file
+			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
+		if (fileURL)
+			return YES;		
+	}
+	else
+	{
+		// check the path contains a file with a valid extension
+		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
+			return YES;
+	}
+	
+	// this did not find a valid extension that it could attempt to open
+	return NO;
+}
 
 
 @end

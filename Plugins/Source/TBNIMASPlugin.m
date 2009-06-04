@@ -25,15 +25,30 @@
 
 @interface TBNIMASPlugin ()
 
-@property (readwrite, retain)	NSArray *validFileExtensions;
-
-- (BOOL)canOpenBook:(NSURL *)bookURL;
 
 @end
 
 
 
 @implementation TBNIMASPlugin
+
++ (BOOL)initializeClass:(NSBundle*)theBundle 
+{
+	// Dummy Method never gets called
+	return NO;
+}
+
++ (NSArray *)plugins
+{
+	// dummy method never gets called
+	return nil;
+}
+
++ (void)terminateClass
+{
+	// dummy method never gets called
+}
+
 
 - (id)textPlugin
 {
@@ -111,6 +126,12 @@
 					
 					opfLoaded = YES;
 				}
+				else 
+				{
+					[packageDocument release];
+					packageDocument = nil;
+				}
+				
 			}
 			else
 			{
@@ -118,8 +139,6 @@
 				packageDocument = nil;
 			}
 		}
-				
-
 	}
 	
 	// return YES if the Package document and/or Control Document loaded correctly
@@ -136,11 +155,30 @@
 
 - (NSXMLNode *)infoMetadataNode
 {
-	if(packageDocument)
-		return [packageDocument metadataNode];
-		
-	return nil;
+	return [super infoMetadataNode];
 }
+
+- (NSURL *)loadedURL
+{
+	return [super loadedURL];
+}
+
+- (void)startPlayback
+{
+	// dummy method placeholder
+}
+
+- (void)stopPlayback
+{
+	// dummy method placeholder
+}
+
+- (NSString *)FormatDescription
+{
+	return NSLocalizedString(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
+}
+
+
 
 #pragma mark -
 
@@ -174,8 +212,6 @@
 	validFileExtensions = [NSArray arrayWithObject:@"opf"];
 	
 }
-
-
 
 - (void) dealloc
 {

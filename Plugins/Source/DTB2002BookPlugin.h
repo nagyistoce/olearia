@@ -25,7 +25,7 @@
 
 
 // A Concrete Plug-in class for Daisy 2002 Specification and variant Books
-@interface DTB2002BookPlugin : TBStdFormats
+@interface DTB2002BookPlugin : TBStdFormats<TBPluginInterface>
 {
 
 }

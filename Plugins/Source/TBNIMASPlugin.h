@@ -23,7 +23,7 @@
 #import "DTB2005BookPlugin.h"
 
 // a subclass of the 2005 format for text only NIMAS formats 
-@interface TBNIMASPlugin : DTB2005BookPlugin
+@interface TBNIMASPlugin : DTB2005BookPlugin<TBPluginInterface>
 {
 
 }

@@ -60,6 +60,8 @@ static NSBundle* pluginBundle = nil;
 	}
 }
 
+
+
 + (NSArray *)plugins 
 {
 	NSMutableArray* plugs = [[[NSMutableArray alloc] init] autorelease];
@@ -83,7 +85,7 @@ static NSBundle* pluginBundle = nil;
 - (id)variantOfType
 {
 	// plugins that are variants of standard types will return their superclass here 
-	// for the concrete subclasses there is no need to impliment this method
+	// for the concrete subclasses they will use this superclass method
 	return nil;
 }
 
@@ -116,30 +118,30 @@ static NSBundle* pluginBundle = nil;
 - (NSXMLNode *)infoMetadataNode
 {
 #ifdef DEBUG
-	NSLog(@"Super Class method infoMetadataNode used instead of subclass method");
+	NSLog(@"Super Class method infoMetadataNode in Class %@ used instead of subclass method",[self className]);
 #endif
 	return nil;
 }
 
 - (BOOL)processMetadata
 {
-	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
+#ifdef DEBUG	
+	NSLog(@"Super Class method processMetadata in Class %@ used instead of subclass method",[self className]);
+#endif
 	return NO;
 }
 
 - (void)startPlayback
-{
-	// dummy method placeholder
-}
+{	/* dummy superclass method placeholder */ }
 
 - (void)stopPlayback
-{
-	// dummy method placeholder
-}
+{	/* dummy superclass method placeholder */ }
 
 - (NSURL *)loadedURL
 {
-	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
+#ifdef DEBUG	
+	NSLog(@"Super Class method loadedURL in Class %@ used instead of subclass method",[self className]);
+#endif
 	return nil;
 }
 

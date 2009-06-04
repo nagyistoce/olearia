@@ -28,12 +28,27 @@
 
 @property (readwrite, retain)	NSArray *validFileExtensions;
 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
-
 @end
 
 
 @implementation DTB2005BookPlugin
+
++ (BOOL)initializeClass:(NSBundle*)theBundle 
+{
+	// Dummy Method never gets called
+	return NO;
+}
+
++ (NSArray *)plugins
+{
+	// dummy method never gets called
+	return nil;
+}
+
++ (void)terminateClass
+{
+	// dummy method never gets called
+}
 
 
 - (id)textPlugin
@@ -133,6 +148,11 @@
 					
 					opfLoaded = YES;
 				}
+				else 
+				{
+					[packageDocument release];
+					packageDocument = nil;
+				}
 			}
 			else
 			{
@@ -176,12 +196,26 @@
 	return nil;
 }
 
+- (void)startPlayback
+{
+	// dummy method placeholder
+}
+
+- (void)stopPlayback
+{
+	// dummy method placeholder
+}
+
+- (NSString *)FormatDescription
+{
+	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
+}
+
 #pragma mark -
 
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
-
 }
 
 - (void) dealloc
@@ -216,6 +250,10 @@
 	// this did not find a valid extension that it could attempt to open
 	return NO;
 }
+
+#pragma mark -
+#pragma mark Private Methods
+
 
 
 @synthesize validFileExtensions;

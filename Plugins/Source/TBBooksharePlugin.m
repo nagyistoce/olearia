@@ -23,7 +23,31 @@
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
 
+@interface TBBooksharePlugin ()
+
+
+
+@end
+
+
 @implementation TBBooksharePlugin
+
++ (BOOL)initializeClass:(NSBundle*)theBundle 
+{
+	// Dummy Method never gets called
+	return NO;
+}
+
++ (NSArray *)plugins
+{
+	// dummy method never gets called
+	return nil;
+}
+
++ (void)terminateClass
+{
+	// dummy method never gets called
+}
 
 + (TBBooksharePlugin *)bookType
 {
@@ -62,35 +86,6 @@
 	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
 
 }
-
-
-// this method checks the url for a file with a valid extension
-// if a directory URL is passed the 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
-{
-	NSURL *fileURL = nil;
-	// first check if we were passed a folder
-	if ([fileUtils URLisDirectory:bookURL])
-	{	// we were so first check for an OPF file 
-		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
-		// check if we found the OPF file
-		if (!fileURL)
-			// check for the NCX file
-			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
-		if (fileURL)
-			return YES;		
-	}
-	else
-	{
-		// check the path contains a file with a valid extension
-		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
-			return YES;
-	}
-	
-	// this did not find a valid extension that it could attempt to open
-	return NO;
-}
-
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -142,10 +137,8 @@
 						
 						self.packageDocument = nil;
 					}
-					
 				}
 			}
-			
 		}
 		
 		if(packageFileUrl)
@@ -172,6 +165,11 @@
 						
 						opfLoaded = YES;
 					}
+					else 
+					{
+						[packageDocument release];
+						packageDocument = nil;
+					}
 			}
 		}
 		
@@ -191,6 +189,29 @@
 	return (((nil != packageFileUrl) && opfLoaded) || ((nil != controlFileURL) && ncxLoaded));
 }
 
+- (void)startPlayback
+{
+	// dummy method placeholder
+}
+
+- (void)stopPlayback
+{
+	// dummy method placeholder
+}
+- (NSString *)FormatDescription
+{
+	return NSLocalizedString(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
+}
+
+- (NSURL *)loadedURL
+{
+	return [super loadedURL];
+}
+
+- (NSXMLNode *)infoMetadataNode
+{
+	return [super infoMetadataNode];
+}
 
 
 #pragma mark -
@@ -200,6 +221,10 @@
 	
 	[super dealloc];
 }
+
+#pragma mark -
+#pragma mark Private Methods
+
 
 
 @end

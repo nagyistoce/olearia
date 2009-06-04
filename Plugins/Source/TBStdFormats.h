@@ -41,7 +41,7 @@
 - (void)setupPluginSpecifics;
 + (id)bookType;
 
-@property (readonly, copy)		NSArray* validFileExtensions;
+@property (readonly, retain)	NSArray				*validFileExtensions;
 
 @property (readwrite,retain)	TBSharedBookData	*bookData;
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
