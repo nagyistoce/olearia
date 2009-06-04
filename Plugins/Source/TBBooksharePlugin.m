@@ -151,9 +151,11 @@
 				NSString *bookFormatString = [[packageDocument stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDocument metadataNode]] uppercaseString];
 				
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) 
-					if(nil != ([[packageDocument metadataNode] objectsForXQuery:@"dc-metadata/*:Identifier[@scheme='BKSH']/." error:nil]))
+				{	
+					NSString *schemeStr = [packageDocument stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
+					if((schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
-						// the opf file specifies that it is a 2002 format book
+						// the opf file specifies that it is a 2002 format book and it has the bookshare scheme tag
 						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
@@ -170,6 +172,17 @@
 						[packageDocument release];
 						packageDocument = nil;
 					}
+				}
+				else 
+				{
+					[packageDocument release];
+					packageDocument = nil;
+				}
+			}
+			else 
+			{
+				[packageDocument release];
+				packageDocument = nil;
 			}
 		}
 		

@@ -227,18 +227,16 @@
 		
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement
 {
-	NSMutableArray * spineContents = nil;
+	NSMutableArray * spineContents = [[[NSMutableArray alloc] init] autorelease];
 	
 	NSArray *spineNodes = [aRootElement nodesForXPath:@"spine" error:nil];
 	// check if there is a spine node
 	if ([spineNodes count] == 1)
 	{
-		
 		NSArray *spineElements = [[spineNodes objectAtIndex:0] nodesForXPath:@"itemref" error:nil];
 		// check if there are some itemref nodes
 		if ([spineElements count] > 0)
 		{
-			spineContents = [[NSMutableArray alloc] init];
 			for(NSXMLElement *anElement in spineElements)
 			{
 				// get the element contained in the node then add its string contents to the temp array
@@ -248,13 +246,13 @@
 	}
 		
 	// return the array which may be nil if there was no spine 
-	return spineContents; 
+	return ([spineContents count]) ? spineContents : nil; 
 	
 }
 
 - (NSDictionary *)processManifestSection:(NSXMLElement *)aRootElement
 {
-	NSMutableDictionary * manifestContents = nil;
+	NSMutableDictionary * manifestContents = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	NSArray *manifestNodes = [aRootElement nodesForXPath:@"manifest" error:nil];
 	// check if there is a manifest node - there will be only one
@@ -264,7 +262,6 @@
 		// check if there are item nodes
 		if ([manifestElements count] > 0)
 		{
-			manifestContents = [[NSMutableDictionary alloc] init];
 			for(NSXMLElement *anElement in manifestElements)
 			{
 				// get the values and keys and add them tou our dictionary 
@@ -276,13 +273,13 @@
 		}
 	}
 	// return the dict which may be nil if there was no manifest 
-	return manifestContents;
+	return ([manifestContents count]) ? manifestContents : nil;
 }
 
 
 - (NSDictionary *)processGuideSection:(NSXMLElement *)aRootElement
 {
-	NSMutableDictionary *guideContents = nil;
+	NSMutableDictionary *guideContents = [[[NSMutableDictionary alloc] init] autorelease];
 
 	NSArray *guideNodes = [aRootElement nodesForXPath:@"guide" error:nil];
 	// check if there is a manifest node - there will be only one
@@ -292,7 +289,6 @@
 		// check if there are item nodes
 		if ([guideElements count] > 0)
 		{
-			guideContents = [[NSMutableDictionary alloc] init];
 			for(NSXMLElement *anElement in guideElements)
 			{
 				NSMutableDictionary *nodeContents = [[NSMutableDictionary alloc] init];
@@ -302,15 +298,15 @@
 			}
 		}
 	}
-	return guideContents;
+	return ([guideContents count]) ? guideContents : nil;
 }
 
 - (NSArray *)processTourSection:(NSXMLElement *)aRootElement
 {
 	
-	NSMutableArray *tourContents = nil;
+	NSMutableArray *tourContents = [[[NSMutableArray alloc] init] autorelease];
 	
-	return tourContents;
+	return ([tourContents count]) ? tourContents : nil;
 }
 
 @synthesize spine,manifest,tour,guide;

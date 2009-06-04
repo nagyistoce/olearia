@@ -196,7 +196,7 @@
 		
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement
 {
-	NSMutableArray * spineContents = nil;
+	NSMutableArray * spineContents = [[[NSMutableArray alloc] init] autorelease];
 	
 	NSArray *spineNodes = [aRootElement nodesForXPath:@"spine" error:nil];
 	// check if there is a spine node
@@ -207,7 +207,6 @@
 		// check if there are some itemref nodes
 		if ([spineElements count] > 0)
 		{
-			spineContents = [[NSMutableArray alloc] init];
 			for(NSXMLElement *anElement in spineElements)
 			{
 				// get the element contained in the node then add its string contents to the temp array
@@ -217,13 +216,13 @@
 	}
 		
 	// return the array which may be nil if there was no spine 
-	return spineContents; 
+	return ([spineContents count]) ? spineContents : nil; 
 	
 }
 
 - (NSDictionary *)processManifestSection:(NSXMLElement *)aRootElement
 {
-	NSMutableDictionary * manifestContents = nil;
+	NSMutableDictionary * manifestContents = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	NSArray *manifestNodes = [aRootElement nodesForXPath:@"manifest" error:nil];
 	// check if there is a manifest node - there will be only one
@@ -233,7 +232,6 @@
 		// check if there are item nodes
 		if ([manifestElements count] > 0)
 		{
-			manifestContents = [[NSMutableDictionary alloc] init];
 			for(NSXMLElement *anElement in manifestElements)
 			{
 				// get the values and keys and add them tou our dictionary 
@@ -245,7 +243,7 @@
 		}
 	}
 	// return the dict which may be nil if there was no manifest 
-	return manifestContents;
+	return ([manifestContents count]) ? manifestContents : nil;
 }
 
 

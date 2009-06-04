@@ -589,7 +589,7 @@
 			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
 			{
 				//[self openSmilFile:filename];	
-				NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+				//NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
 				
 				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
 				

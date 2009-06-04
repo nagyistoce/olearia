@@ -87,7 +87,7 @@
 				{
 					if([[[[fileURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 					{	
-						controlFileURL = [fileURL copy];
+						controlFileURL = [[fileURL copy] autorelease];
 						break;
 					}
 				}
@@ -99,7 +99,7 @@
 			// check for an ncc.html file
 			if(YES == [[[[bookURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 			{
-				controlFileURL = [bookURL copy];
+				controlFileURL = [[bookURL copy] autorelease];
 			}
 			else 
 			{
@@ -111,7 +111,7 @@
 					{
 						if([[[[fileURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 						{	
-							controlFileURL = [fileURL copy];
+							controlFileURL = [[fileURL copy] autorelease];
 							break;
 						}
 					}

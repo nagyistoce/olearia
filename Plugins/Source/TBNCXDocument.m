@@ -73,7 +73,7 @@
 
 - (void)processData
 {
-	NSMutableArray *extractedContent = [[NSMutableArray alloc] init];
+	NSMutableArray *extractedContent = [[[NSMutableArray alloc] init] autorelease];
 	
 	NSXMLNode *rootNode = [xmlControlDoc rootElement];
 
@@ -522,7 +522,7 @@
 */
 - (NSArray *)processNavMap
 {
-	NSMutableArray *tempNavMapPoints = [[NSMutableArray alloc] init];
+	NSMutableArray *tempNavMapPoints = [[[NSMutableArray alloc] init] autorelease];
 	
 	// get the navMap node
 	NSXMLNode *navMapHeadNode = [[NSArray arrayWithArray:[[xmlControlDoc rootElement] elementsForName:@"navMap"]] objectAtIndex:0];
