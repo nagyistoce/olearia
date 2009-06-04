@@ -637,8 +637,8 @@
 		
 		for (NSString *pluginPath in pathsArray) 
 		{
-			NSBundle* pluginBundle = [[NSBundle alloc] initWithPath:pluginPath];
-			if ([pluginBundle load])
+			NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
+			if (YES == [pluginBundle load])
 				[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
 		}
 	}
