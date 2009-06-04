@@ -320,7 +320,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (IBAction)showBookInfo:(id)sender
 {
-	[talkingBook showBookInfo];
+	[talkingBook showHideBookInfo];
 }
 
 
@@ -569,7 +569,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// load the talking book
 	if(validFileURL)
 		loadedOK = [talkingBook openBookWithURL:validFileURL];
-	
 	if(loadedOK)
 	{
 		//update the recent files list
