@@ -32,7 +32,7 @@
 	CGFloat _maxStrLen;
 }
 
-- (void)displayInfoPanel;
+- (void)toggleInfoPanel;
 - (id)initWithMetadataNode:(NSXMLNode *)aNode;
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode;
 

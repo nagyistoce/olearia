@@ -86,7 +86,7 @@ typedef enum
 - (void)jumpToPosition:(NSString *)aPosition;
 - (void)updateSkipDuration:(float)newDuration;
 
-- (void)showBookInfo;
+- (void)showHideBookInfo;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 - (void)setAudioPlayRate:(float)aRate;

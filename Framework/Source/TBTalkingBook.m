@@ -87,6 +87,7 @@
 	
 	if(_infoController)
 		[_infoController release];
+
 	
 	
 	[super dealloc];
@@ -461,7 +462,7 @@
 #pragma mark -
 #pragma mark Information Methods
 
-- (void)showBookInfo
+- (void)showHideBookInfo
 {
 	// check if we should init the controller
 	if(_infoController)
@@ -470,7 +471,7 @@
 		_infoController = [[TBInfoController alloc] initWithMetadataNode:[currentPlugin infoMetadataNode]];
 
 	if(_infoController)
-		[_infoController displayInfoPanel];  	
+		[_infoController toggleInfoPanel];  	
 		
 }
 
@@ -630,7 +631,7 @@
 	
 	if ((internalPluginsPath) || (applicationPuginsPath)) 
 	{
-		NSMutableArray *pathsArray = [[NSMutableArray alloc] initWithArray:[NSBundle pathsForResourcesOfType:@"plugin" inDirectory:internalPluginsPath]];
+		NSMutableArray *pathsArray = [[[NSMutableArray alloc] initWithArray:[NSBundle pathsForResourcesOfType:@"plugin" inDirectory:internalPluginsPath]] autorelease];
 		[pathsArray addObjectsFromArray:[NSBundle pathsForResourcesOfType:@"plugin" inDirectory:applicationPuginsPath]];
 		
 		

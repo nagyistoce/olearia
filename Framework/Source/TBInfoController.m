@@ -61,16 +61,23 @@
 - (void) dealloc
 {
 	[_metaInfo release];
+	[infoPanel release];
 	
 	[super dealloc];
 }
 
 
-- (void)displayInfoPanel
+
+- (void)toggleInfoPanel
 {
-	[infoPanel orderFront:self];
-	[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
-	[infoTableView reloadData];
+	if([infoPanel isVisible])
+		[infoPanel close];
+	else
+	{
+		[infoPanel makeKeyAndOrderFront:self];
+		[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
+		[infoTableView reloadData];
+	}
 }
 
 - (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode
@@ -152,8 +159,8 @@
 		// set the max length of the string so we can use it to set the table column width
 		_maxStrLen = ([optionContent sizeWithAttributes:nil].width > _maxStrLen) ? [optionContent sizeWithAttributes:nil].width : _maxStrLen;
 		
-		 newItem = [[TBInfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
-											 andContent:[NSString stringWithString:optionContent]]; 
+		 newItem = [[[TBInfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
+											 andContent:[NSString stringWithString:optionContent]] autorelease]; 
 	}
 		
 	return newItem;
@@ -163,8 +170,8 @@
 - (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement
 {
 	// extract any attributes that will identify the name of the element further
-	NSArray *attributes = [[NSArray alloc] initWithArray:[anElement attributes]];
-	NSMutableString *addNames = [[NSMutableString alloc] init];
+	NSArray *attributes = [[[NSArray alloc] initWithArray:[anElement attributes]] autorelease];
+	NSMutableString *addNames = [[[NSMutableString alloc] init] autorelease];
 	
 	// check if we have more than just the name and content attributes
 	if([attributes count] > 0)
@@ -188,7 +195,7 @@
 	
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr
 {
-	NSMutableString *toExpand = [[NSMutableString alloc] initWithString:aStr];
+	NSMutableString *toExpand = [[[NSMutableString alloc] initWithString:aStr] autorelease];
 
 	
 	// word divisions are denoted by a lowercase char followed directly by an uppercase char
