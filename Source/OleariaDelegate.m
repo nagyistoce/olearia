@@ -197,7 +197,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	if(talkingBook.bookData.isPlaying)
 	{
-		[talkingBook pauseAudio];
+		[talkingBook pause];
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
 		NSImage *tempImage = [playPauseButton image];
@@ -248,7 +248,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 				
 		talkingBook.bookData.isPlaying = YES;
 				
-		[talkingBook playAudio];
+		[talkingBook play];
 	}
 	else // isPlaying == YES
 	{
@@ -263,7 +263,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[playPauseButton setImage:[playPauseButton alternateImage]];
 		[playPauseButton setAlternateImage:tempImage];
 		
-		[talkingBook pauseAudio];
+		[talkingBook pause];
 		
 	}
 }
@@ -433,7 +433,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			NSImage *tempImage = [playPauseButton image];
 			[playPauseButton setImage:[playPauseButton alternateImage]];
 			[playPauseButton setAlternateImage:tempImage];
-			[talkingBook pauseAudio];
+			[talkingBook pause];
 		}
 		
 		
@@ -590,7 +590,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackRate] forKey:@"Rate"];
 		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackVolume] forKey:@"Volume"];
 		[oldSettings setValue:talkingBook.preferredVoice forKey:@"Voice"];
-		[oldSettings setValue:talkingBook.playPositionID forKey:@"PlayPosition"];
+		[oldSettings setValue:[talkingBook currentPlayPositionID] forKey:@"PlayPosition"];
 		[oldSettings setValue:talkingBook.audioSegmentTimePosition forKey:@"TimePosition"];
 		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 	}
@@ -618,7 +618,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			if(nil != [newSettings valueForKey:@"PlayPosition"])
 			{	
-				[talkingBook jumpToPosition:[newSettings valueForKey:@"PlayPosition"]];
+				[talkingBook jumpToPoint:[newSettings valueForKey:@"PlayPosition"]];
 				if(nil != [newSettings valueForKey:@"TimePosition"])
 				{
 				
