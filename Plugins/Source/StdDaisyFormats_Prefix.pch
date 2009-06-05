@@ -1,0 +1,11 @@
+//
+// Prefix header for all source files of the 'StdDaisyFormats' target in the 'StdDaisyFormats' project.
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+	#import "TBPluginInterface.h"
+	#import "TalkingBookTypes.h"
+	#import "TBSharedBookData.h"
+	#import "TBStdFormats.h"
+#endif

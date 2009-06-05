@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
+		EE3927950FC3F0C40093CBBD /* TBFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3927940FC3F0C40093CBBD /* TBFileUtils.m */; };
+		EE80C5300FD8AF55009F55BB /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */; };
+		EE9E52910FC3B08C00D0564C /* TBStdFormats.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */; };
+		EE9E52A60FC3CA1500D0564C /* DTB202BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */; };
+		EE9E52A90FC3CC6500D0564C /* DTB2002BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A80FC3CC6500D0564C /* DTB2002BookPlugin.m */; };
+		EE9E52AC0FC3CD1B00D0564C /* DTB2005BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AB0FC3CD1B00D0564C /* DTB2005BookPlugin.m */; };
+		EE9E52AF0FC3CDB400D0564C /* TBBooksharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */; };
+		EE9E53050FC3DE2700D0564C /* TBNIMASPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */; };
+		EECDD40D0FCBD56A00C0EDDC /* TBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */; };
+		EECDD40E0FCBD56A00C0EDDC /* TBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4080FCBD56A00C0EDDC /* TBNCCDocument.m */; };
+		EECDD40F0FCBD56A00C0EDDC /* TBNCXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */; };
+		EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40B0FCBD56A00C0EDDC /* TBOPFDocument.m */; };
+		EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdDaisyFormats_Prefix.pch; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StdDaisyFormats.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFNimasDocument.h; sourceTree = "<group>"; };
+		EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBOPFNimasDocument.m; sourceTree = "<group>"; };
+		EE3927930FC3F0C40093CBBD /* TBFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBFileUtils.h; sourceTree = "<group>"; };
+		EE3927940FC3F0C40093CBBD /* TBFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBFileUtils.m; sourceTree = "<group>"; };
+		EE80C52C0FD8AF55009F55BB /* TalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalkingBookTypes.h; path = ../TalkingBookTypes.h; sourceTree = SOURCE_ROOT; };
+		EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
+		EE80C52E0FD8AF55009F55BB /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBSharedBookData.h; path = ../TBSharedBookData.h; sourceTree = SOURCE_ROOT; };
+		EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBSharedBookData.m; path = ../TBSharedBookData.m; sourceTree = SOURCE_ROOT; };
+		EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdFormats.m; sourceTree = "<group>"; };
+		EE9E52900FC3B08C00D0564C /* TBStdFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdFormats.h; sourceTree = "<group>"; };
+		EE9E52A40FC3CA1500D0564C /* DTB202BookPlugin.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = DTB202BookPlugin.h; sourceTree = "<group>"; };
+		EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTB202BookPlugin.m; sourceTree = "<group>"; };
+		EE9E52A70FC3CC6500D0564C /* DTB2002BookPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTB2002BookPlugin.h; sourceTree = "<group>"; };
+		EE9E52A80FC3CC6500D0564C /* DTB2002BookPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTB2002BookPlugin.m; sourceTree = "<group>"; };
+		EE9E52AA0FC3CD1B00D0564C /* DTB2005BookPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTB2005BookPlugin.h; sourceTree = "<group>"; };
+		EE9E52AB0FC3CD1B00D0564C /* DTB2005BookPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTB2005BookPlugin.m; sourceTree = "<group>"; };
+		EE9E52AD0FC3CDB400D0564C /* TBBooksharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBooksharePlugin.h; sourceTree = "<group>"; };
+		EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBooksharePlugin.m; sourceTree = "<group>"; };
+		EE9E53030FC3DE2700D0564C /* TBNIMASPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNIMASPlugin.h; sourceTree = "<group>"; };
+		EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNIMASPlugin.m; sourceTree = "<group>"; };
+		EECDD4050FCBD56A00C0EDDC /* TBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBControlDoc.h; sourceTree = "<group>"; };
+		EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBControlDoc.m; sourceTree = "<group>"; };
+		EECDD4070FCBD56A00C0EDDC /* TBNCCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNCCDocument.h; sourceTree = "<group>"; };
+		EECDD4080FCBD56A00C0EDDC /* TBNCCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNCCDocument.m; sourceTree = "<group>"; };
+		EECDD4090FCBD56A00C0EDDC /* TBNCXDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNCXDocument.h; sourceTree = "<group>"; };
+		EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNCXDocument.m; sourceTree = "<group>"; };
+		EECDD40B0FCBD56A00C0EDDC /* TBOPFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBOPFDocument.m; sourceTree = "<group>"; };
+		EECDD40C0FCBD56A00C0EDDC /* TBOPFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFDocument.h; sourceTree = "<group>"; };
+		EECDD4160FCBD5D700C0EDDC /* TBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBPackageDoc.h; sourceTree = "<group>"; };
+		EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBPackageDoc.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* StdDaisyFormats */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Source */,
+				32C88E010371C26100C91783 /* Other Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = StdDaisyFormats;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				EE3927900FC3F0110093CBBD /* Plugins */,
+				EECDD3F20FCBD48600C0EDDC /* Documents */,
+				EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */,
+				EE9E52900FC3B08C00D0564C /* TBStdFormats.h */,
+				EE3927910FC3F0300093CBBD /* Utils */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Source */ = {
+			isa = PBXGroup;
+			children = (
+				EE80C52C0FD8AF55009F55BB /* TalkingBookTypes.h */,
+				EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */,
+				EE80C52E0FD8AF55009F55BB /* TBSharedBookData.h */,
+				EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */,
+				32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */,
+			);
+			name = "Other Source";
+			path = Source;
+			sourceTree = "<group>";
+		};
+		EE3927900FC3F0110093CBBD /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				EE9E52A40FC3CA1500D0564C /* DTB202BookPlugin.h */,
+				EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */,
+				EE9E52A70FC3CC6500D0564C /* DTB2002BookPlugin.h */,
+				EE9E52A80FC3CC6500D0564C /* DTB2002BookPlugin.m */,
+				EE9E52AA0FC3CD1B00D0564C /* DTB2005BookPlugin.h */,
+				EE9E52AB0FC3CD1B00D0564C /* DTB2005BookPlugin.m */,
+				EE9E52AD0FC3CDB400D0564C /* TBBooksharePlugin.h */,
+				EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */,
+				EE9E53030FC3DE2700D0564C /* TBNIMASPlugin.h */,
+				EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		EE3927910FC3F0300093CBBD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EE3927930FC3F0C40093CBBD /* TBFileUtils.h */,
+				EE3927940FC3F0C40093CBBD /* TBFileUtils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		EECDD3F20FCBD48600C0EDDC /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				EECDD4120FCBD5B700C0EDDC /* Package */,
+				EECDD3F30FCBD49900C0EDDC /* Control */,
+			);
+			name = Documents;
+			sourceTree = "<group>";
+		};
+		EECDD3F30FCBD49900C0EDDC /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				EECDD4050FCBD56A00C0EDDC /* TBControlDoc.h */,
+				EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */,
+				EECDD4070FCBD56A00C0EDDC /* TBNCCDocument.h */,
+				EECDD4080FCBD56A00C0EDDC /* TBNCCDocument.m */,
+				EECDD4090FCBD56A00C0EDDC /* TBNCXDocument.h */,
+				EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */,
+			);
+			name = Control;
+			sourceTree = "<group>";
+		};
+		EECDD4120FCBD5B700C0EDDC /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				EECDD4160FCBD5D700C0EDDC /* TBPackageDoc.h */,
+				EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */,
+				EECDD40C0FCBD56A00C0EDDC /* TBOPFDocument.h */,
+				EECDD40B0FCBD56A00C0EDDC /* TBOPFDocument.m */,
+				EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */,
+				EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* StdDaisyFormats */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "StdDaisyFormats" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StdDaisyFormats;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = StdDaisyFormats;
+			productReference = 8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "StdDaisyFormats" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* StdDaisyFormats */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* StdDaisyFormats */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE9E52910FC3B08C00D0564C /* TBStdFormats.m in Sources */,
+				EE9E52A60FC3CA1500D0564C /* DTB202BookPlugin.m in Sources */,
+				EE9E52A90FC3CC6500D0564C /* DTB2002BookPlugin.m in Sources */,
+				EE9E52AC0FC3CD1B00D0564C /* DTB2005BookPlugin.m in Sources */,
+				EE9E52AF0FC3CDB400D0564C /* TBBooksharePlugin.m in Sources */,
+				EE9E53050FC3DE2700D0564C /* TBNIMASPlugin.m in Sources */,
+				EE3927950FC3F0C40093CBBD /* TBFileUtils.m in Sources */,
+				EECDD40D0FCBD56A00C0EDDC /* TBControlDoc.m in Sources */,
+				EECDD40E0FCBD56A00C0EDDC /* TBNCCDocument.m in Sources */,
+				EECDD40F0FCBD56A00C0EDDC /* TBNCXDocument.m in Sources */,
+				EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */,
+				EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */,
+				EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */,
+				EE80C5300FD8AF55009F55BB /* TBSharedBookData.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
+				GCC_VERSION = 4.2;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = StdDaisyFormats;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
+				GCC_VERSION = 4.2;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = StdDaisyFormats;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
+				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INFOPLIST_PREPROCESS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG=1";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
+				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INFOPLIST_PREPROCESS = NO;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "StdDaisyFormats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "StdDaisyFormats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
