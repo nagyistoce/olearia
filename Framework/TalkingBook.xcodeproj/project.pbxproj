@@ -20,7 +20,7 @@
 		EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88A0FCE439000DFB1F1 /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */; };
 		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EE0A68CC0FCF828400778D38 /* TBTalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE0A68CB0FCF828400778D38 /* TBTalkingBookTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EE0A68CC0FCF828400778D38 /* TalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE0A68CB0FCF828400778D38 /* TalkingBookTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE5AB95B0FCF8E5F00D4C4B8 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F86C0FCE3AEA00DFB1F1 /* RegexKitLite.h */; settings = {ATTRIBUTES = (); }; };
 		EE5AB99F0FCF909E00D4C4B8 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */; };
 		EE5AB9DD0FCF913200D4C4B8 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB9DC0FCF913200D4C4B8 /* libicucore.dylib */; };
@@ -59,14 +59,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* TalkingBook_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingBook_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBook.h; sourceTree = "<group>"; };
 		EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTalkingBook.m; sourceTree = "<group>"; };
 		EE05F85F0FCE37BF00DFB1F1 /* TBInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBInfoController.h; sourceTree = "<group>"; };
@@ -76,10 +73,10 @@
 		EE05F8680FCE389500DFB1F1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
 		EE05F86C0FCE3AEA00DFB1F1 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		EE05F86D0FCE3AEA00DFB1F1 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
-		EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBSharedBookData.h; sourceTree = "<group>"; };
-		EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSharedBookData.m; sourceTree = "<group>"; };
-		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBPluginInterface.h; sourceTree = "<group>"; };
-		EE0A68CB0FCF828400778D38 /* TBTalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBookTypes.h; sourceTree = "<group>"; };
+		EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBSharedBookData.h; path = ../TBSharedBookData.h; sourceTree = SOURCE_ROOT; };
+		EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBSharedBookData.m; path = ../TBSharedBookData.m; sourceTree = SOURCE_ROOT; };
+		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
+		EE0A68CB0FCF828400778D38 /* TalkingBookTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TalkingBookTypes.h; path = ../TalkingBookTypes.h; sourceTree = SOURCE_ROOT; };
 		EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		EE5AB9DC0FCF913200D4C4B8 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		EE7134150FC91FDB00197A65 /* StdDaisyFormats.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StdDaisyFormats.xcodeproj; path = ../Plugins/StdDaisyFormats.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -163,9 +160,6 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				D2F7E79907B2D74100F64583 /* CoreData.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -173,7 +167,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				EE0A68CB0FCF828400778D38 /* TBTalkingBookTypes.h */,
+				EE0A68CB0FCF828400778D38 /* TalkingBookTypes.h */,
 				32DBCF5E0370ADEE00C91783 /* TalkingBook_Prefix.pch */,
 				EE05F86C0FCE3AEA00DFB1F1 /* RegexKitLite.h */,
 				EE05F86D0FCE3AEA00DFB1F1 /* RegexKitLite.m */,
@@ -217,7 +211,7 @@
 				EE05F8630FCE37BF00DFB1F1 /* TBInfoController.h in Headers */,
 				EE05F8650FCE37BF00DFB1F1 /* TBInfoItem.h in Headers */,
 				EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */,
-				EE0A68CC0FCF828400778D38 /* TBTalkingBookTypes.h in Headers */,
+				EE0A68CC0FCF828400778D38 /* TalkingBookTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

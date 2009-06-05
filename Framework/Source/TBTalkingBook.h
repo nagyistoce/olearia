@@ -19,9 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import "TBTalkingBookTypes.h"
-#import "TBPluginInterface.h"
 #import <QTKit/QTTime.h>
+#import "TBPluginInterface.h"
+#import "TalkingBookTypes.h"
 
 @class TBInfoController;
 @class TBSharedBookData;
@@ -58,7 +58,6 @@ typedef enum
 	
 
 	NSString				*_currentSegmentFilename;
-	NSString				*playPositionID;
 	
 	BOOL					_hasPageNavigation;
 	BOOL					_hasPhraseNavigation;
@@ -72,8 +71,8 @@ typedef enum
 
 
 - (BOOL)openBookWithURL:(NSURL *)aURL;
-- (void)playAudio;
-- (void)pauseAudio;
+- (void)play;
+- (void)pause;
 
 - (void)nextSegmentOnLevel;
 - (void)nextSegment;
@@ -83,7 +82,9 @@ typedef enum
 - (void)nextChapter;
 - (void)previousChapter;
 
-- (void)jumpToPosition:(NSString *)aPosition;
+- (void)jumpToPoint:(NSString *)aNodePath;
+- (NSString *)currentPlayPositionID;
+
 - (void)updateSkipDuration:(float)newDuration;
 
 - (void)showHideBookInfo;
@@ -95,7 +96,6 @@ typedef enum
 @property (readwrite, retain)	TBSharedBookData *bookData;
 
 @property (readwrite, copy)		NSString	*preferredVoice;
-@property (readwrite, copy)		NSString	*playPositionID;
 
 @property (readwrite)			BOOL		bookIsAlreadyLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;

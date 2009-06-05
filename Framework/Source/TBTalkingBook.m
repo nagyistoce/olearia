@@ -20,11 +20,7 @@
 //
 
 #import "TBTalkingBook.h"
-#import "TBTalkingBookTypes.h"
 #import "TBInfoController.h"
-#import "TBSharedBookData.h"
-#import "TBPluginInterface.h"
-
 #import <QTKit/QTKit.h>
 
 @interface TBTalkingBook ()
@@ -127,12 +123,15 @@
 }
 
 
-- (void)jumpToPosition:(NSString *)aPosition
+- (void)jumpToPoint:(NSString *)aNodePath
 {
-//	if(![aPosition isEqualToString:@""])
-//		if(_hasControlFile)
-//			[_controlDoc jumpToNodeWithId:aPosition];
-//		
+	if(![aNodePath isEqualToString:@""])
+		[currentPlugin moveToPosition:aNodePath];
+		
+}
+- (NSString *)currentPlayPositionID
+{
+	return [currentPlugin currentPositionID];
 }
 
 - (void)updateSkipDuration:(float)newDuration
@@ -143,14 +142,16 @@
 #pragma mark -
 #pragma mark Play Methods
 
-- (void)playAudio
+- (void)play
 {
-	self.bookData.isPlaying = YES;
+	//self.bookData.isPlaying = YES;
+	[currentPlugin startPlayback];
 }
 
-- (void)pauseAudio
+- (void)pause
 {	
-	self.bookData.isPlaying = NO;
+	//self.bookData.isPlaying = NO;
+	[currentPlugin stopPlayback];
 }
 
 
@@ -501,15 +502,7 @@
 }
 */
  
-- (NSString *)playPositionID
-{
-//	if(_hasControlFile)
-//	{
-//		return [_controlDoc currentPositionID];
-//	}
-	
-	return nil;
-}
+
 
 - (NSString *)audioSegmentTimePosition
 {
@@ -560,12 +553,8 @@
 	_hasWordNavigation = NO;
 	
 	self.canPlay = NO;
-	//self.isPlaying = NO;
-	
-	playPositionID = @"";
 	
 	[bookData resetForNewBook];
-
 }
 
 - (BOOL)isSmilFilename:(NSString *)aFilename
@@ -713,7 +702,7 @@
 
 @synthesize _controlMode;
 @synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
-@synthesize playPositionID, audioSegmentTimePosition;
+@synthesize audioSegmentTimePosition;
 
 //bindings
 @synthesize canPlay;
