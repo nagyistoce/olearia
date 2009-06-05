@@ -90,7 +90,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			self.bookData.folderPath = bookURL;
+			self.bookData.folderPath = [bookURL copy];
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
 			// check if we found the OPF file
@@ -136,8 +136,8 @@
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"])
 				{
 					// the opf file specifies that it is a 2005 format book
-					
-					self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
+					if(!bookData.folderPath)
+						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
@@ -163,10 +163,26 @@
 				
 		if (controlFileURL)
 		{
-			// check if the folder path has already been set
-			if (!bookData.folderPath)
-				self.bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
+			controlDocument = [[TBNCXDocument alloc] init];
 			// attempt to load the ncx file
+			if([controlDocument openWithContentsOfURL:controlFileURL])
+			{
+				// check if the folder path has already been set
+				if (!bookData.folderPath)
+					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+				
+				[controlDocument processData];
+				
+				[self moveToPosition:@""];
+				
+				ncxLoaded = YES;
+			}
+			else
+			{
+				[controlDocument release];
+				controlDocument = nil;
+			}
+									
 			
 		}
 	}
@@ -209,6 +225,20 @@
 - (NSString *)FormatDescription
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
+}
+
+- (void)moveToPosition:(NSString *)aNodePath
+{
+	if(controlDocument)
+		[controlDocument jumpToNodeWithId:aNodePath];
+}
+
+- (NSString *)currentPositionID
+{
+	if(controlDocument)
+		return [controlDocument currentPositionID];
+	
+	return nil;
 }
 
 #pragma mark -

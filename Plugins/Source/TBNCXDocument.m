@@ -21,7 +21,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TBNCXDocument.h"
-//#import "BBSTalkingBookTypes.h"
 
 @interface TBNCXDocument ()
 
@@ -73,35 +72,27 @@
 
 - (void)processData
 {
-	NSMutableArray *extractedContent = [[[NSMutableArray alloc] init] autorelease];
+	NSString *tempStr = [[[NSString alloc] init] autorelease];
 	
-	NSXMLNode *rootNode = [xmlControlDoc rootElement];
-
 	if([bookData.bookTitle isEqualToString:@""])
 	{
 		// set the book title
-		NSString *titleStr = nil;
-		titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-		self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
+		tempStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
+		self.bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
 	}
 	
 	if([bookData.bookSubject isEqualToString:@""])
 	{
 		// set the subject
-		NSString *subjectStr = nil;
-		subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-		self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
+		tempStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
+		self.bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
 	}
-	
-	
-	// get the dc:Format node string
-	//NSString *bookFormatString = [self stringForXquery:@"dc-metadata/data(*:Format)" ofNode:metaNode];b 
 	
 	if(bookData.totalPages == 0)
 	{
 		// check for total page count
-		[extractedContent addObjectsFromArray:[rootNode objectsForXQuery:@"head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" error:nil]];
-		self.bookData.totalPages = (1 == [extractedContent count]) ? [[extractedContent objectAtIndex:0] intValue] : 0; 
+		tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" ofNode:nil];
+		self.bookData.totalPages = (tempStr) ? [tempStr intValue] : 0; 
 	}
 		
 }

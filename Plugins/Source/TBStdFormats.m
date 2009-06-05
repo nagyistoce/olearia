@@ -145,6 +145,20 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
+- (void)moveToPosition:(NSString *)aNodePath
+{
+	// dummy method
+#ifdef DEBUG	
+	NSLog(@"Super Class method moveToPosition in Class %@ used instead of subclass method",[self className]);
+#endif
+}
+
+- (NSString *)currentPositionID
+{
+	// return an empty node string by default
+	return @"";
+}
+
 #pragma mark -
 
 - (NSMutableArray *)insertIntoArray:(NSArray *)anArray

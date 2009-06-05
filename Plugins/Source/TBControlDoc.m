@@ -65,7 +65,9 @@
 	
 	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	
-	if(!xmlControlDoc)
+	if((xmlControlDoc) && (!theError))
+		loadedOk = YES;
+	else
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Control File", @"control open fail alert short msg")];
@@ -75,9 +77,7 @@
 							didEndSelector:nil 
 							   contextInfo:nil];
 	}
-	else
-		loadedOk = YES;
-	
+
 	return loadedOk;
 }
 
