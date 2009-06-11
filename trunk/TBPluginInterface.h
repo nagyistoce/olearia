@@ -37,10 +37,12 @@
 // returns the URL of the file that was deemed by the plugin as the correct one to load first
 - (NSURL *)loadedURL;
 
-// move to a point in the book denoted by a string of the full node path 
-- (void)moveToPosition:(NSString *)aNodePath;
-// get the current play position of the node in the book
-- (NSString *)currentPositionID;
+// move to a point in the book denoted by a string of the full path within the control document
+// used in the resuming of playback with recent files list
+- (void)moveToControlPosition:(NSString *)aNodePath;
+// returns the a string representation of the position in the book
+// used mainly for saving in the recent files list
+- (NSString *)currentControlPosition;
 
 
 
