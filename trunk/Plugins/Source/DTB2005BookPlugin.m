@@ -80,7 +80,7 @@
 	BOOL ncxLoaded = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
-	
+		
 	// do a sanity check first to see that we can attempt to open the book. 
 	BOOL isValidUrl = [self canOpenBook:bookURL];
 	
@@ -127,7 +127,8 @@
 		
 		if(packageFileUrl)
 		{
-			packageDocument = [[TBOPFDocument alloc] init];
+			if(!packageDocument)
+				packageDocument = [[TBOPFDocument alloc] init];
 			if([packageDocument openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
@@ -141,10 +142,13 @@
 					
 					// get the ncx filename
 					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
+					if(packageDocument.ncxFilename)
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[packageDocument ncxFilename]]] ;
+					
 					// get the text content filename
 					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
+					
 					[packageDocument processData];
-					controlFileURL = [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];  
 					
 					opfLoaded = YES;
 				}
@@ -158,12 +162,15 @@
 			{
 				[packageDocument release];
 				packageDocument = nil;
+				// opening the opf failed for some reason so try to open just the control file
+				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
 		}
 				
 		if (controlFileURL)
 		{
-			controlDocument = [[TBNCXDocument alloc] init];
+			if(!controlDocument)
+				controlDocument = [[TBNCXDocument alloc] init];
 			// attempt to load the ncx file
 			if([controlDocument openWithContentsOfURL:controlFileURL])
 			{
@@ -189,14 +196,14 @@
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return ((packageFileUrl && opfLoaded) || (controlFileURL && ncxLoaded));
+	return ((controlFileURL && ncxLoaded) || (packageFileUrl && opfLoaded));
 }
 
 - (NSURL *)loadedURL
 {
 	if(packageDocument)
-		return [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];
-	if(controlDocument)
+		return [packageDocument fileURL];
+	else if(controlDocument)
 		return [controlDocument fileURL];
 	
 	return nil;
@@ -214,12 +221,12 @@
 
 - (void)startPlayback
 {
-	// dummy method placeholder
+	
 }
 
 - (void)stopPlayback
 {
-	// dummy method placeholder
+	
 }
 
 - (NSString *)FormatDescription
@@ -229,8 +236,14 @@
 
 - (void)moveToPosition:(NSString *)aNodePath
 {
+	// the control document will always be our first choice for navigation
 	if(controlDocument)
 		[controlDocument jumpToNodeWithId:aNodePath];
+	else if(packageDocument)
+	{
+		// need to add navigation methods for package documents
+	}
+		
 }
 
 - (NSString *)currentPositionID

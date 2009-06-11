@@ -22,6 +22,13 @@
 
 #import "TBPackageDoc.h"
 
+@interface TBPackageDoc()
+
+@property (readwrite, copy)		NSURL	*fileURL;
+
+@end
+
+
 @implementation TBPackageDoc
 
 - (id) init
@@ -32,6 +39,20 @@
 	
 	return self;
 }
+
+- (void) dealloc
+{
+	[xmlPackageDoc release];
+	xmlPackageDoc = nil;
+	[ncxFilename release];
+	ncxFilename = nil;
+	[textContentFilename release];
+	textContentFilename = nil;
+	[bookData release];
+	
+	[super dealloc];
+}
+
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode
 {
@@ -46,11 +67,17 @@
 }
 
 #pragma mark -
-#pragma mark methods Overridden By Subclasses
+#pragma mark methods that may be overridden By Subclasses
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
 	BOOL loadedOk = NO;
+	[ncxFilename release];
+	ncxFilename = nil;
+	[textContentFilename release];
+	textContentFilename = nil;
+	[fileURL release];
+	fileURL = nil;
 	
 	NSError *theError;
 	
@@ -59,12 +86,13 @@
 	if(xmlPackageDoc)
 	{
 		loadedOk = YES;
+		self.fileURL = [aURL copy];
 	}
 	else // we got a nil return so display the error to the user
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Package File", @"package open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the package file (.opf).\n Please try again or another book.", @"package open fail alert long msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the package file (.opf).\n This book may still open via the NCX file.", @"package open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
 							 modalDelegate:nil 
 							didEndSelector:nil 
@@ -97,7 +125,7 @@
 	return nil;
 }
 
-@synthesize ncxFilename,textContentFilename;
+@synthesize ncxFilename,textContentFilename,fileURL;
 @synthesize bookData;
 
 @end

@@ -123,8 +123,6 @@
 					// this should not happen that often but might occasionally 
 					// with badly authored books.
 					controlFileURL = bookURL;  
-					
-					packageDocument = nil;
 				}
 			}
 		}
@@ -141,15 +139,18 @@
 				{
 					// the opf file specifies that it is a 2002 format book
 					if(!bookData.folderPath)
-						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
+						self.bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+					if(packageDocument.ncxFilename)
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[packageDocument ncxFilename]]];
+					
 					// get the text content filename
 					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
-					[packageDocument processData];
-					controlFileURL = [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];  
 					
+					[packageDocument processData];
+										
 					opfLoaded = YES;
 				}
 				else 
@@ -162,16 +163,33 @@
 			{
 				[packageDocument release];
 				packageDocument = nil;
+				// opening the opf failed for some reason so try to open just the control file
+				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
 		}
 		
 		if (controlFileURL)
 		{
-			// check if the folder path has already been set
-			if (!bookData.folderPath)
-				self.bookData.folderPath = [[NSURL alloc]  initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+			if(!controlDocument)
+				controlDocument = [[TBNCXDocument alloc] init];
 			// attempt to load the ncx file
-			
+			if([controlDocument openWithContentsOfURL:controlFileURL])
+			{
+				// check if the folder path has already been set
+				if (!bookData.folderPath)
+					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+				
+				[controlDocument processData];
+				
+				[self moveToPosition:@""];
+				
+				ncxLoaded = YES;
+			}
+			else
+			{
+				[controlDocument release];
+				controlDocument = nil;
+			}
 		}
 	}
 	
@@ -183,7 +201,7 @@
 - (NSURL *)loadedURL
 {
 	if(packageDocument)
-		return [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];
+		return [packageDocument fileURL];
 	if(controlDocument)
 		return [controlDocument fileURL];
 	

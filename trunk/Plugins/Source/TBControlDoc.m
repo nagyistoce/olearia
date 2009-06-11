@@ -49,13 +49,17 @@
 
 - (void) dealloc
 {
-	bookData = nil;
+	[bookData release];
+	[currentPositionID release];
+	[currentNavPoint release];
+	[fileURL release];
+	
 	[super dealloc];
 }
 
 
 #pragma mark -
-#pragma mark methods Overridden By Subclasses
+#pragma mark methods that may be overridden By Subclasses
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
@@ -63,15 +67,24 @@
 	
 	NSError *theError;
 	
+	[currentNavPoint release];
+	currentNavPoint = nil;
+	[fileURL release];
+	fileURL = nil;
+	
 	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	
 	if((xmlControlDoc) && (!theError))
+	{	
 		loadedOk = YES;
+		self.fileURL = [aURL copy];
+
+	}
 	else
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Control File", @"control open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the control file.\n Please check book structure or try another book.", @"control open fail alert long msg")];
+		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the control file.\n Playback and limited navigation may be possible if the OPF file loaded correctly.", @"control open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
 							 modalDelegate:nil 
 							didEndSelector:nil 

@@ -597,7 +597,7 @@
 			else  
 			{
 				// create the full path to the file
-				audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:filename]];
+				audioFilename = [NSString stringWithString:[[[bookData folderPath] path] stringByAppendingPathComponent:filename]];
 			}
 //		}
 //		else

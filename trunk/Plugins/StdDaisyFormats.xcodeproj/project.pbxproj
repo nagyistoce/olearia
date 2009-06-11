@@ -159,6 +159,20 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		EE121D780FE09547000F8447 /* SMIL */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SMIL;
+			sourceTree = "<group>";
+		};
+		EE121D790FE0955A000F8447 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Text;
+			sourceTree = "<group>";
+		};
 		EE3927900FC3F0110093CBBD /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +204,8 @@
 			children = (
 				EECDD4120FCBD5B700C0EDDC /* Package */,
 				EECDD3F30FCBD49900C0EDDC /* Control */,
+				EE121D780FE09547000F8447 /* SMIL */,
+				EE121D790FE0955A000F8447 /* Text */,
 			);
 			name = Documents;
 			sourceTree = "<group>";
@@ -314,6 +330,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -332,7 +350,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
