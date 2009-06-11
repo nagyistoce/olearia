@@ -27,6 +27,8 @@
 	
 	NSString				*ncxFilename;
 	NSString				*textContentFilename;
+	
+	NSURL					*fileURL;
 }
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
@@ -37,8 +39,9 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-@property (readwrite, retain) TBSharedBookData *bookData;
-@property (readwrite, copy) NSString *ncxFilename;
-@property (readwrite, copy) NSString *textContentFilename;
+@property (readwrite, retain)	TBSharedBookData	*bookData;
+@property (readwrite, copy)		NSString			*ncxFilename;
+@property (readwrite, copy)		NSString			*textContentFilename;
+@property (readonly, copy)		NSURL				*fileURL;
 
 @end

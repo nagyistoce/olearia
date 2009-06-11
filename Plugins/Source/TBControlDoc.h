@@ -25,8 +25,8 @@
 @interface TBControlDoc : NSObject
 {
 	NSXMLDocument		*xmlControlDoc;
-	NSString			*parentFolderPath;
 	NSURL				*fileURL;
+	
 	
 	TBSharedBookData	*bookData;
 	
