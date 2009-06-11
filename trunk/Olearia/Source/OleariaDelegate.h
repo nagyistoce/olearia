@@ -71,7 +71,7 @@ extern NSString * const OleariaShouldRelaunchNotification;
 	
 	IBOutlet NSMenuItem		*playPauseMenuItem;
 	IBOutlet NSMenuItem		*minimizeMenuItem;
-	IBOutlet NSMenu			*recentBooksMenu;
+	IBOutlet NSMenuItem		*recentBooksMenuItem;
 	
 }
 
@@ -97,6 +97,6 @@ extern NSString * const OleariaShouldRelaunchNotification;
 
 - (IBAction)showBookmarks:(id)sender;
 
-@property (readwrite,retain) TBTalkingBook *talkingBook;
+@property (readwrite, retain) TBTalkingBook *talkingBook;
 
 @end

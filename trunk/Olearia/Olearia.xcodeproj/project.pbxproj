@@ -31,7 +31,7 @@
 		EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* file-doc.icns */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
 		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
-		EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278690ECA51B200309491 /* MainMenu.nib */; };
+		EE22786B0ECA51B200309491 /* MainWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278690ECA51B200309491 /* MainWindow.nib */; };
 		EE22786E0ECA51E800309491 /* About.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE22786C0ECA51E800309491 /* About.nib */; };
 		EE24ED420FCF9E1700D88546 /* ExpandingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE4406000E666380002DEDBB /* ExpandingViewController.h */; };
 		EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */; };
@@ -74,14 +74,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* TalkingBook.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = TalkingBook;
 		};
 		EEA2AA1E0FD94E2B00AAD1CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* TalkingBook */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = TalkingBook;
 		};
 /* End PBXContainerItemProxy section */
@@ -140,7 +140,7 @@
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
 		EE2278670ECA518A00309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
-		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
 		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -153,11 +153,11 @@
 		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
 		EEA915E50ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/About.nib; sourceTree = "<group>"; };
 		EEA915E60ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EEA915E70ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		EEA915E70ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EEA915E80ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEA915E90ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/About.nib; sourceTree = "<group>"; };
 		EEA915EA0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EEA915EB0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		EEA915EB0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EEA915EC0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 				EE083D5D0EDD2544009F5020 /* License.txt */,
 				EE0E8C370EC3F36200202257 /* Localizable.strings */,
 				EE2278660ECA518A00309491 /* Preferences.nib */,
-				EE2278690ECA51B200309491 /* MainMenu.nib */,
+				EE2278690ECA51B200309491 /* MainWindow.nib */,
 				EE22786C0ECA51E800309491 /* About.nib */,
 				9D12C0470EB7960F0091FBA3 /* Help */,
 				EE394C350EA88898001DC23C /* Credits.rtf */,
@@ -482,7 +482,7 @@
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
 				EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */,
 				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
-				EE22786B0ECA51B200309491 /* MainMenu.nib in Resources */,
+				EE22786B0ECA51B200309491 /* MainWindow.nib in Resources */,
 				EE22786E0ECA51E800309491 /* About.nib in Resources */,
 				EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */,
 				EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */,
@@ -601,14 +601,14 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		EE2278690ECA51B200309491 /* MainMenu.nib */ = {
+		EE2278690ECA51B200309491 /* MainWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EE22786A0ECA51B200309491 /* English */,
 				EEA915E70ECA78DC008E8A07 /* fr */,
 				EEA915EB0ECA7933008E8A07 /* no */,
 			);
-			name = MainMenu.nib;
+			name = MainWindow.nib;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -651,6 +651,7 @@
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -684,6 +685,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -697,7 +699,7 @@
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Olearia_Prefix.pch;

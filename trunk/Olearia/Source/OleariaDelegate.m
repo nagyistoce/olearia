@@ -132,6 +132,20 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[super finalize];
 }
 
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[talkingBook release];
+	[_recentBooks release];
+	[_recentBooksPlistPath release];
+	[validFileTypes release];
+	[_aboutController release];
+	[_prefsController release];
+	
+	[super dealloc];
+}
+
+
 
 - (void) awakeFromNib
 {
@@ -161,7 +175,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		if(nil != validFilePath)
 		if(NO == [self loadBookAtPath:validFilePath])
 		{
-			[recentBooksMenu removeItemAtIndex:0];
+			//[recentBooksMenu removeItemAtIndex:0];
 			[_recentBooks removeObjectAtIndex:0];
 		}
 	}
@@ -207,7 +221,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	// get the position of the selected book from the recent books menu and
 	// use that to get the path to the package or control file
-	NSString *validFilePath = [[_recentBooks objectAtIndex:[recentBooksMenu indexOfItem:sender]] valueForKey:@"FilePath"];
+	NSString *validFilePath = [[_recentBooks objectAtIndex:[[recentBooksMenuItem submenu] indexOfItem:sender]] valueForKey:@"FilePath"];
 	
 	bookLoaded = [self loadBookAtPath:validFilePath];
 	if (!bookLoaded)
@@ -226,8 +240,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		alert = nil;
 
 		// seeing as we failed to open the book remove it from the recent files list and the menu too
-		[_recentBooks removeObjectAtIndex:[recentBooksMenu indexOfItem:sender]];
-		[recentBooksMenu removeItem:[sender selectedItem]];
+		[_recentBooks removeObjectAtIndex:[[recentBooksMenuItem submenu] indexOfItem:sender]];
+		[self populateRecentFilesMenu];
 		
 	}
 }
@@ -621,9 +635,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 				[talkingBook jumpToPoint:[newSettings valueForKey:@"PlayPosition"]];
 				if(nil != [newSettings valueForKey:@"TimePosition"])
 				{
-				
 					talkingBook.audioSegmentTimePosition = [newSettings valueForKey:@"TimePosition"];
-
 				}
 				
 			}
@@ -634,13 +646,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			{
 				// remove the settings from their current position in the recent files list
 				[_recentBooks removeObjectAtIndex:foundIndex];
-				// and from the recent Books menu
-				NSMenuItem *currentItem = [recentBooksMenu itemAtIndex:foundIndex];
-				[recentBooksMenu removeItemAtIndex:foundIndex];
 				//  insert the settings at the begining of the recent files list
 				[_recentBooks insertObject:newSettings atIndex:0];
-				// and at the top of the recent books menu
-				[recentBooksMenu insertItem:currentItem atIndex:0];
 			}
 			
 		}
@@ -657,8 +664,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			
 			// put it at the beginning of the recent files list
 			[_recentBooks insertObject:defaultSettings atIndex:0];
-			// write out the recent books file
-			[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES]; // save the newly added book
 			
 			// set the book to the defaults set in the preferences	
 			talkingBook.bookData.playbackRate = [_userSetDefaults floatForKey:OleariaPlaybackRate];
@@ -666,20 +671,18 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			talkingBook.preferredVoice = [_userSetDefaults valueForKey:OleariaPlaybackVoice];
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
-			NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
-			
-			NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:[[talkingBook bookData] bookTitle] action:@selector(openRecentBook:) keyEquivalent:@""];
-			[newItem setToolTip:[loadedFromPrefix stringByAppendingString:[[defaultSettings valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
-			[recentBooksMenu insertItem:newItem atIndex:0];
 		}
-		
+		// write out the changed recent books file
+		[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+		// update the recent files menu
+		[self populateRecentFilesMenu];
 	}
-	
 }
 
 - (void)populateRecentFilesMenu
 {
 	NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
+	NSMenu *newRecentMenu = [[NSMenu alloc] init];
 	
 	for (NSDictionary *aBook in _recentBooks)
 	{
@@ -687,8 +690,32 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[theItem setTitle:[aBook valueForKey:@"Title"]];
 		[theItem setAction:@selector(openRecentBook:)];
 		[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
-		[recentBooksMenu addItem:theItem];
+		[newRecentMenu addItem:theItem];
 	}
+	// add a separator
+	if([_recentBooks count])
+		[newRecentMenu addItem:[NSMenuItem separatorItem]];
+	// add the clear recent item
+	NSMenuItem *theItem = [[NSMenuItem alloc] init];
+	[theItem setTitle:@"Clear Books"];
+	[theItem setAction:@selector(clearRecentBooks)];
+	if(![_recentBooks count])
+	{	
+		[theItem setEnabled:NO];
+		[newRecentMenu setAutoenablesItems:NO];
+	}
+	[newRecentMenu addItem:theItem];
+	
+	[recentBooksMenuItem setSubmenu:newRecentMenu];
+}
+
+- (void)clearRecentBooks
+{
+	[_recentBooks removeAllObjects];
+	// write out the recent books file
+	[_recentBooks writeToFile:_recentBooksPlistPath atomically:YES];
+	// update the recent files menu;
+	[self populateRecentFilesMenu];
 }
 
 + (void)setupDefaults
