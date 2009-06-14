@@ -22,6 +22,7 @@
 
 #import "TBNIMASPlugin.h"
 #import "TBOPFNimasDocument.h"
+#import "TBNavigationController.h"
 
 @interface TBNIMASPlugin ()
 
@@ -105,13 +106,17 @@
 		
 		if(packageFileUrl)
 		{
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
 			
-			packageDocument = [[TBOPFNimasDocument alloc] init];
-			if([packageDocument openWithContentsOfURL:packageFileUrl])
+			if(!navCon.packageDocument)
+				self.navCon.packageDocument = [[TBOPFNimasDocument alloc] init];
+			
+			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDocument stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDocument metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
 				if(YES == [bookFormatString hasPrefix:@"NIMAS 1."])
 				{
 					// the opf file specifies that it is a NIMAS format book
@@ -121,23 +126,16 @@
 						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the text content filename
-					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
-					[packageDocument processData];
+					self.navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					[[navCon packageDocument] processData];
 					
 					opfLoaded = YES;
 				}
 				else 
-				{
-					[packageDocument release];
-					packageDocument = nil;
-				}
-				
+					self.navCon.packageDocument = nil;
 			}
 			else
-			{
-				[packageDocument release];
-				packageDocument = nil;
-			}
+				self.navCon.packageDocument = nil;
 		}
 	}
 	
@@ -178,7 +176,16 @@
 	return NSLocalizedString(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
 }
 
+- (void)moveToControlPosition:(NSString *)aNodePath
+{
+	
+}
 
+- (NSString *)currentControlPosition
+{
+	// placeholder
+	return nil;
+}
 
 #pragma mark -
 

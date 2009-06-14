@@ -78,7 +78,6 @@
 	{	
 		loadedOk = YES;
 		self.fileURL = [aURL copy];
-
 	}
 	else
 	{
@@ -142,11 +141,20 @@
 	
 }
 
-
-- (NSString *)audioFilenameFromCurrentNode
+- (NSString *)currentReferenceTag
 {
 #ifdef DEBUG
-	NSLog(@"superclass method of %@ used",[self className]);
+	NSLog(@"Superclass method 'referenceTagForCurrentPosition' of %@ used",[self className]);
+#endif
+	[self doesNotRecognizeSelector: _cmd];
+	return nil;
+}
+
+
+- (NSString *)filenameFromCurrentNode
+{
+#ifdef DEBUG
+	NSLog(@"Superclass method 'filenameFromCurrentNode' of %@ used",[self className]);
 #endif
 	[self doesNotRecognizeSelector: _cmd];
 	return nil;
@@ -244,10 +252,7 @@
 }
 
 
-- (TalkingBookType)supportedType
-{
-	return UnknownBookType;
-}
+
 
 #pragma mark -
 #pragma mark ===== Notification Methods =====

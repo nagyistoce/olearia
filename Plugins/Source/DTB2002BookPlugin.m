@@ -23,6 +23,7 @@
 #import "DTB2002BookPlugin.h"
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
+#import "TBNavigationController.h"
 
 @interface DTB2002BookPlugin ()
 
@@ -53,6 +54,7 @@
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+	navCon = nil;
 }
 
 + (DTB2002BookPlugin *)bookType
@@ -76,9 +78,6 @@
 {
 	return nil;
 }
-
-
-
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -129,12 +128,16 @@
 		
 		if(packageFileUrl)
 		{
-			packageDocument = [[TBOPFDocument alloc] init];
-			if([packageDocument openWithContentsOfURL:packageFileUrl])
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
+			if(!navCon.packageDocument)
+				self.navCon.packageDocument = [[TBOPFDocument alloc] init];
+			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDocument stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDocument metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"])
 				{
 					// the opf file specifies that it is a 2002 format book
@@ -142,27 +145,25 @@
 						self.bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
-					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
-					if(packageDocument.ncxFilename)
-						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[packageDocument ncxFilename]]];
+					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+					if(navCon.packageDocument.ncxFilename)
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.ncxFilename]];
 					
 					// get the text content filename
-					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					self.navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					// add loading of text document class here
 					
-					[packageDocument processData];
+					[[navCon packageDocument] processData];
 										
 					opfLoaded = YES;
 				}
 				else 
-				{
-					[packageDocument release];
-					packageDocument = nil;
-				}
+					self.navCon.packageDocument = nil;
+				
 			}
 			else 
-			{
-				[packageDocument release];
-				packageDocument = nil;
+			{	
+				self.navCon.packageDocument = nil;
 				// opening the opf failed for some reason so try to open just the control file
 				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
@@ -170,26 +171,24 @@
 		
 		if (controlFileURL)
 		{
-			if(!controlDocument)
-				controlDocument = [[TBNCXDocument alloc] init];
+			if(!navCon.controlDocument)
+				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
 			// attempt to load the ncx file
-			if([controlDocument openWithContentsOfURL:controlFileURL])
+			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
 					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
-				[controlDocument processData];
+				[[navCon controlDocument] processData];
 				
-				[self moveToPosition:@""];
+				[self moveToControlPosition:@""];
 				
 				ncxLoaded = YES;
 			}
 			else
-			{
-				[controlDocument release];
-				controlDocument = nil;
-			}
+				self.navCon.controlDocument = nil;
+			
 		}
 	}
 	
@@ -200,10 +199,10 @@
 
 - (NSURL *)loadedURL
 {
-	if(packageDocument)
-		return [packageDocument fileURL];
-	if(controlDocument)
-		return [controlDocument fileURL];
+	if(navCon.packageDocument)
+		return self.navCon.packageDocument.fileURL;
+	if(navCon.controlDocument)
+		return navCon.controlDocument.fileURL;
 	
 	return nil;
 }
@@ -225,14 +224,24 @@
 
 - (NSXMLNode *)infoMetadataNode
 {
-	if(packageDocument)
-		return [packageDocument metadataNode];
-	if(controlDocument)
-		return [controlDocument metadataNode];
+	if(navCon.packageDocument)
+		return [[navCon packageDocument] metadataNode];
+	if(navCon.controlDocument)
+		return [[navCon controlDocument] metadataNode];
 	
 	return nil;
 }
 
+- (void)moveToControlPosition:(NSString *)aNodePath
+{
+	
+}
+
+- (NSString *)currentControlPosition
+{
+	// placeholder
+	return nil;
+}
 
 #pragma mark -
 

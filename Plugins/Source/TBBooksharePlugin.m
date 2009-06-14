@@ -22,6 +22,7 @@
 #import "TBBooksharePlugin.h"
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
+#import "TBNavigationController.h"
 
 @interface TBBooksharePlugin ()
 
@@ -135,7 +136,7 @@
 						// with badly authored books.
 						controlFileURL = bookURL;  
 						
-						self.packageDocument = nil;
+						self.navCon.packageDocument = nil;
 					}
 				}
 			}
@@ -143,52 +144,50 @@
 		
 		if(packageFileUrl)
 		{
-			packageDocument = [[TBOPFDocument alloc] init];
-			if([packageDocument openWithContentsOfURL:packageFileUrl])
+			if(!navCon.packageDocument)
+				self.navCon = [[TBNavigationController alloc] init];
+			if(!navCon.packageDocument)
+				self.navCon.packageDocument = [[TBOPFDocument alloc] init];
+			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDocument stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDocument metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
 				
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) 
 				{	
-					NSString *schemeStr = [packageDocument stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
+					NSString *schemeStr = [[navCon packageDocument] stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
 					if((schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
 						// the opf file specifies that it is a 2002 format book and it has the bookshare scheme tag
 						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
-						packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+						self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
 						// get the text content filename
-						packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
-						[packageDocument processData];
-						controlFileURL = [NSURL URLWithString:[packageDocument ncxFilename] relativeToURL:bookData.folderPath];  
+						self.navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+						[[navCon packageDocument] processData];
+						
+						controlFileURL = [NSURL URLWithString:self.navCon.packageDocument.ncxFilename relativeToURL:bookData.folderPath];  
 						
 						opfLoaded = YES;
 					}
 					else 
-					{
-						[packageDocument release];
-						packageDocument = nil;
-					}
+						self.navCon.packageDocument = nil;
 				}
 				else 
-				{
-					[packageDocument release];
-					packageDocument = nil;
-				}
+					self.navCon.packageDocument = nil;
 			}
 			else 
-			{
-				[packageDocument release];
-				packageDocument = nil;
-			}
+				self.navCon.packageDocument = nil;
 		}
 		
 		if (controlFileURL)
 		{
-			controlDocument = [[TBNCXDocument alloc] init];
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			if(!navCon.controlDocument)
+				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
 			// check if the folder path has already been set
 			if (!bookData.folderPath)
 				self.bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
@@ -226,6 +225,16 @@
 	return [super infoMetadataNode];
 }
 
+- (void)moveToControlPosition:(NSString *)aNodePath
+{
+	
+}
+
+- (NSString *)currentControlPosition
+{
+	// placeholder
+	return nil;
+}
 
 #pragma mark -
 

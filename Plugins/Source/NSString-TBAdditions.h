@@ -1,9 +1,9 @@
 //
-//  DTB2005BookPlugin.h
+//  NSString-TBAdditions.h
 //  StdDaisyFormats
 //
-//  Created by Kieren Eaton on 20/05/09.
-//  Copyright 2009 BrainBender Software. All rights reserved.
+//  Created by Kieren Eaton on 25/07/08.
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,17 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+@interface NSString (TBAdditions)
 
-#import "TBStdFormats.h"
-
-
-@interface DTB2005BookPlugin : TBStdFormats<TBPluginInterface> 
-{
-	
-	
-}
-
-- (BOOL)canOpenBook:(NSURL *)bookURL;
-
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString;
++ (NSString *)QTStringFromSmilTimeString:(NSString *)aTimeString withTimescale:(long)aTimeScale;
 
 @end

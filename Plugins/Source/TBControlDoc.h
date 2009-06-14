@@ -20,7 +20,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TalkingBookTypes.h"
+//#import "TalkingBookTypes.h"
 
 @interface TBControlDoc : NSObject
 {
@@ -50,8 +50,9 @@
 
 - (void)moveToNextSegment;
 - (void)moveToPreviousSegment;
-- (NSString *)audioFilenameFromCurrentNode;
+- (NSString *)filenameFromCurrentNode;
 - (NSString *)filenameFromID:(NSString *)anIdString;
+- (NSString *)currentReferenceTag;
 
 - (void)goUpALevel;
 - (void)goDownALevel;
