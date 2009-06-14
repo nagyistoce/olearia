@@ -692,7 +692,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
 		[newRecentMenu addItem:theItem];
 	}
-	// add a separator
+	// add a separator if there are any items
 	if([_recentBooks count])
 		[newRecentMenu addItem:[NSMenuItem separatorItem]];
 	// add the clear recent item
