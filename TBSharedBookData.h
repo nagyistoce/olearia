@@ -22,6 +22,17 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 
+typedef enum 
+	{
+		AudioFullTextMediaFormat,
+		AudioPartialTextMediaFormat,
+		AudioNcxOrNccMediaFormat,
+		AudioOnlyMediaFormat,
+		TextPartialAudioMediaFormat,
+		TextNcxOrNccMediaFormat,
+		UnknownMediaFormat
+	} TalkingBookMediaFormat;
+
 extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @interface TBSharedBookData : NSObject 
@@ -51,7 +62,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	BOOL					isPlaying;
 	
-	TalkingBookType			bookType;
+	//TalkingBookType			bookType;
 	TalkingBookMediaFormat	mediaFormat;
 	
 	QTTime					chapterSkipDuration;
@@ -85,7 +96,6 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite) BOOL		isPlaying;
 
-@property (readwrite) TalkingBookType bookType;
 @property (readwrite) TalkingBookMediaFormat mediaFormat;
 
 @property (readwrite) QTTime	chapterSkipDuration;

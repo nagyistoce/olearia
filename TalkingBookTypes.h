@@ -42,17 +42,7 @@ typedef enum
 	UnknownBookType
 } TalkingBookType;
 
-typedef enum 
-{
-	AudioFullTextMediaFormat,
-	AudioPartialTextMediaFormat,
-	AudioNcxOrNccMediaFormat,
-	AudioOnlyMediaFormat,
-	TextPartialAudioMediaFormat,
-	TextNcxOrNccMediaFormat,
-	TextOnlyNIMASMediaFormat,
-	unknownMediaFormat
-} TalkingBookMediaFormat;
+
 
 typedef enum
 {

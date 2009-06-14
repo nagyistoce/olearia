@@ -126,12 +126,12 @@
 - (void)jumpToPoint:(NSString *)aNodePath
 {
 	if(![aNodePath isEqualToString:@""])
-		[currentPlugin moveToPosition:aNodePath];
+		[currentPlugin moveToControlPosition:aNodePath];
 		
 }
 - (NSString *)currentPlayPositionID
 {
-	return [currentPlugin currentPositionID];
+	return [currentPlugin currentControlPosition];
 }
 
 - (void)updateSkipDuration:(float)newDuration
@@ -144,13 +144,12 @@
 
 - (void)play
 {
-	//self.bookData.isPlaying = YES;
 	[currentPlugin startPlayback];
 }
 
 - (void)pause
 {	
-	//self.bookData.isPlaying = NO;
+
 	[currentPlugin stopPlayback];
 }
 

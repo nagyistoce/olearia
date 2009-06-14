@@ -122,17 +122,17 @@ static TBSharedBookData *sharedInstanceManager = nil;
 		else if([typeStr isEqualToString:@"textncc"])
 			mediaFormat = TextNcxOrNccMediaFormat;
 		else 
-			mediaFormat = unknownMediaFormat;		
+			mediaFormat = UnknownMediaFormat;		
 	}
 	else
-		mediaFormat = unknownMediaFormat;
+		mediaFormat = UnknownMediaFormat;
 
 }
 
 
 // bindings related
 @synthesize bookTitle, bookSubject, sectionTitle, bookTotalTime;
-@synthesize bookType, mediaFormat;
+@synthesize mediaFormat;
 @synthesize currentLevel, levelString;
 @synthesize currentPage, totalPages, pageString;
 
