@@ -145,7 +145,7 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
-- (void)moveToPosition:(NSString *)aNodePath
+- (void)moveToControlPosition:(NSString *)aNodePath
 {
 	// dummy method
 #ifdef DEBUG	
@@ -153,7 +153,7 @@ static NSBundle* pluginBundle = nil;
 #endif
 }
 
-- (NSString *)currentPositionID
+- (NSString *)currentControlPosition
 {
 	// return an empty node string by default
 	return @"";
@@ -209,7 +209,7 @@ static NSBundle* pluginBundle = nil;
 
 @synthesize bookData;
 @synthesize validFileExtensions;
-@synthesize packageDocument, controlDocument;
+@synthesize navCon;
 
 
 @end

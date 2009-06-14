@@ -43,6 +43,7 @@
 	shouldUseNavmap = NO;
 	self.stayOnCurrentLevel = NO;
 	
+	
 	return self;
 }
 
@@ -59,8 +60,8 @@
 		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
 	else
 	{
-		// find the first node
-		NSArray *navmapNodes = [xmlControlDoc nodesForXPath:@"//navMap/navPoint" error:nil];
+		// find the first navpoint node
+		NSArray *navmapNodes = [xmlControlDoc nodesForXPath:@"/ncx/navMap[1]/navPoint[1]" error:nil];
 		if([navmapNodes count] > 0)
 			currentNavPoint = [navmapNodes objectAtIndex:0];
 	}
@@ -256,10 +257,17 @@
 }
 */
 
-- (NSString *)audioFilenameFromCurrentNode
+- (NSString *)filenameFromCurrentNode
 {
 	NSString *filenameWithID = [self stringForXquery:@"content/data(@src)" ofNode:currentNavPoint];
 	return (filenameWithID) ? [self filenameFromID:filenameWithID] : nil;
+}
+
+- (NSString *)currentReferenceTag
+{
+	NSString *sourceStr = [self stringForXquery:@"content/data(@src)" ofNode:currentNavPoint];
+	int markerPos = [sourceStr rangeOfString:@"#"].location;
+	return (markerPos > 0) ? [sourceStr substringFromIndex:(markerPos+1)] : nil;
 }
 
 - (void)goDownALevel
@@ -409,106 +417,7 @@
 	return thislevel;
 }
 
-/*
-- (NSDictionary *)processDocTitle
-{
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// get the doctitle element , there will only ever be one.
-	NSArray *titleElementArray = [[xmlControlDoc rootElement] elementsForName:@"docTitle"];
-	if([titleElementArray count]  > 0)
-	{
-		NSXMLNode *docTitleElement = [titleElementArray objectAtIndex:0];
-		NSArray *elements = [NSArray arrayWithArray:[docTitleElement children]];
-		
-		for(NSXMLElement *anElement in elements)
-		{
-			if([[anElement name] isEqualToString:@"text"])
-			{
-				[tempData setObject:[anElement stringValue] forKey:@"text"];
-				self.bookTitle = [anElement stringValue];
-			}
-			else if([[anElement name] isEqualToString:@"audio"])
-			{
-				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-				for(NSXMLNode *aNode in attribs)
-				{
-					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
-				}
-			}
-		}
-		
-	}
-	
-	// check if the dict is empty
-	if([tempData count] == 0)
-		return nil;
-	
-	return tempData;
-	
-}
 
-- (NSDictionary *)processDocAuthor
-{
-	NSMutableDictionary *tempData = [[NSMutableDictionary alloc] init];
-	// get the docAuthor element , there will only ever be one.
-	NSArray *authElementsArray = [[xmlControlDoc rootElement] elementsForName:@"docAuthor"];
-	if([authElementsArray count] > 0)
-	{
-		NSXMLElement *DocAuthorElement = [authElementsArray objectAtIndex:0];
-		
-		NSArray *elements = [NSArray arrayWithArray:[DocAuthorElement children]];
-		
-		for(NSXMLElement *anElement in elements)
-		{
-			if([[anElement name] isEqualToString:@"text"])
-			{
-				[tempData setObject:[anElement stringValue] forKey:@"text"];
-			}
-			else if([[anElement name] isEqualToString:@"audio"])
-			{
-				NSArray *attribs = [NSArray arrayWithArray:[anElement attributes]];
-				for(NSXMLNode *aNode in attribs)
-				{
-					[tempData setObject:[aNode stringValue] forKey:[aNode name]];
-				}
-			}
-		}
-		
-	}
-		// check if the dict is empty
-	if([tempData count] == 0)
-		return nil;
-
-	return tempData;
-}
- */
-
-/*
-- (void)openSmilFile:(NSString *)smilFilename
-{
-	// build the path to the smil file
-	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
-	// make a URL of it
-	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
-	// open the smil document
-	self.smilDoc = [[BBSTBSMILDocument alloc] init];
-	if(smilDoc)
-	{
-		[smilDoc openWithContentsOfURL:smilURL];
-	}
-}
-*/
-/*
-- (NSInteger)documentVersion
-{
-	// check for an earlier than 2005 version string
-	if([versionString hasPrefix:@"1.1."])
-		return DTB2002Type;
-	
-	// return the default
-	return DTB2005Type;
-}
-*/
 - (NSArray *)processNavMap
 {
 	NSMutableArray *tempNavMapPoints = [[[NSMutableArray alloc] init] autorelease];

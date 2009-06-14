@@ -22,6 +22,7 @@
 
 #import "DTB202BookPlugin.h"
 #import "TBNCCDocument.h"
+#import "TBNavigationController.h"
 
 @interface DTB202BookPlugin()
 
@@ -52,7 +53,7 @@
 
 - (void)setupPluginSpecifics
 {
-	
+	navCon = nil;
 }
 
 + (DTB202BookPlugin *)bookType
@@ -123,31 +124,27 @@
 		if (controlFileURL)
 		{
 			// attempt to load the ncc.html file
-			controlDocument = [[TBNCCDocument alloc] init];
-			if([controlDocument openWithContentsOfURL:controlFileURL])
+			self.navCon.controlDocument = [[TBNCCDocument alloc] init];
+			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
 					self.bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[controlDocument stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
+				NSString *bookFormatString = [[[navCon controlDocument] stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"DAISY 2.02"])
 				{
-					[controlDocument processData];
+					[[navCon controlDocument] processData];
 					nccLoaded = YES;
 				}
 				else 
-				{
-					[controlDocument release];
-					controlDocument = nil;
-				}
+					self.navCon.controlDocument = nil;
+				
 			}
 			else 
-			{
-				[controlDocument release];
-				controlDocument = nil;
-			}
+				self.navCon.controlDocument = nil;
+			
 			
 		}
 	}
@@ -172,20 +169,29 @@
 
 - (NSXMLNode *)infoMetadataNode
 {
-	if(controlDocument)
-		return [controlDocument metadataNode];
+	if(self.navCon.controlDocument)
+		return [[navCon controlDocument] metadataNode];
 
 	return nil;
 }
 
 - (NSURL *)loadedURL
 {
-	if(controlDocument)
-		return [controlDocument fileURL];
+	if(self.navCon.controlDocument)
+		return [[navCon controlDocument] fileURL];
 	
 	return nil;
 }
+- (void)moveToControlPosition:(NSString *)aNodePath
+{
+		
+}
 
+- (NSString *)currentControlPosition
+{
+	//placeholder
+	return nil;
+}
 
 - (void)startPlayback
 {

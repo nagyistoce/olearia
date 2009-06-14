@@ -20,12 +20,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 #import "TBPluginInterface.h"
-#import "TBSharedBookData.h"
+//#import "TBSharedBookData.h"
 #import "TBFileUtils.h"
-#import "TBPackageDoc.h"
-#import "TBControlDoc.h"
+
+@class TBNavigationController, TBSharedBookData;
+
 
 @interface TBStdFormats : NSObject<TBPluginInterface> 
 {
@@ -33,9 +34,8 @@
 	TBFileUtils			*fileUtils;
 	NSArray				*validFileExtensions;
 
-	
-	TBPackageDoc		*packageDocument;
-	TBControlDoc		*controlDocument;
+	TBNavigationController *navCon;
+
 }
 
 - (void)setupPluginSpecifics;
@@ -44,7 +44,7 @@
 @property (readonly, retain)	NSArray				*validFileExtensions;
 
 @property (readwrite,retain)	TBSharedBookData	*bookData;
-@property (readwrite, retain)	TBPackageDoc		*packageDocument;
-@property (readwrite, retain)	TBControlDoc		*controlDocument;
+@property (readwrite,retain)	TBNavigationController *navCon;
+
 
 @end

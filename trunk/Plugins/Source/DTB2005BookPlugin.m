@@ -23,6 +23,7 @@
 #import "DTB2005BookPlugin.h"
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
+#import "TBNavigationController.h"
 
 @interface DTB2005BookPlugin()
 
@@ -120,20 +121,24 @@
 					// with badly authored books.
 					controlFileURL = bookURL;  
 					
-					self.packageDocument = nil;
+					self.navCon.packageDocument = nil;
 				}
 			}
 		}
 		
 		if(packageFileUrl)
 		{
-			if(!packageDocument)
-				packageDocument = [[TBOPFDocument alloc] init];
-			if([packageDocument openWithContentsOfURL:packageFileUrl])
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
+			if(!navCon.packageDocument)
+				self.navCon.packageDocument = [[TBOPFDocument alloc] init];
+			
+			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDocument stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDocument metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"])
 				{
 					// the opf file specifies that it is a 2005 format book
@@ -141,27 +146,25 @@
 						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
-					self.packageDocument.ncxFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
-					if(packageDocument.ncxFilename)
-						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[packageDocument ncxFilename]]] ;
+					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
+					if(self.navCon.packageDocument.ncxFilename)
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[[navCon packageDocument] ncxFilename]]] ;
 					
 					// get the text content filename
-					self.packageDocument.textContentFilename = [packageDocument stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
+					self.navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
 					
-					[packageDocument processData];
+					[[navCon packageDocument] processData];
+					
 					
 					opfLoaded = YES;
 				}
 				else 
-				{
-					[packageDocument release];
-					packageDocument = nil;
-				}
+					self.navCon.packageDocument = nil;
+				
 			}
 			else
 			{
-				[packageDocument release];
-				packageDocument = nil;
+				self.navCon.packageDocument = nil;
 				// opening the opf failed for some reason so try to open just the control file
 				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
@@ -169,64 +172,73 @@
 				
 		if (controlFileURL)
 		{
-			if(!controlDocument)
-				controlDocument = [[TBNCXDocument alloc] init];
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
+			if(!navCon.controlDocument)
+				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
+			
 			// attempt to load the ncx file
-			if([controlDocument openWithContentsOfURL:controlFileURL])
+			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
 					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
-				[controlDocument processData];
+				[[navCon controlDocument] processData];
 				
-				[self moveToPosition:@""];
+				
 				
 				ncxLoaded = YES;
 			}
 			else
-			{
-				[controlDocument release];
-				controlDocument = nil;
-			}
-									
+				self.navCon.controlDocument = nil;
 			
 		}
 	}
 	
+	if(ncxLoaded || opfLoaded)
+	{
+		[navCon moveToNodeWihPath:@""];
+		[navCon prepareForPlayback];
+		
+	}
+				
+	
 	// return YES if the Package document and/or Control Document loaded correctly
-	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return ((controlFileURL && ncxLoaded) || (packageFileUrl && opfLoaded));
+	// The Control document gives us full navigation.
+	// limited control from the (opf) package file.
+	return (ncxLoaded || opfLoaded);
 }
 
 - (NSURL *)loadedURL
 {
-	if(packageDocument)
-		return [packageDocument fileURL];
-	else if(controlDocument)
-		return [controlDocument fileURL];
+	if(self.navCon.packageDocument)
+		return [[navCon packageDocument] fileURL];
+	else if(self.navCon.controlDocument)
+		return [[navCon controlDocument] fileURL];
 	
 	return nil;
 }
 
 - (NSXMLNode *)infoMetadataNode
 {
-	if(packageDocument)
-		return [packageDocument metadataNode];
-	if(controlDocument)
-		return [controlDocument metadataNode];
+	if(navCon.packageDocument)
+		return [[navCon packageDocument] metadataNode];
+	if(navCon.controlDocument)
+		return [[navCon controlDocument] metadataNode];
 	
 	return nil;
 }
 
 - (void)startPlayback
 {
-	
+	[navCon startPlayback];
 }
 
 - (void)stopPlayback
 {
-	
+	[navCon stopPlayback];
 }
 
 - (NSString *)FormatDescription
@@ -234,24 +246,14 @@
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
 }
 
-- (void)moveToPosition:(NSString *)aNodePath
+- (void)moveToControlPosition:(NSString *)aNodePath
 {
-	// the control document will always be our first choice for navigation
-	if(controlDocument)
-		[controlDocument jumpToNodeWithId:aNodePath];
-	else if(packageDocument)
-	{
-		// need to add navigation methods for package documents
-	}
-		
+	[navCon moveToNodeWihPath:aNodePath];		
 }
 
-- (NSString *)currentPositionID
+- (NSString *)currentControlPosition
 {
-	if(controlDocument)
-		return [controlDocument currentPositionID];
-	
-	return nil;
+	return [navCon currentNodePath];
 }
 
 #pragma mark -
@@ -259,10 +261,13 @@
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+	navCon = nil;
 }
 
 - (void) dealloc
 {	
+	[navCon release];
+	navCon = nil;
 	
 	[super dealloc];
 }
@@ -299,6 +304,6 @@
 
 
 
-@synthesize validFileExtensions;
+@synthesize validFileExtensions, navCon;
 
 @end

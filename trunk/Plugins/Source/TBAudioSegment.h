@@ -1,9 +1,9 @@
 //
-//  DTB2005BookPlugin.h
+//  TBAudioSegment.h
 //  StdDaisyFormats
 //
-//  Created by Kieren Eaton on 20/05/09.
-//  Copyright 2009 BrainBender Software. All rights reserved.
+//  Created by Kieren Eaton on 6/12/08.
+//  Copyright 2008 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,17 +19,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#import <QTKit/QTKit.h>
 
-#import "TBStdFormats.h"
-
-
-@interface DTB2005BookPlugin : TBStdFormats<TBPluginInterface> 
+@interface TBAudioSegment : QTMovie 
 {
-	
+		
+	TBSharedBookData		*bookData;
+	NSURL					*fileURL;
 	
 }
 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
+- (BOOL)nextChapterIsAvail;
+- (BOOL)prevChapterIsAvail;
+- (void)updateForChapterPosition;
+- (void)jumpToNextChapter;
+- (void)jumpToPrevChapter;
+- (void)addChaptersOfDuration:(QTTime)aDuration;
+- (NSString *)currentChapterName;
+- (NSInteger)currentChapterNumber;
 
+@property (readwrite, retain)	TBSharedBookData	*bookData;
+@property (readwrite, retain)	NSURL				*fileURL;
 
 @end

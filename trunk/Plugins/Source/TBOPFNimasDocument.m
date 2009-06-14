@@ -22,7 +22,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "TBOPFNimasDocument.h"
-#import "TalkingBookTypes.h"
+//#import "TalkingBookTypes.h"
 
 @interface TBOPFNimasDocument ()
 
@@ -67,7 +67,7 @@
 	// ever change
 	
 	// set the media format of the book. 
-	self.bookData.mediaFormat = TextOnlyNIMASMediaFormat;
+	self.bookData.mediaFormat = TextNcxOrNccMediaFormat;
 	
 	// set the book title
 	NSString *titleStr = nil;
