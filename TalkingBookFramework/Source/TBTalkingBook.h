@@ -66,6 +66,10 @@ typedef enum
 
 	// bindings
 	BOOL					canPlay;
+	
+	IBOutlet NSPanel		*infoPanel;
+	IBOutlet NSView			*infoView;
+	IBOutlet NSView			*textView;
 
 }
 

@@ -1,5 +1,5 @@
 //
-//  TBInfoController.h
+//  TBInfoItem.h
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 30/11/08.
@@ -19,23 +19,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#import <Foundation/Foundation.h>
 
-#import <Cocoa/Cocoa.h>
 
-@interface TBInfoController : NSObject 
+@interface InfoItem : NSObject 
 {
-	IBOutlet NSPanel		*infoPanel;
-	IBOutlet NSTableView	*infoTableView;
-
-	NSMutableArray			*_metaInfo;
-	
-	CGFloat _maxStrLen;
+	NSString	*title;
+	NSString	*content;
 }
 
-- (void)toggleInfoPanel;
-- (id)initWithMetadataNode:(NSXMLNode *)aNode;
-- (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode;
+- (id)initWithTitle:(NSString *)aTitle andContent:(NSString *)aContent;
+- (BOOL)isEqual:(id)anObject;
 
-
+@property (readwrite, copy) NSString *title;
+@property (readwrite, copy) NSString *content;
 
 @end

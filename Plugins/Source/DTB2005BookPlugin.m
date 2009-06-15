@@ -52,14 +52,19 @@
 }
 
 
-- (id)textPlugin
+- (NSView *)textView;
 {
-	return nil;
+	return [super textView];
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	return nil;
+	return [super bookInfoView];
+}
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[super updateInfoFromPlugin:aPlugin];
 }
 
 + (DTB2005BookPlugin *)bookType

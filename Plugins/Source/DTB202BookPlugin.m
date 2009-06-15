@@ -88,7 +88,7 @@
 				{
 					if([[[[fileURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 					{	
-						controlFileURL = [[fileURL copy] autorelease];
+						controlFileURL = [fileURL copy];
 						break;
 					}
 				}
@@ -123,6 +123,9 @@
 		
 		if (controlFileURL)
 		{
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
 			// attempt to load the ncc.html file
 			self.navCon.controlDocument = [[TBNCCDocument alloc] init];
 			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
@@ -154,17 +157,19 @@
 	return ((controlFileURL && nccLoaded));
 }
 
-
-- (id)textPlugin
+- (NSView *)textView;
 {
-	
-	return nil;
+	return [super textView];
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	
-	return nil;
+	return [super bookInfoView];
+}
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[super updateInfoFromPlugin:aPlugin];
 }
 
 - (NSXMLNode *)infoMetadataNode

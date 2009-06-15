@@ -15,20 +15,22 @@
 // return an enumerated list of instances of all the classes available in the bundle
 + (NSArray *)plugins;
 
-// return a pointer to the text document instance if it has one. Nil otherwise.
-// this will allow different plugins to return their specific variation of the text plugin
-- (id)textPlugin;
-// return a pointer to the SMIL document instance if it has one. Nil otherwise.
-// this will allow different plugins to return their specific variation of the SMIL plugin
-- (id)smilPlugin;
+// return an instance of the view used in the text window.
+// this will allow different plugins to have complete control over the display 
+// of the view
+- (NSView *)textView;
+// return an instance of the view used in the information window.
+// this will allow plugins to have their own information laid out as they like
+- (NSView *)bookInfoView;
+// passes in the plugin for which the book information view will be updated
+- (void)updateInfoFromPlugin:(id)aPlugin;
 
 // return a textual description of the Format the book was authored with
 - (NSString *)FormatDescription;
 
 // return YES if the book was recognized and opened correctly 
 - (BOOL)openBook:(NSURL *)bookURL;
-// returns the node of the book that contains the full metadata
-- (NSXMLNode *)infoMetadataNode;
+
 
 // start or continue playback of the book
 - (void)startPlayback;

@@ -69,14 +69,19 @@
 	return nil;
 }
 
-- (id)textPlugin
+- (NSView *)textView;
 {
-	return nil;
+	return [super textView];
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	return nil;
+	return [super bookInfoView];
+}
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[super updateInfoFromPlugin:aPlugin];
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -171,6 +176,9 @@
 		
 		if (controlFileURL)
 		{
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
 			if(!navCon.controlDocument)
 				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
 			// attempt to load the ncx file
