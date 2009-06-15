@@ -62,7 +62,6 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	BOOL					isPlaying;
 	
-	//TalkingBookType			bookType;
 	TalkingBookMediaFormat	mediaFormat;
 	
 	QTTime					chapterSkipDuration;

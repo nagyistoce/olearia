@@ -68,18 +68,19 @@
 	return [self superclass];
 }
 
-- (id)textPlugin
+- (NSView *)textView;
 {
-	
-	return nil;
+	return [super textView];
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	// Text Only Book so no need for a SMIL plugin
-	// we return nil here as a courtesy for complete code introspection
-	// as it is already nil in the supers superclass
-	return nil;
+	return [super bookInfoView];
+}
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[super updateInfoFromPlugin:aPlugin];
 }
 
 - (void)setupPluginSpecifics
@@ -144,6 +145,9 @@
 		
 		if(packageFileUrl)
 		{
+			if(!navCon)
+				self.navCon = [[TBNavigationController alloc] init];
+			
 			if(!navCon.packageDocument)
 				self.navCon = [[TBNavigationController alloc] init];
 			if(!navCon.packageDocument)
@@ -186,6 +190,7 @@
 		{
 			if(!navCon)
 				self.navCon = [[TBNavigationController alloc] init];
+			
 			if(!navCon.controlDocument)
 				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
 			// check if the folder path has already been set

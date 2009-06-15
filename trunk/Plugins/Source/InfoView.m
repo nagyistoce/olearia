@@ -1,95 +1,55 @@
 //
-//  TBInfoController.m
-//  TalkingBook Framework
+//  InfoView.m
+//  StdDaisyFormats
 //
-//  Created by Kieren Eaton on 30/11/08.
-//  Copyright 2008 BrainBender Software. All rights reserved.
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//  Created by Kieren Eaton on 15/06/09.
+//  Copyright 2009 BrainBender Software. All rights reserved.
 //
 
-
-#import "TBInfoController.h"
-#import "TBInfoItem.h"
+#import "InfoView.h"
+#import "InfoItem.h"
 #import "RegexKitLite.h"
+#import "TBStdFormats.h"
 
-@interface TBInfoController ()
+@interface InfoView ()
 
 @property (readwrite, retain) NSMutableArray *_metaInfo;
 
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
-- (TBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
+- (InfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
 - (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement;
 
 @end
 
 
 
-@implementation TBInfoController
+@implementation InfoView
 
-- (id) init
-{
-	if (!(self=[super init])) return nil;
-	
-	if (![NSBundle loadNibNamed:@"TBBookInfo" owner:self]) return nil;
-	
-	_metaInfo = [[NSMutableArray alloc] init];
-
-	return self;
-}
-
-- (id)initWithMetadataNode:(NSXMLNode *)aNode
-{
-	if(!(self=[self init])) return nil;
-	
-	[self updateMetaInfoFromNode:aNode];
-	
-	return self;
-}
-
-- (void) dealloc
-{
-	[_metaInfo release];
-	[infoPanel release];
-	
-	[super dealloc];
-}
-
-
-
-- (void)toggleInfoPanel
-{
-	if([infoPanel isVisible])
-		[infoPanel close];
-	else
+- (id)initWithFrame:(NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) 
 	{
-		[infoPanel makeKeyAndOrderFront:self];
-		[[infoTableView tableColumnWithIdentifier:@"content"] setWidth:_maxStrLen];
-		[infoTableView reloadData];
-	}
+       _metaInfo = [[NSMutableArray alloc] init];
+	
+    }
+    return self;
 }
 
-- (void)updateMetaInfoFromNode:(NSXMLNode *)metaNode
-{
 
+//- (void)drawRect:(NSRect)rect {
+//    // Drawing code here.
+//}
+
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin;
+{
 	if([_metaInfo count] > 0)
 	{	
 		[_metaInfo removeAllObjects];
 		_maxStrLen = (CGFloat)0.0;
 	}
 	
-	NSArray *childNodes = [metaNode children];
+	NSArray *childNodes = [[aPlugin infoMetadataNode] children];
 	
 	for(NSXMLElement *anElement in childNodes)
 	{
@@ -98,7 +58,7 @@
 			NSArray *subChildNodes = [anElement children];
 			for(NSXMLElement *subElement in subChildNodes)
 			{
-				TBInfoItem *newItem = [self infoItemFromMetaElement:subElement];
+				InfoItem *newItem = [self infoItemFromMetaElement:subElement];
 				
 				// check for a duplicate item before adding it
 				if(newItem && ![_metaInfo containsObject:newItem])
@@ -107,7 +67,7 @@
 		}
 		else
 		{
-			TBInfoItem *newItem = [self infoItemFromMetaElement:anElement];
+			InfoItem *newItem = [self infoItemFromMetaElement:anElement];
 			// check for a duplicate item before adding it
 			if(newItem && ![_metaInfo containsObject:newItem])
 				[_metaInfo addObject:newItem];
@@ -122,11 +82,11 @@
 #pragma mark -
 #pragma mark =========  Private Methods =========
 
-- (TBInfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
+- (InfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
 {
 	NSMutableString *optionTitle = [[NSMutableString alloc] init];
 	NSMutableString *optionContent = [[NSMutableString alloc] init];
-	TBInfoItem	*newItem = nil;
+	InfoItem	*newItem = nil;
 	
 	// check if it has a name "meta"
 	if([[anElement name] isEqualToString:@"meta"])
@@ -159,7 +119,7 @@
 		// set the max length of the string so we can use it to set the table column width
 		_maxStrLen = ([optionContent sizeWithAttributes:nil].width > _maxStrLen) ? [optionContent sizeWithAttributes:nil].width : _maxStrLen;
 		
-		 newItem = [[[TBInfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
+		 newItem = [[[InfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
 											 andContent:[NSString stringWithString:optionContent]] autorelease]; 
 	}
 		
@@ -197,7 +157,6 @@
 {
 	NSMutableString *toExpand = [[[NSMutableString alloc] initWithString:aStr] autorelease];
 
-	
 	// word divisions are denoted by a lowercase char followed directly by an uppercase char
 	NSString *regexstr = @"(.+[[:lower:]])([[:upper:]].+)";
 	

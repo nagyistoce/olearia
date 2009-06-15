@@ -26,7 +26,7 @@
 #import "DTB2005BookPlugin.h"
 #import "TBBooksharePlugin.h"
 #import "TBNIMASPlugin.h"
-
+//#import "InfoView.h"
 
 static NSBundle* pluginBundle = nil;
 
@@ -89,14 +89,24 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
-- (id)textPlugin
+- (NSView *)textView;
 {
 	return nil;
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	return nil;
+	// check if we should load the view nib
+	if(!infoView)
+		if (![NSBundle loadNibNamed:@"InformationView" owner:self]) 
+			return nil;
+
+	return infoView;
+}
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[infoView updateInfoFromPlugin:aPlugin];
 }
 
 - (NSString *)FormatDescription
@@ -115,6 +125,7 @@ static NSBundle* pluginBundle = nil;
 	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
 	return NO;
 }
+
 - (NSXMLNode *)infoMetadataNode
 {
 #ifdef DEBUG

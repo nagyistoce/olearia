@@ -11,10 +11,6 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		EE05F8550FCE35A700DFB1F1 /* TBTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F8560FCE35A700DFB1F1 /* TBTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */; };
-		EE05F8630FCE37BF00DFB1F1 /* TBInfoController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F85F0FCE37BF00DFB1F1 /* TBInfoController.h */; settings = {ATTRIBUTES = (); }; };
-		EE05F8640FCE37BF00DFB1F1 /* TBInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8600FCE37BF00DFB1F1 /* TBInfoController.m */; };
-		EE05F8650FCE37BF00DFB1F1 /* TBInfoItem.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8610FCE37BF00DFB1F1 /* TBInfoItem.h */; settings = {ATTRIBUTES = (); }; };
-		EE05F8660FCE37BF00DFB1F1 /* TBInfoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8620FCE37BF00DFB1F1 /* TBInfoItem.m */; };
 		EE05F8690FCE389500DFB1F1 /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE05F8670FCE389500DFB1F1 /* TBBookInfo.nib */; };
 		EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88A0FCE439000DFB1F1 /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */; };
@@ -66,10 +62,6 @@
 		8DC2EF5B0486A6940098B216 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBook.h; sourceTree = "<group>"; };
 		EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTalkingBook.m; sourceTree = "<group>"; };
-		EE05F85F0FCE37BF00DFB1F1 /* TBInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBInfoController.h; sourceTree = "<group>"; };
-		EE05F8600FCE37BF00DFB1F1 /* TBInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBInfoController.m; sourceTree = "<group>"; };
-		EE05F8610FCE37BF00DFB1F1 /* TBInfoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBInfoItem.h; sourceTree = "<group>"; };
-		EE05F8620FCE37BF00DFB1F1 /* TBInfoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBInfoItem.m; sourceTree = "<group>"; };
 		EE05F8680FCE389500DFB1F1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
 		EE05F8860FCE439000DFB1F1 /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBSharedBookData.h; path = ../TBSharedBookData.h; sourceTree = SOURCE_ROOT; };
 		EE05F8870FCE439000DFB1F1 /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBSharedBookData.m; path = ../TBSharedBookData.m; sourceTree = SOURCE_ROOT; };
@@ -139,7 +131,6 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EE05F85A0FCE37A900DFB1F1 /* InfoController */,
 				EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */,
 				EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */,
 			);
@@ -179,17 +170,6 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		EE05F85A0FCE37A900DFB1F1 /* InfoController */ = {
-			isa = PBXGroup;
-			children = (
-				EE05F85F0FCE37BF00DFB1F1 /* TBInfoController.h */,
-				EE05F8600FCE37BF00DFB1F1 /* TBInfoController.m */,
-				EE05F8610FCE37BF00DFB1F1 /* TBInfoItem.h */,
-				EE05F8620FCE37BF00DFB1F1 /* TBInfoItem.m */,
-			);
-			name = InfoController;
-			sourceTree = "<group>";
-		};
 		EEFED0540FD2661900BF6A99 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,8 +187,6 @@
 			files = (
 				EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */,
 				EE05F8550FCE35A700DFB1F1 /* TBTalkingBook.h in Headers */,
-				EE05F8630FCE37BF00DFB1F1 /* TBInfoController.h in Headers */,
-				EE05F8650FCE37BF00DFB1F1 /* TBInfoItem.h in Headers */,
 				EE05F8890FCE439000DFB1F1 /* TBSharedBookData.h in Headers */,
 				EE0A68CC0FCF828400778D38 /* TalkingBookTypes.h in Headers */,
 				EE3173150FE0DEA700B27804 /* RegexKitLite.h in Headers */,
@@ -291,8 +269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE05F8560FCE35A700DFB1F1 /* TBTalkingBook.m in Sources */,
-				EE05F8640FCE37BF00DFB1F1 /* TBInfoController.m in Sources */,
-				EE05F8660FCE37BF00DFB1F1 /* TBInfoItem.m in Sources */,
 				EE05F88A0FCE439000DFB1F1 /* TBSharedBookData.m in Sources */,
 				EE3173160FE0DEA700B27804 /* RegexKitLite.m in Sources */,
 			);

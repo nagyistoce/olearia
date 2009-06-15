@@ -51,17 +51,21 @@
 }
 
 
-- (id)textPlugin
+- (NSView *)textView;
 {
-	
-	return nil;
+	return [super textView];
 }
 
-- (id)smilPlugin
+- (NSView *)bookInfoView;
 {
-	// Text Only Book so no need for a SMIL plugin
-	return nil;
+	return [super bookInfoView];
 }
+
+- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
+{
+	[super updateInfoFromPlugin:aPlugin];
+}
+
 
 
 + (TBNIMASPlugin *)bookType

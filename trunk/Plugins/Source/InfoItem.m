@@ -20,10 +20,10 @@
 //
 
 
-#import "TBInfoItem.h"
+#import "InfoItem.h"
 
 
-@implementation TBInfoItem
+@implementation InfoItem
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"%@ = %@",title,content];

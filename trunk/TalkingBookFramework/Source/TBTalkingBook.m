@@ -20,7 +20,6 @@
 //
 
 #import "TBTalkingBook.h"
-#import "TBInfoController.h"
 #import <QTKit/QTKit.h>
 
 @interface TBTalkingBook ()
@@ -28,13 +27,12 @@
 - (void)errorDialogDidEnd;
 - (void)resetBook;
 
-- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL;
-
 - (BOOL)isSmilFilename:(NSString *)aFilename;
 
 // Pkugin Loading and Validation
 - (BOOL)plugInClassIsValid:(Class)plugInClass;
 - (void)loadPlugins;
+- (void)updateInfoView;
 
 @property (readwrite, retain)	NSMutableArray	*plugins;
 @property (readwrite, copy)		id<TBPluginInterface>	currentPlugin;
@@ -67,7 +65,9 @@
 	
 	bookIsAlreadyLoaded = NO;
 
-
+	infoPanel = nil;
+	infoView = nil;
+	textView = nil;
 	
 	return self;
 }
@@ -110,14 +110,13 @@
 			currentPlugin = thePlugin;
 			bookDidOpen = YES;
 			self.canPlay = YES;
+			if([infoPanel isVisible])
+				[self updateInfoView];
 			break;
 		}
 	}
 	
-	//update the information controller if it has been previously loaded
-	if(_infoController)
-		[_infoController updateMetaInfoFromNode:[currentPlugin infoMetadataNode]];
-	
+		
 	return bookDidOpen;
 	
 }
@@ -464,15 +463,34 @@
 
 - (void)showHideBookInfo
 {
-	// check if we should init the controller
-	if(_infoController)
-		[_infoController updateMetaInfoFromNode:[currentPlugin infoMetadataNode]];
+	if(infoPanel)
+	{
+		if([infoPanel isVisible])
+			[infoPanel close];
+		else
+		{
+			[self updateInfoView];
+			[infoPanel makeKeyAndOrderFront:self];
+		}
+	}
 	else
-		_infoController = [[TBInfoController alloc] initWithMetadataNode:[currentPlugin infoMetadataNode]];
+		if([NSBundle loadNibNamed:@"TBBookInfo" owner:self])
+		{	
+			[infoView addSubview:[currentPlugin bookInfoView]];
+			[currentPlugin updateInfoFromPlugin:currentPlugin];
+			[infoPanel makeKeyAndOrderFront:self];
+		}
+	
+	
+}
 
-	if(_infoController)
-		[_infoController toggleInfoPanel];  	
-		
+- (void)updateInfoView
+{
+	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
+		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
+
+	[currentPlugin updateInfoFromPlugin:currentPlugin];
+
 }
 
 
@@ -491,23 +509,9 @@
 }
 
 
-/*
-- (void)setPlayPositionID:(NSString *)aPos
-{
-	if(_hasControlFile)
-	{
-		[_controlDoc setCurrentPositionID:aPos];
-	}
-}
-*/
- 
-
-
 - (NSString *)audioSegmentTimePosition
 {
 	NSString *nowTime = nil;
-//	if(_smilDoc)
-//		nowTime = [_smilDoc currentTimeString];
 	
 	return nowTime;
 }
@@ -527,17 +531,6 @@
 
 - (void)resetBook
 {
-	
-//	if(_hasControlFile) 
-//		[_controlDoc release];
-//	
-//	if(_hasPackageFile) 
-//		[_packageDoc release];
-//	
-//	if(_smilDoc) 
-//		[_smilDoc release];
-//	if(_textDoc) 
-//		[_textDoc release];
 			
 	bookIsAlreadyLoaded = NO;
 	
@@ -561,25 +554,6 @@
 	return [[[aFilename pathExtension] lowercaseString] isEqualToString:@"smil"];
 }
 
-- (TalkingBookControlDocType)typeOfControlDoc:(NSURL *)aURL
-{
-	// set the default 
-	TalkingBookControlDocType type = unknownControlDocType;
-	
-	NSString *filename = [aURL path];
-	// check for an ncx extension
-	if(YES == [[[filename pathExtension] lowercaseString] isEqualToString:@"ncx"])
-	{
-		type = ncxControlDocType;
-	}
-	// check for an ncc.html file
-	else if(YES == [[[filename lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
-	{
-		type = nccControlDocType;
-	}
-	
-	return type;
-}
 
 - (void)errorDialogDidEnd
 {
