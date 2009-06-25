@@ -167,12 +167,12 @@
 
 - (void)startPlayback
 {
-	// dummy method placeholder
+	[super startPlayback];
 }
 
 - (void)stopPlayback
 {
-	// dummy method placeholder
+	[super stopPlayback];
 }
 
 - (NSString *)FormatDescription
@@ -220,7 +220,7 @@
 - (void)setupPluginSpecifics
 {
 	
-	validFileExtensions = [NSArray arrayWithObject:@"opf"];
+	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",nil];
 	
 }
 

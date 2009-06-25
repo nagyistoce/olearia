@@ -96,7 +96,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			self.bookData.folderPath = [bookURL copy];
+			bookData.folderPath = [bookURL copy];
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
 			// check if we found the OPF file
@@ -148,7 +148,7 @@
 				{
 					// the opf file specifies that it is a 2005 format book
 					if(!bookData.folderPath)
-						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+						bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
@@ -188,11 +188,9 @@
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
-					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+					bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[[navCon controlDocument] processData];
-				
-				
 				
 				ncxLoaded = YES;
 			}
@@ -238,12 +236,12 @@
 
 - (void)startPlayback
 {
-	[navCon startPlayback];
+	[super startPlayback];
 }
 
 - (void)stopPlayback
 {
-	[navCon stopPlayback];
+	[super stopPlayback];
 }
 
 - (NSString *)FormatDescription
@@ -265,7 +263,7 @@
 
 - (void)setupPluginSpecifics
 {
-	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
 	navCon = nil;
 }
 

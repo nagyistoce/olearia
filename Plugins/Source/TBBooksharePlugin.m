@@ -85,7 +85,7 @@
 
 - (void)setupPluginSpecifics
 {
-	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
 
 }
 
@@ -208,13 +208,14 @@
 
 - (void)startPlayback
 {
-	// dummy method placeholder
+	[super startPlayback];
 }
 
 - (void)stopPlayback
 {
-	// dummy method placeholder
+	[super stopPlayback];
 }
+
 - (NSString *)FormatDescription
 {
 	return NSLocalizedString(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
