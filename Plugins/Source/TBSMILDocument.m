@@ -57,8 +57,8 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	_currentFileURL = [[NSURL alloc] init];
-	_currentNode = [[NSXMLNode alloc] init];
+	self._currentFileURL = [[NSURL alloc] init];
+	self._currentNode = [[NSXMLNode alloc] init];
 	currentNodePath = [[NSString alloc] init];
 	
 	
@@ -84,7 +84,7 @@
 	_xmlSmilDoc = nil;
 	
 	_currentNode = nil;
-	
+	currentNodePath = nil;
 	relativeAudioFilePath = nil;
 		
 	[super dealloc];
@@ -200,13 +200,13 @@
 {
 	NSMutableArray *chapMarkers = [[NSMutableArray alloc] init];
 	//NSString *queryStr = [NSString stringWithFormat:@"/smil/body/seq/(.//par[.//audio[1][@src='%@']]|.//audio[1][@src='%@'])",relativeAudioFilePath,relativeAudioFilePath];
-	NSString *queryStr = [NSString stringWithFormat:@"/smil/body/seq/(.//par[audio[@src='%@']])",aFile];
+	NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//par[audio[@src='%@']])",aFile];
 	NSArray *parNodes = [NSArray arrayWithArray:[[_xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil]];
 	
 	for(NSXMLNode *theNode in parNodes)
 	{
 		NSMutableArray *items = [[NSMutableArray alloc] init];
-		NSString *chapName;
+		NSString *chapName = nil;
 		NSString *xPathStr = [theNode XPath];
 		//get the textual reference id from the par node if that doesnt work extract it from the text node
 		[items addObjectsFromArray:[theNode objectsForXQuery:@"./data(@id)" error:nil]];
@@ -245,20 +245,32 @@
 	nextNode = [theNode nextSibling];
 	if(!nextNode) 
 	{
-		nextNode = [theNode parent];
-		if(([[nextNode XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"]))
+		nextNode = [[theNode parent] nextSibling];
+		if(nextNode)
+		{	
+			if([[nextNode name] isEqualToString:@"seq"])
+				if(([[nextNode XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"]))
+					return NO;
+				else
+					nextNode = [nextNode childAtIndex:0];
+		}
+		else 
 			return NO;
 	}
 
 	if(([[nextNode name] isEqualToString:@"par"]) || ([[nextNode name] isEqualToString:@"seq"]))
 	{
-		NSArray *newAudioNodes = [nextNode objectsForXQuery:@".//audio/data(@clip-begin|@clipBegin)" error:nil];
+		NSArray *newAudioNodes = nil;
+		newAudioNodes = [nextNode nodesForXPath:@".//audio[@clip-Begin|@clipBegin]" error:nil];
 		// check we found some audio content 
-		if(([newAudioNodes count]))
-		{   
-			self._currentNode = [[newAudioNodes objectAtIndex:0] parent];
-			return YES;
-		}
+		if(newAudioNodes) 
+			if([newAudioNodes count])
+			{   
+				NSXMLNode *tempnode = [[newAudioNodes objectAtIndex:0] parent];
+				_currentNode = tempnode;
+				self.currentNodePath = [_currentNode XPath];
+				return YES;
+			}
 	}
 	
 	return NO;
@@ -279,7 +291,7 @@
 
 - (NSString *)relativeAudioFilePath
 {
-	NSArray *audioPathNodes = [_currentNode objectsForXQuery:@"//audio/data(@src)" error:nil];
+	NSArray *audioPathNodes = [_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil];
 	return ([audioPathNodes count]) ? [audioPathNodes objectAtIndex:0] : nil;
 }
 

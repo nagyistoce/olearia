@@ -23,26 +23,16 @@
 
 @interface TBAudioSegment : QTMovie 
 {
-		
-	TBSharedBookData		*bookData;
-	NSURL					*fileURL;
-
 	NSArray					*_extendedChapterData;
 }
 
 - (BOOL)nextChapterIsAvail;
 - (BOOL)prevChapterIsAvail;
-- (void)updateForChapterPosition;
 - (void)jumpToNextChapter;
 - (void)jumpToPrevChapter;
 - (void)addChaptersOfDuration:(QTTime)aDuration;
 - (NSString *)currentChapterName;
 - (NSInteger)currentChapterNumber;
 - (NSDictionary *)currentChapterInfo;
-
-
-@property (readwrite, retain)	TBSharedBookData	*bookData;
-@property (readwrite, retain)	NSURL				*fileURL;
-
 
 @end
