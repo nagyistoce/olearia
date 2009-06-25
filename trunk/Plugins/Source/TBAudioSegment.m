@@ -36,8 +36,6 @@
 	self = [super initWithFile:fileName error:errorPtr];
 	if(self)
 	{	
-		bookData = [TBSharedBookData sharedInstance];
-		self.fileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:fileName]];
 		_extendedChapterData = nil;
 	}
 	
@@ -100,7 +98,7 @@
 	if(([self hasChapters]) && (nil != errorPtr))
 	{	
 		_extendedChapterData = [chapters copy];
-		
+		[self setCurrentTime:QTZeroTime];
 	}
 	else
 		_extendedChapterData = nil;
@@ -128,7 +126,8 @@
 
 - (NSString *)currentChapterName
 {
-	return [[[self chapters] objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName]; 
+	return [[_extendedChapterData objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName];
+	//return [[[self chapters] objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName]; 
 }
 
 - (NSDictionary *)currentChapterInfo
@@ -136,11 +135,6 @@
 	return [_extendedChapterData objectAtIndex:[self currentChapterNumber]];
 }
 
-- (void)updateForChapterPosition
-{
-	self.bookData.hasNextChapter = [self nextChapterIsAvail];
-	self.bookData.hasPreviousChapter = [self prevChapterIsAvail];
-}
 
 - (void)jumpToNextChapter
 {
@@ -155,6 +149,6 @@
 }
 
 
-@synthesize bookData, fileURL, _extendedChapterData;
+@synthesize _extendedChapterData;
 
 @end

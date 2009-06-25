@@ -181,6 +181,7 @@
 			
 			if(!navCon.controlDocument)
 				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
+			
 			// attempt to load the ncx file
 			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
 			{
@@ -200,9 +201,17 @@
 		}
 	}
 	
+	if(ncxLoaded || opfLoaded)
+	{
+		[navCon moveToNodeWihPath:@""];
+		[navCon prepareForPlayback];
+		
+	}
+	
+	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return ((packageFileUrl && opfLoaded) || (controlFileURL && ncxLoaded));
+	return (opfLoaded || ncxLoaded);
 }
 
 - (NSURL *)loadedURL
