@@ -128,11 +128,11 @@ static TBSharedBookData *sharedInstanceManager = nil;
 			mediaFormat = AudioPartialTextMediaFormat;
 		else if([typeStr isEqualToString:@"audioonly"])
 			mediaFormat = AudioOnlyMediaFormat;
-		else if([typeStr isEqualToString:@"audioncc"]||[typeStr isEqualToString:@"audioncx"])
+		else if(([typeStr isEqualToString:@"audioncc"])||([typeStr isEqualToString:@"audioncx"]))
 			mediaFormat = AudioNcxOrNccMediaFormat;
 		else if([typeStr isEqualToString:@"textpartaudio"])
 			mediaFormat = TextPartialAudioMediaFormat;
-		else if([typeStr isEqualToString:@"textncc"])
+		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
 			mediaFormat = TextNcxOrNccMediaFormat;
 		else 
 			mediaFormat = UnknownMediaFormat;		
