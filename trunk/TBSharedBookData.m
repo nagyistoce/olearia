@@ -34,6 +34,18 @@ static TBSharedBookData *sharedInstanceManager = nil;
         if (sharedInstanceManager == nil) 
 		{
             [[self alloc] init]; 
+			
+			// watch KVO notifications
+			[self addObserver:self
+						forKeyPath:@"playbackRate" 
+						   options:NSKeyValueObservingOptionNew
+						   context:NULL]; 
+			
+			[self addObserver:self
+						forKeyPath:@"playbackVolume" 
+						   options:NSKeyValueObservingOptionNew
+						   context:NULL]; 
+			
         }
     }
 	
@@ -75,6 +87,7 @@ static TBSharedBookData *sharedInstanceManager = nil;
 	self.hasNextSegment = NO;
 	self.hasPreviousSegment = NO;
 	self.isPlaying = NO;
+	self.settingsHaveChanged = NO;
 	self.folderPath = nil;
 	
 	
@@ -86,21 +99,21 @@ static TBSharedBookData *sharedInstanceManager = nil;
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
 	currentLevel = aLevel;
-	self.levelString = [NSString stringWithFormat:@"%d",aLevel];
+	levelString = [NSString stringWithFormat:@"%d",aLevel];
 }
 
 - (void)setCurrentPage:(NSInteger)aPageNum
 {
 	currentPage = aPageNum;
 	if(totalPages > 0)
-		self.pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
+		pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
 }
 
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
 	if(totalPageNum == 0)
-		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
+		pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString
@@ -128,6 +141,20 @@ static TBSharedBookData *sharedInstanceManager = nil;
 		mediaFormat = UnknownMediaFormat;
 
 }
+#pragma mark -
+#pragma mark KVO Methods
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if(([keyPath isEqualToString:@"playbackVolume"]) || ([keyPath isEqualToString:@"playbackRate"]))
+		self.settingsHaveChanged = YES;
+	else
+		[super observeValueForKeyPath:keyPath
+							 ofObject:object
+							   change:change
+							  context:context];
+}
+
 
 
 // bindings related
@@ -139,8 +166,9 @@ static TBSharedBookData *sharedInstanceManager = nil;
 @synthesize hasNextChapter, hasPreviousChapter;
 @synthesize hasLevelUp, hasLevelDown;
 @synthesize hasNextSegment, hasPreviousSegment;
+@synthesize isPlaying, settingsHaveChanged;
 @synthesize chapterSkipDuration;
 @synthesize playbackRate, playbackVolume;
-@synthesize isPlaying, folderPath;
+@synthesize  folderPath, includeSkippableContent;
 
 @end

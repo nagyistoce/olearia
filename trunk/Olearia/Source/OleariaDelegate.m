@@ -42,9 +42,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 + (void)setupDefaults;
 - (NSString *)applicationSupportFolder;
 - (void)populateRecentFilesMenu;
-- (void)updateRecentBooks:(NSString *)pathToMove updateCurrentBookSettings:(BOOL)shouldUpdate;
+- (void)updateRecentBooks:(NSString *)currentBookPath;
 - (void)loadHighContrastImages;
 - (BOOL)loadBookAtPath:(NSString *)aFilePath;
+- (void)saveCurrentBookSettings;
 
 @property (readwrite, retain) NSMutableArray *_recentBooks;
 @property (readwrite, retain) NSString *_recentBooksPlistPath;
@@ -97,7 +98,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	validFileTypes = [[NSArray alloc] initWithObjects:@"opf",@"ncx",@"html",nil];
 	
 	// set the path to the recent books folder
-	_recentBooksPlistPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"recentBooks.plist"];
+	_recentBooksPlistPath = [[NSString alloc] initWithString:[[self applicationSupportFolder] stringByAppendingPathComponent:@"recentBooks.plist"]];
 
 	NSFileManager *fm = [NSFileManager defaultManager];
 	// check if the support folder exists
@@ -107,7 +108,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		if([fm fileExistsAtPath:_recentBooksPlistPath])
 		{
 			// the file exists so read the file into the recentbooks dict
-			_recentBooks = [NSMutableArray arrayWithContentsOfFile:_recentBooksPlistPath];
+			_recentBooks = [[NSMutableArray alloc] initWithContentsOfFile:_recentBooksPlistPath];
 		}
 		else
 		{
@@ -125,11 +126,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	}
 	
 	return self;
-}
-
-- (void) finalize
-{
-	[super finalize];
 }
 
 - (void) dealloc
@@ -372,19 +368,17 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	if(returnCode == NSOKButton)
 	{
-		if(talkingBook.bookIsAlreadyLoaded)
-		{
-			[self updateRecentBooks:nil updateCurrentBookSettings:YES];
-		}
+		if(talkingBook.bookIsLoaded)
+			[self saveCurrentBookSettings];
 		bookLoaded = [self loadBookAtPath:(NSString *)contextInfo];
 		if (bookLoaded)
 		{	
-			[self updateRecentBooks:(NSString *)contextInfo updateCurrentBookSettings:NO];
-			
+			//update the recent files list
+			[self updateRecentBooks:[[[talkingBook currentPlugin] loadedURL] path]];
 		}
 		else
 		{
-			// put up a dialog saying that there was a problem loadingthe book
+			// put up a dialog saying that there was a problem loading the book
 			NSAlert *anAlert = [[NSAlert alloc] init];
 			[anAlert setMessageText:NSLocalizedString(@"Failed To Open", @"removable media load fail alert short msg")];
 			[anAlert setInformativeText:NSLocalizedString(@"There was a problem opening the chosen book.  \nIt may have be corrupted.",@"removable media load fail alert long msg")];
@@ -412,8 +406,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		//[talkingBook pauseAudio];
 		talkingBook.bookData.isPlaying = NO;
 	
-	// update the current settings of the currently (if any) open Book
-	[self updateRecentBooks:nil updateCurrentBookSettings:talkingBook.bookIsAlreadyLoaded];
+	if(talkingBook.bookIsLoaded)
 	
 	// save the recent books settings
 	if([_recentBooks count] > 0)
@@ -574,68 +567,65 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	NSURL *validFileURL = [[NSURL alloc] initFileURLWithPath:aFilePath];
 	
 	// check if there is already a book loaded
-	if(talkingBook.bookIsAlreadyLoaded) 
-	{
-		// update the saved settings for this book before we load the next
-		[self updateRecentBooks:nil updateCurrentBookSettings:YES];
-	}
-	
+	if(talkingBook.bookIsLoaded) 
+		[self saveCurrentBookSettings];
+
 	// load the talking book
 	if(validFileURL)
 		loadedOK = [talkingBook openBookWithURL:validFileURL];
 	if(loadedOK)
-	{
-		//update the recent files list
-		[self updateRecentBooks:[[[talkingBook currentPlugin] loadedURL] path] updateCurrentBookSettings:NO];
-	}
+		[self updateRecentBooks:[[[talkingBook currentPlugin] loadedURL] path]];
+	
 	
 	return loadedOK;
 }
 
-- (void)updateRecentBooks:(NSString *)pathToMove updateCurrentBookSettings:(BOOL)shouldUpdate
+- (void)saveCurrentBookSettings
 {
-    
-	if(YES == shouldUpdate)
+	// get the settings that have been saved for the currently loaded book
+	NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] init];
+
+	if(YES == talkingBook.bookData.settingsHaveChanged)
 	{
-		// get the settings that have been saved for the previously loaded book
-		NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:0]];
+		[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
 		
 		// get the current settings from the book and save them to the recent files list
 		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackRate] forKey:@"Rate"];
 		[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackVolume] forKey:@"Volume"];
 		[oldSettings setValue:talkingBook.preferredVoice forKey:@"Voice"];
-		[oldSettings setValue:[talkingBook currentPlayPositionID] forKey:@"PlayPosition"];
-		[oldSettings setValue:talkingBook.audioSegmentTimePosition forKey:@"TimePosition"];
-		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 	}
+	
+	[oldSettings setValue:[talkingBook currentPlayPositionID] forKey:@"PlayPosition"];
+	[oldSettings setValue:talkingBook.audioSegmentTimePosition forKey:@"TimePosition"];
+	[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 
-	if(nil != pathToMove)
+}
+
+- (void)updateRecentBooks:(NSString *)currentBookPath
+{
+    
+	if(nil != currentBookPath)
 	{
-		NSArray *filePaths = [_recentBooks valueForKey:@"FilePath"];
+		NSArray *filePaths = [NSArray arrayWithArray:[_recentBooks valueForKey:@"FilePath"]];
 		
-		NSUInteger foundIndex = [filePaths indexOfObject:pathToMove];				 
+		NSUInteger foundIndex = [filePaths indexOfObject:currentBookPath];				 
 		// check if the path is in the recent books list
 		if(foundIndex != NSNotFound)
 		{   
-			// get the dict of settings for the book
-			// there will only be one path per book
-			// but the same book can be in different formats and so will have the same title
-			
 			// get the settings that have been saved previously
-			NSMutableDictionary *newSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:foundIndex]];
-			
+			NSMutableDictionary *savedSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:foundIndex]];
 			
 			// set the newly loaded book to the settings that were saved for it	
-			talkingBook.bookData.playbackRate = [[newSettings valueForKey:@"Rate"] floatValue];
-			talkingBook.bookData.playbackVolume = [[newSettings valueForKey:@"Volume"] floatValue];
-			talkingBook.preferredVoice = [newSettings valueForKey:@"Voice"];
+			talkingBook.bookData.playbackRate = [[savedSettings valueForKey:@"Rate"] floatValue];
+			talkingBook.bookData.playbackVolume = [[savedSettings valueForKey:@"Volume"] floatValue];
+			talkingBook.preferredVoice = [savedSettings valueForKey:@"Voice"];
 			talkingBook.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
-			if(nil != [newSettings valueForKey:@"PlayPosition"])
+			if(nil != [savedSettings valueForKey:@"PlayPosition"])
 			{	
-				[talkingBook jumpToPoint:[newSettings valueForKey:@"PlayPosition"]];
-				if(nil != [newSettings valueForKey:@"TimePosition"])
+				[talkingBook jumpToPoint:[savedSettings valueForKey:@"PlayPosition"]];
+				if(nil != [savedSettings valueForKey:@"TimePosition"])
 				{
-					talkingBook.audioSegmentTimePosition = [newSettings valueForKey:@"TimePosition"];
+					talkingBook.audioSegmentTimePosition = [savedSettings valueForKey:@"TimePosition"];
 				}
 				
 			}
@@ -647,7 +637,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 				// remove the settings from their current position in the recent files list
 				[_recentBooks removeObjectAtIndex:foundIndex];
 				//  insert the settings at the begining of the recent files list
-				[_recentBooks insertObject:newSettings atIndex:0];
+				[_recentBooks insertObject:savedSettings atIndex:0];
 			}
 			
 		}
@@ -656,7 +646,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			// this is the first time the book was opened so add its name and the current defaults 
 			// to the dictionary along with the folder path it was loaded from.
 			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook bookData] bookTitle],@"Title",
-											 [pathToMove description],@"FilePath",
+											 [currentBookPath description],@"FilePath",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackRate]],@"Rate",
 											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaPlaybackVolume]],@"Volume",
 											 [_userSetDefaults objectForKey:OleariaPlaybackVoice],@"Voice", 
@@ -760,7 +750,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// return the application support folder relative to the users home folder 
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	// set the folder name if the array has an item otherwise use a temp folder
-	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+	NSString *basePath = ([paths count] > 0) ? [[paths objectAtIndex:0] copy] : NSTemporaryDirectory();
 	
 	// add the name of the application and return it
 	return [basePath stringByAppendingPathComponent:@"Olearia"];

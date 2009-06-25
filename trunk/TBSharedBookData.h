@@ -62,6 +62,10 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	BOOL					isPlaying;
 	
+	BOOL					settingsHaveChanged;
+	
+	BOOL					includeSkippableContent;
+	
 	TalkingBookMediaFormat	mediaFormat;
 	
 	QTTime					chapterSkipDuration;
@@ -79,6 +83,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite)		float		playbackRate;
 @property (readwrite)		float		playbackVolume;
+@property (readwrite)		BOOL		settingsHaveChanged;
 
 @property (readwrite)		NSInteger	currentPage;
 @property (readwrite)		NSInteger	totalPages;
@@ -94,6 +99,8 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite) BOOL		hasPreviousSegment;
 
 @property (readwrite) BOOL		isPlaying;
+
+@property (readwrite) BOOL		includeSkippableContent;
 
 @property (readwrite) TalkingBookMediaFormat mediaFormat;
 
