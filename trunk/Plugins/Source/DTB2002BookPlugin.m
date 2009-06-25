@@ -53,7 +53,7 @@
 
 - (void)setupPluginSpecifics
 {
-	validFileExtensions = [NSArray arrayWithObjects:@"opf",@"ncx",nil];
+	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
 	navCon = nil;
 }
 
@@ -217,12 +217,12 @@
 
 - (void)startPlayback
 {
-	// dummy method placeholder
+	[super startPlayback];
 }
 
 - (void)stopPlayback
 {
-	// dummy method placeholder
+	[super stopPlayback];
 }
 
 - (NSString *)FormatDescription

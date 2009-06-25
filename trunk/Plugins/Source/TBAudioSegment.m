@@ -22,6 +22,13 @@
 
 #import "TBAudioSegment.h"
 
+@interface TBAudioSegment ()
+
+@property (readwrite, retain)   NSArray				*_extendedChapterData;
+
+@end
+
+
 @implementation TBAudioSegment
 
 - (id)initWithFile:(NSString *)fileName error:(NSError **)errorPtr
@@ -31,6 +38,7 @@
 	{	
 		bookData = [TBSharedBookData sharedInstance];
 		self.fileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:fileName]];
+		_extendedChapterData = nil;
 	}
 	
 	return self;
@@ -85,6 +93,24 @@
 	
 }
 
+- (void)addChapters:(NSArray *)chapters withAttributes:(NSDictionary *)attributes error:(NSError **)errorPtr
+{
+	
+	[super addChapters:chapters withAttributes:attributes error:errorPtr];
+	if(([self hasChapters]) && (nil != errorPtr))
+	{	
+		_extendedChapterData = [chapters copy];
+		
+	}
+	else
+		_extendedChapterData = nil;
+}
+
+- (NSArray *)chapters
+{
+	return ([self chapterCount]) ? _extendedChapterData : nil;
+}
+
 - (BOOL)nextChapterIsAvail
 {
 	return ([self chapterIndexForTime:[self currentTime]] < [self chapterCount]);
@@ -103,6 +129,11 @@
 - (NSString *)currentChapterName
 {
 	return [[[self chapters] objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName]; 
+}
+
+- (NSDictionary *)currentChapterInfo
+{
+	return [_extendedChapterData objectAtIndex:[self currentChapterNumber]];
 }
 
 - (void)updateForChapterPosition
@@ -124,6 +155,6 @@
 }
 
 
-@synthesize bookData, fileURL;
+@synthesize bookData, fileURL, _extendedChapterData;
 
 @end

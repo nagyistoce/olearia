@@ -28,51 +28,39 @@
 {
 	
 	NSXMLNode		*_currentNode;
-	NSMutableArray  *_idChapterMarkers;
-	NSString		*idToStartFrom;
-	NSString		*idToFinishWith;
+	NSString		*currentNodePath;
+	//NSMutableArray  *_idChapterMarkers;
+	//NSMutableArray  *_skipableIdList;
+	//NSString		*idToStartFrom;
+	//NSString		*idToFinishWith;
 	
 	NSURL			*_currentFileURL;
-	NSString		*_relativeAudioFilePath;
+	NSString		*relativeAudioFilePath;
 
-	NSDictionary	*smilChapterData;
-	NSArray			*_parNodes;
-	NSDictionary	*_parNodeIndexes;
+	//NSDictionary	*smilChapterData;
+	//NSArray			*_parNodes;
+	//NSDictionary	*_parNodeIndexes;
 	
 	NSXMLDocument		*_xmlSmilDoc;
-	TBAudioSegment		*_currentAudioFile;
-	TBSharedBookData	*bookData;
+	//TBAudioSegment		*_currentAudioFile;
+	//TBSharedBookData	*bookData;
 	
-	// public ivars
-	float			audioPlayRate; 
-	float			audioVolume;
-	
-	BOOL			includeSkippableContent; 
-	BOOL			useSmilChapters;
+	//BOOL			useSmilChapters;
 
-	NSString		*currentTime;
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
-//- (NSArray *)chapterMarkers;
-- (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
-- (NSString *)audioFilenameForId:(NSString *)anId;
-//- (void)playAudio;
-//- (void)pauseAudio;
-//- (BOOL)hasNextChapter;
-- (void)nextChapter;
-//- (BOOL)hasPreviousChapter;
-- (void)previousChapter;
+- (NSArray *)audioChapterMarkersForFilename:(NSString *)aFile WithTimescale:(long)aScale;
+- (void)setCurrentNodeWithPath:(NSString *)aNodePath;
+- (BOOL)audioAfterCurrentPosition;
 
-@property (readwrite, retain)	TBSharedBookData *bookData;
+//- (NSString *)idFollowingId:(NSString *)anId;
 
-@property (readwrite)			float		audioPlayRate;
-@property (readwrite)			float		audioVolume;
-@property (readwrite)			BOOL		includeSkippableContent;
-@property (readwrite)			BOOL		useSmilChapters;
-@property (readwrite, copy)		NSString	*currentTimeString;
-@property (readwrite, copy)		NSString	*idToStartFrom;
-@property (readwrite, copy)		NSString	*idToFinishWith;
+//- (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
+//- (NSString *)audioFilenameForId:(NSString *)anId;
 
+//@property (readwrite, retain)	TBSharedBookData *bookData;
+@property (readonly, copy)		NSString	*relativeAudioFilePath;
+@property (readwrite,copy)		NSString	*currentNodePath;
 
 @end

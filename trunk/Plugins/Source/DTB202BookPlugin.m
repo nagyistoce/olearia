@@ -200,13 +200,14 @@
 
 - (void)startPlayback
 {
-	
+	[super startPlayback];
 }
 
 - (void)stopPlayback
 {
-	
+	[super stopPlayback];
 }
+
 - (NSString *)FormatDescription
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2.02 standard",@"Daisy 2.02 Standard description");

@@ -26,7 +26,8 @@
 		
 	TBSharedBookData		*bookData;
 	NSURL					*fileURL;
-	
+
+	NSArray					*_extendedChapterData;
 }
 
 - (BOOL)nextChapterIsAvail;
@@ -37,8 +38,11 @@
 - (void)addChaptersOfDuration:(QTTime)aDuration;
 - (NSString *)currentChapterName;
 - (NSInteger)currentChapterNumber;
+- (NSDictionary *)currentChapterInfo;
+
 
 @property (readwrite, retain)	TBSharedBookData	*bookData;
 @property (readwrite, retain)	NSURL				*fileURL;
+
 
 @end

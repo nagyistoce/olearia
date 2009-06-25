@@ -143,10 +143,14 @@ static NSBundle* pluginBundle = nil;
 }
 
 - (void)startPlayback
-{	/* dummy superclass method placeholder */ }
+{	
+	bookData.isPlaying = YES;
+}
 
 - (void)stopPlayback
-{	/* dummy superclass method placeholder */ }
+{	
+	bookData.isPlaying = NO;
+}
 
 - (NSURL *)loadedURL
 {

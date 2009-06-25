@@ -44,9 +44,9 @@
 	if (!(self=[self init])) return nil;
 
 	if(![aTitle isEqualToString:@""])
-		title = aTitle;
+		self.title = [aTitle copy];
 	if(![aContent isEqualToString:@""])
-		content = [aContent copy];
+		self.content = [aContent copy];
 	
 	return self;
 }

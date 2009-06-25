@@ -140,6 +140,7 @@
 		08FB77AFFE84173DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				EECB46E60FE645E500C5E92A /* Views */,
 				EE3172CC0FE0D98A00B27804 /* Categories */,
 				EE3174BE0FE0E18500B27804 /* Controllers */,
 				EE3927900FC3F0110093CBBD /* Plugins */,
@@ -227,7 +228,6 @@
 		EE3174BE0FE0E18500B27804 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EEB7A3990FE5D4F400662B04 /* Information View */,
 				EE3174BF0FE0E1E100B27804 /* TBNavigationController.h */,
 				EE3174C00FE0E1E100B27804 /* TBNavigationController.m */,
 			);
@@ -269,6 +269,22 @@
 				EEB7A3DC0FE5EC0D00662B04 /* InfoView.m */,
 			);
 			name = "Information View";
+			sourceTree = "<group>";
+		};
+		EECB46E60FE645E500C5E92A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EEB7A3990FE5D4F400662B04 /* Information View */,
+				EECB46E70FE645F900C5E92A /* Text View */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		EECB46E70FE645F900C5E92A /* Text View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Text View";
 			sourceTree = "<group>";
 		};
 		EECDD3F20FCBD48600C0EDDC /* Documents */ = {
@@ -427,7 +443,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_MODEL_TUNING = G5;
@@ -447,7 +463,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -469,7 +485,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
