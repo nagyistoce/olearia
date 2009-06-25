@@ -96,7 +96,7 @@
 	if(tempString)
 		[bookData setMediaFormatFromString:tempString];	
 
-	// get all the body nodes
+	// get all the child nodes of the body node
 	_bodyNodes = [[[rootNode nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
 	_totalBodyNodes = [_bodyNodes count];
 	
@@ -438,8 +438,17 @@
 	return nil;
 }
 
+- (NSString *)filenameFromCurrentNode
+{
+	return [self currentSegmentFilename];
+}
 
-
+- (NSString *)currentReferenceTag
+{
+	NSString *tag = nil;
+	tag = [[[_bodyNodes objectAtIndex:_currentNodeIndex] attributeForName:@"id"] stringValue];
+	return (tag) ? tag : nil;
+}
 
 #pragma mark -
 #pragma mark Private Methods
@@ -571,14 +580,14 @@
 - (NSString *)currentSegmentFilename
 {
 	
-	NSString *audioFilename = nil;
+	NSString *filename = nil;
 	// get the filename from the segment attributes
-	NSString *filename = [self filenameFromID:[self stringForXquery:@"./a/data(@href)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]];
+	filename = [self filenameFromID:[self stringForXquery:@"./a/data(@href)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]];
 	
-	if(nil != filename) // check that we got something back
+	if(filename) // check that we got something back
 	{
-		filename = [filename lowercaseString];
-		
+		return [filename lowercaseString];
+	}	
 		// check if the current file is the same as the new file
 		// smil files have multiple references to audio content within them
 		// so there is no point reloading the smil
@@ -586,29 +595,29 @@
 //		{
 			//_currentSmilFilename = filename;
 			// check if the file is a smil file. which most of the time it will be	
-			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
-			{
-				//[self openSmilFile:filename];	
-				//NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-				
-				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
-				
-			}
-			else  
-			{
-				// create the full path to the file
-				audioFilename = [NSString stringWithString:[[[bookData folderPath] path] stringByAppendingPathComponent:filename]];
-			}
-//		}
-//		else
-//		{
-//			//audioFilename = [parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]]];
-//			
-//		}
-	}
+//			if(YES == [[filename pathExtension] isEqualToString:@"smil"])
+//			{
+//				//[self openSmilFile:filename];	
+//				//NSString *idStr = [self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+//				
+//				//audioFilename = [NSString stringWithString:[parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:idStr]]];		
+//				
+//			}
+//			else  
+//			{
+//				// create the full path to the file
+//				audioFilename = [NSString stringWithString:[[[bookData folderPath] path] stringByAppendingPathComponent:filename]];
+//			}
+////		}
+////		else
+////		{
+////			//audioFilename = [parentFolderPath stringByAppendingPathComponent:[smilDoc audioFilenameForId:[self stringForXquery:@"./data(@id)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]]];
+////			
+////		}
+//	}
 	
 	
-	return audioFilename;
+	return nil;
 	
 }
 

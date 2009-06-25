@@ -99,21 +99,21 @@ static TBSharedBookData *sharedInstanceManager = nil;
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
 	currentLevel = aLevel;
-	levelString = [NSString stringWithFormat:@"%d",aLevel];
+	self.levelString = [NSString stringWithFormat:@"%d",aLevel];
 }
 
 - (void)setCurrentPage:(NSInteger)aPageNum
 {
 	currentPage = aPageNum;
 	if(totalPages > 0)
-		pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
+		self.pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
 }
 
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
 	if(totalPageNum == 0)
-		pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
+		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString
@@ -123,22 +123,22 @@ static TBSharedBookData *sharedInstanceManager = nil;
 		NSString *typeStr = [mediaTypeString lowercaseString];
 		// set the mediaformat accordingly
 		if([typeStr isEqualToString:@"audiofulltext"])
-			mediaFormat = AudioFullTextMediaFormat;
+			self.mediaFormat = AudioFullTextMediaFormat;
 		else if([typeStr isEqualToString:@"audioparttext"])
-			mediaFormat = AudioPartialTextMediaFormat;
+			self.mediaFormat = AudioPartialTextMediaFormat;
 		else if([typeStr isEqualToString:@"audioonly"])
-			mediaFormat = AudioOnlyMediaFormat;
+			self.mediaFormat = AudioOnlyMediaFormat;
 		else if(([typeStr isEqualToString:@"audioncc"])||([typeStr isEqualToString:@"audioncx"]))
-			mediaFormat = AudioNcxOrNccMediaFormat;
+			self.mediaFormat = AudioNcxOrNccMediaFormat;
 		else if([typeStr isEqualToString:@"textpartaudio"])
-			mediaFormat = TextPartialAudioMediaFormat;
+			self.mediaFormat = TextPartialAudioMediaFormat;
 		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
-			mediaFormat = TextNcxOrNccMediaFormat;
+			self.mediaFormat = TextNcxOrNccMediaFormat;
 		else 
-			mediaFormat = UnknownMediaFormat;		
+			self.mediaFormat = UnknownMediaFormat;		
 	}
 	else
-		mediaFormat = UnknownMediaFormat;
+		self.mediaFormat = UnknownMediaFormat;
 
 }
 #pragma mark -

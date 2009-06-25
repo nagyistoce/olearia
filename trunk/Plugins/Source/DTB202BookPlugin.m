@@ -152,8 +152,13 @@
 		}
 	}
 	
-	// return YES if the Package document and/or Control Document loaded correctly
-	// as we can do limited control and playback functions from the opf file this is a valid scenario.
+	if(nccLoaded)
+	{
+		[navCon moveToNodeWihPath:@""];
+		[navCon prepareForPlayback];
+	}
+	
+	// return YES if NCC.html Control Document loaded correctly
 	return ((controlFileURL && nccLoaded));
 }
 
