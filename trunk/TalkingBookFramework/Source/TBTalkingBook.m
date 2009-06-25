@@ -63,7 +63,7 @@
 		
 	[self resetBook];
 	
-	bookIsAlreadyLoaded = NO;
+	bookIsLoaded = NO;
 
 	infoPanel = nil;
 	infoView = nil;
@@ -525,6 +525,7 @@
 {
 	self.bookData.playbackVolume = aVolumeLevel;
 }
+
 #pragma mark -
 #pragma mark Private Methods
 
@@ -532,7 +533,7 @@
 - (void)resetBook
 {
 			
-	bookIsAlreadyLoaded = NO;
+	bookIsLoaded = NO;
 	
 
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
@@ -674,7 +675,7 @@
 @synthesize speechSynth, preferredVoice;
 
 @synthesize _controlMode;
-@synthesize bookIsAlreadyLoaded, speakUserLevelChange, overrideRecordedContent;
+@synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
 @synthesize audioSegmentTimePosition;
 
 //bindings

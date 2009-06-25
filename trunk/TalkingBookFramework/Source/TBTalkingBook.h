@@ -41,7 +41,8 @@ typedef enum
 	NSString				*preferredVoice;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
-	BOOL					bookIsAlreadyLoaded;
+	BOOL					bookIsLoaded;
+	BOOL					_settingsChanged;
 	NSString				*audioSegmentTimePosition;
 	
 	NSMutableArray			*plugins;
@@ -63,6 +64,8 @@ typedef enum
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
 	BOOL					_hasWordNavigation;
+	
+
 
 	// bindings
 	BOOL					canPlay;
@@ -101,7 +104,7 @@ typedef enum
 
 @property (readwrite, copy)		NSString	*preferredVoice;
 
-@property (readwrite)			BOOL		bookIsAlreadyLoaded;
+@property (readwrite)			BOOL		bookIsLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
 @property (readwrite)			BOOL		speakUserLevelChange;
 @property (readwrite, copy)		NSString	*audioSegmentTimePosition;
