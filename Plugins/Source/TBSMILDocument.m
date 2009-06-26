@@ -92,8 +92,9 @@
 
 - (void)resetSmil;
 {
-	relativeAudioFilePath = nil;
 	_currentNode = nil;
+	currentNodePath = nil;
+	_xmlSmilDoc = nil;
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL 
@@ -107,8 +108,6 @@
 		[self resetSmil];
 		_currentFileURL = [aURL copy];
 		// open the URL
-		if(_xmlSmilDoc)
-			[_xmlSmilDoc release];
 		
 		_xmlSmilDoc = [[NSXMLDocument alloc] initWithContentsOfURL:_currentFileURL options:NSXMLDocumentTidyXML error:&theError];
 		
@@ -116,8 +115,8 @@
 		{
 			// get the first par node
 			NSArray *nodes = nil;
-			nodes = [_xmlSmilDoc nodesForXPath:@"/smil/body//par[1]" error:nil];
-			_currentNode = ([nodes count]) ? [nodes objectAtIndex:0] : nil;
+			nodes = [_xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]//audio[1]" error:nil];
+			_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
 			if(_currentNode)
 				openedOk = YES;
 		}
@@ -215,7 +214,7 @@
 		else
 		{	
 			[items addObjectsFromArray:[theNode objectsForXQuery:@".//text/data(@src)" error:nil]];
-			chapName = ([items count]) ? [[self idTagFromSrcString:[items objectAtIndex:0]] copy] : nil;
+			chapName = ([items count]) ? [self idTagFromSrcString:[items objectAtIndex:0]] : nil;
 		}
 		[items removeAllObjects];
 		[items addObjectsFromArray:[theNode objectsForXQuery:@".//audio/data(@clip-begin|@clipBegin)" error:nil]];
@@ -251,8 +250,6 @@
 			if([[nextNode name] isEqualToString:@"seq"])
 				if(([[nextNode XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"]))
 					return NO;
-				else
-					nextNode = [nextNode childAtIndex:0];
 		}
 		else 
 			return NO;

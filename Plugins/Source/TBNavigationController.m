@@ -31,6 +31,7 @@
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
 - (BOOL)updateAudioFile:(NSString *)pathToFile;
+- (void)resetController;
 @end
 
 @implementation TBNavigationController
@@ -124,6 +125,8 @@
 
 - (void)prepareForPlayback
 {
+	[self resetController];
+	
 	[self checkMediaFormat];
 	
 	if(controlDocument)
@@ -191,13 +194,14 @@
 
 - (void)startPlayback
 {
-	[_audioFile play];
+	if(_audioFile)
+		[_audioFile play];
 }
 
 - (void)stopPlayback
 {
-	
-	[_audioFile stop];
+	if(_audioFile)
+		[_audioFile stop];
 }
 
 - (void)setPreferredAudioAttributes
@@ -295,6 +299,16 @@
 		[_audioFile addChaptersOfDuration:_bookData.chapterSkipDuration];
 		
 	}
+}
+
+- (void)resetController
+{
+	if(_audioFile)
+		[_audioFile release];
+	_audioFile = nil;
+	_currentAudioFilename = nil;
+	_currentSmilFilename = nil;
+	_currentTag = nil;
 }
 
 #pragma mark -
@@ -411,7 +425,6 @@
 		self._smilDoc.currentNodePath = [[_audioFile currentChapterInfo] valueForKey:@"XPath"];
 	
 		[self updateForAudioChapterPosition];
-		
 	}
 }
 

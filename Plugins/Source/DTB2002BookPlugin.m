@@ -51,6 +51,11 @@
 	// dummy method never gets called
 }
 
+- (void)reset
+{
+	[super reset];
+}
+
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
@@ -92,9 +97,7 @@
 	NSURL *packageFileUrl = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
-	BOOL isValidUrl = [self canOpenBook:bookURL];
-	
-	if(isValidUrl)
+	if([self canOpenBook:bookURL])
 	{
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
@@ -200,6 +203,7 @@
 			
 		}
 	}
+	
 	
 	if(ncxLoaded || opfLoaded)
 	{

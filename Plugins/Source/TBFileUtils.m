@@ -89,7 +89,8 @@
 {
 	BOOL isDir;
 	NSString *folderPath;
-	NSDirectoryEnumerator *dirEnum = [[[NSDirectoryEnumerator alloc] init] autorelease];
+	NSDirectoryEnumerator *dirEnum = nil;
+	//NSDirectoryEnumerator *dirEnum = [[[NSDirectoryEnumerator alloc] init] autorelease];
 	NSMutableArray *foundPaths = [[[NSMutableArray alloc] init] autorelease];
 	
 	// check if the passed in path is not a folder

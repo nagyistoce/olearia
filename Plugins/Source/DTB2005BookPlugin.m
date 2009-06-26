@@ -51,6 +51,11 @@
 	// dummy method never gets called
 }
 
+- (void)reset
+{
+	[super reset];
+}
+
 
 - (NSView *)textView;
 {
@@ -86,11 +91,9 @@
 	BOOL ncxLoaded = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
-		
-	// do a sanity check first to see that we can attempt to open the book. 
-	BOOL isValidUrl = [self canOpenBook:bookURL];
 	
-	if(isValidUrl)
+	// do a sanity check first to see that we can attempt to open the book. 
+	if([self canOpenBook:bookURL])
 	{
 		
 		// first check if we were passed a folder
@@ -148,7 +151,7 @@
 				{
 					// the opf file specifies that it is a 2005 format book
 					if(!bookData.folderPath)
-						bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
@@ -188,7 +191,7 @@
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
-					bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[[navCon controlDocument] processData];
 				
@@ -199,6 +202,7 @@
 			
 		}
 	}
+
 	
 	if(ncxLoaded || opfLoaded)
 	{
@@ -206,6 +210,7 @@
 		[navCon prepareForPlayback];
 		
 	}
+	
 				
 	
 	// return YES if the Package document and/or Control Document loaded correctly
