@@ -50,6 +50,11 @@
 	// dummy method never gets called
 }
 
+- (void)reset
+{
+	[super reset];
+}
+
 
 - (NSView *)textView;
 {
@@ -86,9 +91,7 @@
 	NSURL *packageFileUrl = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
-	BOOL isValidUrl = [self canOpenBook:bookURL];
-	
-	if(isValidUrl)
+	if([self canOpenBook:bookURL])
 	{
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
@@ -142,10 +145,11 @@
 				self.navCon.packageDocument = nil;
 		}
 	}
+
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return (packageFileUrl && opfLoaded);
+	return (opfLoaded);
 	
 }
 

@@ -71,6 +71,7 @@
 
 - (void)processData
 {
+
 	NSString *tempStr = [[[NSString alloc] init] autorelease];
 	
 	if([bookData.bookTitle isEqualToString:@""])

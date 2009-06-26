@@ -50,6 +50,11 @@
 	// dummy method never gets called
 }
 
+- (void)reset
+{
+	[super reset];
+}
+
 + (TBBooksharePlugin *)bookType
 {
 	TBBooksharePlugin *instance = [[[self alloc] init] autorelease];
@@ -86,7 +91,6 @@
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
-
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -97,11 +101,8 @@
 	NSURL *packageFileUrl = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
-	BOOL isValidUrl = [self canOpenBook:bookURL];
-	
-	if(isValidUrl)
+	if([self canOpenBook:bookURL])
 	{
-		
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
@@ -200,10 +201,10 @@
 			
 		}
 	}
-	
+		
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return (((nil != packageFileUrl) && opfLoaded) || ((nil != controlFileURL) && ncxLoaded));
+	return ((opfLoaded) || (ncxLoaded));
 }
 
 - (void)startPlayback

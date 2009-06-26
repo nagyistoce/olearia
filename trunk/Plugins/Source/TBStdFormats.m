@@ -26,7 +26,7 @@
 #import "DTB2005BookPlugin.h"
 #import "TBBooksharePlugin.h"
 #import "TBNIMASPlugin.h"
-//#import "InfoView.h"
+#import "TBNavigationController.h"
 
 static NSBundle* pluginBundle = nil;
 
@@ -118,6 +118,12 @@ static NSBundle* pluginBundle = nil;
 {
 	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
 	return NO;
+}
+
+- (void)reset
+{
+	if(navCon)
+		[navCon resetController];
 }
 
 - (BOOL)openBook:(NSURL *)bookURL

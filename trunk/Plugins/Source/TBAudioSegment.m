@@ -24,7 +24,7 @@
 
 @interface TBAudioSegment ()
 
-@property (readwrite, retain)   NSArray				*_extendedChapterData;
+@property (readwrite, retain)   NSArray	*_extendedChapterData;
 
 @end
 
@@ -34,10 +34,8 @@
 - (id)initWithFile:(NSString *)fileName error:(NSError **)errorPtr
 {
 	self = [super initWithFile:fileName error:errorPtr];
-	if(self)
-	{	
-		_extendedChapterData = nil;
-	}
+
+	_extendedChapterData = nil;
 	
 	return self;
 }
@@ -95,7 +93,7 @@
 {
 	
 	[super addChapters:chapters withAttributes:attributes error:errorPtr];
-	if(([self hasChapters]) && (nil != errorPtr))
+	if(([self hasChapters]) && (!errorPtr))
 	{	
 		_extendedChapterData = [chapters copy];
 		[self setCurrentTime:QTZeroTime];

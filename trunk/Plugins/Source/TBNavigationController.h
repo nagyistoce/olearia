@@ -30,6 +30,7 @@
 - (NSString *)currentNodePath;
 
 - (void)prepareForPlayback;
+- (void)resetController;
 
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;

@@ -51,6 +51,11 @@
 	// dummy method never gets called
 }
 
+- (void)reset
+{
+	[super reset];
+}
+
 - (void)setupPluginSpecifics
 {
 	navCon = nil;
@@ -127,7 +132,9 @@
 				self.navCon = [[TBNavigationController alloc] init];
 			
 			// attempt to load the ncc.html file
-			self.navCon.controlDocument = [[TBNCCDocument alloc] init];
+			if(!navCon.controlDocument)
+				self.navCon.controlDocument = [[TBNCCDocument alloc] init];
+			
 			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
@@ -147,8 +154,6 @@
 			}
 			else 
 				self.navCon.controlDocument = nil;
-			
-			
 		}
 	}
 	
@@ -159,7 +164,7 @@
 	}
 	
 	// return YES if NCC.html Control Document loaded correctly
-	return ((controlFileURL && nccLoaded));
+	return (nccLoaded);
 }
 
 - (NSView *)textView;

@@ -97,6 +97,9 @@
 	
 	BOOL bookDidOpen = NO;
 	
+//	if(currentPlugin)
+//		[currentPlugin reset
+	
 	// iterate throught the plugins to see if one will open the URL correctly 
 	for(id thePlugin in plugins)
 	{
@@ -535,7 +538,6 @@
 			
 	bookIsLoaded = NO;
 	
-
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
 	_controlMode = UnknownBookType; // set the default control mode to unknown
@@ -548,6 +550,9 @@
 	self.canPlay = NO;
 	
 	[bookData resetForNewBook];
+	
+	if(currentPlugin)
+		[currentPlugin reset];
 }
 
 - (BOOL)isSmilFilename:(NSString *)aFilename
