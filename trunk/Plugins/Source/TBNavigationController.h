@@ -31,6 +31,10 @@
 
 - (void)prepareForPlayback;
 - (void)resetController;
+- (void)nextElement;
+- (void)previousElement;
+- (void)goUpLevel;
+- (void)goDownLevel;
 
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;

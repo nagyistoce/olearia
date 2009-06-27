@@ -39,8 +39,10 @@
 @property (readwrite, retain)	NSSpeechSynthesizer *speechSynth;
 @property (readwrite)			TalkingBookType _controlMode;
 
+@property (readwrite)	BOOL	_wasPlaying;
+
 // Bindings related
-@property (readwrite) BOOL		canPlay;
+@property (readwrite)	BOOL	canPlay;
 
 
 @end
@@ -161,146 +163,44 @@
 
 - (void)nextSegment
 {
-//	BOOL	fileDidUpdate = NO;
-//	if(YES == _hasControlFile)
-//	{	
-//		// check that there is another segment available
-//		if(bookData.hasNextSegment)
-//		{
-//			//[_controlDoc moveToNextSegment];
-//			// get the filename of the next audio file to play from the ncx file
-//			if([_controlDoc audioFilenameFromCurrentNode])
-//			{	
-//				if(!_smilDoc)
-//				{	//_smilDoc = [[TBSMILDocument alloc] init];
-//					//NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] relativeToURL:_bookBaseURL];
-//				//fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
-//
-//				}
-//				
-//			}
-//		}
-//		else
-//		{
-//			// we have reached the end of the book so tell the user and reset the book to the beginning
-//		}
-//		
-//		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
-//	}
-//	
-//	if (!fileDidUpdate)
-//	{
-//		// call the method for posting a msg that there was a problem loading the file
-//	}
-}
-
-- (void)nextSegmentOnLevel
-{
-//	BOOL fileDidUpdate = NO;
-//	if(YES == _hasControlFile)
-//	{	
-		// move to the next segment at the current level
-//		[_controlDoc setLoadFromCurrentLevel:YES];
-//		[_controlDoc moveToNextSegment];
-//		
-//		if([_controlDoc audioFilenameFromCurrentNode])
-//		{	
-//			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
-//											 relativeToURL:_bookBaseURL];
-//			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
-//			
-//		}		
-		// update the audio segment
-		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
-//	}
-			
-	
+	[currentPlugin nextReadingElement];
 }
 
 - (void)previousSegment 
 {
-//	BOOL	fileDidUpdate = NO;
-//	if(YES == _hasControlFile)
-//	{	
-		// move to the previous segment of the book
-//		[_controlDoc moveToPreviousSegment];
-//
-//		if([_controlDoc audioFilenameFromCurrentNode])
-//		{	
-//			NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
-//											 relativeToURL:_bookBaseURL];
-//			fileDidUpdate = [_smilDoc openWithContentsOfURL:smilUrl];
-//			
-//		}
-		// update the audio segment 
-		//fileDidUpdate = [self updateAudioFile:[_controlDoc currentAudioFilename]];
-
-//	}
-	
-	//return fileDidUpdate;
+	[currentPlugin previousReadingElement];
 }
 
 - (void)upOneLevel
 {
-//	if(_hasControlFile)
-//	{
-//		//[_controlDoc goUpALevel];
-//		
-//		//self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-//	}
-	
-	//[self updateForPosInBook];
-	
 	if(speakUserLevelChange)
 	{
 		self.bookData.isPlaying = NO;
-		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),bookData.currentLevel]];
+		_wasPlaying = YES;
+		[currentPlugin upLevel];
+		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
 	}
 	else
 	{
-		// update the audio segment 
-		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-		//[_currentAudioFile play];
+		[currentPlugin upLevel];
 	}
 
 }
 
 - (void)downOneLevel
 {
-	// check that we have a control document to use
-//	if(_hasControlFile)
-//	{
-		// check that we can go down a level
-	//	if([_controlDoc canGoDownLevel])
-//		{	
-//			[_controlDoc goDownALevel];
-//			
-//			if([_controlDoc audioFilenameFromCurrentNode])
-//			{	
-//				NSURL *smilUrl = [[NSURL alloc] initWithString:[_controlDoc audioFilenameFromCurrentNode] 
-//												 relativeToURL:_bookBaseURL];
-//				[_smilDoc openWithContentsOfURL:smilUrl];
-//			}
-//			
-			//self.currentLevelString = [NSString stringWithFormat:@"%d",[_controlDoc currentLevel]];
-			
-//		}
-
-		//[self updateForPosInBook];
-		
-		if(speakUserLevelChange)
-		{
-			self.bookData.isPlaying = NO;
-			[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d", @"VO level string"),bookData.currentLevel]];
-		}
-		else
-		{
-			// update the audio segment 
-			//[self updateAudioFile:[_controlDoc currentAudioFilename]];
-			self.bookData.isPlaying = YES;
-
-		}
-//	}
+	if(speakUserLevelChange)
+	{
+		self.bookData.isPlaying = NO;
+		_wasPlaying = YES;
+		[currentPlugin downLevel];
+		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
+	}
+	else
+	{
+		[currentPlugin downLevel];
+	}
+	
 	
 }
 
@@ -662,16 +562,8 @@
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	if(bookData.mediaFormat <= AudioOnlyMediaFormat)
-	{
-		//[self updateAudioFile:[_controlDoc currentAudioFilename]];
+	if(_wasPlaying)
 		self.bookData.isPlaying = YES;
-	}
-	else
-	{
-		/// text only update calls here 
-	}
-	
 }
 
 @synthesize plugins, currentPlugin;
@@ -680,6 +572,7 @@
 @synthesize speechSynth, preferredVoice;
 
 @synthesize _controlMode;
+@synthesize _wasPlaying;
 @synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
 @synthesize audioSegmentTimePosition;
 

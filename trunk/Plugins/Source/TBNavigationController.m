@@ -31,7 +31,9 @@
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
 - (BOOL)updateAudioFile:(NSString *)pathToFile;
+- (void)updateAfterUserNavigation;
 - (void)resetController;
+
 @end
 
 @implementation TBNavigationController
@@ -132,7 +134,7 @@
 	if(controlDocument)
 	{
 		// check that its not a text only book
-		if(TextNcxOrNccMediaFormat != _bookData.mediaFormat)
+		if(TextNcxOrNccMediaFormat > _bookData.mediaFormat)
 		{
 			
 			NSString *filename = [controlDocument filenameFromCurrentNode];
@@ -187,7 +189,42 @@
 	}
 }
 
+#pragma mark -
+#pragma mark Navigation
 
+- (void)nextElement
+{
+	if(controlDocument)
+		[controlDocument moveToNextSegmentAtSameLevel];
+	[self updateAfterUserNavigation];
+}
+
+- (void)previousElement
+{
+	if(controlDocument)
+		[controlDocument moveToPreviousSegment];
+	[self updateAfterUserNavigation];
+}
+
+- (void)goUpLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goUpALevel];
+		[self updateAfterUserNavigation];		
+	}
+	
+		
+}
+
+- (void)goDownLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goDownALevel];
+		[self updateAfterUserNavigation];
+	}
+}
 
 #pragma mark -
 #pragma mark Private Methods
@@ -271,6 +308,25 @@
 {
 	self._bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
 	self._bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
+}
+
+- (void)updateAfterUserNavigation
+{
+	NSString *filename = [controlDocument filenameFromCurrentNode];
+	if([[filename pathExtension] isEqualToString:@"smil"])
+	{
+		_currentSmilFilename = [filename copy];
+		
+		// load the smil doc
+		if(!_smilDoc)
+			_smilDoc = [[TBSMILDocument alloc] init];
+		
+		[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
+		_currentAudioFilename = _smilDoc.relativeAudioFilePath;
+		
+		if(_currentAudioFilename)
+			[self updateAudioFile:_currentAudioFilename];
+	}
 }
 
 - (void)addChaptersToAudioSegment

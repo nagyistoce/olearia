@@ -119,37 +119,30 @@
 
 - (void)moveToNextSegment
 {
-		if(NO == stayOnCurrentLevel) // always NO in regular play through mode
-		{
-			if(YES == [self canGoDownLevel]) // first check if we can go down a level
-			{	
-				currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-				bookData.currentLevel++; // increment the level
-			}
-			else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-				currentNavPoint = [currentNavPoint nextSibling];
-			else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
-			{
-				if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
-				{	
-					// get the parent then its sibling as we have already played 
-					// the parent before dropping into this level
-					currentNavPoint = [[currentNavPoint parent] nextSibling];
-					bookData.currentLevel--; // decrement the current level
-				}
-			}
+	if(YES == [self canGoDownLevel]) // first check if we can go down a level
+	{	
+		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+		bookData.currentLevel++; // increment the level
+	}
+	else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+		currentNavPoint = [currentNavPoint nextSibling];
+	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+	{
+		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+		{	
+			// get the parent then its sibling as we have already played 
+			// the parent before dropping into this level
+			currentNavPoint = [[currentNavPoint parent] nextSibling];
+			bookData.currentLevel--; // decrement the current level
 		}
-		else // loadFromCurrentLevel == YES
-		{
-			// this only used when the user chooses to go to the next file on a given level
-			currentNavPoint = [currentNavPoint nextSibling];
-			self.stayOnCurrentLevel = NO; // reset the flag so we are in auto play mode
-		}
+	}
+}
 
+- (void)moveToNextSegmentAtSameLevel
+{
+	// this only used when the user chooses to go to the next file on a given level
+	currentNavPoint = [currentNavPoint nextSibling];
 	[self updateDataForCurrentPosition];
-	
-
-	
 }
 
 - (void)moveToPreviousSegment
@@ -278,6 +271,7 @@
 		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
 		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
 	}
+	[self updateDataForCurrentPosition];
 }
 
 - (void)goUpALevel
@@ -287,6 +281,7 @@
 		currentNavPoint = [currentNavPoint parent];
 		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
 	}
+	[self updateDataForCurrentPosition];
 }
 
 #pragma mark -

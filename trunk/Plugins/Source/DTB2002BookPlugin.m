@@ -253,6 +253,9 @@
 	return nil;
 }
 
+#pragma mark -
+#pragma mark Navigation
+
 - (void)moveToControlPosition:(NSString *)aNodePath
 {
 	
@@ -264,8 +267,27 @@
 	return nil;
 }
 
-#pragma mark -
+- (void)nextReadingElement;
+{
+	[super nextReadingElement];
+}
 
+- (void)previousReadingElement;
+{
+	[super previousReadingElement];
+}
+
+- (void)upLevel;
+{
+	[super upLevel];
+}
+
+- (void)downLevel
+{
+	[super downLevel];
+}
+
+#pragma mark -
 
 - (void) dealloc
 {
