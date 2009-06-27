@@ -197,6 +197,10 @@
 	
 	return nil;
 }
+
+#pragma mark -
+#pragma mark Navigation
+
 - (void)moveToControlPosition:(NSString *)aNodePath
 {
 		
@@ -207,6 +211,27 @@
 	//placeholder
 	return nil;
 }
+
+- (void)nextReadingElement;
+{
+	[super nextReadingElement];
+}
+
+- (void)previousReadingElement;
+{
+	[super previousReadingElement];
+}
+
+- (void)upLevel;
+{
+	[super upLevel];
+}
+
+- (void)downLevel
+{
+	[super downLevel];
+}
+
 
 - (void)startPlayback
 {

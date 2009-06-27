@@ -166,6 +166,9 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
+#pragma mark - 
+#pragma mark Navigation
+
 - (void)moveToControlPosition:(NSString *)aNodePath
 {
 	// dummy method
@@ -180,7 +183,27 @@ static NSBundle* pluginBundle = nil;
 	return @"";
 }
 
+- (void)nextReadingElement
+{
+	[navCon nextElement];
+}
+- (void)previousReadingElement
+{
+	[navCon previousElement];
+}
+
+- (void)upLevel
+{
+	[navCon goUpLevel];
+}
+
+- (void)downLevel
+{
+	[navCon goDownLevel];
+}
+
 #pragma mark -
+#pragma mark Private Methods
 
 - (NSMutableArray *)insertIntoArray:(NSArray *)anArray
 {

@@ -118,147 +118,28 @@
 
 - (void)moveToNextSegment
 {
-		if(NO == loadFromCurrentLevel) // always NO in regular play through mode
-		{
-			_currentNodeIndex++;
-			/*
-			 if(YES == [self canGoDownLevel]) // first check if we can go down a level
-			 {	
-			 _currentNodeIndex++;
-			 }
-			 else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-			 {	
-			 _currentNodeIndex++;
-			 }
-			 else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
-			 {
-			 _currentNodeIndex++; // increment the index so we go to the next node
-			 }
-			 */
-		}
-		else // loadFromCurrentLevel == YES
-		{
-			_currentNodeIndex = [self indexOfNextNodeAtLevel:bookData.currentLevel];
-			self.loadFromCurrentLevel = NO; // reset the flag for auto play mode
-		}
+	_currentNodeIndex++;
 	
-	// check if its a span node which will indicate a new page number
-	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
-	{
-		bookData.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
-	}
-	else
-	{
-		bookData.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		bookData.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
-	}
-	
+	[self updateDataForCurrentPosition];	
+}
+
+- (void)moveToNextSegmentAtSameLevel
+{
+	_currentNodeIndex = [self indexOfNextNodeAtLevel:bookData.currentLevel];
+	[self updateDataForCurrentPosition];
 }
 
 - (void)moveToPreviousSegment
 {
-	if([self canGoPrev])
-	{
-		_currentNodeIndex--;
-	}
-	else if([self canGoUpLevel])
-	{
-		_currentNodeIndex--;
-	}
+	_currentNodeIndex--;
 	
-	// check if its a span node which will indicate a new page number
-	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
-	{
-		bookData.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
-		[self moveToPreviousSegment];
-	}
-	else
-	{
-		bookData.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		bookData.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
-	}
-	
+	[self updateDataForCurrentPosition];
 }
-
-
-
-
-//- (NSArray *)chaptersForSegment
-//{
-	/*
-	NSAssert(smilDoc != nil,@"smilDoc is nil");
-	
-#pragma mark remove Once we parse the xmlcontent properly	
-	NSInteger inc = 0; // 
-	
-	// get the chapter list as ann array of QTTime Strings from the Smil file 
-	NSArray *smilChapters = [smilDoc chapterMarkers];
-	
-	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
-	for(NSDictionary *aChapter in smilChapters)
-	{
-		
-		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-		//QTTime aTime = QTTimeFromString();
-		// just pass back the string without the timescale
-		[thisChapter setObject:[aChapter valueForKey:BBSTBClipBeginKey] forKey:QTMovieChapterStartTime];
-		
-		inc++;
-		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
-		
-		[outputChapters addObject:thisChapter]; 
-		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
-	}
-	
-	if([outputChapters count] == 0)
-		return nil;
-	
-	return outputChapters;
-	 
-	*/
-//	return nil;
-//}
-
-//- (NSArray *)chaptersForSegmentWithTimescale:(long)aTimeScale
-//{
-//	/*
-//	
-//	NSAssert(smilDoc != nil,@"smilDoc is nil");
-//	
-//	NSInteger inc = 0; // 
-//	
-//	NSArray *smilChapters = [smilDoc chapterMarkers];
-//	NSMutableArray *outputChapters = [[NSMutableArray alloc] init];
-//	for(NSDictionary *aChapter in smilChapters)
-//	{
-//		
-//		NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-//		NSString *clipBeginWthScale = [[aChapter valueForKey:BBSTBClipBeginKey] stringByAppendingFormat:@"/%ld",aTimeScale];
-//		QTTime aTime = QTTimeFromString(clipBeginWthScale);
-//		
-//		[thisChapter setObject:[NSValue valueWithQTTime:aTime] forKey:QTMovieChapterStartTime];
-//		
-//		inc++;
-//		[thisChapter setObject:[[NSNumber numberWithInt:inc] stringValue] forKey:QTMovieChapterName];
-//		
-//		[outputChapters addObject:thisChapter]; 
-//		//NSLog(@"TBNCX chaptersForSegment - output chapters %@",outputChapters);
-//	}
-//	
-//	if([outputChapters count] == 0)
-//		return nil;
-//	
-//	return outputChapters;
-//	 
-//	*/ 
-//	return nil;
-//}
-
 
 - (void)goDownALevel
 {
 	// if we fail to find a level down (which is unlikely as we should only get here if the canGoDownLevel returns YES)
-	// we will stay ath the current node position
+	// we will stay at the current node position
 	
 	// set the level we want to 1 below the current one
 	NSInteger wantedLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
@@ -404,16 +285,6 @@
 
 - (void)updateDataForCurrentPosition
 {
-	
-//	// check that the format of the book supports audio files
-//	if(bookMediaFormat < TextPartialAudioMediaFormat)
-//	{
-//		//self.currentAudioFilename = [self currentSegmentFilename];
-//	}
-//	else
-//	{
-//		// text only stuff here
-//	}
 	
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])

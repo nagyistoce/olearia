@@ -253,7 +253,8 @@
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
 }
-
+#pragma mark -
+#pragma mark Navigation
 - (void)moveToControlPosition:(NSString *)aNodePath
 {
 	[navCon moveToNodeWihPath:aNodePath];		
@@ -262,6 +263,26 @@
 - (NSString *)currentControlPosition
 {
 	return [navCon currentNodePath];
+}
+
+- (void)nextReadingElement;
+{
+	[super nextReadingElement];
+}
+
+- (void)previousReadingElement;
+{
+	[super previousReadingElement];
+}
+
+- (void)upLevel;
+{
+	[super upLevel];
+}
+
+- (void)downLevel
+{
+	[super downLevel];
 }
 
 #pragma mark -

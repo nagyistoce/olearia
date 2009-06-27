@@ -49,6 +49,7 @@
 - (void)updateDataForCurrentPosition;
 
 - (void)moveToNextSegment;
+- (void)moveToNextSegmentAtSameLevel;
 - (void)moveToPreviousSegment;
 - (NSString *)filenameFromCurrentNode;
 - (NSString *)filenameFromID:(NSString *)anIdString;

@@ -43,6 +43,8 @@ typedef enum
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsLoaded;
 	BOOL					_settingsChanged;
+	BOOL					_wasPlaying;
+	
 	NSString				*audioSegmentTimePosition;
 	
 	NSMutableArray			*plugins;
@@ -81,7 +83,6 @@ typedef enum
 - (void)play;
 - (void)pause;
 
-- (void)nextSegmentOnLevel;
 - (void)nextSegment;
 - (void)previousSegment;
 - (void)upOneLevel;
