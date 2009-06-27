@@ -564,7 +564,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	NSAssert(aFilePath != nil,@"File Path is nil and should not be"); 
 	
 	BOOL loadedOK = NO;
-	NSURL *validFileURL = [[NSURL alloc] initFileURLWithPath:aFilePath];
+	NSURL *validFileURL = [[[NSURL alloc] initFileURLWithPath:aFilePath] autorelease];
 	
 	// check if there is already a book loaded
 	if(talkingBook.bookIsLoaded) 

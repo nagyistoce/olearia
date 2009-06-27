@@ -63,8 +63,8 @@
 	
 	NSString *creditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 	
-	NSAttributedString *creditsString = [[NSAttributedString alloc] initWithPath:creditsPath 
-										  documentAttributes:nil];
+	NSAttributedString *creditsString = [[[NSAttributedString alloc] initWithPath:creditsPath 
+										  documentAttributes:nil] autorelease];
 	
 	[creditsView replaceCharactersInRange:NSMakeRange( 0, 0 ) 
 								 withRTFD:[creditsString RTFDFromRange:NSMakeRange( 0, [creditsString length] )
@@ -89,7 +89,7 @@
 - (IBAction)showLicense:(NSButton *)sender
 {
 	NSString *licenseFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"License" ofType:@"txt"];
-	[licenseView setString:[NSString stringWithContentsOfFile:licenseFilePath]];
+	[licenseView setString:[NSString stringWithContentsOfFile:licenseFilePath encoding:NSUTF8StringEncoding error:nil]];
 	
 	[NSApp beginSheet:licensePanel
 	   modalForWindow:[self window]
