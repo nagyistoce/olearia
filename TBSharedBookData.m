@@ -35,16 +35,7 @@ static TBSharedBookData *sharedInstanceManager = nil;
 		{
             [[self alloc] init]; 
 			
-			// watch KVO notifications
-			[self addObserver:self
-						forKeyPath:@"playbackRate" 
-						   options:NSKeyValueObservingOptionNew
-						   context:NULL]; 
 			
-			[self addObserver:self
-						forKeyPath:@"playbackVolume" 
-						   options:NSKeyValueObservingOptionNew
-						   context:NULL]; 
 			
         }
     }
@@ -65,7 +56,18 @@ static TBSharedBookData *sharedInstanceManager = nil;
 	
     [self resetForNewBook];
 	
-    return sharedInstanceManager;
+	// watch KVO notifications
+	[self addObserver:self
+		   forKeyPath:@"playbackRate" 
+			  options:NSKeyValueObservingOptionNew
+			  context:NULL]; 
+	
+	[self addObserver:self
+		   forKeyPath:@"playbackVolume" 
+			  options:NSKeyValueObservingOptionNew
+			  context:NULL]; 
+    
+	return sharedInstanceManager;
 }
 
 - (void)resetForNewBook

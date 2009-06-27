@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// get the path
-	NSString *relaunchPath = [NSString stringWithCString: argv[1]];
+	NSString *relaunchPath = [NSString stringWithCString:argv[1] encoding:NSMacOSRomanStringEncoding];
 	
 	// make a url of it
 	NSURL *pathURL = [NSURL fileURLWithPath:relaunchPath];
