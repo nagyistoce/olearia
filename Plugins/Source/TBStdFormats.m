@@ -89,9 +89,27 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
-- (NSView *)textView;
+- (NSView *)bookTextView;
 {
-	return nil;
+	// check if we should load the view nib
+	if(!textview)
+		if (![NSBundle loadNibNamed:@"textView" owner:self])
+			return nil;
+		
+	if((bookData.mediaFormat != AudioNcxOrNccMediaFormat) && (bookData.mediaFormat != AudioOnlyMediaFormat))
+	{	
+
+	}
+	else
+	{
+		// no text content for this book so set a nice message in the text view.
+		NSURL *noTextURL = [[NSURL fileURLWithPath:[[NSBundle bundleForClass:[self class]] resourcePath]] autorelease];
+		[textview setMainFrameURL:[noTextURL path]];
+		[textview alignCenter:nil];
+	}
+			
+	
+	return textview;
 }
 
 - (NSView *)bookInfoView;

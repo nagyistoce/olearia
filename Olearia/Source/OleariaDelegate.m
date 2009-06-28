@@ -333,6 +333,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[talkingBook showHideBookInfo];
 }
 
+- (IBAction)showTextWindow:(id)sender
+{
+	[talkingBook showHideTextWindow];
+}
 
 - (IBAction)setPlaybackSpeed:(NSSlider *)sender
 {	

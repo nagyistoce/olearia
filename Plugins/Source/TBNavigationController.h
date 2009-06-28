@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment, TBSharedBookData;
-
+@class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
+@class TBTextView, TBSharedBookData;
 
 @interface TBNavigationController : NSObject 
 {
@@ -16,6 +16,8 @@
 	
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
+	
+	
 	
 	TBSMILDocument		*_smilDoc;
 	TBAudioSegment		*_audioFile;
@@ -28,6 +30,7 @@
 // methods used for setting and getting the current position in the document
 - (void)moveToNodeWihPath:(NSString *)aNodePath;
 - (NSString *)currentNodePath;
+
 
 - (void)prepareForPlayback;
 - (void)resetController;

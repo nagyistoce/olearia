@@ -133,10 +133,7 @@
 	
 	if(controlDocument)
 	{
-		// check that its not a text only book
-		if(TextNcxOrNccMediaFormat > _bookData.mediaFormat)
-		{
-			
+
 			NSString *filename = [controlDocument filenameFromCurrentNode];
 			if([[filename pathExtension] isEqualToString:@"smil"])
 			{
@@ -162,7 +159,7 @@
 				
 			}
 
-		}
+		
 		
 		
 	}
@@ -188,6 +185,7 @@
 		_bookData.mediaFormat = AudioOnlyMediaFormat;
 	}
 }
+
 
 #pragma mark -
 #pragma mark Navigation

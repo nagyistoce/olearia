@@ -73,6 +73,7 @@ typedef enum
 	BOOL					canPlay;
 	
 	IBOutlet NSPanel		*infoPanel;
+	IBOutlet NSWindow		*textWindow;
 	IBOutlet NSView			*infoView;
 	IBOutlet NSView			*textView;
 
@@ -96,6 +97,7 @@ typedef enum
 - (void)updateSkipDuration:(float)newDuration;
 
 - (void)showHideBookInfo;
+- (void)showHideTextWindow;
 - (void)gotoPage;
 - (NSDictionary *)getCurrentPageInfo;
 - (void)setAudioPlayRate:(float)aRate;

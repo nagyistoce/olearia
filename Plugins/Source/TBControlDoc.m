@@ -53,6 +53,7 @@
 	[currentPositionID release];
 	[currentNavPoint release];
 	[fileURL release];
+
 	
 	[super dealloc];
 }

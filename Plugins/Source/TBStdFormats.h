@@ -22,7 +22,8 @@
 
 #import "TBPluginInterface.h"
 #import "TBFileUtils.h"
-#import "InfoView.h"
+#import "TBStdInfoView.h"
+#import "TBStdTextView.h" 
 
 @class TBNavigationController, TBSharedBookData;
 
@@ -33,7 +34,8 @@
 	TBFileUtils			*fileUtils;
 	NSArray				*validFileExtensions;
 	
-	IBOutlet InfoView	*infoView;
+	IBOutlet TBStdInfoView	*infoView;
+	IBOutlet TBStdTextView   *textview;
 
 	TBNavigationController *navCon;
 

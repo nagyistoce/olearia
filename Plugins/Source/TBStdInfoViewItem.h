@@ -1,6 +1,6 @@
 //
-//  TBInfoItem.h
-//  TalkingBook Framework
+//  TBStdInfoViewItem.h
+//  stdDaisyFormats
 //
 //  Created by Kieren Eaton on 30/11/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -22,7 +22,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface InfoItem : NSObject 
+@interface TBStdInfoViewItem : NSObject 
 {
 	NSString	*title;
 	NSString	*content;

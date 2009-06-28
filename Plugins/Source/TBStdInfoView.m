@@ -6,24 +6,24 @@
 //  Copyright 2009 BrainBender Software. All rights reserved.
 //
 
-#import "InfoView.h"
-#import "InfoItem.h"
+#import "TBStdInfoView.h"
+#import "TBStdInfoViewItem.h"
 #import "RegexKitLite.h"
 #import "TBStdFormats.h"
 
-@interface InfoView ()
+@interface TBStdInfoView ()
 
 @property (readwrite, retain) NSMutableArray *_metaInfo;
 
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
-- (InfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
+- (TBStdInfoViewItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
 - (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement;
 
 @end
 
 
 
-@implementation InfoView
+@implementation TBStdInfoView
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -58,7 +58,7 @@
 			NSArray *subChildNodes = [anElement children];
 			for(NSXMLElement *subElement in subChildNodes)
 			{
-				InfoItem *newItem = [self infoItemFromMetaElement:subElement];
+				TBStdInfoViewItem *newItem = [self infoItemFromMetaElement:subElement];
 				
 				// check for a duplicate item before adding it
 				if(newItem && ![_metaInfo containsObject:newItem])
@@ -67,7 +67,7 @@
 		}
 		else
 		{
-			InfoItem *newItem = [self infoItemFromMetaElement:anElement];
+			TBStdInfoViewItem *newItem = [self infoItemFromMetaElement:anElement];
 			// check for a duplicate item before adding it
 			if(newItem && ![_metaInfo containsObject:newItem])
 				[_metaInfo addObject:newItem];
@@ -82,11 +82,11 @@
 #pragma mark -
 #pragma mark =========  Private Methods =========
 
-- (InfoItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
+- (TBStdInfoViewItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
 {
 	NSMutableString *optionTitle = [[NSMutableString alloc] init];
 	NSMutableString *optionContent = [[NSMutableString alloc] init];
-	InfoItem	*newItem = nil;
+	TBStdInfoViewItem	*newItem = nil;
 	
 	// check if it has a name "meta"
 	if([[anElement name] isEqualToString:@"meta"])
@@ -119,8 +119,8 @@
 		// set the max length of the string so we can use it to set the table column width
 		_maxStrLen = ([optionContent sizeWithAttributes:nil].width > _maxStrLen) ? [optionContent sizeWithAttributes:nil].width : _maxStrLen;
 		
-		 newItem = [[[InfoItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
-											 andContent:[NSString stringWithString:optionContent]] autorelease]; 
+		newItem = [[[TBStdInfoViewItem alloc] initWithTitle:[NSString stringWithString:optionTitle] 
+												 andContent:[NSString stringWithString:optionContent]] autorelease]; 
 	}
 		
 	return newItem;
