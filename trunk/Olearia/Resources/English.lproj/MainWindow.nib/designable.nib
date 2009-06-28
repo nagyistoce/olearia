@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="29"/>
 			<integer value="21"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -63,6 +63,7 @@
 							<string>91A5B6BE-9C12-4445-8F21-841A4F2DC47D</string>
 							<string>AB77C77C-C9E6-48DB-BDBC-BC77F8882925</string>
 							<string>BEFE80BE-3AFC-48EC-B924-E6F9C6E6A91C</string>
+							<string>F7AC4756-4422-4C66-85C4-68EF0A91A087</string>
 							<string>NSToolbarFlexibleSpaceItem</string>
 							<string>NSToolbarPrintItem</string>
 							<string>NSToolbarSeparatorItem</string>
@@ -242,6 +243,28 @@
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{32, 32}</string>
 								<string key="NSToolbarItemMaxSize">{32, 32}</string>
+								<bool key="NSToolbarItemEnabled">YES</bool>
+								<bool key="NSToolbarItemAutovalidates">YES</bool>
+								<int key="NSToolbarItemTag">-1</int>
+								<bool key="NSToolbarIsUserRemovable">YES</bool>
+								<int key="NSToolbarItemVisibilityPriority">0</int>
+							</object>
+							<object class="NSToolbarItem" id="1006155128">
+								<object class="NSMutableString" key="NSToolbarItemIdentifier">
+									<characters key="NS.bytes">F7AC4756-4422-4C66-85C4-68EF0A91A087</characters>
+								</object>
+								<string key="NSToolbarItemLabel">Text</string>
+								<string key="NSToolbarItemPaletteLabel">Text</string>
+								<nil key="NSToolbarItemToolTip"/>
+								<nil key="NSToolbarItemView"/>
+								<object class="NSCustomResource" key="NSToolbarItemImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">file-doc</string>
+								</object>
+								<nil key="NSToolbarItemTarget"/>
+								<nil key="NSToolbarItemAction"/>
+								<string key="NSToolbarItemMinSize">{0, 0}</string>
+								<string key="NSToolbarItemMaxSize">{0, 0}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">-1</int>
@@ -608,6 +631,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference ref="457595778"/>
 						<reference ref="643202865"/>
 						<reference ref="487970168"/>
+						<reference ref="1006155128"/>
 					</object>
 					<object class="NSMutableArray" key="NSToolbarIBDefaultItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -615,6 +639,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference ref="457595778"/>
 						<reference ref="87779792"/>
 						<reference ref="769698002"/>
+						<reference ref="1006155128"/>
 						<reference ref="59181657"/>
 						<reference ref="59181657"/>
 						<reference ref="452038299"/>
@@ -3384,6 +3409,30 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1597</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.canPlay</string>
+						<reference key="source" ref="1006155128"/>
+						<reference key="destination" ref="580350136"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1006155128"/>
+							<reference key="NSDestination" ref="580350136"/>
+							<string key="NSLabel">enabled: selection.canPlay</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.canPlay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1599</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showTextWindow:</string>
+						<reference key="source" ref="402644559"/>
+						<reference key="destination" ref="1006155128"/>
+					</object>
+					<int key="connectionID">1600</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -4117,6 +4166,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 							<reference ref="87779792"/>
 							<reference ref="584873706"/>
 							<reference ref="167899399"/>
+							<reference ref="1006155128"/>
 						</object>
 						<reference key="parent" ref="26522841"/>
 					</object>
@@ -4242,6 +4292,11 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 						<reference key="object" ref="263324235"/>
 						<reference key="parent" ref="537535906"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1598</int>
+						<reference key="object" ref="1006155128"/>
+						<reference key="parent" ref="578462069"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4303,6 +4358,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 					<string>1589.IBPluginDependency</string>
 					<string>1590.IBPluginDependency</string>
 					<string>1591.IBPluginDependency</string>
+					<string>1598.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>19.ImportedFromIB2</string>
 					<string>196.IBPluginDependency</string>
@@ -4494,6 +4550,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
 					<string>{{6, 763}, {616, 0}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5052,7 +5109,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1597</int>
+			<int key="maxID">1600</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5113,6 +5170,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 							<string>setPlaybackVolume:</string>
 							<string>showBookInfo:</string>
 							<string>showBookmarks:</string>
+							<string>showTextWindow:</string>
 							<string>upLevel:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -5131,6 +5189,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moHqAYNkCu2RhoY</bytes>
 							<string>id</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

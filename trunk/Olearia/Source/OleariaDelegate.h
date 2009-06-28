@@ -80,6 +80,7 @@ extern NSString * const OleariaShouldRelaunchNotification;
 - (IBAction)displayPrefsPanel:(id)sender;
 - (IBAction)displayAboutPanel:(id)sender;
 - (IBAction)showBookInfo:(id)sender;
+- (IBAction)showTextWindow:(id)sender;
 
 - (IBAction)openDocument:(id)sender;
 - (IBAction)PlayPause:(id)sender;

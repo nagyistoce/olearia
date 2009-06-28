@@ -74,9 +74,9 @@
 	return nil;
 }
 
-- (NSView *)textView;
+- (NSView *)bookTextView;
 {
-	return [super textView];
+	return [super bookTextView];
 }
 
 - (NSView *)bookInfoView;

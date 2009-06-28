@@ -1,6 +1,6 @@
 //
-//  TBInfoItem.m
-//  TalkingBook Framework
+//  TBStdInfoViewItem.m
+//  stdDaisyFormats
 //
 //  Created by Kieren Eaton on 30/11/08.
 //  Copyright 2008 BrainBender Software. All rights reserved.
@@ -20,10 +20,10 @@
 //
 
 
-#import "InfoItem.h"
+#import "TBStdInfoViewItem.h"
 
 
-@implementation InfoItem
+@implementation TBStdInfoViewItem
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"%@ = %@",title,content];

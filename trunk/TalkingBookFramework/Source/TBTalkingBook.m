@@ -33,6 +33,7 @@
 - (BOOL)plugInClassIsValid:(Class)plugInClass;
 - (void)loadPlugins;
 - (void)updateInfoView;
+- (void)updateTextView;
 
 @property (readwrite, retain)	NSMutableArray	*plugins;
 @property (readwrite, copy)		id<TBPluginInterface>	currentPlugin;
@@ -86,6 +87,8 @@
 	if(_infoController)
 		[_infoController release];
 
+	[textWindow release];
+	[infoPanel	release];
 	
 	
 	[super dealloc];
@@ -387,6 +390,29 @@
 	
 }
 
+- (void)showHideTextWindow
+{
+	if(textWindow)
+	{
+		if([textWindow isVisible])
+			[textWindow close];
+		else
+		{
+			[self updateTextView];
+			[textWindow makeKeyAndOrderFront:self];
+		}
+	}
+	else
+		if([NSBundle loadNibNamed:@"TBTextWindow" owner:self])
+		{	
+			[textView addSubview:[currentPlugin bookTextView]];
+			
+			[textWindow makeKeyAndOrderFront:self];
+		}
+	
+	
+}
+
 - (void)updateInfoView
 {
 	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
@@ -396,6 +422,11 @@
 
 }
 
+- (void)updateTextView
+{
+	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
+		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+}
 
 - (NSDictionary *)getCurrentPageInfo
 {

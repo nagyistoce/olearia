@@ -20,13 +20,11 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "TalkingBookTypes.h"
 
 @interface TBControlDoc : NSObject
 {
 	NSXMLDocument		*xmlControlDoc;
 	NSURL				*fileURL;
-	
 	
 	TBSharedBookData	*bookData;
 	
@@ -39,7 +37,6 @@
 	BOOL				_hasAudioContent;
 	BOOL				stayOnCurrentLevel;
 	
-		
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;

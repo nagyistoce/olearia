@@ -22,7 +22,7 @@
 // return an instance of the view used in the text window.
 // this will allow different plugins to have complete control over the display 
 // of the view
-- (NSView *)textView;
+- (NSView *)bookTextView;
 
 // return an instance of the view used in the information window.
 // this will allow plugins to have their own information laid out as they like

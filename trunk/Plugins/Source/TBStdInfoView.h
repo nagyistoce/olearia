@@ -8,7 +8,7 @@
 
 @class TBStdFormats;
 
-@interface InfoView : NSView 
+@interface TBStdInfoView : NSView 
 {
 	IBOutlet NSTableView	*infoTableView;
 
