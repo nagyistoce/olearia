@@ -35,12 +35,6 @@
     return self;
 }
 
-
-//- (void)drawRect:(NSRect)rect {
-//    // Drawing code here.
-//}
-
-
 - (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin;
 {
 	if([_metaInfo count] > 0)

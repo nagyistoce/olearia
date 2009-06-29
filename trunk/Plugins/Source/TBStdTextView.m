@@ -7,20 +7,25 @@
 //
 
 #import "TBStdTextView.h"
-
+#import <WebKit/WebKit.h>
 
 @implementation TBStdTextView
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
+    if (self) 
+	{
+		
     }
     return self;
 }
 
-- (void)drawRect:(NSRect)rect {
-    // Drawing code here.
+- (void)setURL:(NSURL *)theURL
+{
+	//if(![theURL isEqualTo:[theWebView mainDocumentURL]])
+		[theWebView setMainFrameURL:[theURL path]];
 }
+
 
 @end

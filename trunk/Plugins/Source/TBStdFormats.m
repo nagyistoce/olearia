@@ -27,6 +27,7 @@
 #import "TBBooksharePlugin.h"
 #import "TBNIMASPlugin.h"
 #import "TBNavigationController.h"
+#import "TBPackageDoc.h"
 
 static NSBundle* pluginBundle = nil;
 
@@ -93,19 +94,27 @@ static NSBundle* pluginBundle = nil;
 {
 	// check if we should load the view nib
 	if(!textview)
-		if (![NSBundle loadNibNamed:@"textView" owner:self])
+		if (![NSBundle loadNibNamed:@"TextView" owner:self])
 			return nil;
 		
 	if((bookData.mediaFormat != AudioNcxOrNccMediaFormat) && (bookData.mediaFormat != AudioOnlyMediaFormat))
 	{	
-
+		if(navCon.packageDocument.textContentFilename)
+		{	
+			NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
+			[textview setURL:textFileURL];
+		}
 	}
 	else
 	{
-		// no text content for this book so set a nice message in the text view.
-		NSURL *noTextURL = [[NSURL fileURLWithPath:[[NSBundle bundleForClass:[self class]] resourcePath]] autorelease];
-		[textview setMainFrameURL:[noTextURL path]];
-		[textview alignCenter:nil];
+		// no text content for this book because its audio only 
+		// so set a message in the view for the user.
+		NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+		NSString *currentLocalization = [[thisBundle preferredLocalizations] objectAtIndex:0];
+		NSString *localizedPath = [[thisBundle pathsForResourcesOfType:@"html" inDirectory:nil forLocalization:currentLocalization] objectAtIndex:0];
+		NSURL *noTextURL = [NSURL fileURLWithPath:localizedPath];
+		
+		[textview  setURL:noTextURL];
 	}
 			
 	
