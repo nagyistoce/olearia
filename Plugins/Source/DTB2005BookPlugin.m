@@ -158,11 +158,7 @@
 					if(self.navCon.packageDocument.ncxFilename)
 						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[[navCon packageDocument] ncxFilename]]] ;
 					
-					// get the text content filename
-					self.navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
-					
 					[[navCon packageDocument] processData];
-					
 					
 					opfLoaded = YES;
 				}

@@ -7,12 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
+@class WebView;
 
 
-@interface TBStdTextView : WebView
+@interface TBStdTextView : NSView
 {
-
+	IBOutlet WebView	*theWebView;
 }
+
+- (void)setURL:(NSURL *)theURL;
 
 @end

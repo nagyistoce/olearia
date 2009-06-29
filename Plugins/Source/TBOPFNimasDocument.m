@@ -70,16 +70,15 @@
 	self.bookData.mediaFormat = TextNcxOrNccMediaFormat;
 	
 	// set the book title
-	NSString *titleStr = nil;
-	titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
+	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
 	self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
 	
 	// set the subject
-	NSString *subjectStr = nil;
-	subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
+	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
 	self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
 	
-		
+	// get the text content filename
+	self.textContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
 
 }
 

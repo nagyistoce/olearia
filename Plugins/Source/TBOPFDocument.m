@@ -56,26 +56,9 @@
 	return self;
 }
 
-/*
- xpath / xquery statements
- 
- get the xml filename 
- //manifest/item[@media-type="application/x-dtbook+xml"]/data(@href)
- get the ncx filename
- //manifest/item[@media-type="application/x-dtbncx+xml"]/data(@href)
-
- 
- 
- 
- */
-
-
-
-
 - (void)processData
 {
-	
-	
+		
 	// get the root element of the tree
 	NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
 	
@@ -93,17 +76,16 @@
 	[bookData setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
 	
 	// set the book title
-	NSString *titleStr = nil;
-	titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
+	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
 	self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
 	
 	// set the subject
-	NSString *subjectStr = nil;
-	subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
+	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
 	self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
 	
-		
-
+	// get the text content filename
+	self.textContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
+	
 }
 
 

@@ -12,6 +12,7 @@
 		EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */; };
 		EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */; };
 		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
+		EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EE2768920FF875FD00C3DB1C /* NoTextContent.html */; };
 		EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */; };
 		EE3172EE0FE0DC0E00B27804 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */; };
 		EE3172F60FE0DCFC00B27804 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3172F50FE0DCFC00B27804 /* libicucore.dylib */; };
@@ -36,7 +37,6 @@
 		EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */; };
 		EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */; };
 		EEEE9C960FF75A32001822EA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEE9C950FF75A32001822EA /* WebKit.framework */; };
-		EEEE9D9B0FF78EEB001822EA /* NoTextContent.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EEEE9D9A0FF78EEB001822EA /* NoTextContent.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +51,7 @@
 		EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSMILDocument.m; sourceTree = "<group>"; };
 		EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFNimasDocument.h; sourceTree = "<group>"; };
 		EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBOPFNimasDocument.m; sourceTree = "<group>"; };
+		EE2768930FF875FD00C3DB1C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/NoTextContent.html; sourceTree = "<group>"; };
 		EE3172CD0FE0D9B100B27804 /* NSString-TBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-TBAdditions.h"; sourceTree = "<group>"; };
 		EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-TBAdditions.m"; sourceTree = "<group>"; };
 		EE3172EC0FE0DC0E00B27804 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = ../RegexKitLite.h; sourceTree = SOURCE_ROOT; };
@@ -95,7 +96,6 @@
 		EEEE9C8D0FF7591D001822EA /* TBStdTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdTextView.h; sourceTree = "<group>"; };
 		EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdTextView.m; sourceTree = "<group>"; };
 		EEEE9C950FF75A32001822EA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		EEEE9D980FF78EE3001822EA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/NoTextContent.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EEEE9D9A0FF78EEB001822EA /* NoTextContent.rtf */,
+				EE2768920FF875FD00C3DB1C /* NoTextContent.html */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -383,7 +383,7 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				EEBF2DF00FE62416004D5771 /* InformationView.xib in Resources */,
 				EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */,
-				EEEE9D9B0FF78EEB001822EA /* NoTextContent.rtf in Resources */,
+				EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +430,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		EE2768920FF875FD00C3DB1C /* NoTextContent.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE2768930FF875FD00C3DB1C /* English */,
+			);
+			name = NoTextContent.html;
+			sourceTree = "<group>";
+		};
 		EEBF2DEF0FE62416004D5771 /* InformationView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -446,14 +454,6 @@
 			);
 			name = TextView.xib;
 			path = ../Resources;
-			sourceTree = "<group>";
-		};
-		EEEE9D9A0FF78EEB001822EA /* NoTextContent.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EEEE9D980FF78EE3001822EA /* English */,
-			);
-			name = NoTextContent.rtf;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

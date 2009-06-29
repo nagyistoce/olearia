@@ -405,7 +405,11 @@
 	else
 		if([NSBundle loadNibNamed:@"TBTextWindow" owner:self])
 		{	
-			[textView addSubview:[currentPlugin bookTextView]];
+			if(currentPlugin)
+			{	
+				[textView addSubview:[currentPlugin bookTextView]];
+				[[currentPlugin bookTextView] setFrame:[textView frame]];
+			}
 			
 			[textWindow makeKeyAndOrderFront:self];
 		}
