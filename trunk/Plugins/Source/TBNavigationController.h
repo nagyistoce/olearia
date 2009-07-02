@@ -17,14 +17,17 @@
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
 	
-	
-	
 	TBSMILDocument		*_smilDoc;
 	TBAudioSegment		*_audioFile;
 	NSString			*_currentSmilFilename;
 	NSString			*_currentAudioFilename;
 	NSString			*_currentTag;
 	
+	BOOL				_justAddedChapters;
+	BOOL				_didUserNavigation;
+	BOOL				_loadAfterReset;
+	
+	NSNotificationCenter *_notCenter;
 }
 
 // methods used for setting and getting the current position in the document

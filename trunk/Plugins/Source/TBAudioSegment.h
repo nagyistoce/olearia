@@ -34,5 +34,6 @@
 - (NSString *)currentChapterName;
 - (NSInteger)currentChapterNumber;
 - (NSDictionary *)currentChapterInfo;
+- (QTTime)startTimeOfChapterWithTitle:(NSString *)aChapterTitle;
 
 @end

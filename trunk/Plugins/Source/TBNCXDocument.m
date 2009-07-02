@@ -31,6 +31,7 @@
 - (NSUInteger)navPointIndexOnCurrentLevel;
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode;
 
+
 @end
 
 
@@ -41,9 +42,7 @@
 	if (!(self=[super init])) return nil;
 	
 	shouldUseNavmap = NO;
-	self.stayOnCurrentLevel = NO;
-	
-	
+
 	return self;
 }
 
@@ -52,22 +51,6 @@
 	[super dealloc];
 }
 
-- (void)jumpToNodeWithId:(NSString *)fullPathToNode
-{
-	// check if we were given a node to jump to
-	if(![fullPathToNode isEqualToString:@""])
-		// set the current point to the saved one
-		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
-	else
-	{
-		// find the first navpoint node
-		NSArray *navmapNodes = [xmlControlDoc nodesForXPath:@"/ncx/navMap[1]/navPoint[1]" error:nil];
-		if([navmapNodes count] > 0)
-			currentNavPoint = [navmapNodes objectAtIndex:0];
-	}
-	
-	[self updateDataForCurrentPosition];
-}
 
 - (void)processData
 {
@@ -116,6 +99,33 @@
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode
+{
+	// check if we were given a node to jump to
+	if(![fullPathToNode isEqualToString:@""])
+		// set the current point to the saved one
+		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
+	else
+	{
+		// find the first navpoint node
+		NSArray *navmapNodes = [xmlControlDoc nodesForXPath:@"/ncx/navMap[1]/navPoint[1]" error:nil];
+		if([navmapNodes count] > 0)
+			currentNavPoint = [navmapNodes objectAtIndex:0];
+	}
+	
+	[self updateDataForCurrentPosition];
+}
+
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag
+{
+	if(anIdTag)
+	{	
+		NSString *queryStr = [NSString stringWithFormat:@"/ncx[1]/navMap[1]//navPoint[@id='%@']",anIdTag];
+		NSArray *tagNodes = nil;
+		tagNodes = [xmlControlDoc objectsForXQuery:queryStr error:nil];
+		currentNavPoint = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNavPoint;
+	}
+}
 
 - (void)moveToNextSegment
 {
@@ -251,17 +261,16 @@
 }
 */
 
-- (NSString *)filenameFromCurrentNode
+- (NSString *)contentFilenameFromCurrentNode
 {
-	NSString *filenameWithID = [self stringForXquery:@"content/data(@src)" ofNode:currentNavPoint];
+	NSString *filenameWithID = [self stringForXquery:@"./content/data(@src)" ofNode:currentNavPoint];
 	return (filenameWithID) ? [self filenameFromID:filenameWithID] : nil;
 }
 
-- (NSString *)currentReferenceTag
+- (NSString *)currentIdTag
 {
-	NSString *sourceStr = [self stringForXquery:@"content/data(@src)" ofNode:currentNavPoint];
-	int markerPos = [sourceStr rangeOfString:@"#"].location;
-	return (markerPos > 0) ? [sourceStr substringFromIndex:(markerPos+1)] : nil;
+	NSString *idTag = [self stringForXquery:@"data(@id)" ofNode:currentNavPoint];
+	return (idTag) ? idTag : nil;
 }
 
 - (void)goDownALevel

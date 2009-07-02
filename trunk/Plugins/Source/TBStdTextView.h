@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class WebView;
+#import <WebKit/WebKit.h>
 
 
 @interface TBStdTextView : NSView

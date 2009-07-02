@@ -420,7 +420,10 @@
 - (void)updateInfoView
 {
 	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
+	{	
 		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
+		[[currentPlugin bookInfoView] setFrame:[infoView frame]];
+	}
 
 	[currentPlugin updateInfoFromPlugin:currentPlugin];
 
@@ -429,7 +432,10 @@
 - (void)updateTextView
 {
 	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
+	{	
 		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+		[[currentPlugin bookTextView] setFrame:[textView frame]];
+	}
 }
 
 - (NSDictionary *)getCurrentPageInfo

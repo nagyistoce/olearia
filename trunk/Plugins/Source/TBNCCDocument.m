@@ -33,10 +33,10 @@
 - (NSString *)filenameFromID:(NSString *)anIdString;
 - (NSString *)currentSegmentFilename;
 
-- (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex;
-- (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel;
-- (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel;
-- (BOOL)isLevelNode:(NSInteger)anIndex;
+- (NSUInteger)levelOfNodeAtIndex:(NSUInteger)anIndex;
+- (NSUInteger)indexOfNextNodeAtLevel:(NSUInteger)aLevel;
+- (NSUInteger)indexOfPreviousNodeAtLevel:(NSUInteger)aLevel;
+- (BOOL)isLevelNode:(NSUInteger)anIndex;
 
 
 @end
@@ -57,19 +57,6 @@
 	return self;
 }
 
-- (void)jumpToNodeWithId:(NSString *)fullPathToNode
-{
-	// check if we were given a node to jump to
-	if(![fullPathToNode isEqualToString:@""])
-		// set the current point to the saved one
-		_currentNodeIndex = [fullPathToNode intValue];
-	else
-		// the first node in the body nodes
-		_currentNodeIndex = 0;
-	
-	
-	[self updateDataForCurrentPosition];
-}
 
 - (void)processData
 {
@@ -97,7 +84,7 @@
 		[bookData setMediaFormatFromString:tempString];	
 
 	// get all the child nodes of the body node
-	_bodyNodes = [[[rootNode nodesForXPath:@"/html/body" error:nil] objectAtIndex:0] children];
+	_bodyNodes = [[[rootNode nodesForXPath:@"/html[1]/body[1]" error:nil] objectAtIndex:0] children];
 	_totalBodyNodes = [_bodyNodes count];
 	
 	bookData.currentLevel = (_totalBodyNodes > 0) ? 1 : -1;
@@ -142,9 +129,9 @@
 	// we will stay at the current node position
 	
 	// set the level we want to 1 below the current one
-	NSInteger wantedLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
+	NSUInteger wantedLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
 	BOOL levelFound = NO;
-	NSInteger testIndex = _currentNodeIndex+1; // do an initial increment of the node index so we are not checking the current node 
+	NSUInteger testIndex = _currentNodeIndex+1; // do an initial increment of the node index so we are not checking the current node 
 	
 	// check that we are not beyond the array bounds and that we havent foud a valid node yet
 	while((_totalBodyNodes > testIndex) && (NO == levelFound))
@@ -165,8 +152,8 @@
 - (void)goUpALevel
 {
 	// set the level we want to 1 above the current one
-	NSInteger wantedLevel = bookData.currentLevel - 1;
-	NSInteger testIndex = _currentNodeIndex - 1;
+	NSUInteger wantedLevel = bookData.currentLevel - 1;
+	NSUInteger testIndex = _currentNodeIndex - 1;
 	BOOL levelFound = NO;
 	
 	while((0 < testIndex) && (NO == levelFound))
@@ -187,26 +174,10 @@
 - (BOOL)canGoNext
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
-	
-	if([self indexOfNextNodeAtLevel:bookData.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
-		nodeAvail = YES;
-	/*
-	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
-	{
-		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
-		{
-			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
-			if(testLevel == self.currentLevel) // check if its the same as the current level
-				nodeAvail = YES; // its the same so we can go forward
-			else if(testLevel < self.currentLevel)
-				testIndex = _totalBodyNodes; // set the break condition as we have found a node that is above the level of this one;
-			else
-				testIndex++; // the level was below the current one so skip over it by incrementing the index;
-		}
-		else
-			testIndex++; // the node did not have a level header so skip over it
-	}
-	*/
+	if(!(_currentNodeIndex == ([_bodyNodes count]-1)))
+		if([self indexOfNextNodeAtLevel:bookData.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+			nodeAvail = YES;
+
 	return nodeAvail;
 }
 
@@ -214,29 +185,10 @@
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
 	
-	if([self indexOfPreviousNodeAtLevel:bookData.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
-		nodeAvail = YES;
+	if(_currentNodeIndex)
+		if([self indexOfPreviousNodeAtLevel:bookData.currentLevel] != _currentNodeIndex) // set the index to the next node in the array
+			nodeAvail = YES;
 	
-	/*
-	NSInteger testIndex = _currentNodeIndex - 1; // set the index to the previous node in the array
-	
-	// check that we are not at the beginning of the array and that we have not found a node yet
-	while((0 < testIndex) && (NO == nodeAvail))   
-	{
-		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
-		{
-			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
-			if(testLevel == self.currentLevel) // check if its the same as the current level
-				nodeAvail = YES; // its the same so we can go back
-			else if(testLevel < self.currentLevel)
-				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
-			else
-				testIndex--; // the level was below the current one so skip over it by decrementing the index;
-		}
-		else
-			testIndex--; // the node did not have a level header so skip over it
-	}
-	*/
 	return nodeAvail;
 		
 }
@@ -250,7 +202,7 @@
 - (BOOL)canGoDownLevel
 {
 	BOOL levelDownAvail = NO; // assume we have no levels below this
-	NSInteger newIndex = _currentNodeIndex + 1; // get the index of the next node in the array
+	NSUInteger newIndex = _currentNodeIndex + 1; // get the index of the next node in the array
 	
 	// check we are not at the bounds of the array and that the next node IS NOT a level header node
 	while((_totalBodyNodes > newIndex) && (NO == [self isLevelNode:newIndex]))
@@ -263,7 +215,7 @@
 	{
 		// check if the node has a level greater than the current one
 		// this denotes a level down 
-		if ([self levelOfNodeAtIndex:newIndex] > bookData.currentLevel)
+		if ([self levelOfNodeAtIndex:newIndex] > (NSUInteger)bookData.currentLevel)
 		{
 			bookData.hasLevelDown = YES;
 			levelDownAvail = YES;
@@ -294,7 +246,7 @@
 	else
 	{
 		self.bookData.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		self.bookData.currentLevel = [self levelOfNodeAtIndex:_currentNodeIndex];
+		self.bookData.currentLevel = (NSInteger)[self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
 	self.bookData.hasLevelUp = [self canGoUpLevel];
@@ -309,47 +261,55 @@
 	return nil;
 }
 
-- (NSString *)filenameFromCurrentNode
+- (NSString *)contentFilenameFromCurrentNode
 {
 	return [self currentSegmentFilename];
 }
 
-- (NSString *)currentReferenceTag
+- (NSString *)currentIdTag
 {
 	NSString *tag = nil;
 	tag = [[[_bodyNodes objectAtIndex:_currentNodeIndex] attributeForName:@"id"] stringValue];
 	return (tag) ? tag : nil;
 }
 
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode
+{
+	// check if we were given a node to jump to
+	if(![fullPathToNode isEqualToString:@""])
+		// set the current point to the saved one
+		_currentNodeIndex = [fullPathToNode intValue];
+	else
+		// the first node in the body nodes
+		_currentNodeIndex = 0;
+	
+	[self updateDataForCurrentPosition];
+}
+
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag
+{
+	if(anIdTag)
+	{	
+		NSString *queryStr = [NSString stringWithFormat:@"/html[1]/body[1]//a[ends-with(@href,'%@')]",anIdTag];
+		NSArray *tagNodes = nil;
+		tagNodes = [xmlControlDoc objectsForXQuery:queryStr error:nil];
+		_currentNodeIndex = ([tagNodes count]) ? [_bodyNodes indexOfObject:[[tagNodes objectAtIndex:0] parent]] : _currentNodeIndex;
+	}
+	[self updateDataForCurrentPosition];
+}
+
 #pragma mark -
 #pragma mark Private Methods
-/*
-- (void)openSmilFile:(NSString *)smilFilename
-{
-	self.smilDoc = nil;
-	// build the path to the smil file
-	NSString *fullSmilFilePath = [parentFolderPath stringByAppendingPathComponent:smilFilename];
-	// make a URL of it
-	NSURL *smilURL = [[NSURL alloc] initFileURLWithPath:fullSmilFilePath];
-	// open the smil document
-	self.smilDoc = [[BBSTBSMILDocument alloc] init];
-//	if(smilDoc)
-//	{
-//		[smilDoc openWithContentsOfURL:smilURL];
-//	}
 
-}
-*/
-
-- (NSInteger)levelOfNodeAtIndex:(NSInteger)anIndex
+- (NSUInteger)levelOfNodeAtIndex:(NSUInteger)anIndex
 {
-	NSInteger thislevel = -1;
+	NSUInteger thislevel = -1;
 	
 	if(_totalBodyNodes > anIndex) // check that we are not beyond our node arrays limit
 	{
 		// get the name of the node and convert it to lowercase
 		NSString *nodeName = [NSString stringWithString:[[[_bodyNodes objectAtIndex:anIndex] name] lowercaseString]];
-		// get the ascii code of the character at index 1  
+		// get the ascii code of the characters at index 1 & 0  
 		unichar levelChar =  [nodeName characterAtIndex:1];
 		unichar prefixChar = [nodeName characterAtIndex:0];
 		
@@ -362,15 +322,15 @@
 	return thislevel;
 }
 
-- (NSInteger)indexOfNextNodeAtLevel:(NSInteger)aLevel
+- (NSUInteger)indexOfNextNodeAtLevel:(NSUInteger)aLevel
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
-	NSInteger testIndex = _currentNodeIndex + 1; // set the index to the next node in the array
+	NSUInteger testIndex = _currentNodeIndex + 1; // set the index to the next node in the array
 	while((_totalBodyNodes > testIndex) && (NO == nodeAvail)) 
 	{
 		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
 		{
-			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			NSUInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
 			if(testLevel == aLevel) // check if its the same as the current level
 				nodeAvail = YES; // its the same so we can go forward
 			else if(testLevel < aLevel)
@@ -386,20 +346,20 @@
 	return (nodeAvail) ? testIndex : _currentNodeIndex; 
 }
 
-- (NSInteger)indexOfPreviousNodeAtLevel:(NSInteger)aLevel
+- (NSUInteger)indexOfPreviousNodeAtLevel:(NSUInteger)aLevel
 {
 	BOOL nodeAvail = NO;  // set the default to assume that there is no node available
-	NSInteger testIndex = _currentNodeIndex - 1; // set the index to the previous node in the array
+	NSUInteger testIndex = _currentNodeIndex - 1; // set the index to the previous node in the array
 	
 	// check that we are not at the beginning of the array and that we have not found a node yet
 	while((0 < testIndex) && (NO == nodeAvail))   
 	{
 		if ([self isLevelNode:testIndex]) // check if the node has a level header as its name 
 		{
-			NSInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
+			NSUInteger testLevel = [self levelOfNodeAtIndex:testIndex]; // get the level of the node
 			if(testLevel == aLevel) // check if its the same as the current level
 				nodeAvail = YES; // its the same so we can go back
-			else if(testLevel < bookData.currentLevel)
+			else if(testLevel < (NSUInteger)bookData.currentLevel)
 				testIndex = 0; // set the break condition as we have found a node that is above the level of this one;
 			else
 				testIndex--; // the level was below the current one so skip over it by decrementing the index;
@@ -413,7 +373,7 @@
 	
 }
 
-- (BOOL)isLevelNode:(NSInteger)anIndex
+- (BOOL)isLevelNode:(NSUInteger)anIndex
 {
 	NSString *nodeName = [NSString stringWithString:[[_bodyNodes objectAtIndex:anIndex] name]];
 	unichar checkChar =  [nodeName characterAtIndex:0];
@@ -425,10 +385,10 @@
 
 
 // return the index of the node that is a level below the current one
-- (NSInteger)nextLevelNodeIndex
+- (NSUInteger)nextLevelNodeIndex
 {
-	NSInteger currentIndex = _currentNodeIndex + 1; // increment the index
-	NSInteger destinationLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
+	NSUInteger currentIndex = _currentNodeIndex + 1; // increment the index
+	NSUInteger destinationLevel = [self levelOfNodeAtIndex:_currentNodeIndex] + 1;
 	
 	while((currentIndex < _totalBodyNodes) && (destinationLevel != [self levelOfNodeAtIndex:currentIndex]))
 	{
@@ -436,7 +396,7 @@
 	}
 	
 	// check we are still within the array bounds
-	return (currentIndex < _totalBodyNodes) ? currentIndex : -1 ;
+	return (currentIndex < _totalBodyNodes) ? currentIndex : (NSUInteger)-1 ;
 }
 
 
@@ -455,10 +415,7 @@
 	// get the filename from the segment attributes
 	filename = [self filenameFromID:[self stringForXquery:@"./a/data(@href)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]]];
 	
-	if(filename) // check that we got something back
-	{
-		return [filename lowercaseString];
-	}	
+	return (filename) ? filename : nil;
 		// check if the current file is the same as the new file
 		// smil files have multiple references to audio content within them
 		// so there is no point reloading the smil
@@ -487,17 +444,10 @@
 ////		}
 //	}
 	
-	
-	return nil;
+
 	
 }
 
-/*
-- (NSString *)attributeValueForXquery:(NSString *)aQuery
-{
-	return [[[_bodyNodes objectAtIndex:_currentNodeIndex] objectsForXQuery:aQuery error:nil] objectAtIndex:0];
-}
-*/
 #pragma mark -
 #pragma mark Accessor Methods
 
@@ -505,11 +455,6 @@
 {
 	return [NSString stringWithFormat:@"%d",_currentNodeIndex];
 }
-
-//- (void)setCurrentPositionID:(NSString *)anID
-//{
-//	_currentNodeIndex = [anID intValue];
-//}
 
 #pragma mark -
 #pragma mark Synthesized ivars

@@ -132,6 +132,9 @@
 					if(!bookData.folderPath)
 						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
+					// get the text content filename
+					navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					
 					[[navCon packageDocument] processData];
 					
 					opfLoaded = YES;

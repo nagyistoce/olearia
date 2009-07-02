@@ -35,7 +35,7 @@
 {
 	self = [super initWithFile:fileName error:errorPtr];
 
-	_extendedChapterData = nil;
+	_extendedChapterData = [[NSArray alloc] init];
 	
 	return self;
 }
@@ -93,7 +93,7 @@
 {
 	
 	[super addChapters:chapters withAttributes:attributes error:errorPtr];
-	if(([self hasChapters]) && (!errorPtr))
+	if(([self hasChapters]))
 	{	
 		_extendedChapterData = [chapters copy];
 		[self setCurrentTime:QTZeroTime];
@@ -125,7 +125,6 @@
 - (NSString *)currentChapterName
 {
 	return [[_extendedChapterData objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName];
-	//return [[[self chapters] objectAtIndex:[self currentChapterNumber]] valueForKey:QTMovieChapterName]; 
 }
 
 - (NSDictionary *)currentChapterInfo
@@ -133,6 +132,21 @@
 	return [_extendedChapterData objectAtIndex:[self currentChapterNumber]];
 }
 
+- (QTTime)startTimeOfChapterWithTitle:(NSString *)aChapterTitle
+{
+	QTTime startTime = [self startTimeOfChapter:0];
+	
+	for(NSDictionary *chapInfo in _extendedChapterData)
+	{
+		if([[chapInfo valueForKey:QTMovieChapterName] isEqualToString:aChapterTitle])
+		{
+			startTime = [[chapInfo valueForKey:QTMovieChapterStartTime] QTTimeValue];
+			break;
+		}
+	}
+	
+	return startTime;
+}
 
 - (void)jumpToNextChapter
 {

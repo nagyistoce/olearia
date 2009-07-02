@@ -154,9 +154,12 @@
 						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
-					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbncx+xml\"]/data(@href)" ofNode:nil];
+					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='application/x-dtbncx+xml']/data(@href)" ofNode:nil];
 					if(self.navCon.packageDocument.ncxFilename)
 						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[[navCon packageDocument] ncxFilename]]] ;
+					
+					// get the text content filename
+					navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='application/x-dtbook+xml']/data(@href)" ofNode:nil];
 					
 					[[navCon packageDocument] processData];
 					

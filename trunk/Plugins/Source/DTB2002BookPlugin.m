@@ -156,7 +156,10 @@
 					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
 					if(navCon.packageDocument.ncxFilename)
 						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.ncxFilename]];
-										
+						
+					// get the text content filename
+					navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml'][starts-with(@id,'Text')]/data(@href)" ofNode:nil];
+					
 					[[navCon packageDocument] processData];
 										
 					opfLoaded = YES;

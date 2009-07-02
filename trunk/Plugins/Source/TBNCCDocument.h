@@ -29,8 +29,8 @@
 	//NSDictionary		*metaData;
 	//NSDictionary		*segmentAttributes;
 	
-	NSInteger			_currentNodeIndex;
-	NSInteger			_totalBodyNodes;
+	NSUInteger			_currentNodeIndex;
+	NSUInteger			_totalBodyNodes;
 	
 	NSXMLElement		*nccRootElement;
 	
