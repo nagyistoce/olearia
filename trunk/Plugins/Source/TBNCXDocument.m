@@ -19,7 +19,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
 #import "TBNCXDocument.h"
 
 @interface TBNCXDocument ()
@@ -102,7 +101,7 @@
 - (void)jumpToNodeWithPath:(NSString *)fullPathToNode
 {
 	// check if we were given a node to jump to
-	if(![fullPathToNode isEqualToString:@""])
+	if(fullPathToNode)
 		// set the current point to the saved one
 		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
 	else

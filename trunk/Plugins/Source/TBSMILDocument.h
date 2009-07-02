@@ -19,7 +19,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
 #import <QTKit/QTTime.h>
 
 @class TBAudioSegment, TBSharedBookData;
@@ -29,23 +28,11 @@
 	
 	NSXMLNode		*_currentNode;
 	NSString		*currentNodePath;
-	//NSMutableArray  *_idChapterMarkers;
-	//NSMutableArray  *_skipableIdList;
-	//NSString		*idToStartFrom;
-	//NSString		*idToFinishWith;
 	
 	NSURL			*_currentFileURL;
 	NSString		*relativeAudioFilePath;
 
-	//NSDictionary	*smilChapterData;
-	//NSArray			*_parNodes;
-	//NSDictionary	*_parNodeIndexes;
-	
 	NSXMLDocument		*_xmlSmilDoc;
-	//TBAudioSegment		*_currentAudioFile;
-	//TBSharedBookData	*bookData;
-	
-	//BOOL			useSmilChapters;
 
 }
 
@@ -56,12 +43,7 @@
 - (NSString *)currentIdTag;
 - (BOOL)audioAfterCurrentPosition;
 
-//- (NSString *)idFollowingId:(NSString *)anId;
 
-//- (NSArray *)chapterMarkersFromId:(NSString *)startId toId:(NSString *)endId;
-//- (NSString *)audioFilenameForId:(NSString *)anId;
-
-//@property (readwrite, retain)	TBSharedBookData *bookData;
 @property (readonly, copy)		NSString	*relativeAudioFilePath;
 @property (readwrite,copy)		NSString	*currentNodePath;
 

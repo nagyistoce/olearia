@@ -205,7 +205,7 @@
 	
 	if(ncxLoaded || opfLoaded)
 	{
-		[navCon moveToNodeWihPath:@""];
+		[navCon moveControlPoint:nil withTime:nil];
 		[navCon prepareForPlayback];
 		
 	}
@@ -252,17 +252,25 @@
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
 }
-#pragma mark -
-#pragma mark Navigation
-- (void)moveToControlPosition:(NSString *)aNodePath
+
+- (NSString *)currentPlaybackTime
 {
-	[navCon moveToNodeWihPath:aNodePath];		
+	return [super currentPlaybackTime];
 }
 
-- (NSString *)currentControlPosition
+- (NSString *)currentControlPoint
 {
-	return [navCon currentNodePath];
+	return [super currentControlPoint];
 }
+
+- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+{
+	[super jumpToControlPoint:aPoint andTime:aTime];
+}
+
+
+#pragma mark -
+#pragma mark Navigation
 
 - (void)nextReadingElement;
 {

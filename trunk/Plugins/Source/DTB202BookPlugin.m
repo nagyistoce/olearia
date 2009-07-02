@@ -159,7 +159,7 @@
 	
 	if(nccLoaded)
 	{
-		[navCon moveToNodeWihPath:@""];
+		[navCon moveControlPoint:@"" withTime:@""];
 		[navCon prepareForPlayback];
 	}
 	
@@ -198,19 +198,23 @@
 	return nil;
 }
 
+- (NSString *)currentPlaybackTime
+{
+	return [super currentPlaybackTime];
+}
+
+- (NSString *)currentControlPoint
+{
+	return [super currentControlPoint];
+}
+
+- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+{
+	[super jumpToControlPoint:aPoint andTime:aTime];
+}
+
 #pragma mark -
 #pragma mark Navigation
-
-- (void)moveToControlPosition:(NSString *)aNodePath
-{
-		
-}
-
-- (NSString *)currentControlPosition
-{
-	//placeholder
-	return nil;
-}
 
 - (void)nextReadingElement;
 {

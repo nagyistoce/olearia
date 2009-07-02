@@ -19,11 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
-
 #import "TBOPFDocument.h"
-//#import "TalkingBookTypes.h"
-//#import "NSXMLElement-BBSExtensions.h"
 
 @interface TBOPFDocument ()
 
