@@ -5,6 +5,19 @@
 //  Created by Kieren Eaton on 11/06/09.
 //  Copyright 2009 BrainBender Software. All rights reserved.
 //
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 
 #import <Cocoa/Cocoa.h>
 #import "TBNavigationController.h"
@@ -20,7 +33,8 @@
 @property (readwrite, retain)	TBSharedBookData	*_bookData;
 @property (readwrite)			BOOL				_didUserNavigation;
 @property (readwrite)			BOOL				_justAddedChapters;
-@property (readwrite)			BOOL				_loadAfterReset;
+@property (readwrite)			BOOL				_shouldJumpToTime;
+@property (readwrite)			QTTime				_timeToJumpTo;
 @property (readwrite, copy)		NSString			*_currentTag;
 @property (readwrite, copy)		NSString			*_currentSmilFilename;
 @property (readwrite, copy)		NSString			*_currentAudioFilename;
@@ -53,6 +67,8 @@
 	_currentTag = nil;
 	_bookData = [TBSharedBookData sharedInstance];
 	_notCenter = [NSNotificationCenter defaultCenter];
+	_shouldJumpToTime = NO;
+	_timeToJumpTo = QTZeroTime;
 	
 	// watch KVO notifications
 	[_bookData addObserver:self
@@ -96,22 +112,43 @@
 #pragma mark -
 #pragma mark Public Methods
 
-- (void)moveToNodeWihPath:(NSString *)aNodePath
+- (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime
 {
 	// the control document will always be our first choice for navigation
 	if(controlDocument)
+	{	
 		[controlDocument jumpToNodeWithPath:aNodePath];
+		_currentTag = [controlDocument currentIdTag];
+	}
 	else if(packageDocument)
 	{
 		// need to add navigation methods for package documents
 	}
 
+	if(aTime)
+	{
+		_shouldJumpToTime = YES;
+		_timeToJumpTo = QTTimeFromString(aTime);
+	}
+
+	_didUserNavigation = YES;
+	
+	[self updateAfterNavigationChange];
+	
 }
 
 - (NSString *)currentNodePath
 {
 	if(controlDocument)
 		return [controlDocument currentPositionID];
+	
+	return nil;
+}
+
+- (NSString *)currentTime
+{
+	if(_audioFile)
+		return QTStringFromTime([_audioFile currentTime]);
 	
 	return nil;
 }
@@ -402,7 +439,6 @@
 	_currentTag = nil;
 	_didUserNavigation = NO;
 	_justAddedChapters = NO;
-	_loadAfterReset = YES;
 	
 	[_notCenter removeObserver:self];
 }
@@ -479,7 +515,13 @@
 				// add chapters if required
 				[self addChaptersToAudioSegment];
 
-				[_audioFile setCurrentTime:[_audioFile startTimeOfChapterWithTitle:_currentTag]];
+				if(!_shouldJumpToTime)
+					[_audioFile setCurrentTime:[_audioFile startTimeOfChapterWithTitle:_currentTag]];
+				else
+				{	
+					[_audioFile setCurrentTime:_timeToJumpTo];
+					_shouldJumpToTime = NO;
+				}
 				
 				[self setPreferredAudioAttributes];
 				
@@ -514,7 +556,8 @@
 @synthesize packageDocument, controlDocument;
 @synthesize _audioFile, _smilDoc, _bookData, _notCenter;
 @synthesize _currentSmilFilename, _currentAudioFilename, _currentTag;
-@synthesize _didUserNavigation, _justAddedChapters, _loadAfterReset;			   
+@synthesize _didUserNavigation, _justAddedChapters, _shouldJumpToTime;
+@synthesize _timeToJumpTo;
 
 @end
 

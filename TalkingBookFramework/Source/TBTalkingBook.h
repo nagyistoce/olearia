@@ -45,8 +45,6 @@ typedef enum
 	BOOL					_settingsChanged;
 	BOOL					_wasPlaying;
 	
-	NSString				*audioSegmentTimePosition;
-	
 	NSMutableArray			*plugins;
 	id<TBPluginInterface>	currentPlugin;
 	
@@ -67,8 +65,6 @@ typedef enum
 	BOOL					_hasSentenceNavigation;
 	BOOL					_hasWordNavigation;
 	
-
-
 	// bindings
 	BOOL					canPlay;
 	
@@ -91,8 +87,9 @@ typedef enum
 - (void)nextChapter;
 - (void)previousChapter;
 
-- (void)jumpToPoint:(NSString *)aNodePath;
-- (NSString *)currentPlayPositionID;
+- (void)jumpToPoint:(NSString *)aNodePath andTime:(NSString *)aTimeStr;
+- (NSString *)currentControlPositionID;
+- (NSString *)currentTimePosition;
 
 - (void)updateSkipDuration:(float)newDuration;
 
@@ -110,7 +107,6 @@ typedef enum
 @property (readwrite)			BOOL		bookIsLoaded;
 @property (readwrite)			BOOL		overrideRecordedContent;
 @property (readwrite)			BOOL		speakUserLevelChange;
-@property (readwrite, copy)		NSString	*audioSegmentTimePosition;
 
 @property (readonly) BOOL		canPlay;
 

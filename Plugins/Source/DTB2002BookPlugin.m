@@ -193,7 +193,7 @@
 				
 				[[navCon controlDocument] processData];
 				
-				[self moveToControlPosition:@""];
+				
 				
 				ncxLoaded = YES;
 			}
@@ -206,7 +206,8 @@
 	
 	if(ncxLoaded || opfLoaded)
 	{
-		[navCon moveToNodeWihPath:@""];
+		[navCon moveControlPoint:nil withTime:nil];
+		
 		[navCon prepareForPlayback];
 		
 	}
@@ -252,19 +253,25 @@
 	return nil;
 }
 
+- (NSString *)currentPlaybackTime
+{
+	return [super currentPlaybackTime];
+}
+
+- (NSString *)currentControlPoint
+{
+	return [super currentControlPoint];
+}
+
+- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+{
+	[super jumpToControlPoint:aPoint andTime:aTime];
+}
+
+
 #pragma mark -
 #pragma mark Navigation
 
-- (void)moveToControlPosition:(NSString *)aNodePath
-{
-	
-}
-
-- (NSString *)currentControlPosition
-{
-	// placeholder
-	return nil;
-}
 
 - (void)nextReadingElement;
 {

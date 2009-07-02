@@ -199,22 +199,30 @@ static NSBundle* pluginBundle = nil;
 	return nil;
 }
 
-#pragma mark - 
+- (NSString *)currentPlaybackTime
+{
+	if(navCon)
+		return [navCon currentTime];
+	
+	return nil;
+}
+
+- (NSString *)currentControlPoint
+{
+	if(navCon)
+		return [navCon currentNodePath];
+
+	return nil;
+}
+
+- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+{
+	if(navCon)
+		[navCon moveControlPoint:aPoint withTime:aTime];
+}
+
+#pragma mark -
 #pragma mark Navigation
-
-- (void)moveToControlPosition:(NSString *)aNodePath
-{
-	// dummy method
-#ifdef DEBUG	
-	NSLog(@"Super Class method moveToPosition in Class %@ used instead of subclass method",[self className]);
-#endif
-}
-
-- (NSString *)currentControlPosition
-{
-	// return an empty node string by default
-	return @"";
-}
 
 - (void)nextReadingElement
 {

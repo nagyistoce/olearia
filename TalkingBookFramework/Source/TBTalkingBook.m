@@ -102,9 +102,6 @@
 	
 	BOOL bookDidOpen = NO;
 	
-//	if(currentPlugin)
-//		[currentPlugin reset
-	
 	// iterate throught the plugins to see if one will open the URL correctly 
 	for(id thePlugin in plugins)
 	{
@@ -117,6 +114,7 @@
 			// set the currentplugin to the plugin that did open the book
 			currentPlugin = thePlugin;
 			bookDidOpen = YES;
+			bookIsLoaded = YES;
 			self.canPlay = YES;
 			if([infoPanel isVisible])
 				[self updateInfoView];
@@ -127,18 +125,6 @@
 		
 	return bookDidOpen;
 	
-}
-
-
-- (void)jumpToPoint:(NSString *)aNodePath
-{
-	if(![aNodePath isEqualToString:@""])
-		[currentPlugin moveToControlPosition:aNodePath];
-		
-}
-- (NSString *)currentPlayPositionID
-{
-	return [currentPlugin currentControlPosition];
 }
 
 - (void)updateSkipDuration:(float)newDuration
@@ -365,7 +351,38 @@
 }
 
 #pragma mark -
+#pragma mark Position Loading & Saving
+
+- (void)jumpToPoint:(NSString *)aNodePath andTime:(NSString *)aTimeStr
+{
+	if(aNodePath)
+		[currentPlugin jumpToControlPoint:aNodePath andTime:aTimeStr];
+
+}
+
+- (NSString *)currentControlPositionID
+{
+	return [currentPlugin currentControlPoint];
+}
+
+- (NSString *)currentPlaybackTime
+{
+	return [currentPlugin currentPlaybackTime];
+}
+
+#pragma mark -
 #pragma mark Information Methods
+
+- (NSString *)currentTimePosition
+{
+	NSString *nowTime = nil;
+	if(currentPlugin)
+		nowTime = [currentPlugin currentPlaybackTime]; 
+	
+	return nowTime;
+}
+
+
 
 - (void)showHideBookInfo
 {
@@ -453,12 +470,7 @@
 }
 
 
-- (NSString *)audioSegmentTimePosition
-{
-	NSString *nowTime = nil;
-	
-	return nowTime;
-}
+
 
 - (void)setAudioPlayRate:(float)aRate
 {
@@ -615,7 +627,7 @@
 @synthesize _controlMode;
 @synthesize _wasPlaying;
 @synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
-@synthesize audioSegmentTimePosition;
+
 
 //bindings
 @synthesize canPlay;
