@@ -7,7 +7,7 @@
 //
 
 #import "TBStdTextView.h"
-#import <WebKit/WebKit.h>
+//#import <WebKit/WebKit.h>
 
 @implementation TBStdTextView
 
@@ -23,7 +23,7 @@
 
 - (void)setURL:(NSURL *)theURL
 {
-	//if(![theURL isEqualTo:[theWebView mainDocumentURL]])
+	if(![theURL isEqualTo:[theWebView mainFrameURL]])
 		[theWebView setMainFrameURL:[theURL path]];
 }
 

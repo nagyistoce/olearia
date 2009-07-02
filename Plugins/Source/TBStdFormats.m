@@ -92,6 +92,9 @@ static NSBundle* pluginBundle = nil;
 
 - (NSView *)bookTextView;
 {
+	BOOL foundTextFile = NO;
+	NSString *errorTextFilename = @"NoTextContent.html";
+		
 	// check if we should load the view nib
 	if(!textview)
 		if (![NSBundle loadNibNamed:@"TextView" owner:self])
@@ -102,16 +105,19 @@ static NSBundle* pluginBundle = nil;
 		if(navCon.packageDocument.textContentFilename)
 		{	
 			NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
+			foundTextFile = YES;
 			[textview setURL:textFileURL];
 		}
+		else
+			errorTextFilename = @"ErrorLoadingTextContent.html";
+			
 	}
-	else
+		
+	if(!foundTextFile)
 	{
-		// no text content for this book because its audio only 
+		// no text file found or it an audio only book
 		// so set a message in the view for the user.
-		NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
-		NSString *currentLocalization = [[thisBundle preferredLocalizations] objectAtIndex:0];
-		NSString *localizedPath = [[thisBundle pathsForResourcesOfType:@"html" inDirectory:nil forLocalization:currentLocalization] objectAtIndex:0];
+		NSString *localizedPath = [[NSBundle bundleForClass:[self class]] pathForResource:errorTextFilename ofType:nil];
 		NSURL *noTextURL = [NSURL fileURLWithPath:localizedPath];
 		
 		[textview  setURL:noTextURL];

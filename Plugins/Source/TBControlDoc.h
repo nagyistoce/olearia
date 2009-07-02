@@ -35,26 +35,30 @@
 	BOOL				navigateForChapters;
 	BOOL				_hasTextContent;
 	BOOL				_hasAudioContent;
-	BOOL				stayOnCurrentLevel;
 	
 }
 
+// setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
-- (NSXMLNode *)metadataNode;
-- (void)jumpToNodeWithId:(NSString *)fullPathToNode;
-- (void)updateDataForCurrentPosition;
 
+// syncronization
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
+- (void)updateDataForCurrentPosition;
+- (NSString *)currentIdTag;
+- (NSString *)contentFilenameFromCurrentNode;
+- (NSString *)filenameFromID:(NSString *)anIdString;
+
+// navigation
 - (void)moveToNextSegment;
 - (void)moveToNextSegmentAtSameLevel;
 - (void)moveToPreviousSegment;
-- (NSString *)filenameFromCurrentNode;
-- (NSString *)filenameFromID:(NSString *)anIdString;
-- (NSString *)currentReferenceTag;
-
 - (void)goUpALevel;
 - (void)goDownALevel;
 
+// information
+- (NSXMLNode *)metadataNode;
 - (BOOL)canGoNext;
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
@@ -64,16 +68,11 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
-
-
 @property (readwrite, retain) TBSharedBookData *bookData;
-
 @property (readwrite, copy)	NSXMLNode			*currentNavPoint;
 @property (readonly, copy)	NSURL				*fileURL;
-
 @property (readwrite, copy) NSString *currentPositionID;
-
 @property (readwrite) BOOL navigateForChapters;
-@property (readwrite) BOOL stayOnCurrentLevel;
+
 
 @end

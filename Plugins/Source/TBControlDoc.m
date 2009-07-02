@@ -110,7 +110,15 @@
 	return nil;
 }
 
-- (void)jumpToNodeWithId:(NSString *)fullPathToNode
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode
+{
+#ifdef DEBUG
+	NSLog(@"superclass method of %@ used",[self className]);
+#endif
+	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag
 {
 #ifdef DEBUG
 	NSLog(@"superclass method of %@ used",[self className]);
@@ -150,7 +158,7 @@
 	
 }
 
-- (NSString *)currentReferenceTag
+- (NSString *)currentIdTag
 {
 #ifdef DEBUG
 	NSLog(@"Superclass method 'referenceTagForCurrentPosition' of %@ used",[self className]);
@@ -160,7 +168,7 @@
 }
 
 
-- (NSString *)filenameFromCurrentNode
+- (NSString *)contentFilenameFromCurrentNode
 {
 #ifdef DEBUG
 	NSLog(@"Superclass method 'filenameFromCurrentNode' of %@ used",[self className]);
@@ -274,7 +282,7 @@
 
 @synthesize bookData;
 @synthesize currentPositionID;
-@synthesize navigateForChapters, stayOnCurrentLevel;
+@synthesize navigateForChapters;
 @synthesize currentNavPoint;
 @synthesize fileURL;
 

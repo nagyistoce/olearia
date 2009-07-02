@@ -54,8 +54,6 @@
 
 - (void)processData
 {
-	
-	
 	// get the root element of the tree
 	NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
 	
@@ -76,10 +74,6 @@
 	// set the subject
 	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
 	self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
-	
-	// get the text content filename
-	self.textContentFilename = [self stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
-
 }
 
 

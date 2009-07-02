@@ -52,6 +52,8 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (NSArray *)audioChapterMarkersForFilename:(NSString *)aFile WithTimescale:(long)aScale;
 - (void)setCurrentNodeWithPath:(NSString *)aNodePath;
+- (void)jumpToNodeWithIdTag:(NSString *)aTag;
+- (NSString *)currentIdTag;
 - (BOOL)audioAfterCurrentPosition;
 
 //- (NSString *)idFollowingId:(NSString *)anId;

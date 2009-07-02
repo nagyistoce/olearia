@@ -35,6 +35,7 @@
 		EECDD40F0FCBD56A00C0EDDC /* TBNCXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */; };
 		EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40B0FCBD56A00C0EDDC /* TBOPFDocument.m */; };
 		EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */; };
+		EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */; };
 		EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */; };
 		EEEE9C960FF75A32001822EA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEE9C950FF75A32001822EA /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -93,6 +94,7 @@
 		EECDD40C0FCBD56A00C0EDDC /* TBOPFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFDocument.h; sourceTree = "<group>"; };
 		EECDD4160FCBD5D700C0EDDC /* TBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBPackageDoc.h; sourceTree = "<group>"; };
 		EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBPackageDoc.m; sourceTree = "<group>"; };
+		EEED048C0FF9DEFA00838EBC /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
 		EEEE9C8D0FF7591D001822EA /* TBStdTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdTextView.h; sourceTree = "<group>"; };
 		EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdTextView.m; sourceTree = "<group>"; };
 		EEEE9C950FF75A32001822EA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				EE2768920FF875FD00C3DB1C /* NoTextContent.html */,
+				EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -384,6 +387,7 @@
 				EEBF2DF00FE62416004D5771 /* InformationView.xib in Resources */,
 				EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */,
 				EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */,
+				EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +458,14 @@
 			);
 			name = TextView.xib;
 			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEED048C0FF9DEFA00838EBC /* English */,
+			);
+			name = ErrorLoadingTextContent.html;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

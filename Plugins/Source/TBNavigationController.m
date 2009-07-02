@@ -18,9 +18,13 @@
 @property (readwrite, retain)	TBSMILDocument		*_smilDoc;
 @property (readwrite, retain)	TBAudioSegment		*_audioFile;
 @property (readwrite, retain)	TBSharedBookData	*_bookData;
+@property (readwrite)			BOOL				_didUserNavigation;
+@property (readwrite)			BOOL				_justAddedChapters;
+@property (readwrite)			BOOL				_loadAfterReset;
 @property (readwrite, copy)		NSString			*_currentTag;
 @property (readwrite, copy)		NSString			*_currentSmilFilename;
 @property (readwrite, copy)		NSString			*_currentAudioFilename;
+@property (readwrite, retain)	NSNotificationCenter *_notCenter;
 
 
 - (void)checkMediaFormat;
@@ -31,7 +35,7 @@
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
 - (BOOL)updateAudioFile:(NSString *)pathToFile;
-- (void)updateAfterUserNavigation;
+- (void)updateAfterNavigationChange;
 - (void)resetController;
 
 @end
@@ -48,6 +52,7 @@
 	_audioFile = nil;
 	_currentTag = nil;
 	_bookData = [TBSharedBookData sharedInstance];
+	_notCenter = [NSNotificationCenter defaultCenter];
 	
 	// watch KVO notifications
 	[_bookData addObserver:self
@@ -64,11 +69,6 @@
 			    forKeyPath:@"isPlaying"
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL];
-	
-
-
-	
-
 	
 	return self;
 }
@@ -88,7 +88,7 @@
 	[_bookData removeObserver:self forKeyPath:@"playbackRate"];
 	[_bookData removeObserver:self forKeyPath:@"playbackVolume"];
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[_notCenter removeObserver:self];
 	
 	[super dealloc];
 }
@@ -100,7 +100,7 @@
 {
 	// the control document will always be our first choice for navigation
 	if(controlDocument)
-		[controlDocument jumpToNodeWithId:aNodePath];
+		[controlDocument jumpToNodeWithPath:aNodePath];
 	else if(packageDocument)
 	{
 		// need to add navigation methods for package documents
@@ -133,35 +133,31 @@
 	
 	if(controlDocument)
 	{
-
-			NSString *filename = [controlDocument filenameFromCurrentNode];
-			if([[filename pathExtension] isEqualToString:@"smil"])
+		
+		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
+		if([[filename pathExtension] isEqualToString:@"smil"])
+		{
+			if(!_smilDoc)
+				_smilDoc = [[TBSMILDocument alloc] init];
+			
+			// check if the smil file REALLY needs to be loaded
+			// Failsafe for single smil books 
+			if(![_currentSmilFilename isEqualToString:filename])
 			{
 				_currentSmilFilename = [filename copy];
-					
-				// load the smil doc
-				if(!_smilDoc)
-					_smilDoc = [[TBSMILDocument alloc] init];
 				[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
-				_currentAudioFilename = _smilDoc.relativeAudioFilePath;
 			}
+			_currentAudioFilename = _smilDoc.relativeAudioFilePath;
+		}
+		else
+		{
+			// no smil filename
 			
-			if(_currentAudioFilename) 
-			{		// watch for load state changes
-				[[NSNotificationCenter defaultCenter] addObserver:self
-														 selector:@selector(loadStateDidChange:)
-															 name:QTMovieLoadStateDidChangeNotification
-														   object:_audioFile];
-
-				
-				if([self updateAudioFile:_currentAudioFilename])
-					_currentTag = [[controlDocument currentReferenceTag] copy];	
-				
-			}
-
+		}
 		
-		
-		
+		if(_currentAudioFilename) 
+			if([self updateAudioFile:_currentAudioFilename])
+				_currentTag = [controlDocument currentIdTag];			
 	}
 	else if(packageDocument)
 	{
@@ -193,15 +189,27 @@
 - (void)nextElement
 {
 	if(controlDocument)
+	{	
 		[controlDocument moveToNextSegmentAtSameLevel];
-	[self updateAfterUserNavigation];
+		_currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[self updateAfterNavigationChange];
 }
 
 - (void)previousElement
 {
 	if(controlDocument)
+	{	
 		[controlDocument moveToPreviousSegment];
-	[self updateAfterUserNavigation];
+		_currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[self updateAfterNavigationChange];
 }
 
 - (void)goUpLevel
@@ -209,9 +217,12 @@
 	if(controlDocument)
 	{	
 		[controlDocument goUpALevel];
-		[self updateAfterUserNavigation];		
+		_currentTag = [controlDocument currentIdTag];
 	}
+				
+	_didUserNavigation = YES;
 	
+	[self updateAfterNavigationChange];
 		
 }
 
@@ -220,8 +231,13 @@
 	if(controlDocument)
 	{	
 		[controlDocument goDownALevel];
-		[self updateAfterUserNavigation];
+		_currentTag = [controlDocument currentIdTag];
 	}
+		
+	_didUserNavigation = YES;
+	
+	[self updateAfterNavigationChange];
+	
 }
 
 #pragma mark -
@@ -266,6 +282,7 @@
 	// check that we have not passed in a nil string
 	if(relativePathToFile != nil)
 	{
+		[_notCenter removeObserver:self];
 		
 		[_audioFile stop]; // pause the playback if there is any currently playing
 		_audioFile = nil;
@@ -273,12 +290,19 @@
 		
 		if(_audioFile != nil)
 		{
+			
+			// watch for load state changes
+			[_notCenter addObserver:self
+						   selector:@selector(loadStateDidChange:)
+							   name:QTMovieLoadStateDidChangeNotification
+							 object:_audioFile];
+			
 			// make the file editable and set the timescale for it 
 			[_audioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
-			[self setPreferredAudioAttributes];
+			
 			// small audio files load so fast they do not post a notification for load completed
 			// so check the load state an if the file has any chapters
-			if(([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete) && (NO == [_audioFile hasChapters]))
+			if(([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete))
 			{	
 				// no chapters and its loaded so post a notification to add chapters
 				[[NSNotificationCenter defaultCenter] postNotificationName:QTMovieLoadStateDidChangeNotification object:_audioFile];
@@ -308,18 +332,33 @@
 	self._bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
 }
 
-- (void)updateAfterUserNavigation
+- (void)updateAfterNavigationChange
 {
-	NSString *filename = [controlDocument filenameFromCurrentNode];
+	NSString *filename = [controlDocument contentFilenameFromCurrentNode];
 	if([[filename pathExtension] isEqualToString:@"smil"])
 	{
-		_currentSmilFilename = [filename copy];
+		// check if the smil file REALLY needs to be loaded
+		// Failsafe for single smil books 
+		if(![_currentSmilFilename isEqualToString:filename])
+		{
+			if(!_smilDoc)
+				_smilDoc = [[TBSMILDocument alloc] init];
+			
+			_currentSmilFilename = [filename copy];
+			[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
+		}
 		
-		// load the smil doc
-		if(!_smilDoc)
-			_smilDoc = [[TBSMILDocument alloc] init];
+		// user navigation uses the control Doc to change position
+		if(_didUserNavigation) 
+		{	
+			if((_bookData.mediaFormat != AudioOnlyMediaFormat) && (_bookData.mediaFormat != AudioNcxOrNccMediaFormat))
+			{
+				if(controlDocument)
+					[_smilDoc jumpToNodeWithIdTag:_currentTag];
+			}
+			_didUserNavigation = NO;
+		}
 		
-		[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
 		_currentAudioFilename = _smilDoc.relativeAudioFilePath;
 		
 		if(_currentAudioFilename)
@@ -330,27 +369,25 @@
 - (void)addChaptersToAudioSegment
 {
 	NSArray *chapters = nil;
-	
-	// work out how to add the chapters
-	if((AudioOnlyMediaFormat != _bookData.mediaFormat) && (AudioNcxOrNccMediaFormat != _bookData.mediaFormat))
+	if((_bookData.mediaFormat != AudioOnlyMediaFormat) && (_bookData.mediaFormat != AudioNcxOrNccMediaFormat))
 	{
-		
-		// for books with text content we have to add chapters which mark where the text content changes
 		chapters = [_smilDoc audioChapterMarkersForFilename:_smilDoc.relativeAudioFilePath WithTimescale:([_audioFile duration].timeScale)];
-		NSError *theError = nil;
-		// get the track the chapter will be associated with
-		QTTrack *musicTrack = [[_audioFile tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
-		NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
-		// add the chapters both to the track and also as extended info for later use
-		// this is a workaround for the problem that the addchapters strips all but the recognised keys from the chapter
-		[_audioFile addChapters:chapters withAttributes:trackDict error:&theError];
-
-	}
-	else
-	{
-		// for audio only books we can just add chapters of the user set duration.
-		// add chapters to the current audio file
-		[_audioFile addChaptersOfDuration:_bookData.chapterSkipDuration];
+		if([chapters count])
+		{	
+			NSError *theError = nil;
+			// get the track the chapter will be associated with
+			QTTrack *musicTrack = [[_audioFile tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
+			NSDictionary *trackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
+			// add the chapters both to the Audio track
+			_justAddedChapters = YES;
+			[_audioFile addChapters:chapters withAttributes:trackDict error:&theError];
+			if([_audioFile hasChapters])
+				// watch for chapter change notifications 
+				[_notCenter addObserver:self 
+							   selector:@selector(updateForChapterChange:) 
+								   name:QTMovieChapterDidChangeNotification 
+								 object:_audioFile];
+		}
 		
 	}
 }
@@ -363,6 +400,11 @@
 	_currentAudioFilename = nil;
 	_currentSmilFilename = nil;
 	_currentTag = nil;
+	_didUserNavigation = NO;
+	_justAddedChapters = NO;
+	_loadAfterReset = YES;
+	
+	[_notCenter removeObserver:self];
 }
 
 #pragma mark -
@@ -405,13 +447,14 @@
 
 	if([notification object] == self._audioFile)
 	{
-#ifdef DEBUG	
-	NSLog(@"audio file did end");
-	NSLog(@"current Time is %@",QTStringFromTime([_audioFile currentTime]));
-#endif	
+		// check for a new audio segment in the smil file
 		if([_smilDoc audioAfterCurrentPosition])
 		{
 			_currentAudioFilename = _smilDoc.relativeAudioFilePath;
+			_currentTag = [_smilDoc currentIdTag];
+			// sync the new position in the smil with the control document
+			if(controlDocument)
+				[controlDocument jumpToNodeWithIdTag:_currentTag];
 			if(_currentAudioFilename)
 				[self updateAudioFile:_smilDoc.relativeAudioFilePath];
 		}
@@ -419,24 +462,9 @@
 		{
 			if(controlDocument)
 			{
-				_currentAudioFilename = nil;
 				[controlDocument moveToNextSegment];
-				NSString *filename = [controlDocument filenameFromCurrentNode];
-				if([[filename pathExtension] isEqualToString:@"smil"])
-				{
-					_currentSmilFilename = [filename copy];
-					
-					// load the smil doc
-					if(!_smilDoc)
-						_smilDoc = [[TBSMILDocument alloc] init];
-					if([_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]])
-						_currentAudioFilename = [[_smilDoc relativeAudioFilePath] copy];
-				}
-				
-				if(_currentAudioFilename) 
-					if([self updateAudioFile:_currentAudioFilename])
-						_currentTag = [[controlDocument currentReferenceTag] copy];	
-				
+				_currentTag = [controlDocument currentIdTag];
+				[self updateAfterNavigationChange];
 			}
 		}
 	}
@@ -444,27 +472,23 @@
 
 - (void)loadStateDidChange:(NSNotification *)notification
 {
-	if([[notification name] isEqualToString:QTMovieLoadStateDidChangeNotification])
-		if([notification object] == self._audioFile)
+	if([notification object] == self._audioFile)
+		if([[notification name] isEqualToString:QTMovieLoadStateDidChangeNotification])
 			if([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 			{	
-				
-				//[[NSNotificationCenter defaultCenter] removeObserver:self name:QTMovieDidEndNotification object:_audioFile];
-				//[[NSNotificationCenter defaultCenter] removeObserver:self name:QTMovieChapterDidChangeNotification object:_audioFile];
+				// add chapters if required
 				[self addChaptersToAudioSegment];
+
+				[_audioFile setCurrentTime:[_audioFile startTimeOfChapterWithTitle:_currentTag]];
+				
+				[self setPreferredAudioAttributes];
 				
 				// watch for end of audio file notifications
-				[[NSNotificationCenter defaultCenter] addObserver:self 
-														 selector:@selector(audioFileDidEnd:) 
-															 name:QTMovieDidEndNotification 
-														   object:_audioFile];
-				// watch for chapter change notifications 
-				[[NSNotificationCenter defaultCenter] addObserver:self 
-														 selector:@selector(updateForChapterChange:) 
-															 name:QTMovieChapterDidChangeNotification 
-														   object:_audioFile];
-				
-				
+				[_notCenter addObserver:self 
+							   selector:@selector(audioFileDidEnd:) 
+								   name:QTMovieDidEndNotification 
+								 object:_audioFile];
+								
 				if(_bookData.isPlaying)
 					[_audioFile play];
 			}
@@ -475,18 +499,22 @@
 {
 	if([notification object] == self._audioFile)
 	{
-		//NSString *idTag =  [_audioFile currentChapterName];
-		self._smilDoc.currentNodePath = [[_audioFile currentChapterInfo] valueForKey:@"XPath"];
-	
-		[self updateForAudioChapterPosition];
+		if((!_justAddedChapters))
+		{
+			_currentTag = [_audioFile currentChapterName];
+			[self updateForAudioChapterPosition];
+		}
+		else
+			_justAddedChapters = NO;
+
 	}
 }
 
 
 @synthesize packageDocument, controlDocument;
-@synthesize _audioFile, _smilDoc, _bookData;
+@synthesize _audioFile, _smilDoc, _bookData, _notCenter;
 @synthesize _currentSmilFilename, _currentAudioFilename, _currentTag;
-			   
+@synthesize _didUserNavigation, _justAddedChapters, _loadAfterReset;			   
 
 @end
 
