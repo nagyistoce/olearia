@@ -19,7 +19,9 @@
 		EE3172F80FE0DD1200B27804 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3172F70FE0DD1200B27804 /* QTKit.framework */; };
 		EE3174C10FE0E1E100B27804 /* TBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3174C00FE0E1E100B27804 /* TBNavigationController.m */; };
 		EE3927950FC3F0C40093CBBD /* TBFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3927940FC3F0C40093CBBD /* TBFileUtils.m */; };
+		EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */; };
 		EE80C5300FD8AF55009F55BB /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */; };
+		EE8BA94A1001980A000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA9491001980A000E242F /* Localizable.strings */; };
 		EE9E52910FC3B08C00D0564C /* TBStdFormats.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */; };
 		EE9E52A60FC3CA1500D0564C /* DTB202BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */; };
 		EE9E52A90FC3CC6500D0564C /* DTB2002BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A80FC3CC6500D0564C /* DTB2002BookPlugin.m */; };
@@ -63,9 +65,12 @@
 		EE3174C00FE0E1E100B27804 /* TBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNavigationController.m; sourceTree = "<group>"; };
 		EE3927930FC3F0C40093CBBD /* TBFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBFileUtils.h; sourceTree = "<group>"; };
 		EE3927940FC3F0C40093CBBD /* TBFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBFileUtils.m; sourceTree = "<group>"; };
+		EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextOnlyNavigationController.h; sourceTree = "<group>"; };
+		EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextOnlyNavigationController.m; sourceTree = "<group>"; };
 		EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
 		EE80C52E0FD8AF55009F55BB /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBSharedBookData.h; path = ../TBSharedBookData.h; sourceTree = SOURCE_ROOT; };
 		EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBSharedBookData.m; path = ../TBSharedBookData.m; sourceTree = SOURCE_ROOT; };
+		EE8BA947100197EB000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdFormats.m; sourceTree = "<group>"; };
 		EE9E52900FC3B08C00D0564C /* TBStdFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdFormats.h; sourceTree = "<group>"; };
 		EE9E52A40FC3CA1500D0564C /* DTB202BookPlugin.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = DTB202BookPlugin.h; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE8BA9491001980A000E242F /* Localizable.strings */,
 				EE2768920FF875FD00C3DB1C /* NoTextContent.html */,
 				EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
@@ -241,6 +247,8 @@
 			children = (
 				EE3174BF0FE0E1E100B27804 /* TBNavigationController.h */,
 				EE3174C00FE0E1E100B27804 /* TBNavigationController.m */,
+				EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */,
+				EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -388,6 +396,7 @@
 				EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */,
 				EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */,
 				EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */,
+				EE8BA94A1001980A000E242F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +429,7 @@
 				EEB7A3A50FE5D52200662B04 /* TBStdInfoViewItem.m in Sources */,
 				EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */,
 				EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */,
+				EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +450,14 @@
 				EE2768930FF875FD00C3DB1C /* English */,
 			);
 			name = NoTextContent.html;
+			sourceTree = "<group>";
+		};
+		EE8BA9491001980A000E242F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE8BA947100197EB000E242F /* English */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		EEBF2DEF0FE62416004D5771 /* InformationView.xib */ = {
