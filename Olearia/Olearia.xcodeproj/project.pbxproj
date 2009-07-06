@@ -26,7 +26,6 @@
 		EE1A07780ED68A730007E357 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076D0ED68A730007E357 /* HC-info.png */; };
 		EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076E0ED68A730007E357 /* HC-UpArrow.png */; };
 		EE2107ED0FD3E6D200AFB19A /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */; };
-		EE21081D0FD3E70300AFB19A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */; };
 		EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* file-doc.icns */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
 		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
@@ -60,6 +59,7 @@
 		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
 		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
 		EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF98E810EED4DE5002F50BC /* Cocoa.framework */; };
+		EEFE09491001A7D500586DB0 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +175,7 @@
 		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
 		EEF98E810EED4DE5002F50BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,8 +184,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */,
-				EE21081D0FD3E70300AFB19A /* BWToolkitFramework.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
+				EEFE09491001A7D500586DB0 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +231,7 @@
 			children = (
 				EE2159020DDB5A93009155A1 /* Olearia */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */,
 			);
 			name = Olearia;
 			sourceTree = "<group>";
@@ -667,7 +669,6 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(inherited) @executable_path/../Frameworks/TalkingBook.Framework/Headers\"",
 				);
-				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Olearia;
@@ -713,7 +714,6 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(inherited) @executable_path/../Frameworks/TalkingBook.Framework/Headers\"",
 				);
-				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Olearia;
@@ -763,7 +763,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IBC_FLATTEN_NIBS = YES;
+				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = "";
 				INFOPLIST_PREPROCESS = NO;
 				ONLY_ACTIVE_ARCH = YES;
@@ -810,7 +810,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IBC_FLATTEN_NIBS = YES;
+				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = "";
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
