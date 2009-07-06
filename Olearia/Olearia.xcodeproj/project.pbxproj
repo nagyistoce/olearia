@@ -14,7 +14,6 @@
 		EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74850E3B5106001CF3C2 /* daisyicons.icns */; };
 		EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74860E3B5106001CF3C2 /* olearia.icns */; };
 		EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74870E3B5106001CF3C2 /* SMILicons.icns */; };
-		EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE0E8C370EC3F36200202257 /* Localizable.strings */; };
 		EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07640ED68A730007E357 /* HC-BackArrow.png */; };
 		EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07650ED68A730007E357 /* HC-bookmark.png */; };
 		EE1A07710ED68A730007E357 /* HC-button-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07660ED68A730007E357 /* HC-button-forward.png */; };
@@ -43,6 +42,7 @@
 		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
 		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
+		EE8BA956100198AF000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA955100198AF000E242F /* Localizable.strings */; };
 		EEA2AA1B0FD94E0C00AAD1CF /* TalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
 		EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
@@ -123,7 +123,6 @@
 		EE0A74850E3B5106001CF3C2 /* daisyicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = daisyicons.icns; sourceTree = "<group>"; };
 		EE0A74860E3B5106001CF3C2 /* olearia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = olearia.icns; sourceTree = "<group>"; };
 		EE0A74870E3B5106001CF3C2 /* SMILicons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SMILicons.icns; sourceTree = "<group>"; };
-		EE0E8C380EC3F36200202257 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE1A07640ED68A730007E357 /* HC-BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-BackArrow.png"; sourceTree = "<group>"; };
 		EE1A07650ED68A730007E357 /* HC-bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-bookmark.png"; sourceTree = "<group>"; };
 		EE1A07660ED68A730007E357 /* HC-button-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-button-forward.png"; sourceTree = "<group>"; };
@@ -151,12 +150,11 @@
 		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
+		EE8BA953100198A0000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEA915E50ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/About.nib; sourceTree = "<group>"; };
-		EEA915E60ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEA915E70ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EEA915E80ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEA915E90ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/About.nib; sourceTree = "<group>"; };
-		EEA915EA0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEA915EB0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EEA915EC0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
@@ -249,8 +247,8 @@
 		29B97317FDCFA39411CA2CEA /* Olearia Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE8BA955100198AF000E242F /* Localizable.strings */,
 				EE083D5D0EDD2544009F5020 /* License.txt */,
-				EE0E8C370EC3F36200202257 /* Localizable.strings */,
 				EE2278660ECA518A00309491 /* Preferences.nib */,
 				EE2278690ECA51B200309491 /* MainWindow.nib */,
 				EE22786C0ECA51E800309491 /* About.nib */,
@@ -480,7 +478,6 @@
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
-				EE0E8C390EC3F36200202257 /* Localizable.strings in Resources */,
 				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
 				EE22786B0ECA51B200309491 /* MainWindow.nib in Resources */,
 				EE22786E0ECA51E800309491 /* About.nib in Resources */,
@@ -497,6 +494,7 @@
 				EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */,
 				EE083D5E0EDD2544009F5020 /* License.txt in Resources */,
 				EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */,
+				EE8BA956100198AF000E242F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,16 +578,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		EE0E8C370EC3F36200202257 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EE0E8C380EC3F36200202257 /* English */,
-				EEA915E60ECA78DC008E8A07 /* fr */,
-				EEA915EA0ECA7933008E8A07 /* no */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		EE2278660ECA518A00309491 /* Preferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -621,6 +609,14 @@
 			);
 			name = About.nib;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		EE8BA955100198AF000E242F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE8BA953100198A0000E242F /* English */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
