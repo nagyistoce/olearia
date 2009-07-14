@@ -38,6 +38,7 @@
 {
 	if(![theURL isEqualTo:[theWebView mainFrameURL]])
 		[theWebView setMainFrameURL:[theURL path]];
+
 }
 
 

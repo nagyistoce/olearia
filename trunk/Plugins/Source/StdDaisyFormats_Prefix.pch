@@ -4,7 +4,7 @@
 
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
-	#import "TBPluginInterface.h"
 	#import "TBSharedBookData.h"
+	#import "TBPluginInterface.h"
 	#import "TBStdFormats.h"
 #endif

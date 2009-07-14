@@ -12,6 +12,7 @@
 		EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */; };
 		EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */; };
 		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
+		EE247B57100AD5B300C51EC5 /* TBTextContent.m in Sources */ = {isa = PBXBuildFile; fileRef = EE247B56100AD5B300C51EC5 /* TBTextContent.m */; };
 		EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EE2768920FF875FD00C3DB1C /* NoTextContent.html */; };
 		EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */; };
 		EE3172EE0FE0DC0E00B27804 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */; };
@@ -54,6 +55,8 @@
 		EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSMILDocument.m; sourceTree = "<group>"; };
 		EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFNimasDocument.h; sourceTree = "<group>"; };
 		EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBOPFNimasDocument.m; sourceTree = "<group>"; };
+		EE247B55100AD5B300C51EC5 /* TBTextContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextContent.h; sourceTree = "<group>"; };
+		EE247B56100AD5B300C51EC5 /* TBTextContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextContent.m; sourceTree = "<group>"; };
 		EE2768930FF875FD00C3DB1C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/NoTextContent.html; sourceTree = "<group>"; };
 		EE3172CD0FE0D9B100B27804 /* NSString-TBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-TBAdditions.h"; sourceTree = "<group>"; };
 		EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-TBAdditions.m"; sourceTree = "<group>"; };
@@ -220,6 +223,8 @@
 		EE121D790FE0955A000F8447 /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				EE247B55100AD5B300C51EC5 /* TBTextContent.h */,
+				EE247B56100AD5B300C51EC5 /* TBTextContent.m */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 				EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */,
 				EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */,
 				EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */,
+				EE247B57100AD5B300C51EC5 /* TBTextContent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

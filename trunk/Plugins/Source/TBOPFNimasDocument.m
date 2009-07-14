@@ -62,7 +62,7 @@
 	// ever change
 	
 	// set the media format of the book. 
-	self.bookData.mediaFormat = TextNcxOrNccMediaFormat;
+	self.bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 	
 	// set the book title
 	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];

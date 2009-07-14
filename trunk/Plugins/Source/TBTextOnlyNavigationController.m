@@ -23,6 +23,21 @@
 
 @implementation TBTextOnlyNavigationController
 
+- (id) init
+{
+	self = [super init];
+	if (self != nil) 
+	{
+		
+	}
+	
+	return self;
+}
 
+- (void) dealloc
+{
+	
+	[super dealloc];
+}
 
 @end

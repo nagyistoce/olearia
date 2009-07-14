@@ -32,29 +32,22 @@
 
 @implementation TBControlDoc
 
-- (id) init
+- (id)initWithSharedData:(TBSharedBookData *)anInstance
 {
 	if (!(self=[super init])) return nil;
 	
-	// get the shared instance which contains all our updatable data for the book
-	bookData = [TBSharedBookData sharedInstance];
+	bookData = anInstance;
 	
 	return self;
 }
 
-- (void)finalize
-{
-	[super finalize];
-}
 
 - (void) dealloc
 {
-	[bookData release];
 	[currentPositionID release];
 	[currentNavPoint release];
 	[fileURL release];
 
-	
 	[super dealloc];
 }
 
@@ -66,7 +59,7 @@
 {
 	BOOL loadedOk = NO;
 	
-	NSError *theError;
+	NSError *theError = nil;
 	
 	[currentNavPoint release];
 	currentNavPoint = nil;

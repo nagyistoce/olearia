@@ -31,6 +31,8 @@
 	NSURL					*fileURL;
 }
 
+- (id)initWithSharedData:(TBSharedBookData *)anInstance;
+
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;

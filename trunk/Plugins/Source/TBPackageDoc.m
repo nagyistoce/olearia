@@ -31,11 +31,11 @@
 
 @implementation TBPackageDoc
 
-- (id) init
+- (id)initWithSharedData:(TBSharedBookData *)anInstance
 {
 	if (!(self=[super init])) return nil;
 	
-	bookData = [TBSharedBookData sharedInstance];
+	bookData = anInstance;
 	
 	return self;
 }
@@ -48,7 +48,6 @@
 	ncxFilename = nil;
 	[textContentFilename release];
 	textContentFilename = nil;
-	[bookData release];
 	
 	[super dealloc];
 }
@@ -72,14 +71,11 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
 	BOOL loadedOk = NO;
-	[ncxFilename release];
 	ncxFilename = nil;
-	[textContentFilename release];
 	textContentFilename = nil;
-	[fileURL release];
 	fileURL = nil;
 	
-	NSError *theError;
+	NSError *theError = nil;
 	
 	xmlPackageDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	

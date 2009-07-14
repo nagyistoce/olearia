@@ -24,6 +24,7 @@
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
 #import "TBNavigationController.h"
+#import "TBTextOnlyNavigationController.h"
 
 @interface DTB2002BookPlugin ()
 
@@ -51,17 +52,6 @@
 	// dummy method never gets called
 }
 
-- (void)reset
-{
-	[super reset];
-}
-
-- (void)setupPluginSpecifics
-{
-	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
-	navCon = nil;
-}
-
 + (DTB2002BookPlugin *)bookType
 {
 	DTB2002BookPlugin *instance = [[[self alloc] init] autorelease];
@@ -73,6 +63,25 @@
 	
 	return nil;
 }
+
+- (void)setSharedBookData:(TBSharedBookData *)anInstance
+{
+	if(!bookData)
+		[super setSharedBookData:anInstance];
+}
+
+- (void)reset
+{
+	[super reset];
+}
+
+- (void)setupPluginSpecifics
+{
+	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
+	navCon = nil;
+}
+
+
 
 - (NSView *)bookTextView;
 {
@@ -136,16 +145,13 @@
 		
 		if(packageFileUrl)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
+			self.packageDoc = [[TBOPFDocument alloc] initWithSharedData:bookData];
 			
-			if(!navCon.packageDocument)
-				self.navCon.packageDocument = [[TBOPFDocument alloc] init];
-			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
+			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"])
 				{
 					// the opf file specifies that it is a 2002 format book
@@ -153,24 +159,24 @@
 						self.bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
-					self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
-					if(navCon.packageDocument.ncxFilename)
-						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.ncxFilename]];
+					self.packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+					if(packageDoc.ncxFilename)
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:packageDoc.ncxFilename]];
 						
 					// get the text content filename
-					navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml'][starts-with(@id,'Text')]/data(@href)" ofNode:nil];
+					self.packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml'][starts-with(@id,'Text')]/data(@href)" ofNode:nil];
 					
-					[[navCon packageDocument] processData];
-										
+					[packageDoc processData];
+					
 					opfLoaded = YES;
 				}
 				else 
-					self.navCon.packageDocument = nil;
+					self.packageDoc = nil;
 				
 			}
 			else 
 			{	
-				self.navCon.packageDocument = nil;
+				self.packageDoc = nil;
 				// opening the opf failed for some reason so try to open just the control file
 				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
@@ -178,34 +184,41 @@
 		
 		if (controlFileURL)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
-			
-			if(!navCon.controlDocument)
-				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
+			if(!controlDoc)
+				self.controlDoc = [[TBNCXDocument alloc] initWithSharedData:bookData];
 			
 			// attempt to load the ncx file
-			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
+			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
 					self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
-				[[navCon controlDocument] processData];
-				
-				
+				[controlDoc processData];
 				
 				ncxLoaded = YES;
 			}
 			else
 				self.navCon.controlDocument = nil;
-			
 		}
 	}
 	
 	
 	if(ncxLoaded || opfLoaded)
 	{
+		[super chooseCorrectNavControllerForBook];
+		
+		if(opfLoaded)
+		{	
+			self.navCon.packageDocument = packageDoc;
+			self.packageDoc = nil;
+		}
+		if(ncxLoaded)
+		{	
+			self.navCon.controlDocument = controlDoc;
+			self.controlDoc = nil;
+		}
+		
 		[navCon moveControlPoint:nil withTime:nil];
 		
 		[navCon prepareForPlayback];

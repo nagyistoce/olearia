@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8486695E1001C30F00CB12B8 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
@@ -25,7 +26,6 @@
 		EE1A07770ED68A730007E357 /* HC-gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076C0ED68A730007E357 /* HC-gotoPage.png */; };
 		EE1A07780ED68A730007E357 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076D0ED68A730007E357 /* HC-info.png */; };
 		EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076E0ED68A730007E357 /* HC-UpArrow.png */; };
-		EE2107ED0FD3E6D200AFB19A /* BWToolkitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */; };
 		EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* file-doc.icns */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
 		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
@@ -59,7 +59,6 @@
 		EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96CF0E8DE7B400D77B4D /* bookmark.png */; };
 		EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96D00E8DE7B400D77B4D /* BackArrow.png */; };
 		EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF98E810EED4DE5002F50BC /* Cocoa.framework */; };
-		EEFE09491001A7D500586DB0 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +103,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EEA2AA1B0FD94E0C00AAD1CF /* TalkingBook.framework in Copy Frameworks */,
-				EE2107ED0FD3E6D200AFB19A /* BWToolkitFramework.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +114,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Olearia_Prefix.pch; sourceTree = "<group>"; };
+		8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Olearia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olearia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D12C0470EB7960F0091FBA3 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
@@ -134,7 +133,6 @@
 		EE1A076C0ED68A730007E357 /* HC-gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-gotoPage.png"; sourceTree = "<group>"; };
 		EE1A076D0ED68A730007E357 /* HC-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-info.png"; sourceTree = "<group>"; };
 		EE1A076E0ED68A730007E357 /* HC-UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpArrow.png"; sourceTree = "<group>"; };
-		EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Frameworks/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		EE21082C0FD3E86300AFB19A /* file-doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "file-doc.icns"; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 		EEEB96CF0E8DE7B400D77B4D /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		EEEB96D00E8DE7B400D77B4D /* BackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow.png; sourceTree = "<group>"; };
 		EEF98E810EED4DE5002F50BC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +182,7 @@
 			files = (
 				EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
-				EEFE09491001A7D500586DB0 /* BWToolkitFramework.framework in Frameworks */,
+				8486695E1001C30F00CB12B8 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +199,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EE2107E90FD3E6CB00AFB19A /* BWToolkitFramework.framework */,
+				8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */,
 				EEF98E810EED4DE5002F50BC /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -231,7 +228,6 @@
 			children = (
 				EE2159020DDB5A93009155A1 /* Olearia */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				EEFE09481001A7D500586DB0 /* BWToolkitFramework.framework */,
 			);
 			name = Olearia;
 			sourceTree = "<group>";

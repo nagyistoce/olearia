@@ -50,11 +50,6 @@
 	// dummy method never gets called
 }
 
-- (void)reset
-{
-	[super reset];
-}
-
 + (TBBooksharePlugin *)bookType
 {
 	TBBooksharePlugin *instance = [[[self alloc] init] autorelease];
@@ -66,6 +61,18 @@
 	
 	return nil;
 }
+
+- (void)setSharedBookData:(TBSharedBookData *)anInstance
+{
+	if(!bookData)
+		[super setSharedBookData:anInstance];
+}
+
+- (void)reset
+{
+	[super reset];
+}
+
 
 - (id)variantOfType
 {
@@ -138,7 +145,7 @@
 						// with badly authored books.
 						controlFileURL = bookURL;  
 						
-						self.navCon.packageDocument = nil;
+						self.packageDoc = nil;
 					}
 				}
 			}
@@ -146,67 +153,83 @@
 		
 		if(packageFileUrl)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
+			if(!packageDoc)
+				self.packageDoc = [[TBOPFDocument alloc] initWithSharedData:bookData];
 			
-			if(!navCon.packageDocument)
-				self.navCon = [[TBNavigationController alloc] init];
-			if(!navCon.packageDocument)
-				self.navCon.packageDocument = [[TBOPFDocument alloc] init];
-			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
+			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
 				
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) 
 				{	
-					NSString *schemeStr = [[navCon packageDocument] stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
+					NSString *schemeStr = [packageDoc stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
 					if((schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
 						// the opf file specifies that it is a 2002 format book and it has the bookshare scheme tag
 						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
-						self.navCon.packageDocument.ncxFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+						self.packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
 	
 						// get the text content filename
-						navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
+						self.packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
 
+						[packageDoc processData];
 						
-						[[navCon packageDocument] processData];
+						bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 						
 						controlFileURL = [NSURL URLWithString:self.navCon.packageDocument.ncxFilename relativeToURL:bookData.folderPath];  
 						
 						opfLoaded = YES;
 					}
 					else 
-						self.navCon.packageDocument = nil;
+						self.packageDoc = nil;
 				}
 				else 
-					self.navCon.packageDocument = nil;
+					self.packageDoc = nil;
 			}
 			else 
-				self.navCon.packageDocument = nil;
+				self.packageDoc = nil;
 		}
 		
 		if (controlFileURL)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
+			if(!controlDoc)
+				self.controlDoc = [[TBNCXDocument alloc] initWithSharedData:bookData];
 			
-			if(!navCon.controlDocument)
-				self.navCon.controlDocument = [[TBNCXDocument alloc] init];
 			// check if the folder path has already been set
 			if (!bookData.folderPath)
 				self.bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
 			// attempt to load the ncx file
 			
+			bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
+			
 		}
 	}
+
+	if(ncxLoaded || opfLoaded)
+	{
+		[super chooseCorrectNavControllerForBook];
 		
+		if(opfLoaded)
+		{	
+			self.navCon.packageDocument = packageDoc;
+			self.packageDoc = nil;
+		}
+		if(ncxLoaded)
+		{	
+			self.navCon.controlDocument = controlDoc;
+			self.controlDoc = nil;
+		}
+		
+		[navCon moveControlPoint:nil withTime:nil];
+		
+		[navCon prepareForPlayback];
+		
+	}	
 	// return YES if the Package document and/or Control Document loaded correctly
-	// as we can do limited control and playback functions from the opf file this is a valid scenario.
 	return ((opfLoaded) || (ncxLoaded));
 }
 
