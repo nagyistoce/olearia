@@ -21,13 +21,16 @@
 //
 
 #import "TBStdFormats.h"
+#import "TBSharedBookData.h"
 #import "DTB202BookPlugin.h"
 #import "DTB2002BookPlugin.h"
 #import "DTB2005BookPlugin.h"
 #import "TBBooksharePlugin.h"
 #import "TBNIMASPlugin.h"
 #import "TBNavigationController.h"
+#import "TBTextOnlyNavigationController.h"
 #import "TBPackageDoc.h"
+#import "TBControlDoc.h"
 
 static NSBundle* pluginBundle = nil;
 
@@ -81,6 +84,11 @@ static NSBundle* pluginBundle = nil;
 	// subclasses will return an instance of themselves via this method
 	NSLog(@"Super Class %@ used instead of subclass",[self className]);
 	return nil;	
+}
+
+- (void)setSharedBookData:(TBSharedBookData *)anInstance
+{
+	self.bookData = anInstance;
 }
 
 - (id)variantOfType
@@ -157,6 +165,8 @@ static NSBundle* pluginBundle = nil;
 {
 	if(navCon)
 		[navCon resetController];
+	packageDoc = nil;
+	controlDoc = nil;
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -221,6 +231,31 @@ static NSBundle* pluginBundle = nil;
 		[navCon moveControlPoint:aPoint withTime:aTime];
 }
 
+- (void)chooseCorrectNavControllerForBook
+{
+	if(!navCon)
+	{	
+		if(bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat)
+			self.navCon = [[TBNavigationController alloc] initWithSharedData:bookData];
+		else
+			self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:bookData];
+	}
+	else // nav controller already loaded from previous book.
+	{
+		if(bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat)
+			if([navCon isKindOfClass:[TBNavigationController class]])
+			{
+				self.navCon = nil;
+				self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:bookData];
+			}
+			else // must be loaded as text only nav controller 
+			{
+				self.navCon = nil;
+				self.navCon = [[TBNavigationController alloc] initWithSharedData:bookData];
+			}
+	}
+}
+
 #pragma mark -
 #pragma mark Navigation
 
@@ -273,7 +308,7 @@ static NSBundle* pluginBundle = nil;
 {
 	if(!(self = [super init])) return nil;
 	
-	bookData = [TBSharedBookData sharedInstance];
+	bookData = nil;
 	fileUtils = [[TBFileUtils alloc] init];
 	
 	return self;
@@ -294,7 +329,7 @@ static NSBundle* pluginBundle = nil;
 
 @synthesize bookData;
 @synthesize validFileExtensions;
-@synthesize navCon;
+@synthesize navCon, packageDoc, controlDoc;
 
 
 @end

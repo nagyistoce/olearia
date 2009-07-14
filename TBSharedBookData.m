@@ -91,6 +91,7 @@ static TBSharedBookData *sharedInstanceManager = nil;
 	self.isPlaying = NO;
 	self.settingsHaveChanged = NO;
 	self.folderPath = nil;
+	self.mediaFormat = UnknownMediaFormat;
 	
 	
 }
@@ -135,7 +136,7 @@ static TBSharedBookData *sharedInstanceManager = nil;
 		else if([typeStr isEqualToString:@"textpartaudio"])
 			self.mediaFormat = TextPartialAudioMediaFormat;
 		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
-			self.mediaFormat = TextNcxOrNccMediaFormat;
+			self.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 		else 
 			self.mediaFormat = UnknownMediaFormat;		
 	}

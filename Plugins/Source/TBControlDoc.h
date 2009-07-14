@@ -38,6 +38,8 @@
 	
 }
 
+- (id)initWithSharedData:(TBSharedBookData *)anInstance;
+
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;

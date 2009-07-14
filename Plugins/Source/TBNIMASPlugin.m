@@ -50,6 +50,24 @@
 	// dummy method never gets called
 }
 
+- (void)setSharedBookData:(TBSharedBookData *)anInstance
+{
+	if(!bookData)
+		[super setSharedBookData:anInstance];
+}
+
++ (TBNIMASPlugin *)bookType
+{
+	TBNIMASPlugin *instance = [[[self alloc] init] autorelease];
+	if (instance)
+	{	
+		[instance setupPluginSpecifics];
+		return instance;
+	}
+
+	return nil;
+}
+
 - (void)reset
 {
 	[super reset];
@@ -73,17 +91,6 @@
 
 
 
-+ (TBNIMASPlugin *)bookType
-{
-	TBNIMASPlugin *instance = [[[self alloc] init] autorelease];
-	if (instance)
-	{	
-		[instance setupPluginSpecifics];
-		return instance;
-	}
-
-	return nil;
-}
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -113,17 +120,14 @@
 		
 		if(packageFileUrl)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
+			if(!packageDoc)
+				self.packageDoc = [[TBOPFNimasDocument alloc] initWithSharedData:bookData];
 			
-			if(!navCon.packageDocument)
-				self.navCon.packageDocument = [[TBOPFNimasDocument alloc] init];
-			
-			if([[navCon packageDocument] openWithContentsOfURL:packageFileUrl])
+			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[[navCon packageDocument] stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
 				if(YES == [bookFormatString hasPrefix:@"NIMAS 1."])
 				{
 					// the opf file specifies that it is a NIMAS format book
@@ -133,20 +137,37 @@
 						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the text content filename
-					navCon.packageDocument.textContentFilename = [[navCon packageDocument] stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
+					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];
 					
-					[[navCon packageDocument] processData];
+					[packageDoc processData];
+					
+					bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 					
 					opfLoaded = YES;
 				}
 				else 
-					self.navCon.packageDocument = nil;
+					self.packageDoc = nil;
 			}
 			else
-				self.navCon.packageDocument = nil;
+				self.packageDoc = nil;
 		}
 	}
 
+	if(opfLoaded)
+	{
+		[super chooseCorrectNavControllerForBook];
+		
+		if(opfLoaded)
+		{	
+			self.navCon.packageDocument = packageDoc;
+			self.packageDoc = nil;
+		}
+		
+		[navCon moveControlPoint:nil withTime:nil];
+		
+		[navCon prepareForPlayback];
+		
+	}
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.

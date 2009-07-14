@@ -20,12 +20,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QTKit/QTTime.h>
 @class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
-@class TBTextView, TBSharedBookData;
+@class TBTextView;
 
 @interface TBNavigationController : NSObject 
 {
-	TBSharedBookData	*_bookData;
+	TBSharedBookData	*bookData;
 	
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
@@ -44,6 +45,8 @@
 	NSNotificationCenter *_notCenter;
 }
 
+- (id)initWithSharedData:(TBSharedBookData *)anInstance;
+
 // methods used for setting and getting the current position in the document
 - (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime;
 - (NSString *)currentNodePath;
@@ -59,6 +62,6 @@
 
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
-
+@property (readwrite, retain)	TBSharedBookData	*bookData;
 
 @end

@@ -23,6 +23,7 @@
 #import "DTB202BookPlugin.h"
 #import "TBNCCDocument.h"
 #import "TBNavigationController.h"
+#import "TBSharedBookData.h"
 
 @interface DTB202BookPlugin()
 
@@ -71,6 +72,12 @@
 	}
 	
 	return nil;
+}
+
+- (void)setSharedBookData:(TBSharedBookData *)anInstance
+{
+	if(!bookData)
+		[super setSharedBookData:anInstance];
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -128,39 +135,43 @@
 		
 		if (controlFileURL)
 		{
-			if(!navCon)
-				self.navCon = [[TBNavigationController alloc] init];
-			
 			// attempt to load the ncc.html file
-			if(!navCon.controlDocument)
-				self.navCon.controlDocument = [[TBNCCDocument alloc] init];
+			if(!controlDoc)
+				controlDoc = [[TBNCCDocument alloc] initWithSharedData:bookData];
 			
-			if([[navCon controlDocument] openWithContentsOfURL:controlFileURL])
+			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
 					self.bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[[navCon controlDocument] stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
+				NSString *bookFormatString = [[controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"DAISY 2.02"])
 				{
-					[[navCon controlDocument] processData];
+					[controlDoc processData];
 					nccLoaded = YES;
 				}
 				else 
-					self.navCon.controlDocument = nil;
+					self.controlDoc = nil;
 				
 			}
 			else 
-				self.navCon.controlDocument = nil;
+				self.controlDoc = nil;
 		}
 	}
 	
 	if(nccLoaded)
 	{
-		[navCon moveControlPoint:@"" withTime:@""];
+		[super chooseCorrectNavControllerForBook];
+		
+		self.navCon.controlDocument = controlDoc;
+		self.controlDoc = nil;
+		
+		[navCon moveControlPoint:nil withTime:nil];
+		
 		[navCon prepareForPlayback];
+		
 	}
 	
 	// return YES if NCC.html Control Document loaded correctly

@@ -24,8 +24,9 @@
 #import "TBFileUtils.h"
 #import "TBStdInfoView.h"
 #import "TBStdTextView.h" 
+#import "TBSharedBookData.h"
 
-@class TBNavigationController, TBSharedBookData;
+@class TBNavigationController, TBPackageDoc, TBControlDoc;
 
 
 @interface TBStdFormats : NSObject<TBPluginInterface> 
@@ -38,17 +39,23 @@
 	IBOutlet TBStdTextView   *textview;
 
 	TBNavigationController *navCon;
+	
+	TBPackageDoc			*packageDoc;
+	TBControlDoc			*controlDoc;
 
 }
 
 - (void)setupPluginSpecifics;
 + (id)bookType;
 - (NSXMLNode *)infoMetadataNode;
+- (void)chooseCorrectNavControllerForBook;
 
 @property (readonly, retain)	NSArray					*validFileExtensions;
 
 @property (readwrite,retain)	TBSharedBookData		*bookData;
 @property (readwrite,retain)	TBNavigationController	*navCon;
+@property (readwrite, retain)	TBPackageDoc			*packageDoc;
+@property (readwrite, retain)	TBControlDoc			*controlDoc;
 
 
 @end

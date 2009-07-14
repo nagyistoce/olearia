@@ -59,8 +59,6 @@
 	
 	self.bookData = [TBSharedBookData sharedInstance];
 	
-	//appSupportSubpath = [NSString stringWithFormat:@"Application Support/%@/PlugIns",[[NSBundle mainBundle] app;
-	
 	plugins = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 		
@@ -560,7 +558,11 @@
 		{
 			NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
 			if (YES == [pluginBundle load])
+			{
+				
 				[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
+				[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:bookData];
+			}
 		}
 	}
 }

@@ -30,7 +30,6 @@
 
 @property (readwrite, retain)	TBSMILDocument		*_smilDoc;
 @property (readwrite, retain)	TBAudioSegment		*_audioFile;
-@property (readwrite, retain)	TBSharedBookData	*_bookData;
 @property (readwrite)			BOOL				_didUserNavigation;
 @property (readwrite)			BOOL				_justAddedChapters;
 @property (readwrite)			BOOL				_shouldJumpToTime;
@@ -56,7 +55,7 @@
 
 @implementation TBNavigationController
 
-- (id) init
+- (id)initWithSharedData:(TBSharedBookData *)anInstance
 {
 	if (!(self=[super init])) return nil;
 	
@@ -65,28 +64,29 @@
 	_smilDoc = nil;
 	_audioFile = nil;
 	_currentTag = nil;
-	_bookData = [TBSharedBookData sharedInstance];
+	bookData = anInstance;
 	_notCenter = [NSNotificationCenter defaultCenter];
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;
 	
 	// watch KVO notifications
-	[_bookData addObserver:self
+	[bookData addObserver:self
 			    forKeyPath:@"playbackRate" 
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
-	[_bookData addObserver:self
+	[bookData addObserver:self
 			    forKeyPath:@"playbackVolume" 
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
-	[_bookData addObserver:self
+	[bookData addObserver:self
 			    forKeyPath:@"isPlaying"
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL];
 	
 	return self;
+
 }
 
 - (void) dealloc
@@ -100,9 +100,9 @@
 	_smilDoc = nil;
 	_audioFile = nil;
 	
-	[_bookData removeObserver:self forKeyPath:@"isPlaying"];
-	[_bookData removeObserver:self forKeyPath:@"playbackRate"];
-	[_bookData removeObserver:self forKeyPath:@"playbackVolume"];
+	[bookData removeObserver:self forKeyPath:@"isPlaying"];
+	[bookData removeObserver:self forKeyPath:@"playbackRate"];
+	[bookData removeObserver:self forKeyPath:@"playbackVolume"];
 	
 	[_notCenter removeObserver:self];
 	
@@ -182,7 +182,7 @@
 			if(![_currentSmilFilename isEqualToString:filename])
 			{
 				_currentSmilFilename = [filename copy];
-				[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
+				[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.folderPath]];
 			}
 			_currentAudioFilename = _smilDoc.relativeAudioFilePath;
 		}
@@ -206,7 +206,7 @@
 
 - (void)checkMediaFormat
 {
-	if(UnknownMediaFormat == _bookData.mediaFormat)
+	if(UnknownMediaFormat == bookData.mediaFormat)
 	{
 		// create an alert for the user as we cant establish what the media the book contains
 		NSAlert *mediaFormatAlert = [[NSAlert alloc] init];
@@ -215,7 +215,7 @@
 		[mediaFormatAlert setMessageText:NSLocalizedString(@"Unknown Media Format", @"Unknown Media Format alert title")];
 		[mediaFormatAlert setInformativeText:NSLocalizedString(@"This Book did not specify what type of media it contains.\n  It will be assumed it contains audio only content.", @"Unknown Media Format alert msg text")];
 		[mediaFormatAlert runModal];
-		_bookData.mediaFormat = AudioOnlyMediaFormat;
+		bookData.mediaFormat = AudioOnlyMediaFormat;
 	}
 }
 
@@ -295,17 +295,17 @@
 - (void)setPreferredAudioAttributes
 {
 	[_audioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
-	[_audioFile setAttribute:[NSNumber numberWithFloat:_bookData.playbackVolume] forKey:QTMoviePreferredVolumeAttribute];
-	[_audioFile setVolume:_bookData.playbackVolume];
-	if(!_bookData.isPlaying)
+	[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackVolume] forKey:QTMoviePreferredVolumeAttribute];
+	[_audioFile setVolume:bookData.playbackVolume];
+	if(!bookData.isPlaying)
 	{	
-		[_audioFile setAttribute:[NSNumber numberWithFloat:_bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
+		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
 		[_audioFile stop];
 	}
 	else
 	{	
-		[_audioFile setAttribute:[NSNumber numberWithFloat:_bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
-		[_audioFile setRate:_bookData.playbackRate];
+		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
+		[_audioFile setRate:bookData.playbackRate];
 	}
 	
 	[_audioFile setDelegate:self];
@@ -323,7 +323,7 @@
 		
 		[_audioFile stop]; // pause the playback if there is any currently playing
 		_audioFile = nil;
-		_audioFile = [[TBAudioSegment alloc] initWithFile:[[[_bookData folderPath] path] stringByAppendingPathComponent:relativePathToFile] error:&theError];
+		_audioFile = [[TBAudioSegment alloc] initWithFile:[[[bookData folderPath] path] stringByAppendingPathComponent:relativePathToFile] error:&theError];
 		
 		if(_audioFile != nil)
 		{
@@ -365,8 +365,8 @@
 
 - (void)updateForAudioChapterPosition
 {
-	self._bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
-	self._bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
+	self.bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
+	self.bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
 }
 
 - (void)updateAfterNavigationChange
@@ -382,13 +382,13 @@
 				_smilDoc = [[TBSMILDocument alloc] init];
 			
 			_currentSmilFilename = [filename copy];
-			[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:_bookData.folderPath]];
+			[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.folderPath]];
 		}
 		
 		// user navigation uses the control Doc to change position
 		if(_didUserNavigation) 
 		{	
-			if((_bookData.mediaFormat != AudioOnlyMediaFormat) && (_bookData.mediaFormat != AudioNcxOrNccMediaFormat))
+			if((bookData.mediaFormat != AudioOnlyMediaFormat) && (bookData.mediaFormat != AudioNcxOrNccMediaFormat))
 			{
 				if(controlDocument)
 					[_smilDoc jumpToNodeWithIdTag:_currentTag];
@@ -406,7 +406,7 @@
 - (void)addChaptersToAudioSegment
 {
 	NSArray *chapters = nil;
-	if((_bookData.mediaFormat != AudioOnlyMediaFormat) && (_bookData.mediaFormat != AudioNcxOrNccMediaFormat))
+	if((bookData.mediaFormat != AudioOnlyMediaFormat) && (bookData.mediaFormat != AudioNcxOrNccMediaFormat))
 	{
 		chapters = [_smilDoc audioChapterMarkersForFilename:_smilDoc.relativeAudioFilePath WithTimescale:([_audioFile duration].timeScale)];
 		if([chapters count])
@@ -449,22 +449,22 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if([keyPath isEqualToString:@"isPlaying"])
-		(_bookData.isPlaying) ? [self startPlayback] : [self stopPlayback];
+		(bookData.isPlaying) ? [self startPlayback] : [self stopPlayback];
 	else if([keyPath isEqualToString:@"playbackVolume"])
-		[_audioFile setVolume:_bookData.playbackVolume];
+		[_audioFile setVolume:bookData.playbackVolume];
 	else if([keyPath isEqualToString:@"playbackRate"])
 	{
-		if(!_bookData.isPlaying) 
+		if(!bookData.isPlaying) 
 		{	
 			// this is a workaround for the current issue where setting the 
 			// playback speed using setRate: automatically starts playback
-			[_audioFile setAttribute:[NSNumber numberWithFloat:_bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
+			[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
 			[_audioFile stop];
 		}
 		else
 		{	
-			[_audioFile setAttribute:[NSNumber numberWithFloat:_bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
-			[_audioFile setRate:_bookData.playbackRate];
+			[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
+			[_audioFile setRate:bookData.playbackRate];
 		}
 	}
 	else
@@ -531,7 +531,7 @@
 								   name:QTMovieDidEndNotification 
 								 object:_audioFile];
 								
-				if(_bookData.isPlaying)
+				if(bookData.isPlaying)
 					[_audioFile play];
 			}
 }
@@ -554,7 +554,7 @@
 
 
 @synthesize packageDocument, controlDocument;
-@synthesize _audioFile, _smilDoc, _bookData, _notCenter;
+@synthesize _audioFile, _smilDoc, bookData, _notCenter;
 @synthesize _currentSmilFilename, _currentAudioFilename, _currentTag;
 @synthesize _didUserNavigation, _justAddedChapters, _shouldJumpToTime;
 @synthesize _timeToJumpTo;
