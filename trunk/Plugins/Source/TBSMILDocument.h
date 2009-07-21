@@ -21,7 +21,7 @@
 
 #import <QTKit/QTTime.h>
 
-@class TBAudioSegment, TBSharedBookData;
+@class TBAudioSegment, TBBookData;
 
 @interface TBSMILDocument : NSObject 
 {

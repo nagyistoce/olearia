@@ -23,7 +23,7 @@
 #import "DTB202BookPlugin.h"
 #import "TBNCCDocument.h"
 #import "TBNavigationController.h"
-#import "TBSharedBookData.h"
+//#import "TBBookData.h"
 
 @interface DTB202BookPlugin()
 
@@ -74,7 +74,7 @@
 	return nil;
 }
 
-- (void)setSharedBookData:(TBSharedBookData *)anInstance
+- (void)setSharedBookData:(id)anInstance
 {
 	if(!bookData)
 		[super setSharedBookData:anInstance];
@@ -137,7 +137,7 @@
 		{
 			// attempt to load the ncc.html file
 			if(!controlDoc)
-				controlDoc = [[TBNCCDocument alloc] initWithSharedData:bookData];
+				controlDoc = [[TBNCCDocument alloc] initWithSharedData:self.bookData];
 			
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{

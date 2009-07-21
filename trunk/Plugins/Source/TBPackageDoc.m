@@ -31,11 +31,11 @@
 
 @implementation TBPackageDoc
 
-- (id)initWithSharedData:(TBSharedBookData *)anInstance
+- (id)initWithSharedData:(id)sharedDataClass
 {
 	if (!(self=[super init])) return nil;
 	
-	bookData = anInstance;
+	bookData = [[sharedDataClass class] sharedBookData];
 	
 	return self;
 }

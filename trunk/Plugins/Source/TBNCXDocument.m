@@ -79,9 +79,13 @@
 		
 }
 
+#pragma mark -
+#pragma mark Information
+
 - (void)updateDataForCurrentPosition
 {
-	self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
+	NSString *sectionStr = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
+	self.bookData.sectionTitle = (sectionStr != nil) ? [sectionStr copy] : self.bookData.sectionTitle;   
 	self.bookData.currentLevel = [self levelOfNode:currentNavPoint];
 	self.bookData.hasLevelUp = [self canGoUpLevel];
 	self.bookData.hasLevelDown = [self canGoDownLevel];

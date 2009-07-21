@@ -1,5 +1,5 @@
 //
-//  TBSharedBookData.m
+//  TBBookData.m
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 9/12/08.
@@ -19,56 +19,83 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import "TBSharedBookData.h"
+#import "TBBookData.h"
 
-NSString * const TalkingBookAudioSegmentDidChangeNotification = @"TalkingBookAudioSegmentDidChangeNotification";
+static TBBookData *sharedTBBookData = nil;
 
-static TBSharedBookData *sharedInstanceManager = nil;
+@implementation TBBookData
 
-@implementation TBSharedBookData
-
-+ (TBSharedBookData *)sharedInstance
++ (TBBookData *)sharedBookData
 {
     @synchronized(self) 
 	{
-        if (sharedInstanceManager == nil) 
+        if (sharedTBBookData == nil) 
 		{
-            [[self alloc] init]; 
-			
-			
-			
+           sharedTBBookData = [[self alloc] init]; 
         }
     }
-	
-    return sharedInstanceManager;
-	
+    return sharedTBBookData;
 }
 
 
 - (id) init
 {
-	if (!sharedInstanceManager) 
+	self = [super init];
+	if (self != nil) 
 	{
-		sharedInstanceManager = [super init];
+		[self resetForNewBook];
+		
+		// watch KVO notifications
+		[self addObserver:self
+			   forKeyPath:@"playbackRate" 
+				  options:NSKeyValueObservingOptionNew
+				  context:NULL]; 
+		
+		[self addObserver:self
+			   forKeyPath:@"playbackVolume" 
+				  options:NSKeyValueObservingOptionNew
+				  context:NULL]; 
+		
 	}
-	else
-		[self dealloc];
-	
-    [self resetForNewBook];
-	
-	// watch KVO notifications
-	[self addObserver:self
-		   forKeyPath:@"playbackRate" 
-			  options:NSKeyValueObservingOptionNew
-			  context:NULL]; 
-	
-	[self addObserver:self
-		   forKeyPath:@"playbackVolume" 
-			  options:NSKeyValueObservingOptionNew
-			  context:NULL]; 
-    
-	return sharedInstanceManager;
+	return self;
 }
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    @synchronized(self) {
+        if (sharedTBBookData == nil) {
+            sharedTBBookData = [super allocWithZone:zone];
+            return sharedTBBookData;  // assignment and return on first allocation
+        }
+    }
+    return nil; //on subsequent allocation attempts return nil
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (unsigned)retainCount
+{
+    return UINT_MAX;  //denotes an object that cannot be released
+}
+
+- (void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
+}
+
 
 - (void)resetForNewBook
 {

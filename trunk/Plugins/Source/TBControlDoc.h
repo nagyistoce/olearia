@@ -26,7 +26,7 @@
 	NSXMLDocument		*xmlControlDoc;
 	NSURL				*fileURL;
 	
-	TBSharedBookData	*bookData;
+	TBBookData			*bookData;
 	
 	NSXMLNode			*currentNavPoint;
 	
@@ -38,7 +38,7 @@
 	
 }
 
-- (id)initWithSharedData:(TBSharedBookData *)anInstance;
+- (id)initWithSharedData:(id)sharedDataClass;
 
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
@@ -70,7 +70,7 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
-@property (readwrite, retain) TBSharedBookData *bookData;
+@property (readwrite, retain) TBBookData		*bookData;
 @property (readwrite, copy)	NSXMLNode			*currentNavPoint;
 @property (readonly, copy)	NSURL				*fileURL;
 @property (readwrite, copy) NSString *currentPositionID;

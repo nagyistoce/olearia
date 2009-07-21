@@ -23,7 +23,7 @@
 {
 	NSXMLDocument			*xmlPackageDoc;
 	
-	TBSharedBookData		*bookData;
+	TBBookData				*bookData;
 	
 	NSString				*ncxFilename;
 	NSString				*textContentFilename;
@@ -31,7 +31,7 @@
 	NSURL					*fileURL;
 }
 
-- (id)initWithSharedData:(TBSharedBookData *)anInstance;
+- (id)initWithSharedData:(id)sharedDataClass;
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
@@ -41,7 +41,7 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-@property (readwrite, retain)	TBSharedBookData	*bookData;
+@property (readwrite, retain)	TBBookData			*bookData;
 @property (readwrite, copy)		NSString			*ncxFilename;
 @property (readwrite, copy)		NSString			*textContentFilename;
 @property (readonly, copy)		NSURL				*fileURL;

@@ -1,5 +1,5 @@
 //
-//  TBSharedBookData.h
+//  TBBookData.h
 //  TalkingBook Framework
 //
 //  Created by Kieren Eaton on 9/12/08.
@@ -35,7 +35,7 @@ typedef enum
 
 extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
-@interface TBSharedBookData : NSObject 
+@interface TBBookData : NSObject 
 {
 	// bindings ivars
 	NSString				*bookTitle;
@@ -108,7 +108,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite,retain)	NSURL *folderPath;
 
-+ (TBSharedBookData *)sharedInstance;
++ (TBBookData *)sharedBookData;
 - (void)resetForNewBook;
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString;
 

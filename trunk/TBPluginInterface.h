@@ -20,7 +20,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class TBSharedBookData;
+@class TBBookData;
 
 @protocol TBPluginInterface 
 
@@ -59,7 +59,7 @@
 - (void)reset;
 
 // allow the plugin to use the shared book instance
-- (void)setSharedBookData:(TBSharedBookData *)anInstance;
+- (void)setSharedBookData:(id)anInstance;
 
 #pragma mark -
 #pragma mark Loading & Saving

@@ -6,5 +6,5 @@
     #import <Cocoa/Cocoa.h>
 	#import "TBPluginInterface.h"
 	#import "TalkingBookTypes.h"
-	#import "TBSharedBookData.h"
+	#import "TBBookData.h"
 #endif

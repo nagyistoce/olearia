@@ -24,6 +24,7 @@
 @interface TBTextOnlyNavigationController : TBNavigationController
 {
 
+	
 }
 
 @end

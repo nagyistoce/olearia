@@ -50,7 +50,7 @@
 	// dummy method never gets called
 }
 
-- (void)setSharedBookData:(TBSharedBookData *)anInstance
+- (void)setSharedBookData:(id)anInstance
 {
 	if(!bookData)
 		[super setSharedBookData:anInstance];

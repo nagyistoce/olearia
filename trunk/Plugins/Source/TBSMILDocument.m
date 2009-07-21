@@ -222,7 +222,9 @@
 
 - (NSString *)currentIdTag
 {
-	NSArray *idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
+	
+	NSArray *idTags = nil;
+	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
 	
 	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
 }
