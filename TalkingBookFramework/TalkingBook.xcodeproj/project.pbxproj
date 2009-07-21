@@ -10,11 +10,11 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		EE05F8550FCE35A700DFB1F1 /* TBTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F8560FCE35A700DFB1F1 /* TBTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */; };
-		EE05F8690FCE389500DFB1F1 /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE05F8670FCE389500DFB1F1 /* TBBookInfo.nib */; };
 		EE05F8890FCE439000DFB1F1 /* TBBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88A0FCE439000DFB1F1 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8870FCE439000DFB1F1 /* TBBookData.m */; };
 		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE0A68CC0FCF828400778D38 /* TalkingBookTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EE0A68CB0FCF828400778D38 /* TalkingBookTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EE1A6FFD10167EF60001BEDB /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE05F8680FCE389500DFB1F1 /* TBBookInfo.nib */; };
 		EE3173150FE0DEA700B27804 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = EE3173130FE0DEA700B27804 /* RegexKitLite.h */; };
 		EE3173160FE0DEA700B27804 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3173140FE0DEA700B27804 /* RegexKitLite.m */; };
 		EE5AB99F0FCF909E00D4C4B8 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */; };
@@ -64,7 +64,7 @@
 		8DC2EF5B0486A6940098B216 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBook.h; sourceTree = "<group>"; };
 		EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTalkingBook.m; sourceTree = "<group>"; };
-		EE05F8680FCE389500DFB1F1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
+		EE05F8680FCE389500DFB1F1 /* TBBookInfo.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = TBBookInfo.nib; sourceTree = "<group>"; };
 		EE05F8860FCE439000DFB1F1 /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBBookData.h; path = ../TBBookData.h; sourceTree = SOURCE_ROOT; };
 		EE05F8870FCE439000DFB1F1 /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBBookData.m; path = ../TBBookData.m; sourceTree = SOURCE_ROOT; };
 		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
@@ -129,7 +129,7 @@
 			children = (
 				EE8BA986100198E3000E242F /* Localizable.strings */,
 				EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */,
-				EE05F8670FCE389500DFB1F1 /* TBBookInfo.nib */,
+				EE05F8680FCE389500DFB1F1 /* TBBookInfo.nib */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1667FE841158C02AAC07 /* InfoPlist.strings */,
 			);
@@ -272,7 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EED2CD1710167909002AC50A /* InfoPlist.strings in Resources */,
-				EE05F8690FCE389500DFB1F1 /* TBBookInfo.nib in Resources */,
+				EE1A6FFD10167EF60001BEDB /* TBBookInfo.nib in Resources */,
 				EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */,
 				EE8BA987100198E3000E242F /* Localizable.strings in Resources */,
 			);
@@ -302,14 +302,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EE05F8670FCE389500DFB1F1 /* TBBookInfo.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EE05F8680FCE389500DFB1F1 /* English */,
-			);
-			name = TBBookInfo.nib;
-			sourceTree = "<group>";
-		};
 		EE8BA986100198E3000E242F /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
