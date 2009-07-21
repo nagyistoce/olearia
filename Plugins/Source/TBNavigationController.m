@@ -25,6 +25,7 @@
 #import "TBNCXDocument.h"
 #import "TBSMILDocument.h"
 #import "TBAudioSegment.h"
+#import "TBTextContentDoc.h"
 
 @interface TBNavigationController () 
 
@@ -55,7 +56,7 @@
 
 @implementation TBNavigationController
 
-- (id)initWithSharedData:(TBSharedBookData *)anInstance
+- (id)initWithSharedData:(id)sharedDataClass
 {
 	if (!(self=[super init])) return nil;
 	
@@ -64,7 +65,8 @@
 	_smilDoc = nil;
 	_audioFile = nil;
 	_currentTag = nil;
-	bookData = anInstance;
+	if([[sharedDataClass class] respondsToSelector:@selector(sharedBookData)])
+		bookData = [[sharedDataClass class] sharedBookData];
 	_notCenter = [NSNotificationCenter defaultCenter];
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;
@@ -367,6 +369,7 @@
 {
 	self.bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
 	self.bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
+	[controlDocument updateDataForCurrentPosition];
 }
 
 - (void)updateAfterNavigationChange
@@ -400,6 +403,7 @@
 		
 		if(_currentAudioFilename)
 			[self updateAudioFile:_currentAudioFilename];
+		[controlDocument updateDataForCurrentPosition];
 	}
 }
 
@@ -483,6 +487,8 @@
 
 	if([notification object] == self._audioFile)
 	{
+		// update the smil doc to the current tags position
+		[_smilDoc jumpToNodeWithIdTag:_currentTag];
 		// check for a new audio segment in the smil file
 		if([_smilDoc audioAfterCurrentPosition])
 		{
@@ -498,7 +504,10 @@
 		{
 			if(controlDocument)
 			{
+				// update the control documents current position 
+				[controlDocument jumpToNodeWithIdTag:_currentTag];
 				[controlDocument moveToNextSegment];
+				// set the tag for the new position
 				_currentTag = [controlDocument currentIdTag];
 				[self updateAfterNavigationChange];
 			}
@@ -553,7 +562,7 @@
 }
 
 
-@synthesize packageDocument, controlDocument;
+@synthesize packageDocument, controlDocument, textDocument;
 @synthesize _audioFile, _smilDoc, bookData, _notCenter;
 @synthesize _currentSmilFilename, _currentAudioFilename, _currentTag;
 @synthesize _didUserNavigation, _justAddedChapters, _shouldJumpToTime;

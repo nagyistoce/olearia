@@ -21,7 +21,7 @@
 //
 
 #import "TBStdFormats.h"
-#import "TBSharedBookData.h"
+//#import "TBSharedBookData.h"
 #import "DTB202BookPlugin.h"
 #import "DTB2002BookPlugin.h"
 #import "DTB2005BookPlugin.h"
@@ -86,9 +86,10 @@ static NSBundle* pluginBundle = nil;
 	return nil;	
 }
 
-- (void)setSharedBookData:(TBSharedBookData *)anInstance
+- (void)setSharedBookData:(id)anInstance
 {
-	self.bookData = anInstance;
+	if([[anInstance class] respondsToSelector:@selector(sharedBookData)])
+		self.bookData = [[anInstance class] sharedBookData];
 }
 
 - (id)variantOfType
@@ -236,9 +237,9 @@ static NSBundle* pluginBundle = nil;
 	if(!navCon)
 	{	
 		if(bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat)
-			self.navCon = [[TBNavigationController alloc] initWithSharedData:bookData];
+			self.navCon = [[TBNavigationController alloc] initWithSharedData:[bookData class]];
 		else
-			self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:bookData];
+			self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:[bookData class]];
 	}
 	else // nav controller already loaded from previous book.
 	{

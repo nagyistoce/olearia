@@ -21,7 +21,7 @@
 
 #import "OleariaDelegate.h"
 #import <TalkingBook/TBTalkingBook.h>
-#import <TalkingBook/TBSharedBookData.h>
+#import <TalkingBook/TBBookData.h>
 #import "OleariaPrefsController.h"
 #import "AboutBoxController.h"
 

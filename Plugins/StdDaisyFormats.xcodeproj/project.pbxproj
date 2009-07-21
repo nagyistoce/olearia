@@ -12,7 +12,7 @@
 		EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */; };
 		EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */; };
 		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
-		EE247B57100AD5B300C51EC5 /* TBTextContent.m in Sources */ = {isa = PBXBuildFile; fileRef = EE247B56100AD5B300C51EC5 /* TBTextContent.m */; };
+		EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */; };
 		EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EE2768920FF875FD00C3DB1C /* NoTextContent.html */; };
 		EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */; };
 		EE3172EE0FE0DC0E00B27804 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */; };
@@ -21,7 +21,7 @@
 		EE3174C10FE0E1E100B27804 /* TBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3174C00FE0E1E100B27804 /* TBNavigationController.m */; };
 		EE3927950FC3F0C40093CBBD /* TBFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3927940FC3F0C40093CBBD /* TBFileUtils.m */; };
 		EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */; };
-		EE80C5300FD8AF55009F55BB /* TBSharedBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */; };
+		EE80C5300FD8AF55009F55BB /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80C52F0FD8AF55009F55BB /* TBBookData.m */; };
 		EE8BA94A1001980A000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA9491001980A000E242F /* Localizable.strings */; };
 		EE9E52910FC3B08C00D0564C /* TBStdFormats.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */; };
 		EE9E52A60FC3CA1500D0564C /* DTB202BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */; };
@@ -55,8 +55,8 @@
 		EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSMILDocument.m; sourceTree = "<group>"; };
 		EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFNimasDocument.h; sourceTree = "<group>"; };
 		EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBOPFNimasDocument.m; sourceTree = "<group>"; };
-		EE247B55100AD5B300C51EC5 /* TBTextContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextContent.h; sourceTree = "<group>"; };
-		EE247B56100AD5B300C51EC5 /* TBTextContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextContent.m; sourceTree = "<group>"; };
+		EE247B55100AD5B300C51EC5 /* TBTextContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextContentDoc.h; sourceTree = "<group>"; };
+		EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextContentDoc.m; sourceTree = "<group>"; };
 		EE2768930FF875FD00C3DB1C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/NoTextContent.html; sourceTree = "<group>"; };
 		EE3172CD0FE0D9B100B27804 /* NSString-TBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-TBAdditions.h"; sourceTree = "<group>"; };
 		EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-TBAdditions.m"; sourceTree = "<group>"; };
@@ -70,9 +70,21 @@
 		EE3927940FC3F0C40093CBBD /* TBFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBFileUtils.m; sourceTree = "<group>"; };
 		EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextOnlyNavigationController.h; sourceTree = "<group>"; };
 		EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextOnlyNavigationController.m; sourceTree = "<group>"; };
+		EE7270631013ED1F00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/TextView.xib; sourceTree = "<group>"; };
+		EE7270641013ED2B00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = no.lproj/TextView.xib; sourceTree = "<group>"; };
+		EE7270651013ED5600FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/InformationView.xib; sourceTree = "<group>"; };
+		EE7270661013ED5B00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = no.lproj/InformationView.xib; sourceTree = "<group>"; };
+		EE7270671013ED8100FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE7270681013ED8700FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE7270691013ED9900FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/NoTextContent.html; sourceTree = "<group>"; };
+		EE72706A1013ED9F00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = no; path = no.lproj/NoTextContent.html; sourceTree = "<group>"; };
+		EE72706B1013EDB300FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
+		EE72706C1013EDBF00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = no; path = no.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
+		EE72706D1013EDD700FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EE72706E1013EDDD00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
-		EE80C52E0FD8AF55009F55BB /* TBSharedBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBSharedBookData.h; path = ../TBSharedBookData.h; sourceTree = SOURCE_ROOT; };
-		EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBSharedBookData.m; path = ../TBSharedBookData.m; sourceTree = SOURCE_ROOT; };
+		EE80C52E0FD8AF55009F55BB /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBBookData.h; path = ../TBBookData.h; sourceTree = SOURCE_ROOT; };
+		EE80C52F0FD8AF55009F55BB /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBBookData.m; path = ../TBBookData.m; sourceTree = SOURCE_ROOT; };
 		EE8BA947100197EB000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdFormats.m; sourceTree = "<group>"; };
 		EE9E52900FC3B08C00D0564C /* TBStdFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdFormats.h; sourceTree = "<group>"; };
@@ -203,8 +215,8 @@
 				EE3172EC0FE0DC0E00B27804 /* RegexKitLite.h */,
 				EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */,
 				EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */,
-				EE80C52E0FD8AF55009F55BB /* TBSharedBookData.h */,
-				EE80C52F0FD8AF55009F55BB /* TBSharedBookData.m */,
+				EE80C52E0FD8AF55009F55BB /* TBBookData.h */,
+				EE80C52F0FD8AF55009F55BB /* TBBookData.m */,
 				32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */,
 			);
 			name = "Other Source";
@@ -223,8 +235,8 @@
 		EE121D790FE0955A000F8447 /* Text */ = {
 			isa = PBXGroup;
 			children = (
-				EE247B55100AD5B300C51EC5 /* TBTextContent.h */,
-				EE247B56100AD5B300C51EC5 /* TBTextContent.m */,
+				EE247B55100AD5B300C51EC5 /* TBTextContentDoc.h */,
+				EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -382,6 +394,13 @@
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "StdDaisyFormats" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				no,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* StdDaisyFormats */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -425,7 +444,7 @@
 				EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */,
 				EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */,
 				EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */,
-				EE80C5300FD8AF55009F55BB /* TBSharedBookData.m in Sources */,
+				EE80C5300FD8AF55009F55BB /* TBBookData.m in Sources */,
 				EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */,
 				EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */,
 				EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */,
@@ -435,7 +454,7 @@
 				EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */,
 				EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */,
 				EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */,
-				EE247B57100AD5B300C51EC5 /* TBTextContent.m in Sources */,
+				EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +465,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
+				EE72706D1013EDD700FBF671 /* French */,
+				EE72706E1013EDDD00FBF671 /* no */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -454,6 +475,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE2768930FF875FD00C3DB1C /* English */,
+				EE7270691013ED9900FBF671 /* French */,
+				EE72706A1013ED9F00FBF671 /* no */,
 			);
 			name = NoTextContent.html;
 			sourceTree = "<group>";
@@ -462,6 +485,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA947100197EB000E242F /* English */,
+				EE7270671013ED8100FBF671 /* French */,
+				EE7270681013ED8700FBF671 /* no */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -470,6 +495,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEB7A3890FE5D3A800662B04 /* English */,
+				EE7270651013ED5600FBF671 /* French */,
+				EE7270661013ED5B00FBF671 /* no */,
 			);
 			name = InformationView.xib;
 			path = ../Resources;
@@ -479,6 +506,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEB7A38B0FE5D3C800662B04 /* English */,
+				EE7270631013ED1F00FBF671 /* French */,
+				EE7270641013ED2B00FBF671 /* no */,
 			);
 			name = TextView.xib;
 			path = ../Resources;
@@ -488,6 +517,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEED048C0FF9DEFA00838EBC /* English */,
+				EE72706B1013EDB300FBF671 /* French */,
+				EE72706C1013EDBF00FBF671 /* no */,
 			);
 			name = ErrorLoadingTextContent.html;
 			sourceTree = "<group>";

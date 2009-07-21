@@ -24,7 +24,7 @@
 #import "TalkingBookTypes.h"
 
 @class TBInfoController;
-@class TBSharedBookData;
+@class TBBookData;
 
 typedef enum 
 {
@@ -54,7 +54,7 @@ typedef enum
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	
-	TBSharedBookData		*bookData;
+	TBBookData				*bookData;
 	TBInfoController		*_infoController;
 	
 
@@ -100,7 +100,7 @@ typedef enum
 - (void)setAudioPlayRate:(float)aRate;
 - (void)setAudioVolume:(float)aVolumeLevel;
 
-@property (readwrite, retain)	TBSharedBookData *bookData;
+@property (readwrite, retain)	TBBookData	*bookData;
 
 @property (readwrite, copy)		NSString	*preferredVoice;
 

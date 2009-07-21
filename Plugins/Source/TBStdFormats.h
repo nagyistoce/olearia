@@ -24,14 +24,14 @@
 #import "TBFileUtils.h"
 #import "TBStdInfoView.h"
 #import "TBStdTextView.h" 
-#import "TBSharedBookData.h"
+//#import "TBBookData.h"
 
 @class TBNavigationController, TBPackageDoc, TBControlDoc;
 
 
 @interface TBStdFormats : NSObject<TBPluginInterface> 
 {
-	TBSharedBookData	*bookData;
+	TBBookData			*bookData;
 	TBFileUtils			*fileUtils;
 	NSArray				*validFileExtensions;
 	
@@ -52,7 +52,7 @@
 
 @property (readonly, retain)	NSArray					*validFileExtensions;
 
-@property (readwrite,retain)	TBSharedBookData		*bookData;
+@property (readwrite,retain)	TBBookData				*bookData;
 @property (readwrite,retain)	TBNavigationController	*navCon;
 @property (readwrite, retain)	TBPackageDoc			*packageDoc;
 @property (readwrite, retain)	TBControlDoc			*controlDoc;

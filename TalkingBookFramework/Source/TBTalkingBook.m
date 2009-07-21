@@ -57,7 +57,7 @@
 	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
 	[speechSynth setDelegate:self];
 	
-	self.bookData = [TBSharedBookData sharedInstance];
+	self.bookData = [TBBookData sharedBookData];
 	
 	plugins = [[NSMutableArray alloc] init];
 	[self loadPlugins];
@@ -561,7 +561,7 @@
 			{
 				
 				[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
-				[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:bookData];
+				[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:self.bookData];
 			}
 		}
 	}

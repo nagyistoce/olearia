@@ -62,7 +62,7 @@
 	return nil;
 }
 
-- (void)setSharedBookData:(TBSharedBookData *)anInstance
+- (void)setSharedBookData:(id)anInstance
 {
 	if(!bookData)
 		[super setSharedBookData:anInstance];
