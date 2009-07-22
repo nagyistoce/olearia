@@ -142,7 +142,9 @@ static TBBookData *sharedTBBookData = nil;
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
-	if(totalPageNum == 0)
+	if(totalPageNum != 0)
+		self.pageString = [NSString stringWithFormat:@"%d",totalPageNum];
+	else
 		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }
 

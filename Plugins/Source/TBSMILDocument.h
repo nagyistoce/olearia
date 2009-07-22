@@ -30,7 +30,6 @@
 	NSString		*currentNodePath;
 	
 	NSURL			*_currentFileURL;
-	NSString		*relativeAudioFilePath;
 
 	NSXMLDocument		*_xmlSmilDoc;
 
@@ -42,9 +41,10 @@
 - (void)jumpToNodeWithIdTag:(NSString *)aTag;
 - (NSString *)currentIdTag;
 - (BOOL)audioAfterCurrentPosition;
+- (BOOL)isCompoundString:(NSString *)aString;
+- (NSString *)relativeAudioFilePath;
+- (NSString *)relativeTextFilePath;
 
-
-@property (readonly, copy)		NSString	*relativeAudioFilePath;
 @property (readwrite,copy)		NSString	*currentNodePath;
 
 @end

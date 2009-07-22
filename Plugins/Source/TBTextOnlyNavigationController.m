@@ -23,6 +23,13 @@
 #import "TBNCXDocument.h"
 #import "TBSMILDocument.h"
 
+@interface TBTextOnlyNavigationController ()
+
+
+
+@end
+
+
 @implementation TBTextOnlyNavigationController
 
 - (id) init
@@ -47,38 +54,45 @@
 	[self resetController];
 	
 	
-//	if(controlDocument)
-//	{
-//		
-//		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
-//		if([[filename pathExtension] isEqualToString:@"smil"])
-//		{
-//			if(!_smilDoc)
-//				_smilDoc = [[TBSMILDocument alloc] init];
-//			
-//			// check if the smil file REALLY needs to be loaded
-//			// Failsafe for single smil books 
-//			if(![_currentSmilFilename isEqualToString:filename])
-//			{
-//				_currentSmilFilename = [filename copy];
-//				[_smilDoc openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.folderPath]];
-//			}
-//			_currentAudioFilename = _smilDoc.relativeAudioFilePath;
-//		}
-//		else
-//		{
-//			// no smil filename
-//			
-//		}
-//		
-//		if(_currentAudioFilename) 
-//			if([self updateAudioFile:_currentAudioFilename])
-//				_currentTag = [controlDocument currentIdTag];			
-//	}
-//	else if(packageDocument)
-//	{
-//		// setup for package navigation
-//	}
+	if(controlDocument)
+	{
+		
+		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
+		if([[filename pathExtension] isEqualToString:@"smil"])
+		{
+			if(!smilDocument)
+				smilDocument = [[TBSMILDocument alloc] init];
+			
+			// check if the smil file REALLY needs to be loaded
+			// Failsafe for single smil books 
+			if(![currentSmilFilename isEqualToString:filename])
+			{
+				currentSmilFilename = [filename copy];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
+			}
+			
+			filename = [smilDocument relativeTextFilePath];
+			
+			if(!textDocument)
+				textDocument = [[TBTextContentDoc alloc] init];
+			
+			if(![currentTextFilename isEqualToString:filename])
+			{
+				currentTextFilename = [filename copy];
+				// [textDocument openWith 
+			}
+		}
+		else
+		{
+			// no smil filename
+			
+		}
+		
+	}
+	else if(packageDocument)
+	{
+		// setup for package navigation
+	}
 }
 
 
