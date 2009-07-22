@@ -21,7 +21,8 @@
 
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
-@class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment, TBTextContentDoc;
+#import "TBTextContentDoc.h"
+@class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
 @class TBTextView;
 
 @interface TBNavigationController : NSObject 
@@ -31,19 +32,20 @@
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
 	TBTextContentDoc	*textDocument;
+	TBSMILDocument		*smilDocument;
 	
-	TBSMILDocument		*_smilDoc;
+	NSString			*currentSmilFilename;
+	NSString			*currentTextFilename;
+	NSString			*currentTag;
+	
 	TBAudioSegment		*_audioFile;
-	NSString			*_currentSmilFilename;
 	NSString			*_currentAudioFilename;
-	NSString			*_currentTag;
-	
 	BOOL				_justAddedChapters;
 	BOOL				_didUserNavigation;
 	BOOL				_shouldJumpToTime;
 	QTTime				_timeToJumpTo;
 	
-	NSNotificationCenter *_notCenter;
+	NSNotificationCenter *noteCentre;
 }
 
 - (id)initWithSharedData:(id)sharedDataClass;
@@ -63,7 +65,12 @@
 
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
+@property (readwrite, retain)	TBSMILDocument		*smilDocument;
 @property (readwrite, retain)	TBTextContentDoc	*textDocument;
 @property (readwrite, retain)	TBBookData			*bookData;
+@property (readwrite, copy)		NSString			*currentTag;
+@property (readwrite, copy)		NSString			*currentSmilFilename;
+@property (readwrite, copy)		NSString			*currentTextFilename;
+@property (readwrite, retain)	NSNotificationCenter *noteCentre;
 
 @end

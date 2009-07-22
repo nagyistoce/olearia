@@ -25,8 +25,7 @@
 
 @interface TBSMILDocument ()
 
-@property (readwrite, retain)   NSXMLNode		*_currentNode;
-@property (readwrite, copy)		NSString		*relativeAudioFilePath;
+@property (readwrite, retain)   NSXMLNode			*_currentNode;
 @property (readwrite, retain)	NSXMLDocument		*_xmlSmilDoc;
 @property (readwrite, copy)		NSURL				*_currentFileURL;
 
@@ -57,13 +56,13 @@
 - (void) dealloc
 {
 	[_currentFileURL release];
+	_currentFileURL = nil;
 	
 	[_xmlSmilDoc release];
 	_xmlSmilDoc = nil;
 	
 	_currentNode = nil;
 	currentNodePath = nil;
-	relativeAudioFilePath = nil;
 		
 	[super dealloc];
 }
@@ -229,17 +228,38 @@
 	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
 }
 
-#pragma mark -
-#pragma mark ========= Accessors =========
-
 - (NSString *)relativeAudioFilePath
 {
 	NSArray *audioFilenames = [_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil];
-	return ([audioFilenames count]) ? [audioFilenames objectAtIndex:0] : nil;
+	
+	if([audioFilenames count])
+		if(![self isCompoundString:[audioFilenames objectAtIndex:0]])
+			return [audioFilenames objectAtIndex:0];
+		else
+			return [self filenameFromCompoundString:[audioFilenames objectAtIndex:0]];
+	
+return nil;
+}
+
+- (NSString *)relativeTextFilePath
+{
+	NSArray *textFilenames = [_currentNode objectsForXQuery:@".//text/data(@src)" error:nil];
+	if([textFilenames count])
+		if(![self isCompoundString:[textFilenames objectAtIndex:0]])
+			return [textFilenames objectAtIndex:0];
+		else
+			return [self filenameFromCompoundString:[textFilenames objectAtIndex:0]];
+
+	return nil;
 }
 
 #pragma mark -
 #pragma mark ========= Private Methods =========
+
+- (BOOL)isCompoundString:(NSString *)aString
+{
+	return (([aString rangeOfString:@"#"].location) == NSNotFound) ? NO : YES;
+}
 
 - (NSString *)filenameFromCompoundString:(NSString *)aString
 {
@@ -256,6 +276,6 @@
 	return (markerPos > 0) ? [anIdString substringFromIndex:(markerPos+1)] : nil;
 }
 
-@synthesize _xmlSmilDoc, _currentFileURL, relativeAudioFilePath, _currentNode, currentNodePath;
+@synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;
 
 @end

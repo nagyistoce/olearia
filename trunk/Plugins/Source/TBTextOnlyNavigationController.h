@@ -23,7 +23,7 @@
 
 @interface TBTextOnlyNavigationController : TBNavigationController
 {
-
+	
 	
 }
 
