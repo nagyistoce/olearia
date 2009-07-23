@@ -41,7 +41,6 @@
 - (void)jumpToNodeWithIdTag:(NSString *)aTag;
 - (NSString *)currentIdTag;
 - (BOOL)audioAfterCurrentPosition;
-- (BOOL)isCompoundString:(NSString *)aString;
 - (NSString *)relativeAudioFilePath;
 - (NSString *)relativeTextFilePath;
 

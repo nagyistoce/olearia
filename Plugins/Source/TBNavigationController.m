@@ -205,12 +205,13 @@
 	if(UnknownMediaFormat == bookData.mediaFormat)
 	{
 		// create an alert for the user as we cant establish what the media the book contains
-		NSAlert *mediaFormatAlert = [[NSAlert alloc] init];
+		NSAlert *mediaFormatAlert = [[[NSAlert alloc] init] autorelease];
 		[mediaFormatAlert setAlertStyle:NSWarningAlertStyle];
 		[mediaFormatAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];
 		[mediaFormatAlert setMessageText:NSLocalizedString(@"Unknown Media Format", @"Unknown Media Format alert title")];
 		[mediaFormatAlert setInformativeText:NSLocalizedString(@"This Book did not specify what type of media it contains.\n  It will be assumed it contains audio only content.", @"Unknown Media Format alert msg text")];
 		[mediaFormatAlert runModal];
+		
 		bookData.mediaFormat = AudioOnlyMediaFormat;
 	}
 }
