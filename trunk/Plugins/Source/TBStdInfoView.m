@@ -91,8 +91,8 @@
 
 - (TBStdInfoViewItem *)infoItemFromMetaElement:(NSXMLElement *)anElement
 {
-	NSMutableString *optionTitle = [[NSMutableString alloc] init];
-	NSMutableString *optionContent = [[NSMutableString alloc] init];
+	NSMutableString *optionTitle = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString *optionContent = [[[NSMutableString alloc] init] autorelease];
 	TBStdInfoViewItem	*newItem = nil;
 	
 	// check if it has a name "meta"

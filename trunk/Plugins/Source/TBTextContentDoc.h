@@ -25,8 +25,16 @@
 @interface TBTextContentDoc : NSObject 
 {
 	TBBookData		*bookData;
+	NSXMLDocument	*_xmlTextDoc;
+	NSXMLElement	*_xmlRoot;
+	NSXMLNode		*_currentNode;
+	
+	
 }
 
+- (void)processData;
+
 @property (readwrite, retain) TBBookData *bookData;
+
 
 @end

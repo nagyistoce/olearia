@@ -292,7 +292,7 @@
 	{	
 		NSString *queryStr = [NSString stringWithFormat:@"/html[1]/body[1]//a[ends-with(@href,'%@')]",anIdTag];
 		NSArray *tagNodes = nil;
-		tagNodes = [xmlControlDoc objectsForXQuery:queryStr error:nil];
+		tagNodes = [xmlControlDoc nodesForXPath:queryStr error:nil];
 		_currentNodeIndex = ([tagNodes count]) ? [_bodyNodes indexOfObject:[[tagNodes objectAtIndex:0] parent]] : _currentNodeIndex;
 	}
 	[self updateDataForCurrentPosition];

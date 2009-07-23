@@ -123,9 +123,9 @@
 {
 	if(anIdTag)
 	{	
-		NSString *queryStr = [NSString stringWithFormat:@"/ncx[1]/navMap[1]//navPoint[@id='%@']",anIdTag];
+		NSString *queryStr = [NSString stringWithFormat:@"/ncx[1]/navMap[1]//*[@id='%@']",anIdTag];
 		NSArray *tagNodes = nil;
-		tagNodes = [xmlControlDoc objectsForXQuery:queryStr error:nil];
+		tagNodes = [xmlControlDoc nodesForXPath:queryStr error:nil];
 		currentNavPoint = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNavPoint;
 	}
 }

@@ -199,7 +199,6 @@
 			}
 			else
 				self.controlDoc = nil;
-			
 		}
 	}
 

@@ -30,13 +30,19 @@
 @property (readwrite, copy)		NSURL				*_currentFileURL;
 
 
-- (NSString *)filenameFromCompoundString:(NSString *)aString;
-- (NSString *)idTagFromSrcString:(NSString *)anIdString;
+//- (NSString *)filenameFromCompoundString:(NSString *)aString;
+//- (NSString *)idTagFromSrcString:(NSString *)anIdString;
 - (void)resetSmil;
 
 @end
 
+@interface TBSMILDocument (Private)
 
+- (NSString *)idTagFromSrcString:(NSString *)anIdString;
+- (NSString *)filenameFromCompoundString:(NSString *)aString;
+- (BOOL)isCompoundString:(NSString *)aString;
+
+@end
 
 
 @implementation TBSMILDocument
@@ -126,7 +132,7 @@
 		
 	for(NSXMLNode *theNode in parNodes)
 	{
-		NSMutableArray *items = [[NSMutableArray alloc] init];
+		NSMutableArray *items = [[[NSMutableArray alloc] init] autorelease];
 		NSString *chapName = nil;
 		NSString *xPathStr = [theNode XPath];
 		//get the textual reference id from the par node if that doesnt work extract it from the text node
@@ -211,9 +217,9 @@
 {
 	if(aTag)
 	{	
-		NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]//seq[@id='%@']|/smil[1]/body[1]/seq[1]//par[@id='%@']",aTag,aTag];
+		NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]//*[@id='%@']",aTag];
 		NSArray *tagNodes = nil;
-		tagNodes = [_xmlSmilDoc objectsForXQuery:queryStr error:nil];
+		tagNodes = [_xmlSmilDoc nodesForXPath:queryStr error:nil];
 		
 		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
 	}
@@ -253,8 +259,13 @@ return nil;
 	return nil;
 }
 
-#pragma mark -
-#pragma mark ========= Private Methods =========
+@synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;
+
+@end
+
+
+
+@implementation TBSMILDocument (Private)
 
 - (BOOL)isCompoundString:(NSString *)aString
 {
@@ -276,6 +287,6 @@ return nil;
 	return (markerPos > 0) ? [anIdString substringFromIndex:(markerPos+1)] : nil;
 }
 
-@synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;
+
 
 @end
