@@ -24,37 +24,13 @@
 #import "TBOPFNimasDocument.h"
 #import "TBNavigationController.h"
 
-@interface TBNIMASPlugin ()
+@interface TBNIMASPlugin (Private)
 
+- (BOOL)canOpenBook:(NSURL *)bookURL;
 
 @end
 
-
-
 @implementation TBNIMASPlugin
-
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{
-	// Dummy Method never gets called
-	return NO;
-}
-
-+ (NSArray *)plugins
-{
-	// dummy method never gets called
-	return nil;
-}
-
-+ (void)terminateClass
-{
-	// dummy method never gets called
-}
-
-- (void)setSharedBookData:(id)anInstance
-{
-	if(!bookData)
-		[super setSharedBookData:anInstance];
-}
 
 + (TBNIMASPlugin *)bookType
 {
@@ -67,30 +43,6 @@
 
 	return nil;
 }
-
-- (void)reset
-{
-	[super reset];
-}
-
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	[super updateInfoFromPlugin:aPlugin];
-}
-
-
-
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -157,11 +109,9 @@
 	{
 		[super chooseCorrectNavControllerForBook];
 		
-		if(opfLoaded)
-		{	
-			self.navCon.packageDocument = packageDoc;
-			self.packageDoc = nil;
-		}
+		self.navCon.packageDocument = packageDoc;
+		self.packageDoc = nil;
+		self.currentPlugin = self;
 		
 		[navCon moveControlPoint:nil withTime:nil];
 		
@@ -175,21 +125,6 @@
 	
 }
 
-- (id)variantOfType
-{
-	// return the super classes id 
-	return [self superclass];
-}
-
-- (NSXMLNode *)infoMetadataNode
-{
-	return [super infoMetadataNode];
-}
-
-- (NSURL *)loadedURL
-{
-	return [super loadedURL];
-}
 
 - (void)startPlayback
 {
@@ -204,6 +139,21 @@
 - (NSString *)FormatDescription
 {
 	return NSLocalizedString(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
+}
+
+- (NSURL *)loadedURL
+{
+	return [super loadedURL];
+}
+
+- (BOOL)isVariant
+{
+	return YES;
+}
+
+- (NSXMLNode *)infoMetadataNode
+{
+	return [super infoMetadataNode];
 }
 
 - (NSString *)currentPlaybackTime
@@ -247,6 +197,26 @@
 
 #pragma mark -
 
+
+- (void)setupPluginSpecifics
+{
+	
+	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",nil];
+	
+}
+
+- (void) dealloc
+{
+	[validFileExtensions release];
+	[super dealloc];
+}
+
+@synthesize validFileExtensions;
+
+@end
+
+@implementation TBNIMASPlugin (Private)
+
 // this method checks the url for a file with a valid extension
 // if a directory URL is passed in the entire folder is scanned 
 - (BOOL)canOpenBook:(NSURL *)bookURL;
@@ -271,19 +241,5 @@
 	return NO;
 }
 
-- (void)setupPluginSpecifics
-{
-	
-	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",nil];
-	
-}
-
-- (void) dealloc
-{
-	
-	[super dealloc];
-}
-
-@synthesize validFileExtensions;
 
 @end

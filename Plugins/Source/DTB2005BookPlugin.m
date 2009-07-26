@@ -31,29 +31,19 @@
 
 @end
 
+@interface DTB2005BookPlugin (Private)
+
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+
+@end
+
+
 
 @implementation DTB2005BookPlugin
 
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{
-	// Dummy Method never gets called
-	return NO;
-}
-
-+ (NSArray *)plugins
-{
-	// dummy method never gets called
-	return nil;
-}
-
-+ (void)terminateClass
-{
-	// dummy method never gets called
-}
-
 + (DTB2005BookPlugin *)bookType
 {
-	DTB2005BookPlugin *instance = [[[self alloc] init] autorelease];
+	DTB2005BookPlugin *instance = [[self alloc] init];
 	if (instance)
 	{	
 		[instance setupPluginSpecifics];
@@ -62,35 +52,6 @@
 	
 	return nil;
 }
-
-- (void)setSharedBookData:(id)anInstance
-{
-	if(!bookData)
-		[super setSharedBookData:anInstance];
-}
-
-- (void)reset
-{
-	[super reset];
-}
-
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	[super updateInfoFromPlugin:aPlugin];
-}
-
-
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -211,11 +172,13 @@
 		{	
 			self.navCon.packageDocument = packageDoc;
 			self.packageDoc = nil;
+			self.currentPlugin = self;
 		}
 		if(ncxLoaded)
 		{	
 			self.navCon.controlDocument = controlDoc;
 			self.controlDoc = nil;
+			self.currentPlugin = self;
 		}
 		
 		[navCon moveControlPoint:nil withTime:nil];
@@ -223,8 +186,6 @@
 		[navCon prepareForPlayback];
 		
 	}
-	
-				
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// The Control document gives us full navigation.
@@ -242,30 +203,13 @@
 	return nil;
 }
 
-- (NSXMLNode *)infoMetadataNode
-{
-	if(navCon.packageDocument)
-		return [[navCon packageDocument] metadataNode];
-	if(navCon.controlDocument)
-		return [[navCon controlDocument] metadataNode];
-	
-	return nil;
-}
-
-- (void)startPlayback
-{
-	[super startPlayback];
-}
-
-- (void)stopPlayback
-{
-	[super stopPlayback];
-}
-
 - (NSString *)FormatDescription
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
 }
+
+#pragma mark -
+#pragma mark optional protocol methods
 
 - (NSString *)currentPlaybackTime
 {
@@ -281,10 +225,6 @@
 {
 	[super jumpToControlPoint:aPoint andTime:aTime];
 }
-
-
-#pragma mark -
-#pragma mark Navigation
 
 - (void)nextReadingElement;
 {
@@ -306,6 +246,16 @@
 	[super downLevel];
 }
 
+- (NSView *)bookTextView;
+{
+	return [super bookTextView];
+}
+
+- (NSView *)bookInfoView;
+{
+	return [super bookInfoView];
+}
+
 #pragma mark -
 
 - (void)setupPluginSpecifics
@@ -322,9 +272,30 @@
 	[super dealloc];
 }
 
+
+#pragma mark -
+#pragma mark subclass Methods
+
+- (NSXMLNode *)infoMetadataNode
+{
+	if(navCon.packageDocument)
+		return [[navCon packageDocument] metadataNode];
+	if(navCon.controlDocument)
+		return [[navCon controlDocument] metadataNode];
+	
+	return nil;
+}
+
+
+@synthesize validFileExtensions, navCon;
+
+@end
+
+@implementation DTB2005BookPlugin (Private)
+
 // this method checks the url for a file with a valid extension
 // if a directory URL is passed in the entire folder is scanned 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
+- (BOOL)canOpenBook:(NSURL *)bookURL
 {
 	NSURL *fileURL = nil;
 	// first check if we were passed a folder
@@ -349,11 +320,6 @@
 	return NO;
 }
 
-#pragma mark -
-#pragma mark Private Methods
-
-
-
-@synthesize validFileExtensions, navCon;
 
 @end
+

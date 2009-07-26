@@ -22,7 +22,7 @@
 #import "DTB2005BookPlugin.h"
 
 // A subclass of the 2005 format for Bookshare text only books
-@interface TBBooksharePlugin : DTB2005BookPlugin<TBPluginInterface>
+@interface TBBooksharePlugin : DTB2005BookPlugin
 {
 
 }

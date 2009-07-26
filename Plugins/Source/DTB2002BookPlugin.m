@@ -35,69 +35,6 @@
 
 @implementation DTB2002BookPlugin
 
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{
-	// Dummy Method never gets called
-	return NO;
-}
-
-+ (NSArray *)plugins
-{
-	// dummy method never gets called
-	return nil;
-}
-
-+ (void)terminateClass
-{
-	// dummy method never gets called
-}
-
-+ (DTB2002BookPlugin *)bookType
-{
-	DTB2002BookPlugin *instance = [[[self alloc] init] autorelease];
-	if (instance)
-	{	
-		[instance setupPluginSpecifics];
-		return instance;
-	}
-	
-	return nil;
-}
-
-- (void)setSharedBookData:(id)anInstance
-{
-	if(!bookData)
-		[super setSharedBookData:anInstance];
-}
-
-- (void)reset
-{
-	[super reset];
-}
-
-- (void)setupPluginSpecifics
-{
-	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
-	navCon = nil;
-}
-
-
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	[super updateInfoFromPlugin:aPlugin];
-}
-
 - (BOOL)openBook:(NSURL *)bookURL
 {
 	BOOL opfLoaded = NO;
@@ -212,11 +149,14 @@
 		{	
 			self.navCon.packageDocument = packageDoc;
 			self.packageDoc = nil;
+			self.currentPlugin = self;
 		}
+		
 		if(ncxLoaded)
 		{	
 			self.navCon.controlDocument = controlDoc;
 			self.controlDoc = nil;
+			self.currentPlugin = self;
 		}
 		
 		[navCon moveControlPoint:nil withTime:nil];
@@ -229,16 +169,6 @@
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
 	return (opfLoaded || ncxLoaded);
-}
-
-- (NSURL *)loadedURL
-{
-	if(navCon.packageDocument)
-		return self.navCon.packageDocument.fileURL;
-	if(navCon.controlDocument)
-		return navCon.controlDocument.fileURL;
-	
-	return nil;
 }
 
 - (void)startPlayback
@@ -255,6 +185,36 @@
 {
 	return NSLocalizedString(@"This Book has been authored with the Daisy 2002 standard",@"Daisy 2002 Standard description");
 }
+
++ (DTB2002BookPlugin *)bookType
+{
+	DTB2002BookPlugin *instance = [[[self alloc] init] autorelease];
+	if (instance)
+	{	
+		[instance setupPluginSpecifics];
+		return instance;
+	}
+	
+	return nil;
+}
+
+- (void)setupPluginSpecifics
+{
+	validFileExtensions = [[NSArray  alloc] initWithObjects:@"opf",@"ncx",nil];
+	navCon = nil;
+}
+
+
+- (NSURL *)loadedURL
+{
+	if(navCon.packageDocument)
+		return self.navCon.packageDocument.fileURL;
+	if(navCon.controlDocument)
+		return navCon.controlDocument.fileURL;
+	
+	return nil;
+}
+
 
 - (NSXMLNode *)infoMetadataNode
 {
@@ -281,36 +241,10 @@
 	[super jumpToControlPoint:aPoint andTime:aTime];
 }
 
-
-#pragma mark -
-#pragma mark Navigation
-
-
-- (void)nextReadingElement;
-{
-	[super nextReadingElement];
-}
-
-- (void)previousReadingElement;
-{
-	[super previousReadingElement];
-}
-
-- (void)upLevel;
-{
-	[super upLevel];
-}
-
-- (void)downLevel
-{
-	[super downLevel];
-}
-
 #pragma mark -
 
 - (void) dealloc
 {
-	
 	[super dealloc];
 }
 

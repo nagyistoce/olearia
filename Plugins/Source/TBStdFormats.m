@@ -21,7 +21,6 @@
 //
 
 #import "TBStdFormats.h"
-//#import "TBSharedBookData.h"
 #import "DTB202BookPlugin.h"
 #import "DTB2002BookPlugin.h"
 #import "DTB2005BookPlugin.h"
@@ -32,37 +31,38 @@
 #import "TBPackageDoc.h"
 #import "TBControlDoc.h"
 
-static NSBundle* pluginBundle = nil;
+//static NSBundle* pluginBundle = nil;
 
-@interface TBStdFormats()
-- (NSMutableArray *)insertIntoArray:(NSArray *)anArray;
+@interface TBStdFormats (Private)
+
++ (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray;
 
 @end
 
 
 @implementation TBStdFormats
 
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{		
-	if (pluginBundle) 
-	{
-		// return no if the plugin is already instantiated
-		return NO;
-	}
-	
-	pluginBundle = [theBundle retain];
-	return YES;
-}
+//+ (BOOL)initializeClass:(NSBundle*)theBundle 
+//{		
+//	if (pluginBundle) 
+//	{
+//		// return no if the plugin is already instantiated
+//		return NO;
+//	}
+//	
+//	pluginBundle = [theBundle retain];
+//	return YES;
+//}
 
-+ (void)terminateClass 
-{
-	// sanity check to see that the bundle is instantiated before we release it 
- 	if (pluginBundle) 
-	{
-		[pluginBundle release];
-		pluginBundle = nil;
-	}
-}
+//+ (void)terminateClass 
+//{
+//	// sanity check to see that the bundle is instantiated before we release it 
+// 	if (pluginBundle) 
+//	{
+//		[pluginBundle release];
+//		pluginBundle = nil;
+//	}
+//}
 
 
 
@@ -70,11 +70,11 @@ static NSBundle* pluginBundle = nil;
 {
 	NSMutableArray* plugs = [[[NSMutableArray alloc] init] autorelease];
 	
-	plugs = [[DTB202BookPlugin bookType] insertIntoArray:plugs];
-	plugs = [[DTB2002BookPlugin bookType] insertIntoArray:plugs];
-	plugs = [[DTB2005BookPlugin bookType] insertIntoArray:plugs];
-	plugs = [[TBBooksharePlugin bookType] insertIntoArray:plugs];
-	plugs = [[TBNIMASPlugin bookType] insertIntoArray:plugs];
+	plugs = [self insertPlugin:[DTB202BookPlugin bookType] intoArray:plugs ];
+	plugs = [self insertPlugin:[DTB2002BookPlugin bookType] intoArray:plugs];
+	plugs = [self insertPlugin:[DTB2005BookPlugin bookType] intoArray:plugs];
+	plugs = [self insertPlugin:[TBBooksharePlugin bookType] intoArray:plugs];
+	plugs = [self insertPlugin:[TBNIMASPlugin bookType] intoArray:plugs];
 	
 	return [plugs count] ? plugs : nil;
 }
@@ -86,17 +86,17 @@ static NSBundle* pluginBundle = nil;
 	return nil;	
 }
 
-- (void)setSharedBookData:(id)anInstance
-{
-	if([[anInstance class] respondsToSelector:@selector(sharedBookData)])
-		self.bookData = [[anInstance class] sharedBookData];
-}
+//- (void)setSharedBookData:(id)anInstance
+//{
+//	if([[anInstance class] respondsToSelector:@selector(sharedBookData)])
+//		self.bookData = [[anInstance class] sharedBookData];
+//}
 
-- (id)variantOfType
+- (BOOL)isVariant
 {
 	// plugins that are variants of standard types will return their superclass here 
 	// for the concrete subclasses they will use this superclass method
-	return nil;
+	return NO;
 }
 
 - (NSView *)bookTextView;
@@ -142,13 +142,17 @@ static NSBundle* pluginBundle = nil;
 	if(!infoView)
 		if (![NSBundle loadNibNamed:@"InformationView" owner:self]) 
 			return nil;
-
+	else
+		if([currentPlugin respondsToSelector:@selector(infoMetadataNode)])
+			[infoView updateInfoFromPlugin:currentPlugin];
+	
+	
 	return infoView;
 }
 
 - (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
 {
-	[infoView updateInfoFromPlugin:aPlugin];
+	
 }
 
 - (NSString *)FormatDescription
@@ -282,23 +286,6 @@ static NSBundle* pluginBundle = nil;
 #pragma mark -
 #pragma mark Private Methods
 
-- (NSMutableArray *)insertIntoArray:(NSArray *)anArray
-{
-	NSMutableArray *currentTypes = [NSMutableArray arrayWithArray:anArray];
-	// check if the type is a variant of another type (possibly Standard Type)
-	if([self variantOfType])
-	{	
-		[currentTypes insertObject:self atIndex:0];
-	}
-	else
-	{
-		// not a variant so just ad it to the end of the array as long as its not nil
-		if(self)
-			[currentTypes addObject:self];
-	}
-	
-	return currentTypes;
-}
 
 - (void)setupPluginSpecifics
 { /* Dummy Method Placeholder */}
@@ -309,8 +296,9 @@ static NSBundle* pluginBundle = nil;
 {
 	if(!(self = [super init])) return nil;
 	
-	bookData = nil;
+	bookData = [TBBookData sharedBookData];
 	fileUtils = [[TBFileUtils alloc] init];
+	currentPlugin = nil;
 	
 	return self;
 }
@@ -328,9 +316,25 @@ static NSBundle* pluginBundle = nil;
 
 
 
-@synthesize bookData;
+@synthesize bookData, currentPlugin;
 @synthesize validFileExtensions;
 @synthesize navCon, packageDoc, controlDoc;
 
+@end
+
+@implementation TBStdFormats (Private)
+
++ (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray
+{
+	NSMutableArray *currentTypes = [NSMutableArray arrayWithArray:anArray];
+	// check if the type is a variant of another type (possibly Standard Type)
+	if([aPlugin isVariant])
+		[currentTypes insertObject:aPlugin atIndex:0];
+	else
+		[currentTypes addObject:aPlugin];
+
+	return currentTypes;
+}
 
 @end
+

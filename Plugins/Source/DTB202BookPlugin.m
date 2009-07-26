@@ -23,7 +23,6 @@
 #import "DTB202BookPlugin.h"
 #import "TBNCCDocument.h"
 #import "TBNavigationController.h"
-//#import "TBBookData.h"
 
 @interface DTB202BookPlugin()
 
@@ -34,28 +33,6 @@
 @end
 
 @implementation DTB202BookPlugin
-
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{
-	// Dummy Method never gets called
-	return NO;
-}
-
-+ (NSArray *)plugins
-{
-	// dummy method never gets called
-	return nil;
-}
-
-+ (void)terminateClass
-{
-	// dummy method never gets called
-}
-
-- (void)reset
-{
-	[super reset];
-}
 
 - (void)setupPluginSpecifics
 {
@@ -72,12 +49,6 @@
 	}
 	
 	return nil;
-}
-
-- (void)setSharedBookData:(id)anInstance
-{
-	if(!bookData)
-		[super setSharedBookData:anInstance];
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -137,13 +108,13 @@
 		{
 			// attempt to load the ncc.html file
 			if(!controlDoc)
-				controlDoc = [[TBNCCDocument alloc] initWithSharedData:self.bookData];
+				controlDoc = [[TBNCCDocument alloc] initWithSharedData:bookData];
 			
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
 				if (!bookData.folderPath)
-					self.bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
+					bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
 				NSString *bookFormatString = [[controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
@@ -172,25 +143,12 @@
 		
 		[navCon prepareForPlayback];
 		
+		self.currentPlugin = self;
+		
 	}
 	
 	// return YES if NCC.html Control Document loaded correctly
 	return (nccLoaded);
-}
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	[super updateInfoFromPlugin:aPlugin];
 }
 
 - (NSXMLNode *)infoMetadataNode
@@ -246,7 +204,6 @@
 {
 	[super downLevel];
 }
-
 
 - (void)startPlayback
 {
