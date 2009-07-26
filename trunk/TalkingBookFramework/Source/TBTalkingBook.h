@@ -38,7 +38,7 @@ typedef enum
 @interface TBTalkingBook : NSObject 
 {
 	// book user settings
-	NSString				*preferredVoice;
+	NSString					*preferredVoice;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsLoaded;
@@ -50,11 +50,11 @@ typedef enum
 	
 	NSSpeechSynthesizer		*speechSynth;
 	
-	TalkingBookType			_controlMode;
+	TalkingBookType		_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	
-	TBBookData				*bookData;
+	TBBookData			*bookData;
 	TBInfoController		*_infoController;
 	
 
@@ -68,7 +68,7 @@ typedef enum
 	// bindings
 	BOOL					canPlay;
 	
-	IBOutlet NSPanel		*infoPanel;
+	IBOutlet NSPanel			*infoPanel;
 	IBOutlet NSWindow		*textWindow;
 	IBOutlet NSView			*infoView;
 	IBOutlet NSView			*textView;

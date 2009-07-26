@@ -23,13 +23,13 @@
 #import "TBStdFormats.h"
 
 
-@interface DTB2005BookPlugin : TBStdFormats<TBPluginInterface> 
+@interface DTB2005BookPlugin : TBStdFormats
 {
 	
 	
 }
 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
+
 
 
 @end

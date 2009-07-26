@@ -398,7 +398,6 @@
 		if([NSBundle loadNibNamed:@"TBBookInfo" owner:self])
 		{	
 			[infoView addSubview:[currentPlugin bookInfoView]];
-			[currentPlugin updateInfoFromPlugin:currentPlugin];
 			[infoPanel makeKeyAndOrderFront:self];
 		}
 	
@@ -439,8 +438,10 @@
 		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
 		[[currentPlugin bookInfoView] setFrame:[infoView frame]];
 	}
-
-	[currentPlugin updateInfoFromPlugin:currentPlugin];
+	else
+		[currentPlugin bookInfoView]; // tell the view to update its contents
+	
+	//[currentPlugin updateInfoFromPlugin:currentPlugin];
 
 }
 
@@ -517,25 +518,13 @@
 	[self resetBook];
 }
 
-// Pkugin Loading and Validation
+// Plugin Loading and Validation
 
 - (BOOL)plugInClassIsValid:(Class)plugInClass
-{
-    if([plugInClass conformsToProtocol:@protocol(TBPluginInterface)])
-    {
-        if ([plugInClass instancesRespondToSelector: @selector(initializeClass)] && 
-		    [plugInClass instancesRespondToSelector: @selector(terminateClass)] &&
-			[plugInClass instancesRespondToSelector: @selector(plugins)] &&
-			[plugInClass instancesRespondToSelector: @selector(openBook)] &&
-			[plugInClass instancesRespondToSelector: @selector(infoMetadataNode)] &&
-			[plugInClass instancesRespondToSelector: @selector(FormatDescription)] &&
-			[plugInClass instancesRespondToSelector: @selector(smilPlugin)] &&
-			[plugInClass instancesRespondToSelector: @selector(textPlugin)])
-		{
-            return YES;
-        }
-	}
-	
+{    
+	if([plugInClass conformsToProtocol:@protocol(TBPluginInterface)])
+		 return YES;
+			
 	return NO;
 }
 	
@@ -559,9 +548,9 @@
 			NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
 			if (YES == [pluginBundle load])
 			{
-				
-				[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
-				[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:self.bookData];
+				if([self plugInClassIsValid:[pluginBundle principalClass]])
+					[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
+				//[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:self.bookData];
 			}
 		}
 	}

@@ -24,81 +24,14 @@
 #import "TBNCXDocument.h"
 #import "TBNavigationController.h"
 
-@interface TBBooksharePlugin ()
+@interface TBBooksharePlugin (Private)
 
-
+- (BOOL)canOpenBook:(NSURL *)bookURL;
 
 @end
 
 
 @implementation TBBooksharePlugin
-
-+ (BOOL)initializeClass:(NSBundle*)theBundle 
-{
-	// Dummy Method never gets called
-	return NO;
-}
-
-+ (NSArray *)plugins
-{
-	// dummy method never gets called
-	return nil;
-}
-
-+ (void)terminateClass
-{
-	// dummy method never gets called
-}
-
-+ (TBBooksharePlugin *)bookType
-{
-	TBBooksharePlugin *instance = [[[self alloc] init] autorelease];
-	if (instance)
-	{	
-		[instance setupPluginSpecifics];
-		return instance;
-	}
-	
-	return nil;
-}
-
-- (void)setSharedBookData:(id)anInstance
-{
-	if(!bookData)
-		[super setSharedBookData:anInstance];
-}
-
-- (void)reset
-{
-	[super reset];
-}
-
-
-- (id)variantOfType
-{
-	// return nil as a default because not all plugins will be variants
-	return [self superclass];
-}
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	[super updateInfoFromPlugin:aPlugin];
-}
-
-- (void)setupPluginSpecifics
-{
-	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
-}
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
@@ -217,11 +150,13 @@
 		{	
 			self.navCon.packageDocument = packageDoc;
 			self.packageDoc = nil;
+			self.currentPlugin = self;
 		}
 		if(ncxLoaded)
 		{	
 			self.navCon.controlDocument = controlDoc;
 			self.controlDoc = nil;
+			self.currentPlugin = self;
 		}
 		
 		[navCon moveControlPoint:nil withTime:nil];
@@ -231,6 +166,18 @@
 	}	
 	// return YES if the Package document and/or Control Document loaded correctly
 	return ((opfLoaded) || (ncxLoaded));
+}
+
++ (TBBooksharePlugin *)bookType
+{
+	TBBooksharePlugin *instance = [[[self alloc] init] autorelease];
+	if (instance)
+	{	
+		[instance setupPluginSpecifics];
+		return instance;
+	}
+	
+	return nil;
 }
 
 - (void)startPlayback
@@ -247,6 +194,17 @@
 {
 	return NSLocalizedString(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
 }
+
+- (BOOL)isVariant
+{
+	return YES;
+}
+
+- (void)setupPluginSpecifics
+{
+	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
+}
+
 
 - (NSURL *)loadedURL
 {
@@ -306,9 +264,36 @@
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Private Methods
 
+
+
+@end
+@implementation TBBooksharePlugin (Private)
+
+- (BOOL)canOpenBook:(NSURL *)bookURL
+{
+	NSURL *fileURL = nil;
+	// first check if we were passed a folder
+	if ([fileUtils URLisDirectory:bookURL])
+	{	// we were so first check for an OPF file 
+		fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
+		// check if we found the OPF file
+		if (!fileURL)
+			// check for the NCX file
+			fileURL = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"ncx"];
+		if (fileURL)
+			return YES;		
+	}
+	else
+	{
+		// check the path contains a file with a valid extension
+		if([fileUtils URL:bookURL hasExtension:validFileExtensions])
+			return YES;
+	}
+	
+	// this did not find a valid extension that it could attempt to open
+	return NO;
+}
 
 
 @end

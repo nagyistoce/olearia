@@ -24,7 +24,6 @@
 #import "TBFileUtils.h"
 #import "TBStdInfoView.h"
 #import "TBStdTextView.h" 
-//#import "TBBookData.h"
 
 @class TBNavigationController, TBPackageDoc, TBControlDoc;
 
@@ -41,7 +40,9 @@
 	TBNavigationController *navCon;
 	
 	TBPackageDoc			*packageDoc;
-	TBControlDoc			*controlDoc;
+	TBControlDoc				*controlDoc;
+	
+	TBStdFormats			*currentPlugin;
 
 }
 
@@ -53,9 +54,11 @@
 @property (readonly, retain)	NSArray					*validFileExtensions;
 
 @property (readwrite,retain)	TBBookData				*bookData;
-@property (readwrite,retain)	TBNavigationController	*navCon;
+@property (readwrite,retain)	TBNavigationController		*navCon;
 @property (readwrite, retain)	TBPackageDoc			*packageDoc;
-@property (readwrite, retain)	TBControlDoc			*controlDoc;
+@property (readwrite, retain)	TBControlDoc				*controlDoc;
+
+@property (readwrite, assign)	TBStdFormats			*currentPlugin;
 
 
 @end
