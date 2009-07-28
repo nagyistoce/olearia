@@ -1,5 +1,3 @@
-//test
-
 //
 //  TBPluginInterface.h
 //  TalkingBook Framework
