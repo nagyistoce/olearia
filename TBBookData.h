@@ -68,9 +68,9 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	TalkingBookMediaFormat	mediaFormat;
 	
-	QTTime					chapterSkipDuration;
+	QTTime				chapterSkipDuration;
 	
-	NSURL					*folderPath;
+	NSURL				*folderPath;
 }
 
 // bindings ivars

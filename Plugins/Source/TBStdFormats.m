@@ -142,17 +142,12 @@
 	if(!infoView)
 		if (![NSBundle loadNibNamed:@"InformationView" owner:self]) 
 			return nil;
-	else
-		if([currentPlugin respondsToSelector:@selector(infoMetadataNode)])
-			[infoView updateInfoFromPlugin:currentPlugin];
+	
+	if([currentPlugin respondsToSelector:@selector(infoMetadataNode)])
+		[infoView updateInfoFromPlugin:currentPlugin];
 	
 	
 	return infoView;
-}
-
-- (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin
-{
-	
 }
 
 - (NSString *)FormatDescription

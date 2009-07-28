@@ -24,21 +24,8 @@
 
 @interface TBTalkingBook ()
 
-- (void)errorDialogDidEnd;
-- (void)resetBook;
-
-- (BOOL)isSmilFilename:(NSString *)aFilename;
-
-// Pkugin Loading and Validation
-- (BOOL)plugInClassIsValid:(Class)plugInClass;
-- (void)loadPlugins;
-- (void)updateInfoView;
-- (void)updateTextView;
-
-@property (readwrite, retain)	NSMutableArray	*plugins;
-@property (readwrite, copy)		id<TBPluginInterface>	currentPlugin;
-@property (readwrite, retain)	NSSpeechSynthesizer *speechSynth;
-@property (readwrite)			TalkingBookType _controlMode;
+@property (readwrite, retain)	NSMutableArray	*formatPlugins;
+@property (readwrite)		TalkingBookType _controlMode;
 
 @property (readwrite)	BOOL	_wasPlaying;
 
@@ -48,24 +35,40 @@
 
 @end
 
+@interface TBTalkingBook (Private)
+
+- (void)errorDialogDidEnd;
+- (void)resetBook;
+
+// Plugin Loading and Validation
+- (BOOL)plugInClassIsValid:(Class)plugInClass;
+- (void)loadPlugins;
+- (NSArray *)availBundles;
+
+- (void)updateInfoView;
+- (void)updateTextView;
+
+@end
+
+
 @implementation TBTalkingBook
 
 - (id) init
 {
 	if (!(self=[super init])) return nil;
-
-	speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-	[speechSynth setDelegate:self];
+	
+	//speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
+	//[speechSynth setDelegate:self];
 	
 	self.bookData = [TBBookData sharedBookData];
 	
-	plugins = [[NSMutableArray alloc] init];
+	formatPlugins = [[NSMutableArray alloc] init];
 	[self loadPlugins];
-		
+	
 	[self resetBook];
 	
 	bookIsLoaded = NO;
-
+	
 	infoPanel = nil;
 	infoView = nil;
 	textView = nil;
@@ -77,16 +80,11 @@
 
 - (void) dealloc
 {
-	if([speechSynth isSpeaking])
-		[speechSynth stopSpeaking];
-	
-	[speechSynth release];
-	
-	if(_infoController)
-		[_infoController release];
-
+	[infoPanel release];
 	[textWindow release];
-	[infoPanel	release];
+
+	currentPlugin = nil;
+	[formatPlugins release];
 	
 	
 	[super dealloc];
@@ -100,13 +98,13 @@
 	
 	BOOL bookDidOpen = NO;
 	
-	// iterate throught the plugins to see if one will open the URL correctly 
-	for(id thePlugin in plugins)
+	// iterate throught the formatPlugins to see if one will open the URL correctly 
+	for(id thePlugin in formatPlugins)
 	{
 #ifdef DEBUG
 		NSLog(@"Checking Plugin : %@",[thePlugin description]);
 #endif
-
+		
 		if([thePlugin openBook:aURL])
 		{	
 			// set the currentplugin to the plugin that did open the book
@@ -120,7 +118,7 @@
 		}
 	}
 	
-		
+	
 	return bookDidOpen;
 	
 }
@@ -140,7 +138,7 @@
 
 - (void)pause
 {	
-
+	
 	[currentPlugin stopPlayback];
 }
 
@@ -150,196 +148,213 @@
 
 - (void)nextSegment
 {
-	[currentPlugin nextReadingElement];
+	if([currentPlugin respondsToSelector:@selector(nextReadingElement)])
+		[currentPlugin nextReadingElement];
 }
 
 - (void)previousSegment 
 {
-	[currentPlugin previousReadingElement];
+	if([currentPlugin respondsToSelector:@selector(previousReadingElement)])
+		[currentPlugin previousReadingElement];
 }
 
 - (void)upOneLevel
 {
-	if(speakUserLevelChange)
+	if([currentPlugin respondsToSelector:@selector(upLevel)])
 	{
-		self.bookData.isPlaying = NO;
-		_wasPlaying = YES;
-		[currentPlugin upLevel];
-		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
+		if(speakUserLevelChange)
+		{
+			self.bookData.isPlaying = NO;
+			_wasPlaying = YES;
+			[currentPlugin upLevel];
+			//[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
+		}
+		else
+		{
+			[currentPlugin upLevel];
+		}
 	}
-	else
-	{
-		[currentPlugin upLevel];
-	}
-
+	
 }
 
 - (void)downOneLevel
 {
-	if(speakUserLevelChange)
+	if([currentPlugin respondsToSelector:@selector(downLevel)])
 	{
-		self.bookData.isPlaying = NO;
-		_wasPlaying = YES;
-		[currentPlugin downLevel];
-		[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
-	}
-	else
-	{
-		[currentPlugin downLevel];
+		if(speakUserLevelChange)
+		{
+			self.bookData.isPlaying = NO;
+			_wasPlaying = YES;
+			[currentPlugin downLevel];
+			//[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
+		}
+		else
+		{
+			[currentPlugin downLevel];
+		}
+		
 	}
 	
 	
 }
 
-- (void)nextChapter
+- (void)fastForwardAudio
 {
-//	if(_smilDoc)
-//	{
-//		if(bookData.hasNextChapter)
-//			[_smilDoc nextChapter];
-//
-//	}
+	if([currentPlugin respondsToSelector:@selector(nextAudioSkipPoint)])
+	{
+		
+	}
+		//	if(_smilDoc)
+	//	{
+	//		if(bookData.hasNextChapter)
+	//			[_smilDoc nextChapter];
+	//
+	//	}
 	
-//	BOOL segmentAvailable = NO;
-//	QTTime timeOffset = QTZeroTime;
-//	
-//	
-//	// check if we are moving to a chapter in the current audio file
-//	if((_currentChapterIndex + 1) < _totalChapters)
-//	{
-//		_currentChapterIndex++;
-//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
-//	}
-//	else 
-//	{
-//		if(_hasControlFile)
-//		segmentAvailable = [_controlDoc nextSegmentIsAvailable];
-//		
-//		if(segmentAvailable)
-//		{
-//			// the next chapter will be in the next audio file
-//
-//			// calculate the current time left in the currently playing file 
-//			QTTime timeLeft = QTTimeDecrement([_currentAudioFile duration], [_currentAudioFile currentTime]);
-//			
-//			// decrement the skip duration by how much time is left
-//			timeOffset = QTTimeDecrement(_skipDuration, timeLeft);
-//
-//			[self nextSegment];
-//			// check if there is a segment available after the one we just moved to
-//			segmentAvailable = [_controlDoc nextSegmentIsAvailable];
-//	
-//			//check if the segment loaded has a shorter duration than the offset
-//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
-//			{
-//				if(segmentAvailable)
-//				{
-//					// the current duration is shorter so decrment the offset by the duration of the segment
-//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
-//					
-//					// now go to the next segment
-//					[self nextSegment];
-//					
-//					// check if there is a segment available after the one we just moved to
-//					segmentAvailable = [_controlDoc nextSegmentIsAvailable];					
-//				}
-//				else
-//				{
-//					timeOffset = QTZeroTime;
-//				}
-//			}
-//			
-//			// check that we dont have a zero time spec
-//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
-//			{
-//				[_currentAudioFile setCurrentTime:timeOffset];
-//			}
-//		}
-//	}
-//	
-//	[_currentAudioFile play];
-//	[self updateForPosInBook];
+	//	BOOL segmentAvailable = NO;
+	//	QTTime timeOffset = QTZeroTime;
+	//	
+	//	
+	//	// check if we are moving to a chapter in the current audio file
+	//	if((_currentChapterIndex + 1) < _totalChapters)
+	//	{
+	//		_currentChapterIndex++;
+	//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
+	//	}
+	//	else 
+	//	{
+	//		if(_hasControlFile)
+	//		segmentAvailable = [_controlDoc nextSegmentIsAvailable];
+	//		
+	//		if(segmentAvailable)
+	//		{
+	//			// the next chapter will be in the next audio file
+	//
+	//			// calculate the current time left in the currently playing file 
+	//			QTTime timeLeft = QTTimeDecrement([_currentAudioFile duration], [_currentAudioFile currentTime]);
+	//			
+	//			// decrement the skip duration by how much time is left
+	//			timeOffset = QTTimeDecrement(_skipDuration, timeLeft);
+	//
+	//			[self nextSegment];
+	//			// check if there is a segment available after the one we just moved to
+	//			segmentAvailable = [_controlDoc nextSegmentIsAvailable];
+	//	
+	//			//check if the segment loaded has a shorter duration than the offset
+	//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
+	//			{
+	//				if(segmentAvailable)
+	//				{
+	//					// the current duration is shorter so decrment the offset by the duration of the segment
+	//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
+	//					
+	//					// now go to the next segment
+	//					[self nextSegment];
+	//					
+	//					// check if there is a segment available after the one we just moved to
+	//					segmentAvailable = [_controlDoc nextSegmentIsAvailable];					
+	//				}
+	//				else
+	//				{
+	//					timeOffset = QTZeroTime;
+	//				}
+	//			}
+	//			
+	//			// check that we dont have a zero time spec
+	//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
+	//			{
+	//				[_currentAudioFile setCurrentTime:timeOffset];
+	//			}
+	//		}
+	//	}
+	//	
+	//	[_currentAudioFile play];
+	//	[self updateForPosInBook];
 }
 
-- (void)previousChapter
+- (void)fastRewindAudio
 {
-//	if(_smilDoc)
-//	{
-//		if(bookData.hasPreviousChapter)
-//			[_smilDoc previousChapter];
-//	}
+	if([currentPlugin respondsToSelector:@selector(previousAudioSkipPoint)])
+	{
+		
+	}
+		//	if(_smilDoc)
+	//	{
+	//		if(bookData.hasPreviousChapter)
+	//			[_smilDoc previousChapter];
+	//	}
 	
 	
-//	BOOL segmentAvailable = NO;
-//	
-//	if((_currentChapterIndex - 1) >= 0)
-//	{
-//		_currentChapterIndex--;
-//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
-//	}
-//	else
-//	{
-//		
-//		if(_hasControlFile)
-//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable] ;
-//		
-//		if(segmentAvailable)
-//		{
-//			// the previous chapter will be in the previous audio file
-//
-//			// calculate the offset from the currently playing file 
-//			QTTime timeOffset = QTTimeDecrement(_skipDuration, [_currentAudioFile currentTime]);
-//			
-//			// set the flag for reverse chapter navigation
-//			[_controlDoc setNavigateForChapters:YES]; 
-//			
-//			// go to the previous segment
-//			[self previousSegment];
-//			
-//			// check if there is a segment available before one we just moved to
-//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
-//			
-//			//check if the segment loaded has a shorter duration than the offset
-//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
-//			{
-//				if(segmentAvailable)
-//				{
-//					// the current duration is shorter so decrment the offset by the duration of the segment
-//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
-//					
-//					// set the flag for reverse chapter navigation
-//					[_controlDoc setNavigateForChapters:YES];
-//					
-//					// now go to the previous segment
-//					[self previousSegment];
-//					
-//					segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
-//				}
-//				else
-//				{
-//					timeOffset = QTZeroTime;
-//				}
-//			}
-//			
-//			// check that we dont have a zero time spec
-//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
-//			{
-//				// check that the duration is greater than the offset
-//				if(QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedDescending)
-//				{
-//					// calculate the offset into the new current file from the end of the audio
-//					QTTime timeToSkipTo = QTTimeDecrement([_currentAudioFile duration], timeOffset);
-//					
-//					// set the now current segments time position
-//					[_currentAudioFile setCurrentTime:timeToSkipTo];
-//					
-//				}
-//			}
-//		}
-//	}
-//	
-//	[_currentAudioFile play];
-//	[self updateForPosInBook];
+	//	BOOL segmentAvailable = NO;
+	//	
+	//	if((_currentChapterIndex - 1) >= 0)
+	//	{
+	//		_currentChapterIndex--;
+	//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
+	//	}
+	//	else
+	//	{
+	//		
+	//		if(_hasControlFile)
+	//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable] ;
+	//		
+	//		if(segmentAvailable)
+	//		{
+	//			// the previous chapter will be in the previous audio file
+	//
+	//			// calculate the offset from the currently playing file 
+	//			QTTime timeOffset = QTTimeDecrement(_skipDuration, [_currentAudioFile currentTime]);
+	//			
+	//			// set the flag for reverse chapter navigation
+	//			[_controlDoc setNavigateForChapters:YES]; 
+	//			
+	//			// go to the previous segment
+	//			[self previousSegment];
+	//			
+	//			// check if there is a segment available before one we just moved to
+	//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
+	//			
+	//			//check if the segment loaded has a shorter duration than the offset
+	//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
+	//			{
+	//				if(segmentAvailable)
+	//				{
+	//					// the current duration is shorter so decrment the offset by the duration of the segment
+	//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
+	//					
+	//					// set the flag for reverse chapter navigation
+	//					[_controlDoc setNavigateForChapters:YES];
+	//					
+	//					// now go to the previous segment
+	//					[self previousSegment];
+	//					
+	//					segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
+	//				}
+	//				else
+	//				{
+	//					timeOffset = QTZeroTime;
+	//				}
+	//			}
+	//			
+	//			// check that we dont have a zero time spec
+	//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
+	//			{
+	//				// check that the duration is greater than the offset
+	//				if(QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedDescending)
+	//				{
+	//					// calculate the offset into the new current file from the end of the audio
+	//					QTTime timeToSkipTo = QTTimeDecrement([_currentAudioFile duration], timeOffset);
+	//					
+	//					// set the now current segments time position
+	//					[_currentAudioFile setCurrentTime:timeToSkipTo];
+	//					
+	//				}
+	//			}
+	//		}
+	//	}
+	//	
+	//	[_currentAudioFile play];
+	//	[self updateForPosInBook];
 	
 }
 
@@ -355,7 +370,7 @@
 {
 	if(aNodePath)
 		[currentPlugin jumpToControlPoint:aNodePath andTime:aTimeStr];
-
+	
 }
 
 - (NSString *)currentControlPositionID
@@ -431,28 +446,6 @@
 	
 }
 
-- (void)updateInfoView
-{
-	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
-	{	
-		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
-		[[currentPlugin bookInfoView] setFrame:[infoView frame]];
-	}
-	else
-		[currentPlugin bookInfoView]; // tell the view to update its contents
-	
-	//[currentPlugin updateInfoFromPlugin:currentPlugin];
-
-}
-
-- (void)updateTextView
-{
-	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
-	{	
-		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
-		[[currentPlugin bookTextView] setFrame:[textView frame]];
-	}
-}
 
 - (NSDictionary *)getCurrentPageInfo
 {
@@ -464,8 +457,8 @@
 
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
-	[speechSynth setVoice:aVoiceID];
-	preferredVoice = aVoiceID;
+	//[speechSynth setVoice:aVoiceID];
+	//preferredVoice = aVoiceID;
 }
 
 
@@ -485,9 +478,39 @@
 #pragma mark Private Methods
 
 
+
+#pragma mark -
+#pragma mark Delegate Methods
+
+
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(_wasPlaying)
+		self.bookData.isPlaying = YES;
+}
+
+@synthesize formatPlugins, currentPlugin;
+
+@synthesize bookData;
+@synthesize preferredVoice;
+
+@synthesize _controlMode;
+@synthesize _wasPlaying;
+@synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
+
+
+//bindings
+@synthesize canPlay;
+
+@end
+
+@implementation TBTalkingBook (Private)
+
+
 - (void)resetBook
 {
-			
+	
 	bookIsLoaded = NO;
 	
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
@@ -507,12 +530,6 @@
 		[currentPlugin reset];
 }
 
-- (BOOL)isSmilFilename:(NSString *)aFilename
-{
-	return [[[aFilename pathExtension] lowercaseString] isEqualToString:@"smil"];
-}
-
-
 - (void)errorDialogDidEnd
 {
 	[self resetBook];
@@ -523,104 +540,78 @@
 - (BOOL)plugInClassIsValid:(Class)plugInClass
 {    
 	if([plugInClass conformsToProtocol:@protocol(TBPluginInterface)])
-		 return YES;
-			
+		return YES;
+	
 	return NO;
 }
-	
-		   
+
+
 
 
 - (void)loadPlugins
 {
-	// look for internal plugins in the frameworks and the applications internal plugins folders.
-	NSString *internalPluginsPath = [[NSBundle bundleForClass:[self class]] builtInPlugInsPath];
-	NSString* applicationPuginsPath = [[NSBundle mainBundle] builtInPlugInsPath]; 
-	
-	if ((internalPluginsPath) || (applicationPuginsPath)) 
+	NSArray *bundlePaths = [self availBundles];
+	for (NSString *pluginPath in bundlePaths) 
 	{
-		NSMutableArray *pathsArray = [[[NSMutableArray alloc] initWithArray:[NSBundle pathsForResourcesOfType:@"plugin" inDirectory:internalPluginsPath]] autorelease];
-		[pathsArray addObjectsFromArray:[NSBundle pathsForResourcesOfType:@"plugin" inDirectory:applicationPuginsPath]];
-		
-		
-		for (NSString *pluginPath in pathsArray) 
+		NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
+		if (YES == [pluginBundle load])
 		{
-			NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
-			if (YES == [pluginBundle load])
-			{
-				if([self plugInClassIsValid:[pluginBundle principalClass]])
-					[plugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
-				//[plugins makeObjectsPerformSelector:@selector(setSharedBookData:) withObject:self.bookData];
-			}
+			if([self plugInClassIsValid:[pluginBundle principalClass]])
+				[formatPlugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
 		}
 	}
 }
 
-//- (NSMutableArray *)allBundles
-//{
-//    NSArray *librarySearchPaths;
-//    NSEnumerator *searchPathEnum;
-//    NSString *currPath;
-//    NSMutableArray *bundleSearchPaths = [NSMutableArray array];
-//    NSMutableArray *allBundles = [NSMutableArray array];
-//	
-//    librarySearchPaths = NSSearchPathForDirectoriesInDomains(
-//															 NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
-//	
-//    searchPathEnum = [librarySearchPaths objectEnumerator];
-//    while(currPath = [searchPathEnum nextObject])
-//    {
-//        [bundleSearchPaths addObject:
-//		 [currPath stringByAppendingPathComponent:appSupportSubpath]];
-//    }
-//    [bundleSearchPaths addObject:
-//	 [[NSBundle mainBundle] builtInPlugInsPath]];
-//	
-//    searchPathEnum = [bundleSearchPaths objectEnumerator];
-//    while(currPath = [searchPathEnum nextObject])
-//    {
-//        NSDirectoryEnumerator *bundleEnum;
-//        NSString *currBundlePath;
-//        bundleEnum = [[NSFileManager defaultManager]
-//					  enumeratorAtPath:currPath];
-//        if(bundleEnum)
-//        {
-//            while(currBundlePath = [bundleEnum nextObject])
-//            {
-//                if([[currBundlePath pathExtension] isEqualToString:ext])
-//                {
-//					[allBundles addObject:[currPath
-//										   stringByAppendingPathComponent:currBundlePath]];
-//                }
-//            }
-//        }
-//    }
-//	
-//    return allBundles;
-//}
-
-#pragma mark -
-#pragma mark Delegate Methods
-
-
-
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+- (NSArray *)availBundles
 {
-	if(_wasPlaying)
-		self.bookData.isPlaying = YES;
+	NSArray *librarySearchPaths;
+	NSString *currPath;
+	NSMutableArray *bundleSearchPaths = [NSMutableArray array];
+	NSMutableArray *allBundles = [NSMutableArray array];
+	
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
+
+	NSString *appName =[[[NSBundle mainBundle] localizedInfoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
+	for(currPath in librarySearchPaths)
+	{
+		[bundleSearchPaths addObject:[currPath stringByAppendingPathComponent:appName]];
+	}
+	
+	[bundleSearchPaths addObject:[[NSBundle mainBundle] builtInPlugInsPath]];
+	[bundleSearchPaths addObject:[[NSBundle bundleForClass:[self class]] builtInPlugInsPath]];	
+	
+	for(currPath in bundleSearchPaths)
+	{
+		NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:currPath error:nil];
+		if(dirContents)
+			for(NSString *currBundlePath in dirContents)
+			{
+				if([[currBundlePath pathExtension] isEqualToString:@"plugin"])
+					[allBundles addObject:[currPath stringByAppendingPathComponent:currBundlePath]];
+			}
+	}
+	
+	return allBundles;
 }
 
-@synthesize plugins, currentPlugin;
+- (void)updateInfoView
+{
+	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
+		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
+	else
+		[currentPlugin bookInfoView]; // tell the view to update itself
+	
+}
 
-@synthesize bookData;
-@synthesize speechSynth, preferredVoice;
+- (void)updateTextView
+{
+	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
+	{	
+		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+		[[currentPlugin bookTextView] setFrame:[textView frame]];
+	}
+}
 
-@synthesize _controlMode;
-@synthesize _wasPlaying;
-@synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
-
-
-//bindings
-@synthesize canPlay;
 
 @end
+

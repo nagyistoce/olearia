@@ -207,11 +207,10 @@
 
 - (void) dealloc
 {
-	[validFileExtensions release];
 	[super dealloc];
 }
 
-@synthesize validFileExtensions;
+
 
 @end
 

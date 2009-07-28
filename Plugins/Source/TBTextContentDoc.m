@@ -24,7 +24,7 @@
 @interface TBTextContentDoc ()
 
 @property (readwrite, retain) NSXMLDocument	*_xmlTextDoc;
-@property (readwrite, retain) NSXMLElement		*_xmlRoot;
+@property (readwrite, retain) NSXMLElement	*_xmlRoot;
 @property (readwrite, retain) NSXMLNode		*_currentNode;
 
 @end
@@ -78,7 +78,7 @@
 	// get the root element of the tree
 	NSXMLElement *_xmlRoot = [_xmlTextDoc rootElement];
 	_currentNode = nil;
-	_currentNode = [[_xmlTextDoc nodesForXPath:@"/dtbook/book" error:nil] objectAtIndex:0];
+	_currentNode = [[_xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]" error:nil] objectAtIndex:0];
 	
 }
 

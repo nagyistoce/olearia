@@ -244,6 +244,8 @@
 	_didUserNavigation = YES;
 	
 	[self updateAfterNavigationChange];
+	
+	
 }
 
 - (void)goUpLevel

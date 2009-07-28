@@ -261,6 +261,7 @@
 							<string>infoPanel</string>
 							<string>infoView</string>
 							<string>textView</string>
+							<string>textWindow</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -268,6 +269,7 @@
 							<string>NSPanel</string>
 							<string>NSView</string>
 							<string>NSView</string>
+							<string>NSWindow</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

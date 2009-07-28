@@ -59,14 +59,14 @@
 	if([bookData.bookTitle isEqualToString:@""])
 	{
 		// set the book title
-		tempStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
+		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
 		self.bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
 	}
 	
 	if([bookData.bookSubject isEqualToString:@""])
 	{
 		// set the subject
-		tempStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
+		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
 		self.bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
 	}
 	
@@ -74,6 +74,8 @@
 	{
 		// check for total page count
 		tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" ofNode:nil];
+		if(!tempStr)
+			tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'maxPageNormal')]/data(@content)" ofNode:nil];
 		self.bookData.totalPages = (tempStr) ? [tempStr intValue] : 0; 
 	}
 		
@@ -408,7 +410,7 @@
 	NSInteger thislevel = bookData.currentLevel;
 	//NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
 	//NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
-	NSString *attribContent = [self stringForXquery:@"data(@class)" ofNode:aNode];
+	NSString *attribContent = [self stringForXquery:@"data(/@class)" ofNode:aNode];
 	
 	if(nil != attribContent) // check that we have something to evaluate
 	{

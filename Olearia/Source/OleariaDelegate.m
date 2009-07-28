@@ -300,12 +300,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (IBAction)fastForward:(id)sender
 {
-		[talkingBook nextChapter];	
+		[talkingBook fastForwardAudio];	
 }
 
 - (IBAction)fastRewind:(id)sender
 {
-		[talkingBook previousChapter];		
+		[talkingBook fastRewindAudio];		
 }
 
 - (IBAction)gotoPage:(id)sender
