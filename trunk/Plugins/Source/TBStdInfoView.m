@@ -38,14 +38,14 @@
 
 @implementation TBStdInfoView
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) 
+- (id)initWithFrame:(NSRect)frame 
+{
+	self = [super initWithFrame:frame];
+	if (self) 
 	{
-       _metaInfo = [[NSMutableArray alloc] init];
-	
-    }
-    return self;
+		_metaInfo = [[NSMutableArray alloc] init];
+	}
+	return self;
 }
 
 - (void)updateInfoFromPlugin:(TBStdFormats *)aPlugin;

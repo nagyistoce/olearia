@@ -38,6 +38,7 @@
 		EECDD40F0FCBD56A00C0EDDC /* TBNCXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */; };
 		EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40B0FCBD56A00C0EDDC /* TBOPFDocument.m */; };
 		EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */; };
+		EEE1C551101EB3EF00E217DD /* TBSpeechController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE1C550101EB3EF00E217DD /* TBSpeechController.m */; };
 		EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */; };
 		EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */; };
 		EEEE9C960FF75A32001822EA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEE9C950FF75A32001822EA /* WebKit.framework */; };
@@ -114,6 +115,8 @@
 		EECDD40C0FCBD56A00C0EDDC /* TBOPFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFDocument.h; sourceTree = "<group>"; };
 		EECDD4160FCBD5D700C0EDDC /* TBPackageDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBPackageDoc.h; sourceTree = "<group>"; };
 		EECDD4170FCBD5D700C0EDDC /* TBPackageDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBPackageDoc.m; sourceTree = "<group>"; };
+		EEE1C54F101EB3EF00E217DD /* TBSpeechController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBSpeechController.h; sourceTree = "<group>"; };
+		EEE1C550101EB3EF00E217DD /* TBSpeechController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSpeechController.m; sourceTree = "<group>"; };
 		EEED048C0FF9DEFA00838EBC /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
 		EEEE9C8D0FF7591D001822EA /* TBStdTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdTextView.h; sourceTree = "<group>"; };
 		EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdTextView.m; sourceTree = "<group>"; };
@@ -176,8 +179,6 @@
 				EE3174BE0FE0E18500B27804 /* Controllers */,
 				EE3927900FC3F0110093CBBD /* Plugins */,
 				EECDD3F20FCBD48600C0EDDC /* Documents */,
-				EE9E52900FC3B08C00D0564C /* TBStdFormats.h */,
-				EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */,
 				EE3927910FC3F0300093CBBD /* Utils */,
 			);
 			path = Source;
@@ -266,6 +267,8 @@
 				EE3174C00FE0E1E100B27804 /* TBNavigationController.m */,
 				EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */,
 				EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */,
+				EEE1C54F101EB3EF00E217DD /* TBSpeechController.h */,
+				EEE1C550101EB3EF00E217DD /* TBSpeechController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -273,6 +276,8 @@
 		EE3927900FC3F0110093CBBD /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				EE9E52900FC3B08C00D0564C /* TBStdFormats.h */,
+				EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */,
 				EE9E52A40FC3CA1500D0564C /* DTB202BookPlugin.h */,
 				EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */,
 				EE9E52A70FC3CC6500D0564C /* DTB2002BookPlugin.h */,
@@ -455,6 +460,7 @@
 				EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */,
 				EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */,
 				EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */,
+				EEE1C551101EB3EF00E217DD /* TBSpeechController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

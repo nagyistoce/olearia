@@ -29,9 +29,6 @@
 @property (readwrite, retain)	NSXMLDocument		*_xmlSmilDoc;
 @property (readwrite, copy)		NSURL				*_currentFileURL;
 
-
-//- (NSString *)filenameFromCompoundString:(NSString *)aString;
-//- (NSString *)idTagFromSrcString:(NSString *)anIdString;
 - (void)resetSmil;
 
 @end

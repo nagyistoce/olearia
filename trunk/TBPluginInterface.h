@@ -22,16 +22,13 @@
 #import <Cocoa/Cocoa.h>
 @class TBBookData;
 
-@protocol TBPluginInterface 
+@protocol TBPluginInterface <NSObject>
 
 // this singleton holds all the data and interface bindings for the currently loaded book.
 // things like title, subject, pagenumber, total pages, level, etc.
-// the plugin must instantiate it via a call to  sharedBookData
+// the plugin must instantiate it via a call to  +sharedBookData
 // read the header for more info.
 @property (readwrite, retain) TBBookData *bookData; 
-
-//+ (BOOL)initializeClass:(NSBundle *)theBundle;
-//+ (void)terminateClass;
 
 // return an enumerated list of instances of all the classes available in the bundle
 + (NSArray *)plugins;
@@ -44,9 +41,6 @@
 
 // reset the plugin to a state ready for loading a book. 
 - (void)reset;
-
-// allow the plugin to use the shared book instance
-//- (void)setSharedBookData:(id)anInstance;
 
 #pragma mark -
 #pragma mark Loading & Saving
@@ -91,18 +85,17 @@
 // start playback from
 - (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime;
 
-// move up a level in the book structure if appropriate
-// (level 1 is the top level)
+// move up a level in the book structure
 - (void)upLevel;
 
-// move down a level in the book structure if appropriate
+// move down a level in the book structure
 - (void)downLevel;
 
-// forward the audio play head by the current skip duration 
-- (void)nextSkipPoint;
+// forward the audio play head by the skip duration 
+- (void)nextAudioSkipPoint;
 
-// rewind the audio play head by the current skip duration
-- (void)previousSkipPoint;
+// rewind the audio play head by the skip duration
+- (void)previousAudioSkipPoint;
 
 #pragma mark -
 #pragma mark Views
@@ -116,11 +109,5 @@
 // this will allow plugins to have their own information laid out as they like
 // also will refresh the view if it is already loaded.
 - (NSView *)bookInfoView;
-
-// pass in the plugin for which the book information view will be updated
-// this causes the plugin to update its data in the information view.
-// Structured this way to allow the principal class not to have to track 
-// which plugin is being used. 
-//- (void)updateInfoFromPlugin:(id)aPlugin;
 
 @end

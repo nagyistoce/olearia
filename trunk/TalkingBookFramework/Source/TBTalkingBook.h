@@ -38,28 +38,24 @@ typedef enum
 @interface TBTalkingBook : NSObject 
 {
 	// book user settings
-	NSString					*preferredVoice;
+	NSString				*preferredVoice;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
 	BOOL					bookIsLoaded;
 	BOOL					_settingsChanged;
 	BOOL					_wasPlaying;
 	
-	NSMutableArray			*plugins;
-	id<TBPluginInterface>	currentPlugin;
+	NSMutableArray			*formatPlugins;
+	id<TBPluginInterface>		currentPlugin;
 	
-	NSSpeechSynthesizer		*speechSynth;
+	
 	
 	TalkingBookType		_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	
 	TBBookData			*bookData;
-	TBInfoController		*_infoController;
-	
 
-	NSString				*_currentSegmentFilename;
-	
 	BOOL					_hasPageNavigation;
 	BOOL					_hasPhraseNavigation;
 	BOOL					_hasSentenceNavigation;
@@ -68,6 +64,7 @@ typedef enum
 	// bindings
 	BOOL					canPlay;
 	
+	// outlets
 	IBOutlet NSPanel			*infoPanel;
 	IBOutlet NSWindow		*textWindow;
 	IBOutlet NSView			*infoView;
@@ -84,8 +81,8 @@ typedef enum
 - (void)previousSegment;
 - (void)upOneLevel;
 - (void)downOneLevel;
-- (void)nextChapter;
-- (void)previousChapter;
+- (void)fastForwardAudio;
+- (void)fastRewindAudio;
 
 - (void)jumpToPoint:(NSString *)aNodePath andTime:(NSString *)aTimeStr;
 - (NSString *)currentControlPositionID;
@@ -100,7 +97,7 @@ typedef enum
 - (void)setAudioPlayRate:(float)aRate;
 - (void)setAudioVolume:(float)aVolumeLevel;
 
-@property (readwrite, retain)	TBBookData	*bookData;
+@property (readwrite, retain)		TBBookData	*bookData;
 
 @property (readwrite, copy)		NSString	*preferredVoice;
 
@@ -110,6 +107,6 @@ typedef enum
 
 @property (readonly) BOOL		canPlay;
 
-@property (readonly, copy)		id<TBPluginInterface>	currentPlugin;
+@property (readwrite, retain)		id<TBPluginInterface>	currentPlugin;
 
 @end

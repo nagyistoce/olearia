@@ -27,14 +27,14 @@ static TBBookData *sharedTBBookData = nil;
 
 + (TBBookData *)sharedBookData
 {
-    @synchronized(self) 
+    @synchronized(self)
 	{
-        if (sharedTBBookData == nil) 
+		if(sharedTBBookData == nil) 
 		{
-           sharedTBBookData = [[self alloc] init]; 
-        }
-    }
-    return sharedTBBookData;
+			sharedTBBookData = [[self alloc] init]; 
+		}
+	}
+	return sharedTBBookData;
 }
 
 
@@ -46,15 +46,15 @@ static TBBookData *sharedTBBookData = nil;
 		[self resetForNewBook];
 		
 		// watch KVO notifications
-		[self addObserver:self
-			   forKeyPath:@"playbackRate" 
-				  options:NSKeyValueObservingOptionNew
-				  context:NULL]; 
-		
-		[self addObserver:self
-			   forKeyPath:@"playbackVolume" 
-				  options:NSKeyValueObservingOptionNew
-				  context:NULL]; 
+//		[self addObserver:self
+//			   forKeyPath:@"playbackRate" 
+//				  options:NSKeyValueObservingOptionNew
+//				  context:NULL]; 
+//		
+//		[self addObserver:self
+//			   forKeyPath:@"playbackVolume" 
+//				  options:NSKeyValueObservingOptionNew
+//				  context:NULL]; 
 		
 	}
 	return self;
