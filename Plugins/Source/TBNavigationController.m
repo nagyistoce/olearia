@@ -25,6 +25,7 @@
 #import "TBNCXDocument.h"
 #import "TBSMILDocument.h"
 #import "TBAudioSegment.h"
+#import "TBSpeechController.h"
 
 @interface TBNavigationController () 
 
@@ -59,8 +60,11 @@
 	smilDocument = nil;
 	_audioFile = nil;
 	currentTag = nil;
-	if([[sharedDataClass class] respondsToSelector:@selector(sharedBookData)])
-		bookData = [[sharedDataClass class] sharedBookData];
+	
+	
+	bookData = [[sharedDataClass class] sharedBookData];
+	speechCon = [[TBSpeechController alloc] init];
+	
 	noteCentre = [NSNotificationCenter defaultCenter];
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;

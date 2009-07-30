@@ -38,9 +38,6 @@ typedef enum
 @interface TBTalkingBook : NSObject 
 {
 	// book user settings
-	NSString				*preferredVoice;
-	BOOL					overrideRecordedContent;
-	BOOL					speakUserLevelChange;
 	BOOL					bookIsLoaded;
 	BOOL					_settingsChanged;
 	BOOL					_wasPlaying;
@@ -99,11 +96,7 @@ typedef enum
 
 @property (readwrite, retain)		TBBookData	*bookData;
 
-@property (readwrite, copy)		NSString	*preferredVoice;
-
 @property (readwrite)			BOOL		bookIsLoaded;
-@property (readwrite)			BOOL		overrideRecordedContent;
-@property (readwrite)			BOOL		speakUserLevelChange;
 
 @property (readonly) BOOL		canPlay;
 

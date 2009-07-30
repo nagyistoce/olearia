@@ -116,6 +116,7 @@
 			NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
 			foundTextFile = YES;
 			[textview setURL:textFileURL];
+			[textview setFrame:[[textview superview] frame]];
 		}
 		else
 			errorTextFilename = @"ErrorLoadingTextContent.html";
@@ -130,6 +131,7 @@
 		NSURL *noTextURL = [NSURL fileURLWithPath:localizedPath];
 		
 		[textview  setURL:noTextURL];
+		[textview setFrame:[[textview superview] frame]];
 	}
 			
 	

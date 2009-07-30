@@ -57,9 +57,6 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	//speechSynth = [[NSSpeechSynthesizer alloc] initWithVoice:nil];
-	//[speechSynth setDelegate:self];
-	
 	self.bookData = [TBBookData sharedBookData];
 	
 	formatPlugins = [[NSMutableArray alloc] init];
@@ -162,7 +159,7 @@
 {
 	if([currentPlugin respondsToSelector:@selector(upLevel)])
 	{
-		if(speakUserLevelChange)
+		if(bookData.speakUserLevelChange)
 		{
 			self.bookData.isPlaying = NO;
 			_wasPlaying = YES;
@@ -181,7 +178,7 @@
 {
 	if([currentPlugin respondsToSelector:@selector(downLevel)])
 	{
-		if(speakUserLevelChange)
+		if(bookData.speakUserLevelChange)
 		{
 			self.bookData.isPlaying = NO;
 			_wasPlaying = YES;
@@ -405,7 +402,7 @@
 			[infoPanel close];
 		else
 		{
-			[self updateInfoView];
+			[infoView addSubview:[currentPlugin bookInfoView]];
 			[infoPanel makeKeyAndOrderFront:self];
 		}
 	}
@@ -427,7 +424,7 @@
 			[textWindow close];
 		else
 		{
-			[self updateTextView];
+			[textView addSubview:[currentPlugin bookTextView]];
 			[textWindow makeKeyAndOrderFront:self];
 		}
 	}
@@ -435,10 +432,7 @@
 		if([NSBundle loadNibNamed:@"TBTextWindow" owner:self])
 		{	
 			if(currentPlugin)
-			{	
 				[textView addSubview:[currentPlugin bookTextView]];
-				[[currentPlugin bookTextView] setFrame:[textView frame]];
-			}
 			
 			[textWindow makeKeyAndOrderFront:self];
 		}
@@ -457,8 +451,7 @@
 
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
-	//[speechSynth setVoice:aVoiceID];
-	//preferredVoice = aVoiceID;
+	bookData.preferredVoice = aVoiceID;
 }
 
 
@@ -493,11 +486,10 @@
 @synthesize formatPlugins, currentPlugin;
 
 @synthesize bookData;
-@synthesize preferredVoice;
 
 @synthesize _controlMode;
 @synthesize _wasPlaying;
-@synthesize bookIsLoaded, speakUserLevelChange, overrideRecordedContent;
+@synthesize bookIsLoaded;
 
 
 //bindings
@@ -596,20 +588,21 @@
 
 - (void)updateInfoView
 {
-	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
-		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
-	else
-		[currentPlugin bookInfoView]; // tell the view to update itself
-	
+	[infoView addSubview:[currentPlugin bookInfoView]];
+//	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
+//		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
+//	else
+//		[currentPlugin bookInfoView]; // tell the view to update itself
+//	
 }
 
 - (void)updateTextView
 {
-	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
-	{	
-		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
-		[[currentPlugin bookTextView] setFrame:[textView frame]];
-	}
+	[textView addSubview:[currentPlugin bookTextView]];
+//	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
+//	{	
+//		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+//	}
 }
 
 

@@ -23,7 +23,7 @@
 #import <QTKit/QTTime.h>
 #import "TBTextContentDoc.h"
 @class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
-@class TBTextView;
+@class TBSpeechController;
 
 @interface TBNavigationController : NSObject 
 {
@@ -33,6 +33,7 @@
 	TBControlDoc		*controlDocument;
 	TBTextContentDoc	*textDocument;
 	TBSMILDocument		*smilDocument;
+	TBSpeechController	*speechCon;
 	
 	NSString			*currentSmilFilename;
 	NSString			*currentTextFilename;
@@ -68,9 +69,10 @@
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
 @property (readwrite, retain)	TBTextContentDoc	*textDocument;
 @property (readwrite, retain)	TBBookData			*bookData;
-@property (readwrite, copy)		NSString			*currentTag;
-@property (readwrite, copy)		NSString			*currentSmilFilename;
-@property (readwrite, copy)		NSString			*currentTextFilename;
+@property (readwrite, retain)	TBSpeechController	*speechCon;
+@property (readwrite, copy)	NSString			*currentTag;
+@property (readwrite, copy)	NSString			*currentSmilFilename;
+@property (readwrite, copy)	NSString			*currentTextFilename;
 @property (readwrite, retain)	NSNotificationCenter *noteCentre;
 
 @end
