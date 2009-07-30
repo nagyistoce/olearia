@@ -25,12 +25,12 @@
 
 @interface OleariaPrefsController : NSWindowController 
 {
-	NSArray					*availableVoices;
+	NSArray			*availableVoices;
 		
 	IBOutlet NSPopUpButton	*voicesPopup;
 	IBOutlet NSButton		*highContrastCheckBox;
 	
-	IBOutlet NSWindow		*prefsWindow;
+	IBOutlet NSPanel		*prefsWindow;
 	
 }
 

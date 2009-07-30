@@ -30,14 +30,23 @@
 {
 	if (![super initWithWindowNibName:@"Preferences"]) return nil;
 
-	availableVoices = [NSSpeechSynthesizer availableVoices];
+	availableVoices = [[NSSpeechSynthesizer availableVoices] retain];
 		
 	return self;
 }
 
+- (void) dealloc
+{
+	[prefsWindow release];
+	[availableVoices release];
+	
+	[super dealloc];
+}
+
+
 - (void)windowDidLoad
 {
-	[prefsWindow makeKeyWindow];
+	[self setWindow:prefsWindow];
 	
 	[voicesPopup removeAllItems];
 	// populate the voices popup with the names of all the voices available.
@@ -49,11 +58,15 @@
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	// get the name of the voice the user set
-	NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:[defaults objectForKey:OleariaPlaybackVoice]] objectForKey:NSVoiceName];
+	NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:[defaults objectForKey:OleariaPreferredVoice]] objectForKey:NSVoiceName];
+	
 	// select the voicename in the popup
 	[voicesPopup selectItemWithTitle:voiceName];
 	
+	[prefsWindow makeKeyWindow];
 }
+
+
 
 #pragma mark -
 #pragma mark Action Methods
@@ -62,7 +75,7 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	[defaults setObject:[availableVoices objectAtIndex:[sender indexOfSelectedItem]] forKey:OleariaPlaybackVoice];
+	[defaults setObject:[availableVoices objectAtIndex:[sender indexOfSelectedItem]] forKey:OleariaPreferredVoice];
 	[defaults synchronize];
 }
 

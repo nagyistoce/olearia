@@ -50,8 +50,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	NSString				*levelString;
 	NSInteger				currentLevel;
 	
-	float					playbackRate;
-	float					playbackVolume;
+
 	
 	BOOL					hasNextChapter;
 	BOOL					hasPreviousChapter;
@@ -64,25 +63,37 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	BOOL					settingsHaveChanged;
 	
-	BOOL					includeSkippableContent;
+
 	
 	TalkingBookMediaFormat	mediaFormat;
 	
-	QTTime				chapterSkipDuration;
+
 	
 	NSURL				*folderPath;
+	
+	// User settings
+	NSString				*preferredVoice;
+	float					voicePlaybackRate;
+	float					voiceVolume;
+	BOOL					overrideRecordedContent;
+	BOOL					speakUserLevelChange;
+	QTTime				chapterSkipDuration;
+	BOOL					includeSkippableContent;
+	float					playbackRate;
+	float					playbackVolume;
+	
+	
 }
 
 // bindings ivars
 @property (readwrite, copy)	NSString	*bookTitle;
-@property (readwrite, copy) NSString	*bookSubject;
+@property (readwrite, copy)	NSString	*bookSubject;
 @property (readwrite, copy)	NSString	*sectionTitle;
 
 @property (readwrite)		NSInteger	currentLevel;
 @property (readwrite, copy)	NSString	*levelString;
 
-@property (readwrite)		float		playbackRate;
-@property (readwrite)		float		playbackVolume;
+
 @property (readwrite)		BOOL		settingsHaveChanged;
 
 @property (readwrite)		NSInteger	currentPage;
@@ -100,13 +111,23 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite) BOOL		isPlaying;
 
-@property (readwrite) BOOL		includeSkippableContent;
+
 
 @property (readwrite) TalkingBookMediaFormat mediaFormat;
 
-@property (readwrite) QTTime	chapterSkipDuration;
+
 
 @property (readwrite,retain)	NSURL *folderPath;
+
+@property (readwrite, copy)	NSString	*preferredVoice;
+@property (readwrite)		float		voicePlaybackRate;
+@property (readwrite)		float		voiceVolume;
+@property (readwrite)		BOOL		overrideRecordedContent;
+@property (readwrite)		BOOL		speakUserLevelChange;
+@property (readwrite)		BOOL		includeSkippableContent;
+@property (readwrite)		QTTime	chapterSkipDuration;
+@property (readwrite)		float		playbackRate;
+@property (readwrite)		float		playbackVolume;
 
 + (TBBookData *)sharedBookData;
 - (void)resetForNewBook;

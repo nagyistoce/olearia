@@ -44,21 +44,24 @@ static TBBookData *sharedTBBookData = nil;
 	if (self != nil) 
 	{
 		[self resetForNewBook];
-		
-		// watch KVO notifications
-//		[self addObserver:self
-//			   forKeyPath:@"playbackRate" 
-//				  options:NSKeyValueObservingOptionNew
-//				  context:NULL]; 
-//		
-//		[self addObserver:self
-//			   forKeyPath:@"playbackVolume" 
-//				  options:NSKeyValueObservingOptionNew
-//				  context:NULL]; 
-		
 	}
 	return self;
 }
+
+- (void) dealloc
+{
+	
+	bookTitle = nil;
+	bookSubject = nil;
+	sectionTitle = nil;
+	levelString = nil;
+	pageString = nil;
+	bookTotalTime = nil;
+	folderPath = nil;
+	
+	[super dealloc];
+}
+
 
 + (id)allocWithZone:(NSZone *)zone
 {
@@ -101,8 +104,8 @@ static TBBookData *sharedTBBookData = nil;
 {
 	// set the defaults for the newly loaded book before they are updated
 	self.totalPages = 0;
-	self.currentLevel = 1;
 	self.currentPage = 0;
+	self.currentLevel = 1;
 	self.bookTitle = nil;
 	self.bookSubject = nil;
 	self.levelString = nil;
@@ -124,7 +127,7 @@ static TBBookData *sharedTBBookData = nil;
 }
 
 #pragma mark -
-#pragma mark ====== Accessors =====
+#pragma mark ====== Modified Accessors =====
 
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
@@ -136,14 +139,18 @@ static TBBookData *sharedTBBookData = nil;
 {
 	currentPage = aPageNum;
 	if(totalPages > 0)
-		self.pageString = [NSString stringWithFormat:@"%d of %d",aPageNum,totalPages];
+		self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+	else
+		self.pageString = [NSString stringWithFormat:@"%d",currentPage];
+
+		
 }
 
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
-	if(totalPageNum != 0)
-		self.pageString = [NSString stringWithFormat:@"%d",totalPageNum];
+	if(totalPages != 0)
+		self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
 	else
 		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }
@@ -173,34 +180,21 @@ static TBBookData *sharedTBBookData = nil;
 		self.mediaFormat = UnknownMediaFormat;
 
 }
-#pragma mark -
-#pragma mark KVO Methods
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if(([keyPath isEqualToString:@"playbackVolume"]) || ([keyPath isEqualToString:@"playbackRate"]))
-		self.settingsHaveChanged = YES;
-	else
-		[super observeValueForKeyPath:keyPath
-							 ofObject:object
-							   change:change
-							  context:context];
-}
-
-
 
 // bindings related
 @synthesize bookTitle, bookSubject, sectionTitle, bookTotalTime;
 @synthesize mediaFormat;
 @synthesize currentLevel, levelString;
 @synthesize currentPage, totalPages, pageString;
-
 @synthesize hasNextChapter, hasPreviousChapter;
 @synthesize hasLevelUp, hasLevelDown;
 @synthesize hasNextSegment, hasPreviousSegment;
 @synthesize isPlaying, settingsHaveChanged;
+@synthesize  folderPath;
+
+@synthesize preferredVoice, voicePlaybackRate, voiceVolume;
+@synthesize overrideRecordedContent, speakUserLevelChange, includeSkippableContent;
 @synthesize chapterSkipDuration;
 @synthesize playbackRate, playbackVolume;
-@synthesize  folderPath, includeSkippableContent;
 
 @end
