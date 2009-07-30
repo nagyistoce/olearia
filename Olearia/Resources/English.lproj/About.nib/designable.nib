@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.34</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 		</object>
@@ -38,7 +38,7 @@
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{94, 371}, {708, 398}}</string>
-				<int key="NSWTFlags">1879049216</int>
+				<int key="NSWTFlags">-1342176256</int>
 				<string key="NSWindowTitle"/>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
@@ -994,10 +994,10 @@
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>{{38, 422}, {708, 398}}</string>
 					<string>{{38, 422}, {708, 398}}</string>
-					<integer value="0" id="6"/>
+					<boolean value="YES"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
-					<reference ref="6"/>
+					<integer value="0" id="6"/>
 					<reference ref="6"/>
 					<string>{450, 511}</string>
 					<string>{450, 511}</string>
