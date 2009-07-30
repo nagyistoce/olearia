@@ -26,14 +26,18 @@
 
 @implementation OleariaPrefsController
 
-- (id) init
-{
-	if (![super initWithWindowNibName:@"Preferences"]) return nil;
 
-	availableVoices = [[NSSpeechSynthesizer availableVoices] retain];
-		
-	return self;
+- (void)setupToolbar
+{
+	[self addView:generalPrefsView label:@"General"];
+	[self addView:soundPrefsView label:@"Sound"];
+	[self addView:voicePrefsView label:@"Voice"];
+	[self addView:textPrefsView label:@"Text"];
+
+	[self setCrossFade:YES];
+	[self setShiftSlowsAnimation:NO];
 }
+
 
 - (void) dealloc
 {
@@ -45,6 +49,9 @@
 
 - (void)windowDidLoad
 {	
+	
+	availableVoices = [[NSSpeechSynthesizer availableVoices] retain];
+
 	[voicesPopup removeAllItems];
 	// populate the voices popup with the names of all the voices available.
 	for(NSString *voiceTitle in availableVoices)
@@ -60,7 +67,7 @@
 	// select the voicename in the popup
 	[voicesPopup selectItemWithTitle:voiceName];
 	
-	[[self window] makeKeyAndOrderFront:self];
+	[super windowDidLoad];
 }
 
 
