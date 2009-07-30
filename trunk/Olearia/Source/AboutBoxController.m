@@ -45,8 +45,6 @@
 {
 	[creditsView scrollPoint:NSMakePoint( 0, 0 )];
 	
-	
-	
 	NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
 	
 	// Setup the app name field

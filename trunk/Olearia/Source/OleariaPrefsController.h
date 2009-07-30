@@ -29,9 +29,6 @@
 		
 	IBOutlet NSPopUpButton	*voicesPopup;
 	IBOutlet NSButton		*highContrastCheckBox;
-	
-	IBOutlet NSPanel		*prefsWindow;
-	
 }
 
 - (IBAction)setSelectedPlaybackVoice:(id)sender;

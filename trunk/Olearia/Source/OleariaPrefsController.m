@@ -37,7 +37,6 @@
 
 - (void) dealloc
 {
-	[prefsWindow release];
 	[availableVoices release];
 	
 	[super dealloc];
@@ -45,9 +44,7 @@
 
 
 - (void)windowDidLoad
-{
-	[self setWindow:prefsWindow];
-	
+{	
 	[voicesPopup removeAllItems];
 	// populate the voices popup with the names of all the voices available.
 	for(NSString *voiceTitle in availableVoices)
@@ -63,7 +60,7 @@
 	// select the voicename in the popup
 	[voicesPopup selectItemWithTitle:voiceName];
 	
-	[prefsWindow makeKeyWindow];
+	[[self window] makeKeyAndOrderFront:self];
 }
 
 

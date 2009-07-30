@@ -522,10 +522,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 {
 	 
 	if(!_prefsController)
-	{
-		_prefsController = [[[OleariaPrefsController alloc] init] retain];
-		
-	}
+		_prefsController = [[OleariaPrefsController alloc] init];
+	
 	[_prefsController showWindow:nil];
 
 }
@@ -533,10 +531,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 - (IBAction)displayAboutPanel:(id)sender
 {
 	if(!_aboutController)
-	{
 		_aboutController = [[AboutBoxController alloc] init];
-	}
-	[_aboutController showWindow:self];
+	
+	[_aboutController showWindow:nil];
 }
 
 
