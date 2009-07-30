@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8486695E1001C30F00CB12B8 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
@@ -26,7 +25,7 @@
 		EE1A07770ED68A730007E357 /* HC-gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076C0ED68A730007E357 /* HC-gotoPage.png */; };
 		EE1A07780ED68A730007E357 /* HC-info.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076D0ED68A730007E357 /* HC-info.png */; };
 		EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A076E0ED68A730007E357 /* HC-UpArrow.png */; };
-		EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* file-doc.icns */; };
+		EE21082D0FD3E86300AFB19A /* Text.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE21082C0FD3E86300AFB19A /* Text.icns */; };
 		EE21590B0DDB5ADE009155A1 /* OleariaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */; };
 		EE2278680ECA518A00309491 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278660ECA518A00309491 /* Preferences.nib */; };
 		EE22786B0ECA51B200309491 /* MainWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE2278690ECA51B200309491 /* MainWindow.nib */; };
@@ -40,14 +39,17 @@
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
 		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
 		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
-		EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Speech.png */; };
+		EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Voice.png */; };
 		EE8BA956100198AF000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA955100198AF000E242F /* Localizable.strings */; };
 		EEA2AA1B0FD94E0C00AAD1CF /* TalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
 		EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
+		EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */; };
+		EEADAC1A102163DE006FC113 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */; };
+		EEADAC5110216903006FC113 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = EEADAC5010216903006FC113 /* General.png */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
 		EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C50E8DE7B300D77B4D /* UpArrow.png */; };
-		EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C60E8DE7B300D77B4D /* SoundPref.png */; };
+		EEEB96D20E8DE7B400D77B4D /* Sound.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C60E8DE7B300D77B4D /* Sound.png */; };
 		EEEB96D30E8DE7B400D77B4D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C70E8DE7B300D77B4D /* info.png */; };
 		EEEB96D40E8DE7B400D77B4D /* gotoPage.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C80E8DE7B300D77B4D /* gotoPage.png */; };
 		EEEB96D50E8DE7B400D77B4D /* ForwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */; };
@@ -114,7 +116,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Olearia_Prefix.pch; sourceTree = "<group>"; };
-		8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Olearia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Olearia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D12C0470EB7960F0091FBA3 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
@@ -133,7 +134,7 @@
 		EE1A076C0ED68A730007E357 /* HC-gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-gotoPage.png"; sourceTree = "<group>"; };
 		EE1A076D0ED68A730007E357 /* HC-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-info.png"; sourceTree = "<group>"; };
 		EE1A076E0ED68A730007E357 /* HC-UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HC-UpArrow.png"; sourceTree = "<group>"; };
-		EE21082C0FD3E86300AFB19A /* file-doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "file-doc.icns"; sourceTree = "<group>"; };
+		EE21082C0FD3E86300AFB19A /* Text.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Text.icns; sourceTree = "<group>"; };
 		EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaDelegate.h; sourceTree = "<group>"; };
 		EE21590A0DDB5ADE009155A1 /* OleariaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaDelegate.m; sourceTree = "<group>"; };
 		EE2278670ECA518A00309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
@@ -149,7 +150,7 @@
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE7272501014014600FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE7272511014014C00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE89DED50EB5BFCB0017EB9D /* Speech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speech.png; sourceTree = "<group>"; };
+		EE89DED50EB5BFCB0017EB9D /* Voice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Voice.png; sourceTree = "<group>"; };
 		EE8BA953100198A0000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EEA915E50ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/About.nib; sourceTree = "<group>"; };
 		EEA915E70ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/MainWindow.nib; sourceTree = "<group>"; };
@@ -157,13 +158,16 @@
 		EEA915E90ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/About.nib; sourceTree = "<group>"; };
 		EEA915EB0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EEA915EC0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/Preferences.nib; sourceTree = "<group>"; };
+		EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsWindowController.h; sourceTree = "<group>"; };
+		EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
+		EEADAC5010216903006FC113 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = General.png; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
 		EEAEF2220ECC0D650064FF29 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEAEF2230ECC0D760064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
 		EEEB96C50E8DE7B300D77B4D /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
-		EEEB96C60E8DE7B300D77B4D /* SoundPref.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SoundPref.png; sourceTree = "<group>"; };
+		EEEB96C60E8DE7B300D77B4D /* Sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sound.png; sourceTree = "<group>"; };
 		EEEB96C70E8DE7B300D77B4D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		EEEB96C80E8DE7B300D77B4D /* gotoPage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gotoPage.png; sourceTree = "<group>"; };
 		EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ForwardArrow.png; sourceTree = "<group>"; };
@@ -184,7 +188,6 @@
 			files = (
 				EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
-				8486695E1001C30F00CB12B8 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +204,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8486695D1001C30F00CB12B8 /* BWToolkitFramework.framework */,
 				EEF98E810EED4DE5002F50BC /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -289,19 +291,20 @@
 				EE1A076D0ED68A730007E357 /* HC-info.png */,
 				EE1A076E0ED68A730007E357 /* HC-UpArrow.png */,
 				EEEB96C50E8DE7B300D77B4D /* UpArrow.png */,
-				EE21082C0FD3E86300AFB19A /* file-doc.icns */,
-				EEEB96C60E8DE7B300D77B4D /* SoundPref.png */,
-				EE89DED50EB5BFCB0017EB9D /* Speech.png */,
-				EEEB96C70E8DE7B300D77B4D /* info.png */,
-				EEEB96C80E8DE7B300D77B4D /* gotoPage.png */,
 				EEEB96C90E8DE7B300D77B4D /* ForwardArrow.png */,
 				EEEB96CA0E8DE7B300D77B4D /* DownArrow.png */,
+				EEEB96D00E8DE7B400D77B4D /* BackArrow.png */,
+				EEADAC5010216903006FC113 /* General.png */,
+				EE21082C0FD3E86300AFB19A /* Text.icns */,
+				EEEB96C60E8DE7B300D77B4D /* Sound.png */,
+				EE89DED50EB5BFCB0017EB9D /* Voice.png */,
+				EEEB96C70E8DE7B300D77B4D /* info.png */,
+				EEEB96C80E8DE7B300D77B4D /* gotoPage.png */,
+				EEEB96CF0E8DE7B400D77B4D /* bookmark.png */,
 				EEEB96CB0E8DE7B300D77B4D /* button-rewind.png */,
 				EEEB96CC0E8DE7B400D77B4D /* button-play.png */,
 				EEEB96CD0E8DE7B400D77B4D /* button-pause.png */,
 				EEEB96CE0E8DE7B400D77B4D /* button-forward.png */,
-				EEEB96CF0E8DE7B400D77B4D /* bookmark.png */,
-				EEEB96D00E8DE7B400D77B4D /* BackArrow.png */,
 			);
 			path = "Button Images";
 			sourceTree = "<group>";
@@ -321,6 +324,8 @@
 		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */,
+				EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */,
 				EE4406000E666380002DEDBB /* ExpandingViewController.h */,
 				EE4406010E666380002DEDBB /* ExpandingViewController.m */,
 				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
@@ -363,6 +368,7 @@
 				EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */,
 				EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */,
 				EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */,
+				EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +471,7 @@
 				EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */,
 				EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */,
 				EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */,
-				EEEB96D20E8DE7B400D77B4D /* SoundPref.png in Resources */,
+				EEEB96D20E8DE7B400D77B4D /* Sound.png in Resources */,
 				EEEB96D30E8DE7B400D77B4D /* info.png in Resources */,
 				EEEB96D40E8DE7B400D77B4D /* gotoPage.png in Resources */,
 				EEEB96D50E8DE7B400D77B4D /* ForwardArrow.png in Resources */,
@@ -477,7 +483,7 @@
 				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
 				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
-				EE89DED60EB5BFCB0017EB9D /* Speech.png in Resources */,
+				EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
 				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
 				EE22786B0ECA51B200309491 /* MainWindow.nib in Resources */,
@@ -494,8 +500,9 @@
 				EE1A07780ED68A730007E357 /* HC-info.png in Resources */,
 				EE1A07790ED68A730007E357 /* HC-UpArrow.png in Resources */,
 				EE083D5E0EDD2544009F5020 /* License.txt in Resources */,
-				EE21082D0FD3E86300AFB19A /* file-doc.icns in Resources */,
+				EE21082D0FD3E86300AFB19A /* Text.icns in Resources */,
 				EE8BA956100198AF000E242F /* Localizable.strings in Resources */,
+				EEADAC5110216903006FC113 /* General.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +563,7 @@
 				EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */,
 				EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */,
 				EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */,
+				EEADAC1A102163DE006FC113 /* DBPrefsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

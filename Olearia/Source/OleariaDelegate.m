@@ -521,11 +521,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 - (IBAction)displayPrefsPanel:(id)sender
 {
 	 
-	if(!_prefsController)
-		_prefsController = [[OleariaPrefsController alloc] init];
+	[[OleariaPrefsController sharedPrefsWindowController] showWindow:nil];
 	
-	[_prefsController showWindow:nil];
-
 }
 
 - (IBAction)displayAboutPanel:(id)sender

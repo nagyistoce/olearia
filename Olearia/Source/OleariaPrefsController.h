@@ -21,14 +21,19 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <BWToolkitFramework/BWToolkitFramework.h>
+#import "DBPrefsWindowController.h"
 
-@interface OleariaPrefsController : NSWindowController 
+@interface OleariaPrefsController : DBPrefsWindowController 
 {
 	NSArray			*availableVoices;
 		
 	IBOutlet NSPopUpButton	*voicesPopup;
 	IBOutlet NSButton		*highContrastCheckBox;
+	
+	IBOutlet NSView		*generalPrefsView;
+	IBOutlet NSView		*soundPrefsView;
+	IBOutlet NSView		*voicePrefsView;
+	IBOutlet NSView		*textPrefsView;
 }
 
 - (IBAction)setSelectedPlaybackVoice:(id)sender;
