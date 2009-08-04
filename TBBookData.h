@@ -66,21 +66,19 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 	
 	TalkingBookMediaFormat	mediaFormat;
-	
+	NSSpeechSynthesizer		*talkingBookSpeechSynth;
 
 	
-	NSURL				*folderPath;
+	NSURL					*folderPath;
 	
 	// User settings
 	NSString				*preferredVoice;
-	float					voicePlaybackRate;
-	float					voiceVolume;
 	BOOL					overrideRecordedContent;
 	BOOL					speakUserLevelChange;
-	QTTime				chapterSkipDuration;
+	QTTime					chapterSkipDuration;
 	BOOL					includeSkippableContent;
-	float					playbackRate;
-	float					playbackVolume;
+	float					audioPlaybackRate;
+	float					audioPlaybackVolume;
 	
 	
 }
@@ -114,20 +112,20 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 
 @property (readwrite) TalkingBookMediaFormat mediaFormat;
+@property (readwrite, retain)	NSSpeechSynthesizer *talkingBookSpeechSynth;
 
 
 
 @property (readwrite,retain)	NSURL *folderPath;
 
+// user settings
 @property (readwrite, copy)	NSString	*preferredVoice;
-@property (readwrite)		float		voicePlaybackRate;
-@property (readwrite)		float		voiceVolume;
 @property (readwrite)		BOOL		overrideRecordedContent;
 @property (readwrite)		BOOL		speakUserLevelChange;
 @property (readwrite)		BOOL		includeSkippableContent;
-@property (readwrite)		QTTime	chapterSkipDuration;
-@property (readwrite)		float		playbackRate;
-@property (readwrite)		float		playbackVolume;
+@property (readwrite)		QTTime		chapterSkipDuration;
+@property (readwrite)		float		audioPlaybackRate;
+@property (readwrite)		float		audioPlaybackVolume;
 
 + (TBBookData *)sharedBookData;
 - (void)resetForNewBook;

@@ -93,13 +93,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	// set the defaults before any book is loaded
 	// these defaults will change after the book is loaded
-	talkingBook.bookData.playbackRate = [_userSetDefaults floatForKey:OleariaAudioPlaybackRate];
-	talkingBook.bookData.playbackVolume = [_userSetDefaults floatForKey:OleariaAudioPlaybackVolume];
+	talkingBook.bookData.audioPlaybackRate = [_userSetDefaults floatForKey:OleariaAudioPlaybackRate];
+	talkingBook.bookData.audioPlaybackVolume = [_userSetDefaults floatForKey:OleariaAudioPlaybackVolume];
 	talkingBook.bookData.preferredVoice = [_userSetDefaults valueForKey:OleariaPreferredVoice];
-	talkingBook.bookData.voiceVolume = [_userSetDefaults floatForKey:OleariaVoiceVolume];
 	[talkingBook updateSkipDuration:[_userSetDefaults floatForKey:OleariaChapterSkipIncrement]];
 	
-	// do a check if we need to upgrade the old settings 
+	// do a check if we have old settings to upgrade 
 	if([_userSetDefaults valueForKey:@"OleariaPlaybackVoice"] != nil)
 		[self updateOldPrefSettings];
 	
@@ -264,7 +263,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[playPauseButton setImage:[playPauseButton alternateImage]];
 		[playPauseButton setAlternateImage:tempImage];
 				
-		talkingBook.bookData.isPlaying = YES;
+		//talkingBook.bookData.isPlaying = YES;
 				
 		[talkingBook play];
 	}
@@ -273,7 +272,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
 		[[playPauseMenuItem menu] sizeToFit];
 	
-		talkingBook.bookData.isPlaying = NO;
+		//talkingBook.bookData.isPlaying = NO;
 		
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
@@ -415,8 +414,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 {
 	// stop playing if we are playing
 	if(talkingBook.bookData.isPlaying)
-		//[talkingBook pauseAudio];
-		talkingBook.bookData.isPlaying = NO;
+		[talkingBook pause];
+		//talkingBook.bookData.isPlaying = NO;
 	
 	if(talkingBook.bookIsLoaded)
 		[self saveCurrentBookSettings];
@@ -447,7 +446,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	{	
 		if(talkingBook.bookData.isPlaying)
 		{
-			talkingBook.bookData.isPlaying = NO;
+			//talkingBook.bookData.isPlaying = NO;
 			// we switch the images like this to allow for differences between names when using normal 
 			// or high contrast icons.
 			NSImage *tempImage = [playPauseButton image];
@@ -595,8 +594,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
 		
 		// get the current settings from the book and save them to the recent files list
-	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackRate] forKey:@"Rate"];
-	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.playbackVolume] forKey:@"Volume"];
+	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.audioPlaybackRate] forKey:@"AudioRate"];
+	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.audioPlaybackVolume] forKey:@"AudioVolume"];
 	[oldSettings setValue:talkingBook.bookData.preferredVoice forKey:@"Voice"];
 
 	
@@ -621,8 +620,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			NSMutableDictionary *savedSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:foundIndex]];
 			
 			// set the newly loaded book to the settings that were saved for it	
-			talkingBook.bookData.playbackRate = [[savedSettings valueForKey:@"Rate"] floatValue];
-			talkingBook.bookData.playbackVolume = [[savedSettings valueForKey:@"Volume"] floatValue];
+			talkingBook.bookData.audioPlaybackRate = [[savedSettings valueForKey:@"AudioRate"] floatValue];
+			talkingBook.bookData.audioPlaybackVolume = [[savedSettings valueForKey:@"AudioVolume"] floatValue];
 			talkingBook.bookData.preferredVoice = [savedSettings valueForKey:@"Voice"];
 			talkingBook.bookData.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 				
@@ -650,8 +649,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			// to the dictionary along with the folder path it was loaded from.
 			NSDictionary *defaultSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[[talkingBook bookData] bookTitle],@"Title",
 											 [currentBookPath description],@"FilePath",
-											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaAudioPlaybackRate]],@"Rate",
-											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaAudioPlaybackVolume]],@"Volume",
+											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaAudioPlaybackRate]],@"AudioRate",
+											 [NSNumber numberWithFloat:[_userSetDefaults floatForKey:OleariaAudioPlaybackVolume]],@"AudioVolume",
 											 [_userSetDefaults objectForKey:OleariaPreferredVoice],@"Voice", 
 											 nil];
 			
@@ -659,11 +658,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			[_recentBooks insertObject:defaultSettings atIndex:0];
 			
 			// set the book to the defaults set in the preferences	
-			talkingBook.bookData.playbackRate = [_userSetDefaults floatForKey:OleariaAudioPlaybackRate];
-			talkingBook.bookData.playbackVolume = [_userSetDefaults floatForKey:OleariaAudioPlaybackVolume];
+			talkingBook.bookData.audioPlaybackRate = [_userSetDefaults floatForKey:OleariaAudioPlaybackRate];
+			talkingBook.bookData.audioPlaybackVolume = [_userSetDefaults floatForKey:OleariaAudioPlaybackVolume];
 			talkingBook.bookData.preferredVoice = [_userSetDefaults valueForKey:OleariaPreferredVoice];
-			talkingBook.bookData.voiceVolume = [_userSetDefaults floatForKey:OleariaVoiceVolume];
-			talkingBook.bookData.voicePlaybackRate = [_userSetDefaults floatForKey:OleariaVoicePlaybackRate];
 			talkingBook.bookData.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
 			
 			// write out the changed recent books file
@@ -725,9 +722,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaAudioPlaybackVolume];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaUseVoiceForPlayback];
 	[defaultValuesDict setObject:[NSSpeechSynthesizer defaultVoice] forKey:OleariaPreferredVoice];
-	[defaultValuesDict setObject:[NSNumber numberWithFloat:1.0] forKey:OleariaVoiceVolume];
-	[defaultValuesDict setObject:[NSNumber numberWithFloat:1.0] forKey:OleariaVoicePlaybackRate];
-	[defaultValuesDict setValue:[NSNumber numberWithFloat:0.5] forKey:OleariaChapterSkipIncrement];
+	[defaultValuesDict setValue:[NSNumber numberWithFloat:1.0] forKey:OleariaChapterSkipIncrement];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldOpenLastBookRead];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldUseHighContrastIcons];

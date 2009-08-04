@@ -45,9 +45,6 @@
 - (void)loadPlugins;
 - (NSArray *)availBundles;
 
-- (void)updateInfoView;
-- (void)updateTextView;
-
 @end
 
 
@@ -110,7 +107,9 @@
 			bookIsLoaded = YES;
 			self.canPlay = YES;
 			if([infoPanel isVisible])
-				[self updateInfoView];
+				[infoView addSubview:[currentPlugin bookInfoView]];
+			if([textWindow isVisible])
+				[textView addSubview:[currentPlugin bookTextView]];
 			break;
 		}
 	}
@@ -135,7 +134,6 @@
 
 - (void)pause
 {	
-	
 	[currentPlugin stopPlayback];
 }
 
@@ -159,17 +157,7 @@
 {
 	if([currentPlugin respondsToSelector:@selector(upLevel)])
 	{
-		if(bookData.speakUserLevelChange)
-		{
-			self.bookData.isPlaying = NO;
-			_wasPlaying = YES;
-			[currentPlugin upLevel];
-			//[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
-		}
-		else
-		{
-			[currentPlugin upLevel];
-		}
+		[currentPlugin upLevel];
 	}
 	
 }
@@ -178,21 +166,8 @@
 {
 	if([currentPlugin respondsToSelector:@selector(downLevel)])
 	{
-		if(bookData.speakUserLevelChange)
-		{
-			self.bookData.isPlaying = NO;
-			_wasPlaying = YES;
-			[currentPlugin downLevel];
-			//[speechSynth startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"Level %d.", @"VO level string"),bookData.currentLevel]];
-		}
-		else
-		{
-			[currentPlugin downLevel];
-		}
-		
+		[currentPlugin downLevel];
 	}
-	
-	
 }
 
 - (void)fastForwardAudio
@@ -370,29 +345,25 @@
 	
 }
 
-- (NSString *)currentControlPositionID
-{
-	return [currentPlugin currentControlPoint];
-}
-
-- (NSString *)currentPlaybackTime
-{
-	return [currentPlugin currentPlaybackTime];
-}
-
-#pragma mark -
-#pragma mark Information Methods
-
 - (NSString *)currentTimePosition
 {
-	NSString *nowTime = nil;
-	if(currentPlugin)
-		nowTime = [currentPlugin currentPlaybackTime]; 
+	if([currentPlugin respondsToSelector:@selector(currentPlaybackTime)])
+		return [currentPlugin currentPlaybackTime]; 
 	
-	return nowTime;
+	return nil;
+}
+
+- (NSString *)currentControlPositionID
+{
+	if([currentPlugin respondsToSelector:@selector(currentControlPoint)])
+		return [currentPlugin currentControlPoint];
+
+	return nil;
 }
 
 
+#pragma mark -
+#pragma mark View Methods
 
 - (void)showHideBookInfo
 {
@@ -437,7 +408,6 @@
 			[textWindow makeKeyAndOrderFront:self];
 		}
 	
-	
 }
 
 
@@ -459,28 +429,12 @@
 
 - (void)setAudioPlayRate:(float)aRate
 {
-	self.bookData.playbackRate = aRate;
+	self.bookData.audioPlaybackRate = aRate;
 }
 
 - (void)setAudioVolume:(float)aVolumeLevel
 {
-	self.bookData.playbackVolume = aVolumeLevel;
-}
-
-#pragma mark -
-#pragma mark Private Methods
-
-
-
-#pragma mark -
-#pragma mark Delegate Methods
-
-
-
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
-{
-	if(_wasPlaying)
-		self.bookData.isPlaying = YES;
+	self.bookData.audioPlaybackVolume = aVolumeLevel;
 }
 
 @synthesize formatPlugins, currentPlugin;
@@ -585,26 +539,6 @@
 	
 	return allBundles;
 }
-
-- (void)updateInfoView
-{
-	[infoView addSubview:[currentPlugin bookInfoView]];
-//	if([[infoView subviews] objectAtIndex:0] != [currentPlugin bookInfoView])
-//		[infoView replaceSubview:[[infoView subviews] objectAtIndex:0] with:[currentPlugin bookInfoView]];
-//	else
-//		[currentPlugin bookInfoView]; // tell the view to update itself
-//	
-}
-
-- (void)updateTextView
-{
-	[textView addSubview:[currentPlugin bookTextView]];
-//	if([[textView subviews] objectAtIndex:0] != [currentPlugin bookTextView])
-//	{	
-//		[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
-//	}
-}
-
 
 @end
 

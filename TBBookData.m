@@ -44,6 +44,8 @@ static TBBookData *sharedTBBookData = nil;
 	if (self != nil) 
 	{
 		[self resetForNewBook];
+		talkingBookSpeechSynth = [[NSSpeechSynthesizer alloc] init];
+		
 	}
 	return self;
 }
@@ -58,6 +60,8 @@ static TBBookData *sharedTBBookData = nil;
 	pageString = nil;
 	bookTotalTime = nil;
 	folderPath = nil;
+	preferredVoice = nil;
+	talkingBookSpeechSynth = nil;
 	
 	[super dealloc];
 }
@@ -132,7 +136,7 @@ static TBBookData *sharedTBBookData = nil;
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
 	currentLevel = aLevel;
-	self.levelString = [NSString stringWithFormat:@"%d",aLevel];
+	self.levelString = [NSString stringWithFormat:@"%d",currentLevel];
 }
 
 - (void)setCurrentPage:(NSInteger)aPageNum
@@ -149,7 +153,7 @@ static TBBookData *sharedTBBookData = nil;
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
-	if(totalPages != 0)
+	if(totalPages > 0)
 		self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
 	else
 		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
@@ -181,6 +185,12 @@ static TBBookData *sharedTBBookData = nil;
 
 }
 
+- (void)setPreferredVoice:(NSString *)aVoiceStr
+{
+	preferredVoice = [aVoiceStr copy];
+	[talkingBookSpeechSynth setVoice:preferredVoice];
+}
+
 // bindings related
 @synthesize bookTitle, bookSubject, sectionTitle, bookTotalTime;
 @synthesize mediaFormat;
@@ -192,9 +202,9 @@ static TBBookData *sharedTBBookData = nil;
 @synthesize isPlaying, settingsHaveChanged;
 @synthesize  folderPath;
 
-@synthesize preferredVoice, voicePlaybackRate, voiceVolume;
+@synthesize preferredVoice, talkingBookSpeechSynth;
 @synthesize overrideRecordedContent, speakUserLevelChange, includeSkippableContent;
 @synthesize chapterSkipDuration;
-@synthesize playbackRate, playbackVolume;
+@synthesize audioPlaybackRate, audioPlaybackVolume;
 
 @end
