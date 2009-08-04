@@ -25,12 +25,16 @@
 {
 
 	TBBookData			*bookData;
+
+	NSSpeechSynthesizer *_auxSpeechSynth;
 	
-	NSSpeechSynthesizer	*speechSynth;
-	
+	BOOL				_mainIsSpeaking;
+	BOOL				audioIsPlaying;
 	
 }
 
-- (void)levelDidChange;
+- (void)speakLevelChange;
+
+@property (readwrite)	BOOL audioIsPlaying;
 
 @end

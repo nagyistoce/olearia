@@ -283,7 +283,7 @@
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
 		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
+		self.bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
 	}
 	[self updateDataForCurrentPosition];
 }
@@ -293,7 +293,7 @@
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
 		currentNavPoint = [currentNavPoint parent];
-		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
+		self.bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
 	}
 	[self updateDataForCurrentPosition];
 }
@@ -410,7 +410,7 @@
 	NSInteger thislevel = bookData.currentLevel;
 	//NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
 	//NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
-	NSString *attribContent = [self stringForXquery:@"data(/@class)" ofNode:aNode];
+	NSString *attribContent = [self stringForXquery:@"data(@class)" ofNode:aNode];
 	
 	if(nil != attribContent) // check that we have something to evaluate
 	{

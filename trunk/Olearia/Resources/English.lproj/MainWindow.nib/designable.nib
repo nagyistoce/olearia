@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="956"/>
 			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -1427,7 +1428,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1686,6 +1687,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -1705,10 +1707,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>pageString</string>
 					<string>bookSubject</string>
 					<string>sectionTitle</string>
-					<string>bookTitle</string>
-					<string>playbackRate</string>
-					<string>playbackVolume</string>
 					<string>isPlaying</string>
+					<string>audioPlaybackVolume</string>
+					<string>audioPlaybackRate</string>
 				</object>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
@@ -2354,104 +2355,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						</object>
 					</object>
 					<int key="connectionID">1481</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.playbackVolume</string>
-						<reference key="source" ref="379381253"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="379381253"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.playbackVolume</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.playbackVolume</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="6"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1489</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.playbackVolume</string>
-						<reference key="source" ref="399801161"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="399801161"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.playbackVolume</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.playbackVolume</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMutableArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1491</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.playbackRate</string>
-						<reference key="source" ref="116136054"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="116136054"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.playbackRate</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.playbackRate</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<reference key="NS.object.0" ref="6"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1493</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.playbackRate</string>
-						<reference key="source" ref="758452174"/>
-						<reference key="destination" ref="564195892"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="758452174"/>
-							<reference key="NSDestination" ref="564195892"/>
-							<string key="NSLabel">value: selection.playbackRate</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.playbackRate</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMutableArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="6"/>
-									<reference ref="6"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1496</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3430,6 +3333,104 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="882932090"/>
 					</object>
 					<int key="connectionID">1608</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.audioPlaybackVolume</string>
+						<reference key="source" ref="379381253"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="379381253"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.audioPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.audioPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<reference key="NS.object.0" ref="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1609</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.audioPlaybackVolume</string>
+						<reference key="source" ref="399801161"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="399801161"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.audioPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.audioPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="6"/>
+									<reference ref="6"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1610</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.audioPlaybackRate</string>
+						<reference key="source" ref="116136054"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="116136054"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.audioPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.audioPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<reference key="NS.object.0" ref="6"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1611</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.audioPlaybackRate</string>
+						<reference key="source" ref="758452174"/>
+						<reference key="destination" ref="564195892"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="758452174"/>
+							<reference key="NSDestination" ref="564195892"/>
+							<string key="NSLabel">value: selection.audioPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.audioPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="6"/>
+									<reference ref="6"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1612</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -5087,7 +5088,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1608</int>
+			<int key="maxID">1612</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

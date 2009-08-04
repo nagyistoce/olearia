@@ -30,8 +30,29 @@
 	if (self != nil)
 	{
 		bookData = [TBBookData sharedBookData];
-		speechSynth = [[NSSpeechSynthesizer alloc] init];
-		//[speechSynth setVoice:bookData.pr
+		
+		audioIsPlaying = NO;
+		
+		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoice] retain];
+		[_auxSpeechSynth setDelegate:self];
+		
+		_mainIsSpeaking = NO;
+		
+		[bookData addObserver:self 
+				   forKeyPath:@"voiceVolume"
+					  options:NSKeyValueObservingOptionNew
+					  context:NULL];
+
+		[bookData addObserver:self 
+				   forKeyPath:@"voicePlaybackRate"
+					  options:NSKeyValueObservingOptionNew
+					  context:NULL];
+		
+		[bookData addObserver:self 
+				   forKeyPath:@"preferredVoice"
+					  options:NSKeyValueObservingOptionNew
+					  context:NULL];
+		
 		
 		
 	}
@@ -40,15 +61,60 @@
 
 - (void) dealloc
 {
-	[speechSynth release];
+	[_auxSpeechSynth release];
 	
 	[super dealloc];
 }
 
-- (void)levelDidChange
+- (void)speakLevelChange
 {
-	//if(bookData
+	if(bookData.speakUserLevelChange)
+	{	
+		_mainIsSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
+		
+		if(_mainIsSpeaking)
+			[[bookData talkingBookSpeechSynth] stopSpeaking];
+		
+		if(bookData.isPlaying)
+		{
+			bookData.isPlaying = NO;
+			audioIsPlaying = YES;
+		}
+		
+		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
+	}
+		
+
 }
 
+#pragma mark -
+#pragma mark KVO Methods
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if([keyPath isEqualToString:@"preferredVoice"])	
+		[_auxSpeechSynth setVoice:bookData.preferredVoice];
+	else
+		[super observeValueForKeyPath:keyPath
+							 ofObject:object
+							   change:change
+							  context:context];
+}
+
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(sender == _auxSpeechSynth)
+	{	
+		if(_mainIsSpeaking)
+			[[bookData talkingBookSpeechSynth] continueSpeaking];
+		else if(audioIsPlaying)
+			bookData.isPlaying = YES;
+	}
+			
+	
+}
+
+@synthesize audioIsPlaying;
 
 @end

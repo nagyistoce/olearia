@@ -71,12 +71,12 @@
 	
 	// watch KVO notifications
 	[bookData addObserver:self
-			    forKeyPath:@"playbackRate" 
+			    forKeyPath:@"audioPlaybackRate" 
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
 	[bookData addObserver:self
-			    forKeyPath:@"playbackVolume" 
+			    forKeyPath:@"audioPlaybackVolume" 
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
@@ -101,8 +101,8 @@
 	_audioFile = nil;
 	
 	[bookData removeObserver:self forKeyPath:@"isPlaying"];
-	[bookData removeObserver:self forKeyPath:@"playbackRate"];
-	[bookData removeObserver:self forKeyPath:@"playbackVolume"];
+	[bookData removeObserver:self forKeyPath:@"audioPlaybackRate"];
+	[bookData removeObserver:self forKeyPath:@"audioPlaybackVolume"];
 	
 	[noteCentre removeObserver:self];
 	
@@ -259,11 +259,12 @@
 		[controlDocument goUpALevel];
 		currentTag = [controlDocument currentIdTag];
 	}
-				
+	
 	_didUserNavigation = YES;
 	
 	[self updateAfterNavigationChange];
-		
+	
+	[speechCon speakLevelChange];
 }
 
 - (void)goDownLevel
@@ -273,11 +274,11 @@
 		[controlDocument goDownALevel];
 		currentTag = [controlDocument currentIdTag];
 	}
-		
 	_didUserNavigation = YES;
 	
 	[self updateAfterNavigationChange];
 	
+	[speechCon speakLevelChange];
 }
 
 #pragma mark -
@@ -286,29 +287,38 @@
 - (void)startPlayback
 {
 	if(_audioFile)
+	{	
+		speechCon.audioIsPlaying = YES;
 		[_audioFile play];
+		
+	}
 }
 
 - (void)stopPlayback
 {
 	if(_audioFile)
+	{	
+		speechCon.audioIsPlaying = NO;
 		[_audioFile stop];
+		
+	}
+	
 }
 
 - (void)setPreferredAudioAttributes
 {
 	[_audioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
-	[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackVolume] forKey:QTMoviePreferredVolumeAttribute];
-	[_audioFile setVolume:bookData.playbackVolume];
+	[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackVolume] forKey:QTMoviePreferredVolumeAttribute];
+	[_audioFile setVolume:bookData.audioPlaybackVolume];
+	
+	[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackRate] forKey:QTMoviePreferredRateAttribute];
 	if(!bookData.isPlaying)
 	{	
-		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
 		[_audioFile stop];
 	}
 	else
 	{	
-		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
-		[_audioFile setRate:bookData.playbackRate];
+		[_audioFile setRate:bookData.audioPlaybackRate];
 	}
 	
 	[_audioFile setDelegate:self];
@@ -455,22 +465,20 @@
 {
 	if([keyPath isEqualToString:@"isPlaying"])
 		(bookData.isPlaying) ? [self startPlayback] : [self stopPlayback];
-	else if([keyPath isEqualToString:@"playbackVolume"])
-		[_audioFile setVolume:bookData.playbackVolume];
-	else if([keyPath isEqualToString:@"playbackRate"])
+	else if([keyPath isEqualToString:@"audioPlaybackVolume"])
+		[_audioFile setVolume:bookData.audioPlaybackVolume];
+	else if([keyPath isEqualToString:@"audioPlaybackRate"])
 	{
+		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackRate] forKey:QTMoviePreferredRateAttribute];
 		if(!bookData.isPlaying) 
 		{	
 			// this is a workaround for the current issue where setting the 
 			// playback speed using setRate: automatically starts playback
-			[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
 			[_audioFile stop];
 		}
 		else
-		{	
-			[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.playbackRate] forKey:QTMoviePreferredRateAttribute];
-			[_audioFile setRate:bookData.playbackRate];
-		}
+			[_audioFile setRate:bookData.audioPlaybackRate];
+		
 	}
 	else
 		[super observeValueForKeyPath:keyPath

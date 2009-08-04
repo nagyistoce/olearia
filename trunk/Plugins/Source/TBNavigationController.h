@@ -31,9 +31,9 @@
 	
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
-	TBTextContentDoc	*textDocument;
+	TBTextContentDoc		*textDocument;
 	TBSMILDocument		*smilDocument;
-	TBSpeechController	*speechCon;
+	TBSpeechController		*speechCon;
 	
 	NSString			*currentSmilFilename;
 	NSString			*currentTextFilename;
@@ -67,12 +67,11 @@
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
-@property (readwrite, retain)	TBTextContentDoc	*textDocument;
+@property (readwrite, retain)	TBTextContentDoc		*textDocument;
 @property (readwrite, retain)	TBBookData			*bookData;
-@property (readwrite, retain)	TBSpeechController	*speechCon;
 @property (readwrite, copy)	NSString			*currentTag;
 @property (readwrite, copy)	NSString			*currentSmilFilename;
 @property (readwrite, copy)	NSString			*currentTextFilename;
-@property (readwrite, retain)	NSNotificationCenter *noteCentre;
+@property (readwrite, retain)	NSNotificationCenter	*noteCentre;
 
 @end
