@@ -408,8 +408,6 @@
 {
 	// we set this so that if the node does not contain level information we return the same level
 	NSInteger thislevel = bookData.currentLevel;
-	//NSXMLElement *nodeAsElement = (NSXMLElement *)aNode;
-	//NSString *attribContent = [[nodeAsElement attributeForName:@"class"] stringValue];
 	NSString *attribContent = [self stringForXquery:@"data(@class)" ofNode:aNode];
 	
 	if(nil != attribContent) // check that we have something to evaluate

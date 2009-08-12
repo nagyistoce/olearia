@@ -28,7 +28,7 @@
 // things like title, subject, pagenumber, total pages, level, etc.
 // the plugin must instantiate it via a call to  +sharedBookData
 // read the header for more info.
-@property (readwrite, retain) TBBookData *bookData; 
+@property (readwrite, assign) TBBookData *bookData; 
 
 // return an enumerated list of instances of all the classes available in the bundle
 + (NSArray *)plugins;

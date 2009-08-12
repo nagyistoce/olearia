@@ -29,12 +29,10 @@
 	NSSpeechSynthesizer *_auxSpeechSynth;
 	
 	BOOL				_mainIsSpeaking;
-	BOOL				audioIsPlaying;
+	BOOL				_audioIsPlaying;
 	
 }
 
 - (void)speakLevelChange;
-
-@property (readwrite)	BOOL audioIsPlaying;
 
 @end

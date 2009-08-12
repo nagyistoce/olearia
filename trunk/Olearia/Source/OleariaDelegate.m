@@ -30,8 +30,6 @@ NSString * const OleariaAudioPlaybackVolume = @"OleariaAudioPlaybackVolume";
 NSString * const OleariaAudioPlaybackRate = @"OleariaAudioPlaybackRate";
 NSString * const OleariaPreferredVoice = @"OleariaPreferredVoice"; 
 NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
-NSString * const OleariaVoiceVolume = @"OleariaVoiceVolume";
-NSString * const OleariaVoicePlaybackRate = @"OleariaVoicePlaybackRate";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
 NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
@@ -156,6 +154,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
+	//[[playPauseButton cell] setHighlightsBy:NSChangeGrayCellMask];
+	[[playPauseButton image] setBackgroundColor:[NSColor lightGrayColor]];
+	NSLog(@"color %@",[[playPauseButton image] backgroundColor]);
 	
 	// set the title of the play/pause menu item
 	[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
@@ -259,11 +260,9 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
-		NSImage *tempImage = [playPauseButton image];
-		[playPauseButton setImage:[playPauseButton alternateImage]];
-		[playPauseButton setAlternateImage:tempImage];
-				
-		//talkingBook.bookData.isPlaying = YES;
+//		NSImage *tempImage = [playPauseButton image];
+//		[playPauseButton setImage:[playPauseButton alternateImage]];
+//		[playPauseButton setAlternateImage:tempImage];
 				
 		[talkingBook play];
 	}
@@ -271,14 +270,12 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	{
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
 		[[playPauseMenuItem menu] sizeToFit];
-	
-		//talkingBook.bookData.isPlaying = NO;
 		
 		// we switch the images like this to allow for differences between names when using normal 
 		// or high contrast icons.
-		NSImage *tempImage = [playPauseButton image];
-		[playPauseButton setImage:[playPauseButton alternateImage]];
-		[playPauseButton setAlternateImage:tempImage];
+//		NSImage *tempImage = [playPauseButton image];
+//		[playPauseButton setImage:[playPauseButton alternateImage]];
+//		[playPauseButton setAlternateImage:tempImage];
 		
 		[talkingBook pause];
 		
@@ -735,8 +732,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
     resettableKeys=[NSArray arrayWithObjects:OleariaAudioPlaybackRate, 
 					OleariaAudioPlaybackVolume, 
 					OleariaPreferredVoice,
-					OleariaVoiceVolume,
-					OleariaVoicePlaybackRate,
 					OleariaUseVoiceForPlayback, 
 					OleariaChapterSkipIncrement,
 					OleariaShouldUseHighContrastIcons,

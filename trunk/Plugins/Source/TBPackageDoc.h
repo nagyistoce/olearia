@@ -31,8 +31,6 @@
 	NSURL					*fileURL;
 }
 
-- (id)initWithSharedData:(id)sharedDataClass;
-
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;

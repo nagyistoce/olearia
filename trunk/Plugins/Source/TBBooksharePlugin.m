@@ -87,54 +87,54 @@
 		if(packageFileUrl)
 		{
 			if(!packageDoc)
-				self.packageDoc = [[TBOPFDocument alloc] initWithSharedData:bookData];
+				packageDoc = [[TBOPFDocument alloc] init];
 			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[[navCon packageDocument] metadataNode]] uppercaseString];
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/data(*:Format)" ofNode:nil] uppercaseString];
 				
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) 
 				{	
-					NSString *schemeStr = [packageDoc stringForXquery:@"/package/metadata/dc-metadata/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
+					NSString *schemeStr = [packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
 					if((schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
 						// the opf file specifies that it is a 2002 format book and it has the bookshare scheme tag
-						self.bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+						bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
-						self.packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
+						packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='ncx'][@media-type='text/xml']/data(@href)" ofNode:nil];
 	
 						// get the text content filename
-						self.packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type=\"application/x-dtbook+xml\"]/data(@href)" ofNode:nil];
+						packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='text'][@media-type='text/xml']/data(@href)" ofNode:nil];
 
 						[packageDoc processData];
 						
 						bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 						
-						controlFileURL = [NSURL URLWithString:self.navCon.packageDocument.ncxFilename relativeToURL:bookData.folderPath];  
+						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.folderPath];  
 						
 						opfLoaded = YES;
 					}
 					else 
-						self.packageDoc = nil;
+						packageDoc = nil;
 				}
 				else 
-					self.packageDoc = nil;
+					packageDoc = nil;
 			}
 			else 
-				self.packageDoc = nil;
+				packageDoc = nil;
 		}
 		
 		if (controlFileURL)
 		{
 			if(!controlDoc)
-				self.controlDoc = [[TBNCXDocument alloc] initWithSharedData:bookData];
+				controlDoc = [[TBNCXDocument alloc] init];
 			
 			// check if the folder path has already been set
 			if (!bookData.folderPath)
-				self.bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
+				bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
 			// attempt to load the ncx file
 			
 			bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
@@ -148,15 +148,15 @@
 		
 		if(opfLoaded)
 		{	
-			self.navCon.packageDocument = packageDoc;
-			self.packageDoc = nil;
-			self.currentPlugin = self;
+			navCon.packageDocument = packageDoc;
+			packageDoc = nil;
+			currentPlugin = self;
 		}
 		if(ncxLoaded)
 		{	
-			self.navCon.controlDocument = controlDoc;
-			self.controlDoc = nil;
-			self.currentPlugin = self;
+			navCon.controlDocument = controlDoc;
+			controlDoc = nil;
+			currentPlugin = self;
 		}
 		
 		[navCon moveControlPoint:nil withTime:nil];
@@ -180,15 +180,15 @@
 	return nil;
 }
 
-- (void)startPlayback
-{
-	[super startPlayback];
-}
-
-- (void)stopPlayback
-{
-	[super stopPlayback];
-}
+//- (void)startPlayback
+//{	
+//	[super startPlayback];
+//}
+//
+//- (void)stopPlayback
+//{	
+//	[super stopPlayback];
+//}
 
 - (NSString *)FormatDescription
 {
@@ -236,25 +236,25 @@
 #pragma mark Navigation
 
 
-- (void)nextReadingElement;
-{
-	[super nextReadingElement];
-}
-
-- (void)previousReadingElement;
-{
-	[super previousReadingElement];
-}
-
-- (void)upLevel;
-{
-	[super upLevel];
-}
-
-- (void)downLevel
-{
-	[super downLevel];
-}
+//- (void)nextReadingElement;
+//{
+//	[super nextReadingElement];
+//}
+//
+//- (void)previousReadingElement;
+//{
+//	[super previousReadingElement];
+//}
+//
+//- (void)upLevel;
+//{
+//	[super upLevel];
+//}
+//
+//- (void)downLevel
+//{
+//	[super downLevel];
+//}
 
 #pragma mark -
 

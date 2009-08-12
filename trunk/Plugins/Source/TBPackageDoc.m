@@ -31,22 +31,20 @@
 
 @implementation TBPackageDoc
 
-- (id)initWithSharedData:(id)sharedDataClass
+- (id)init
 {
 	if (!(self=[super init])) return nil;
 	
-	bookData = [[sharedDataClass class] sharedBookData];
+	bookData = [TBBookData sharedBookData];
 	
 	return self;
 }
 
 - (void) dealloc
 {
-	[xmlPackageDoc release];
+	
 	xmlPackageDoc = nil;
-	[ncxFilename release];
 	ncxFilename = nil;
-	[textContentFilename release];
 	textContentFilename = nil;
 	
 	[super dealloc];
