@@ -228,22 +228,22 @@
 
 - (void)nextReadingElement;
 {
-	[super nextElement];
+	[super nextReadingElement];
 }
 
 - (void)previousReadingElement;
 {
-	[super previousElement];
+	[super previousReadingElement];
 }
 
 - (void)upLevel;
 {
-	[super goUpLevel];
+	[super upLevel];
 }
 
 - (void)downLevel
 {
-	[super goDownLevel];
+	[super downLevel];
 }
 
 - (NSView *)bookTextView;
