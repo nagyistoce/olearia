@@ -38,8 +38,6 @@
 	
 }
 
-- (id)initWithSharedData:(id)sharedDataClass;
-
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;

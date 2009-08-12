@@ -26,8 +26,6 @@
 
 @interface TBStdInfoView ()
 
-@property (readwrite, retain) NSMutableArray *_metaInfo;
-
 - (NSString *)expandImpliedWhitespace:(NSString *)aStr;
 - (TBStdInfoViewItem *)infoItemFromMetaElement:(NSXMLElement *)anElement;
 - (NSString *)extraIdentifierNamesForElement:(NSXMLElement *)anElement;
@@ -210,7 +208,5 @@
 	else
 		return [[_metaInfo objectAtIndex:rowIndex] content];
 }
-
-@synthesize _metaInfo;
 
 @end

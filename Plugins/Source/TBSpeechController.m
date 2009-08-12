@@ -20,7 +20,7 @@
 //
 
 #import "TBSpeechController.h"
-
+#import "TBNavigationController.h"
 
 @implementation TBSpeechController
 
@@ -31,29 +31,16 @@
 	{
 		bookData = [TBBookData sharedBookData];
 		
-		audioIsPlaying = NO;
+		_audioIsPlaying = NO;
+		_mainIsSpeaking = NO;
 		
 		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoice] retain];
 		[_auxSpeechSynth setDelegate:self];
-		
-		_mainIsSpeaking = NO;
-		
-		[bookData addObserver:self 
-				   forKeyPath:@"voiceVolume"
-					  options:NSKeyValueObservingOptionNew
-					  context:NULL];
-
-		[bookData addObserver:self 
-				   forKeyPath:@"voicePlaybackRate"
-					  options:NSKeyValueObservingOptionNew
-					  context:NULL];
 		
 		[bookData addObserver:self 
 				   forKeyPath:@"preferredVoice"
 					  options:NSKeyValueObservingOptionNew
 					  context:NULL];
-		
-		
 		
 	}
 	return self;
@@ -77,8 +64,8 @@
 		
 		if(bookData.isPlaying)
 		{
-			bookData.isPlaying = NO;
-			audioIsPlaying = YES;
+			[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStopPlayback object:nil ];
+			_audioIsPlaying = YES;
 		}
 		
 		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
@@ -108,13 +95,11 @@
 	{	
 		if(_mainIsSpeaking)
 			[[bookData talkingBookSpeechSynth] continueSpeaking];
-		else if(audioIsPlaying)
-			bookData.isPlaying = YES;
+		else if(_audioIsPlaying)
+			[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStartPlayback object:nil];
 	}
 			
 	
 }
-
-@synthesize audioIsPlaying;
 
 @end

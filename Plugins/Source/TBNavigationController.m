@@ -19,6 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+NSString * const TBStdPluginShouldStopPlayback = @"TBStdPluginShouldStopPlayback";
+NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayback";
+
 #import <Cocoa/Cocoa.h>
 #import "TBNavigationController.h"
 #import "TBOPFDocument.h"
@@ -29,16 +32,8 @@
 
 @interface TBNavigationController () 
 
-@property (readwrite, retain)	TBAudioSegment		*_audioFile;
-@property (readwrite)			BOOL				_didUserNavigation;
-@property (readwrite)			BOOL				_justAddedChapters;
-@property (readwrite)			BOOL				_shouldJumpToTime;
-@property (readwrite)			QTTime				_timeToJumpTo;
-@property (readwrite, copy)		NSString			*_currentAudioFilename;
-
 - (void)checkMediaFormat;
-- (void)startPlayback;
-- (void)stopPlayback;
+
 
 - (void)updateForAudioChapterPosition;
 - (void)addChaptersToAudioSegment;
@@ -49,9 +44,11 @@
 
 @end
 
+
+
 @implementation TBNavigationController
 
-- (id)initWithSharedData:(id)sharedDataClass
+- (id)init
 {
 	if (!(self=[super init])) return nil;
 	
@@ -62,12 +59,22 @@
 	currentTag = nil;
 	
 	
-	bookData = [[sharedDataClass class] sharedBookData];
+	bookData = [TBBookData sharedBookData];
 	speechCon = [[TBSpeechController alloc] init];
 	
 	noteCentre = [NSNotificationCenter defaultCenter];
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;
+	
+	[noteCentre addObserver:self 
+				   selector:@selector(startPlayback) 
+					   name:TBStdPluginShouldStartPlayback 
+					 object:nil];
+	
+	[noteCentre addObserver:self
+				   selector:@selector(stopPlayback)
+					   name:TBStdPluginShouldStopPlayback
+					 object:nil];
 	
 	// watch KVO notifications
 	[bookData addObserver:self
@@ -80,19 +87,14 @@
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
-	[bookData addObserver:self
-			    forKeyPath:@"isPlaying"
-				   options:NSKeyValueObservingOptionNew
-				   context:NULL];
-	
 	return self;
 
 }
 
 - (void) dealloc
 {
-	self.packageDocument = nil;
-	self.controlDocument = nil;
+	packageDocument = nil;
+	controlDocument = nil;
 	
 	currentTag = nil;
 	_currentAudioFilename = nil;
@@ -100,7 +102,6 @@
 	smilDocument = nil;
 	_audioFile = nil;
 	
-	[bookData removeObserver:self forKeyPath:@"isPlaying"];
 	[bookData removeObserver:self forKeyPath:@"audioPlaybackRate"];
 	[bookData removeObserver:self forKeyPath:@"audioPlaybackVolume"];
 	
@@ -281,16 +282,12 @@
 	[speechCon speakLevelChange];
 }
 
-#pragma mark -
-#pragma mark Private Methods
-
 - (void)startPlayback
 {
 	if(_audioFile)
 	{	
-		speechCon.audioIsPlaying = YES;
 		[_audioFile play];
-		
+		bookData.isPlaying = YES;
 	}
 }
 
@@ -298,12 +295,15 @@
 {
 	if(_audioFile)
 	{	
-		speechCon.audioIsPlaying = NO;
 		[_audioFile stop];
-		
+		bookData.isPlaying = NO;
 	}
 	
 }
+
+#pragma mark -
+#pragma mark Private Methods
+
 
 - (void)setPreferredAudioAttributes
 {
@@ -378,8 +378,8 @@
 
 - (void)updateForAudioChapterPosition
 {
-	self.bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
-	self.bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
+	bookData.hasNextChapter = [_audioFile nextChapterIsAvail];
+	bookData.hasPreviousChapter = [_audioFile prevChapterIsAvail];
 	[controlDocument updateDataForCurrentPosition];
 }
 
@@ -463,9 +463,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if([keyPath isEqualToString:@"isPlaying"])
-		(bookData.isPlaying) ? [self startPlayback] : [self stopPlayback];
-	else if([keyPath isEqualToString:@"audioPlaybackVolume"])
+	if([keyPath isEqualToString:@"audioPlaybackVolume"])
 		[_audioFile setVolume:bookData.audioPlaybackVolume];
 	else if([keyPath isEqualToString:@"audioPlaybackRate"])
 	{
@@ -494,7 +492,7 @@
 - (void)audioFileDidEnd:(NSNotification *)notification
 {
 
-	if([notification object] == self._audioFile)
+	if([notification object] == _audioFile)
 	{
 		// update the smil doc to the current tags position
 		[smilDocument jumpToNodeWithIdTag:currentTag];
@@ -526,7 +524,7 @@
 
 - (void)loadStateDidChange:(NSNotification *)notification
 {
-	if([notification object] == self._audioFile)
+	if([notification object] == _audioFile)
 		if([[notification name] isEqualToString:QTMovieLoadStateDidChangeNotification])
 			if([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 			{	
@@ -557,7 +555,7 @@
 
 - (void)updateForChapterChange:(NSNotification *)notification
 {
-	if([notification object] == self._audioFile)
+	if([notification object] == _audioFile)
 	{
 		if((!_justAddedChapters))
 		{
@@ -572,10 +570,8 @@
 
 
 @synthesize packageDocument, controlDocument, textDocument, smilDocument;
-@synthesize bookData, noteCentre;
 @synthesize currentSmilFilename, currentTextFilename, currentTag;
-@synthesize _didUserNavigation, _justAddedChapters, _shouldJumpToTime, _currentAudioFilename;
-@synthesize _timeToJumpTo, _audioFile;
+
 
 @end
 

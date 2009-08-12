@@ -29,16 +29,21 @@
 
 @end
 
+@interface TBTextContentDoc (Private)
+
+- (NSUInteger)itemsOnCurrentLevel;
+- (NSUInteger)itemIndexOnCurrentLevel;
+
+@end
 
 
 @implementation TBTextContentDoc
 
-- (id)initWithSharedData:(id)anInstance
+- (id)init
 {
 	if (!(self=[super init])) return nil;
 	
-	if([[anInstance class] respondsToSelector:@selector(sharedBookData)])
-		bookData = [[anInstance class] sharedBookData];
+	bookData = [TBBookData sharedBookData];
 	
 	return self;
 }
@@ -54,9 +59,12 @@
 	_xmlTextDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
 	
 	if(_xmlTextDoc)
-	{
-		loadedOk = YES;
+	{	
 		
+		_currentNode = nil;
+		_currentNode = [[_xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/bodymatter[1]" error:nil] objectAtIndex:0];
+		if(nil != _currentNode)
+			loadedOk = YES;
 	}
 	else // we got a nil return so display the error to the user
 	{
@@ -77,33 +85,194 @@
 	
 	// get the root element of the tree
 	NSXMLElement *_xmlRoot = [_xmlTextDoc rootElement];
-	_currentNode = nil;
-	_currentNode = [[_xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]" error:nil] objectAtIndex:0];
+
 	
 }
 
 - (void)jumpToNodeWithIdTag:(NSString *)aTag
 {
-	if(aTag)
-	{	
-		NSString *queryStr = [NSString stringWithFormat:@"/dtbook[1]/book[1]//*[@id='%@']",aTag];
-		NSArray *tagNodes = nil;
-		tagNodes = [_xmlTextDoc nodesForXPath:queryStr error:nil];
-		
-		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
-	}
+//	if(aTag)
+//	{	
+//		NSString *queryStr = [NSString stringWithFormat:@"/dtbook[1]/book[1]//*[@id='%@']",aTag];
+//		NSArray *tagNodes = nil;
+//		tagNodes = [_xmlTextDoc nodesForXPath:queryStr error:nil];
+//		
+//		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
+//	}
+}
+
+
+@synthesize _xmlTextDoc, _xmlRoot, _currentNode;
+
+@end
+
+@implementation TBTextContentDoc (Synchronization)
+
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode
+{
+	
+}
+
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag
+{
+	
+}
+
+- (void)updateDataForCurrentPosition
+{
+	
 }
 
 - (NSString *)currentIdTag
 {
 	
-	NSArray *idTags = nil;
-	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
-	
-	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
+//	NSArray *idTags = nil;
+//	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
+//	
+//	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
+	return nil;
 }
 
-@synthesize bookData;
-@synthesize _xmlTextDoc, _xmlRoot, _currentNode;
+@end
+
+
+@implementation TBTextContentDoc (Navigation)
+
+- (void)moveToNextSegment
+{
+//	NSXMLNode *newNode = nil;
+//	newNode = [_currentNode 
+	
+//	if(YES == [self canGoDownLevel]) // first check if we can go down a level
+//	{	
+//		_currentNode = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+//		bookData.currentLevel++; // increment the level
+//	}
+//	else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+//		currentNavPoint = [currentNavPoint nextSibling];
+//	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+//	{
+//		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+//		{	
+//			// get the parent then its sibling as we have already played 
+//			// the parent before dropping into this level
+//			currentNavPoint = [[currentNavPoint parent] nextSibling];
+//			bookData.currentLevel--; // decrement the current level
+//		}
+//	}
+//
+	
+}
+
+- (void)moveToNextSegmentAtSameLevel
+{
+	// this only used when the user chooses to go to the next file on a given level
+//	currentNavPoint = [currentNavPoint nextSibling];
+//	[self updateDataForCurrentPosition];
+}
+
+- (void)moveToPreviousSegment
+{
+	
+//		BOOL foundNode = NO;
+//	
+//	if(NO == navigateForChapters)
+//	{
+//		// we have a node on this level
+//		currentNavPoint = [currentNavPoint previousSibling];
+//	}
+//	else
+//	{
+//		// we only make it here if we are travelling backwards across segments
+//		
+//		// reset the flag
+//		navigateForChapters = NO;
+//		
+//		// look back through the previous nodes for a navpoint
+//		while(NO == foundNode)
+//		{
+//			currentNavPoint = [currentNavPoint previousNode];
+//			if([[currentNavPoint name] isEqualToString:@"navPoint"])
+//				foundNode = YES;
+//		}
+//		
+//		
+//		//self.bookData.currentLevel = [self levelOfNode:_currentNavPoint];
+//		
+//		
+//		
+//		
+//	}
+//	
+//	//self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:_currentNavPoint];
+//
+//	[self updateDataForCurrentPosition];
+	
+}
+
+- (void)goUpALevel
+{
+	
+}
+
+- (void)goDownALevel
+{
+	
+	//[_currentNode  
+}
 
 @end
+
+
+@implementation TBTextContentDoc (Information)
+
+- (BOOL)canGoNext
+{
+	// return YES if we can go forward in the navmap
+	return ([self itemIndexOnCurrentLevel] < ([self itemsOnCurrentLevel] - 1)) ? YES : NO; 
+}
+
+- (BOOL)canGoPrev
+{
+	// return YES if we can go backwards in the navMap
+	return ([self itemsOnCurrentLevel] > 0) ? YES : NO;
+}
+
+- (BOOL)canGoUpLevel
+{
+	// return Yes if we are at a lower level
+	return (bookData.currentLevel > 1) ? YES : NO;
+}
+
+- (BOOL)canGoDownLevel
+{
+	// return YES if there are Nodes below this level
+	NSString *newLevelString = [NSString stringWithFormat:@"level%d",bookData.currentLevel+1];
+	return ([[_currentNode nodesForXPath:newLevelString error:nil] count] > 0) ? YES : NO;
+}
+
+
+- (NSString *)contentText
+{
+	
+	return [_currentNode stringValue];
+}
+
+@end
+
+@implementation TBTextContentDoc (Private)
+
+- (NSUInteger)itemsOnCurrentLevel
+{
+	return [[_currentNode parent] childCount]; 
+}
+
+- (NSUInteger)itemIndexOnCurrentLevel
+{
+	// returns an index of the current node relative to the other nodes on the same level
+	return [_currentNode index];
+}
+
+@end
+
+

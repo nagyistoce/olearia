@@ -73,7 +73,7 @@
 		if(packageFileUrl)
 		{
 			if(!packageDoc)
-				self.packageDoc = [[TBOPFNimasDocument alloc] initWithSharedData:bookData];
+				packageDoc = [[TBOPFNimasDocument alloc] init];
 			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
@@ -98,10 +98,10 @@
 					opfLoaded = YES;
 				}
 				else 
-					self.packageDoc = nil;
+					packageDoc = nil;
 			}
 			else
-				self.packageDoc = nil;
+				packageDoc = nil;
 		}
 	}
 
@@ -109,9 +109,9 @@
 	{
 		[super chooseCorrectNavControllerForBook];
 		
-		self.navCon.packageDocument = packageDoc;
-		self.packageDoc = nil;
-		self.currentPlugin = self;
+		navCon.packageDocument = packageDoc;
+		packageDoc = nil;
+		currentPlugin = self;
 		
 		[navCon moveControlPoint:nil withTime:nil];
 		

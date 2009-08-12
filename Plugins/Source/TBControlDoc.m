@@ -32,11 +32,11 @@
 
 @implementation TBControlDoc
 
-- (id)initWithSharedData:(id)sharedDataClass
+- (id)init
 {
 	if (!(self=[super init])) return nil;
 	
-	bookData = [[sharedDataClass class] sharedBookData];
+	bookData = [TBBookData sharedBookData];
 	
 	return self;
 }

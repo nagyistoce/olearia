@@ -42,30 +42,6 @@
 
 @implementation TBStdFormats
 
-//+ (BOOL)initializeClass:(NSBundle*)theBundle 
-//{		
-//	if (pluginBundle) 
-//	{
-//		// return no if the plugin is already instantiated
-//		return NO;
-//	}
-//	
-//	pluginBundle = [theBundle retain];
-//	return YES;
-//}
-
-//+ (void)terminateClass 
-//{
-//	// sanity check to see that the bundle is instantiated before we release it 
-// 	if (pluginBundle) 
-//	{
-//		[pluginBundle release];
-//		pluginBundle = nil;
-//	}
-//}
-
-
-
 + (NSArray *)plugins 
 {
 	NSMutableArray* plugs = [[[NSMutableArray alloc] init] autorelease];
@@ -86,11 +62,6 @@
 	return nil;	
 }
 
-//- (void)setSharedBookData:(id)anInstance
-//{
-//	if([[anInstance class] respondsToSelector:@selector(sharedBookData)])
-//		self.bookData = [[anInstance class] sharedBookData];
-//}
 
 - (BOOL)isVariant
 {
@@ -109,7 +80,7 @@
 		if (![NSBundle loadNibNamed:@"TextView" owner:self])
 			return nil;
 		
-	if((bookData.mediaFormat != AudioNcxOrNccMediaFormat) && (bookData.mediaFormat != AudioOnlyMediaFormat))
+	if(([bookData mediaFormat] != AudioNcxOrNccMediaFormat) && ([bookData mediaFormat] != AudioOnlyMediaFormat))
 	{	
 		if(navCon.packageDocument.textContentFilename)
 		{	
@@ -195,12 +166,12 @@
 
 - (void)startPlayback
 {	
-	bookData.isPlaying = YES;
+	[navCon startPlayback];
 }
 
 - (void)stopPlayback
 {	
-	bookData.isPlaying = NO;
+	[navCon stopPlayback];
 }
 
 - (NSURL *)loadedURL
@@ -238,22 +209,22 @@
 	if(!navCon)
 	{	
 		if(bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat)
-			self.navCon = [[TBNavigationController alloc] initWithSharedData:[bookData class]];
+			navCon = [[TBNavigationController alloc] init];
 		else
-			self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:[bookData class]];
+			navCon = [[TBTextOnlyNavigationController alloc] init];
 	}
 	else // nav controller already loaded from previous book.
 	{
 		if(bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat)
 			if([navCon isKindOfClass:[TBNavigationController class]])
 			{
-				self.navCon = nil;
-				self.navCon = [[TBTextOnlyNavigationController alloc] initWithSharedData:bookData];
+				navCon = nil;
+				navCon = [[TBTextOnlyNavigationController alloc] init];
 			}
 			else // must be loaded as text only nav controller 
 			{
-				self.navCon = nil;
-				self.navCon = [[TBNavigationController alloc] initWithSharedData:bookData];
+				navCon = nil;
+				navCon = [[TBNavigationController alloc] init];
 			}
 	}
 }
@@ -303,17 +274,18 @@
 
 - (void) dealloc
 {
-	[bookData release];
 	[fileUtils release];
-	if(validFileExtensions) 
-		[validFileExtensions release];
+	[validFileExtensions release];
+	[controlDoc release];
+	[packageDoc release];
+	[navCon	release];
 	
 	[super dealloc];
 }
 
 
-
-@synthesize bookData, currentPlugin;
+@synthesize bookData;
+@synthesize currentPlugin;
 @synthesize validFileExtensions;
 @synthesize navCon, packageDoc, controlDoc;
 

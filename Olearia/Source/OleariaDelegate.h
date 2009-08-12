@@ -27,8 +27,6 @@
 extern NSString * const OleariaAudioPlaybackVolume;
 extern NSString * const OleariaAudioPlaybackRate;
 extern NSString * const OleariaPreferredVoice;
-extern NSString * const OleariaVoiceVolume;
-extern NSString * const OleariaVoicePlaybackRate;
 extern NSString * const OleariaUseVoiceForPlayback;
 extern NSString * const OleariaChapterSkipIncrement;
 extern NSString * const OleariaEnableVoiceOnLevelChange;

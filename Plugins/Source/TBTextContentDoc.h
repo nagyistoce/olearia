@@ -32,9 +32,43 @@
 	
 }
 
+
+// setup
+- (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
 
-@property (readwrite, retain) TBBookData *bookData;
+//@property (readwrite, assign) TBBookData *bookData;
+
+@end
+
+@interface TBTextContentDoc (Synchronization)
+
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
+- (void)updateDataForCurrentPosition;
+- (NSString *)currentIdTag;
 
 
 @end
+
+
+@interface TBTextContentDoc (Information)
+
+- (BOOL)canGoNext;
+- (BOOL)canGoPrev;
+- (BOOL)canGoUpLevel;
+- (BOOL)canGoDownLevel;
+- (NSString *)contentText;
+
+@end
+
+@interface TBTextContentDoc (Navigation)
+
+- (void)moveToNextSegment;
+- (void)moveToNextSegmentAtSameLevel;
+- (void)moveToPreviousSegment;
+- (void)goUpALevel;
+- (void)goDownALevel;
+
+@end
+

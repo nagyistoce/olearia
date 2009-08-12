@@ -19,6 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+extern NSString * const TBStdPluginShouldStopPlayback;
+extern NSString * const TBStdPluginShouldStartPlayback;
+
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 #import "TBTextContentDoc.h"
@@ -27,13 +30,13 @@
 
 @interface TBNavigationController : NSObject 
 {
-	TBBookData	*bookData;
+	TBBookData			*bookData;
 	
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
-	TBTextContentDoc		*textDocument;
+	TBTextContentDoc	*textDocument;
 	TBSMILDocument		*smilDocument;
-	TBSpeechController		*speechCon;
+	TBSpeechController	*speechCon;
 	
 	NSString			*currentSmilFilename;
 	NSString			*currentTextFilename;
@@ -44,12 +47,11 @@
 	BOOL				_justAddedChapters;
 	BOOL				_didUserNavigation;
 	BOOL				_shouldJumpToTime;
+	BOOL				_isPlaying;
 	QTTime				_timeToJumpTo;
 	
 	NSNotificationCenter *noteCentre;
 }
-
-- (id)initWithSharedData:(id)sharedDataClass;
 
 // methods used for setting and getting the current position in the document
 - (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime;
@@ -58,6 +60,8 @@
 
 
 - (void)prepareForPlayback;
+- (void)startPlayback;
+- (void)stopPlayback;
 - (void)resetController;
 - (void)nextElement;
 - (void)previousElement;
@@ -67,11 +71,10 @@
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
-@property (readwrite, retain)	TBTextContentDoc		*textDocument;
-@property (readwrite, retain)	TBBookData			*bookData;
-@property (readwrite, copy)	NSString			*currentTag;
-@property (readwrite, copy)	NSString			*currentSmilFilename;
-@property (readwrite, copy)	NSString			*currentTextFilename;
-@property (readwrite, retain)	NSNotificationCenter	*noteCentre;
+@property (readwrite, retain)	TBTextContentDoc	*textDocument;
+@property (readwrite, copy)	NSString				*currentTag;
+@property (readwrite, copy)	NSString				*currentSmilFilename;
+@property (readwrite, copy)	NSString				*currentTextFilename;
+
 
 @end

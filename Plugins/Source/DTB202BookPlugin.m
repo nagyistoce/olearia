@@ -108,7 +108,7 @@
 		{
 			// attempt to load the ncc.html file
 			if(!controlDoc)
-				controlDoc = [[TBNCCDocument alloc] initWithSharedData:bookData];
+				controlDoc = [[TBNCCDocument alloc] init];
 			
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
@@ -124,11 +124,11 @@
 					nccLoaded = YES;
 				}
 				else 
-					self.controlDoc = nil;
+					controlDoc = nil;
 				
 			}
 			else 
-				self.controlDoc = nil;
+				controlDoc = nil;
 		}
 	}
 	
@@ -136,8 +136,8 @@
 	{
 		[super chooseCorrectNavControllerForBook];
 		
-		self.navCon.controlDocument = controlDoc;
-		self.controlDoc = nil;
+		navCon.controlDocument = controlDoc;
+		controlDoc = nil;
 		
 		[navCon moveControlPoint:nil withTime:nil];
 		
@@ -153,7 +153,7 @@
 
 - (NSXMLNode *)infoMetadataNode
 {
-	if(self.navCon.controlDocument)
+	if(navCon.controlDocument)
 		return [[navCon controlDocument] metadataNode];
 
 	return nil;
@@ -161,7 +161,7 @@
 
 - (NSURL *)loadedURL
 {
-	if(self.navCon.controlDocument)
+	if(navCon.controlDocument)
 		return [[navCon controlDocument] fileURL];
 	
 	return nil;

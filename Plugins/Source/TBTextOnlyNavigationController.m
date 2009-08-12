@@ -79,12 +79,12 @@
 			if(![currentTextFilename isEqualToString:filename])
 			{
 				currentTextFilename = [filename copy];
-				// [textDocument openWith 
+				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.folderPath]];
 			}
 		}
 		else
 		{
-			// no smil filename
+			// no smil filename so look for the text filename in the control document
 			
 		}
 		
@@ -93,6 +93,44 @@
 	{
 		// setup for package navigation
 	}
+	
+	[[bookData talkingBookSpeechSynth] setDelegate:self];
+}
+
+- (void)resetController
+{
+	
+	currentSmilFilename = nil;
+	currentTextFilename = nil;
+	currentTag = nil;
+	_didUserNavigation = NO;
+		
+	
+}
+
+#pragma mark -
+#pragma mark Private Methods
+
+- (void)startPlayback
+{
+	[[bookData talkingBookSpeechSynth] startSpeakingString:[textDocument contentText]];
+	
+}
+
+- (void)stopPlayback
+{
+	[[bookData talkingBookSpeechSynth] stopSpeaking];
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	NSLog(@"did finish speaking");
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+{
+	NSString *wordIs = [text substringWithRange:wordToSpeak];
+	NSLog(@"speaking -> %@",wordIs);
 }
 
 

@@ -37,10 +37,10 @@
 	IBOutlet TBStdInfoView	*infoView;
 	IBOutlet TBStdTextView   *textview;
 
-	TBNavigationController *navCon;
+	TBNavigationController	*navCon;
 	
 	TBPackageDoc			*packageDoc;
-	TBControlDoc				*controlDoc;
+	TBControlDoc			*controlDoc;
 	
 	TBStdFormats			*currentPlugin;
 
@@ -52,11 +52,11 @@
 - (void)chooseCorrectNavControllerForBook;
 
 @property (readonly, retain)	NSArray					*validFileExtensions;
+@property (readwrite, assign)	TBBookData				*bookData;
 
-@property (readwrite,retain)	TBBookData				*bookData;
-@property (readwrite,retain)	TBNavigationController		*navCon;
-@property (readwrite, retain)	TBPackageDoc			*packageDoc;
-@property (readwrite, retain)	TBControlDoc				*controlDoc;
+@property (readwrite, retain)	TBNavigationController	*navCon;
+@property (readwrite, assign)	TBPackageDoc			*packageDoc;
+@property (readwrite, assign)	TBControlDoc			*controlDoc;
 
 @property (readwrite, assign)	TBStdFormats			*currentPlugin;
 
