@@ -23,9 +23,7 @@
 
 @interface TBTextContentDoc ()
 
-@property (readwrite, retain) NSXMLDocument	*_xmlTextDoc;
-@property (readwrite, retain) NSXMLElement	*_xmlRoot;
-@property (readwrite, retain) NSXMLNode		*_currentNode;
+
 
 @end
 
@@ -33,6 +31,8 @@
 
 - (NSUInteger)itemsOnCurrentLevel;
 - (NSUInteger)itemIndexOnCurrentLevel;
+- (void)updateInfoWithInterveningNodes;
+- (BOOL)isHeadingNode:(NSXMLNode *)aNode;
 
 @end
 
@@ -48,9 +48,6 @@
 	return self;
 }
 
-
-
-
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
 	BOOL loadedOk = NO;
@@ -63,8 +60,14 @@
 		
 		_currentNode = nil;
 		_currentNode = [[_xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/bodymatter[1]" error:nil] objectAtIndex:0];
+		
+		
 		if(nil != _currentNode)
+		{	
+			[self updateInfoWithInterveningNodes];
 			loadedOk = YES;
+			
+		}
 	}
 	else // we got a nil return so display the error to the user
 	{
@@ -83,26 +86,23 @@
 - (void)processData
 {
 	
-	// get the root element of the tree
-	NSXMLElement *_xmlRoot = [_xmlTextDoc rootElement];
-
+	[self updateInfoWithInterveningNodes];
 	
 }
 
 - (void)jumpToNodeWithIdTag:(NSString *)aTag
 {
-//	if(aTag)
-//	{	
-//		NSString *queryStr = [NSString stringWithFormat:@"/dtbook[1]/book[1]//*[@id='%@']",aTag];
-//		NSArray *tagNodes = nil;
-//		tagNodes = [_xmlTextDoc nodesForXPath:queryStr error:nil];
-//		
-//		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
-//	}
+	if(aTag)
+	{	
+		NSString *queryStr = [NSString stringWithFormat:@"/dtbook[1]/book[1]//*[@id='%@']",aTag];
+		NSArray *tagNodes = nil;
+		tagNodes = [_xmlTextDoc nodesForXPath:queryStr error:nil];
+		
+		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
+	}
 }
 
 
-@synthesize _xmlTextDoc, _xmlRoot, _currentNode;
 
 @end
 
@@ -110,7 +110,10 @@
 
 - (void)jumpToNodeWithPath:(NSString *)fullPathToNode
 {
-	
+	NSArray *nodes = nil;
+	if(nil != fullPathToNode)
+		nodes = [_xmlTextDoc nodesForXPath:fullPathToNode error:nil];
+	_currentNode = ([nodes count] > 0) ? [nodes objectAtIndex:0] : _currentNode;
 }
 
 - (void)jumpToNodeWithIdTag:(NSString *)anIdTag
@@ -126,11 +129,13 @@
 - (NSString *)currentIdTag
 {
 	
-//	NSArray *idTags = nil;
-//	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
-//	
-//	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
-	return nil;
+	//NSArray *idTags = nil;
+	NSString *aTag = nil;
+	aTag = [[(NSXMLElement *)_currentNode attributeForName:@"id"] stringValue];
+	//idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
+	
+	return aTag;
+	//return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
 }
 
 @end
@@ -145,22 +150,24 @@
 	
 //	if(YES == [self canGoDownLevel]) // first check if we can go down a level
 //	{	
-//		_currentNode = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+//		
+//		_currentNode = [[_currentNode nextNode] nextNode]; // get first node after the "level?" node
 //		bookData.currentLevel++; // increment the level
 //	}
 //	else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
-//		currentNavPoint = [currentNavPoint nextSibling];
+//		_currentNode = [_currentNode nextSibling];
 //	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
 //	{
-//		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
+//		if(nil != [[_currentNode parent] nextSibling]) // check that there is something after the parent to play
 //		{	
 //			// get the parent then its sibling as we have already played 
 //			// the parent before dropping into this level
-//			currentNavPoint = [[currentNavPoint parent] nextSibling];
+//			_currentNode = [[_currentNode parent] nextSibling];
 //			bookData.currentLevel--; // decrement the current level
 //		}
 //	}
-//
+
+	[self updateInfoWithInterveningNodes];
 	
 }
 
@@ -218,7 +225,7 @@
 - (void)goDownALevel
 {
 	
-	//[_currentNode  
+	 
 }
 
 @end
@@ -234,8 +241,8 @@
 
 - (BOOL)canGoPrev
 {
-	// return YES if we can go backwards in the navMap
-	return ([self itemsOnCurrentLevel] > 0) ? YES : NO;
+	// return YES if we can go backwards
+	return ([self itemIndexOnCurrentLevel] > 0) ? YES : NO;
 }
 
 - (BOOL)canGoUpLevel
@@ -246,9 +253,9 @@
 
 - (BOOL)canGoDownLevel
 {
-	// return YES if there are Nodes below this level
+	// return YES if there is level? node as the next node
 	NSString *newLevelString = [NSString stringWithFormat:@"level%d",bookData.currentLevel+1];
-	return ([[_currentNode nodesForXPath:newLevelString error:nil] count] > 0) ? YES : NO;
+	return ([[[_currentNode nextNode] name] isEqualToString:newLevelString]);
 }
 
 
@@ -271,6 +278,39 @@
 {
 	// returns an index of the current node relative to the other nodes on the same level
 	return [_currentNode index];
+}
+
+
+- (void)updateInfoWithInterveningNodes
+{
+	while(![[_currentNode name] isEqualToString:@"sent"])
+	{
+		if([[_currentNode name] hasPrefix:@"level"])
+			bookData.currentLevel = [[[_currentNode name] substringFromIndex:4] integerValue];
+		else if([[_currentNode name] isEqualToString:@"pagenum"])
+			bookData.currentPage = [[_currentNode stringValue] integerValue];
+		else if([self isHeadingNode:_currentNode])
+			bookData.sectionTitle = [_currentNode stringValue];
+		
+		_currentNode = [_currentNode nextNode];
+	}
+	
+}
+
+- (BOOL)isHeadingNode:(NSXMLNode *)aNode
+{
+	NSString *nodeName = [aNode name];
+	if([nodeName length] >= 2)
+	{
+		unichar checkChar =  [nodeName characterAtIndex:0];
+		unichar levelChar =  [nodeName characterAtIndex:1];
+		
+		// check if we have a 'h' as the first character which denotes a level header AND the second character is a digit
+		return (('h' == checkChar) && (isdigit(levelChar))) ? YES : NO; 
+
+	}
+	
+	return NO;
 }
 
 @end

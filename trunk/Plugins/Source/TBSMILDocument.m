@@ -256,6 +256,52 @@ return nil;
 	return nil;
 }
 
+- (void)nextTextPlaybackPoint
+{
+
+	NSXMLNode *nextNode = nil;
+	NSXMLNode *theNode = _currentNode;
+	
+	nextNode = [theNode nextSibling];
+//	if(!nextNode) 
+//	{
+//		nextNode = [[theNode parent] nextSibling];
+//		if(nextNode)
+//		{	
+//			if([[nextNode name] isEqualToString:@"seq"])
+//				if(([[nextNode XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"]))
+//					
+//		}
+//		else 
+//			return NO;
+//	}
+//	
+	if(([[nextNode name] isEqualToString:@"par"]) || ([[nextNode name] isEqualToString:@"seq"]))
+	{
+		NSArray *textNodes = nil;
+		textNodes = [[nextNode children] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == text"]]; 
+//		NSArray *newAudioNodes = nil;
+//		newAudioNodes = [nextNode nodesForXPath:@".//audio[@clip-Begin|@clipBegin]" error:nil];
+//		// check we found some audio content 
+//		
+//		if([newAudioNodes count])
+//		{   
+//			NSXMLNode *tempnode = [[newAudioNodes objectAtIndex:0] parent];
+//			_currentNode = tempnode;
+//			currentNodePath = [_currentNode XPath];
+//			return YES;
+//		}
+	}
+//	
+//	return NO;
+	
+}
+
+- (void)previousPlaybackPoint
+{
+	
+}
+
 @synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;
 
 @end

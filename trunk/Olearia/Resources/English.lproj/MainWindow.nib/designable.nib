@@ -8,8 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="956"/>
-			<integer value="29"/>
 			<integer value="315"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -120,7 +118,7 @@
 										</object>
 										<reference key="NSControlView" ref="1054329358"/>
 										<int key="NSButtonFlags">139215103</int>
-										<int key="NSButtonFlags2">134</int>
+										<int key="NSButtonFlags2">70</int>
 										<object class="NSCustomResource" key="NSNormalImage" id="508080776">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">bookmark</string>
@@ -157,12 +155,12 @@
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="339591490">
 										<int key="NSCellFlags">67239424</int>
-										<int key="NSCellFlags2">134217728</int>
+										<int key="NSCellFlags2">0</int>
 										<string key="NSContents"/>
 										<reference key="NSSupport" ref="848049536"/>
 										<reference key="NSControlView" ref="280233707"/>
 										<int key="NSButtonFlags">141836543</int>
-										<int key="NSButtonFlags2">134</int>
+										<int key="NSButtonFlags2">70</int>
 										<object class="NSCustomResource" key="NSNormalImage" id="512531834">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">info</string>
@@ -208,7 +206,7 @@
 										</object>
 										<reference key="NSControlView" ref="718091613"/>
 										<int key="NSButtonFlags">-2041822977</int>
-										<int key="NSButtonFlags2">134</int>
+										<int key="NSButtonFlags2">70</int>
 										<object class="NSCustomResource" key="NSNormalImage" id="864744774">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">gotoPage</string>
@@ -250,7 +248,7 @@
 										<reference key="NSSupport" ref="848049536"/>
 										<reference key="NSControlView" ref="537535906"/>
 										<int key="NSButtonFlags">141836543</int>
-										<int key="NSButtonFlags2">134</int>
+										<int key="NSButtonFlags2">70</int>
 										<object class="NSCustomResource" key="NSNormalImage" id="44374685">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">Sound</string>
@@ -748,21 +746,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="486881740">
 											<reference key="NSNextResponder" ref="240548138"/>
 											<int key="NSvFlags">265</int>
-											<string key="NSFrame">{{284, 19}, {64, 64}}</string>
+											<string key="NSFrame">{{286, 12}, {64, 64}}</string>
 											<reference key="NSSuperview" ref="240548138"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="861321354">
 												<int key="NSCellFlags">604110336</int>
 												<int key="NSCellFlags2">134250496</int>
 												<string key="NSContents">Fast Fwd</string>
-												<object class="NSFont" key="NSSupport" id="24">
-													<string key="NSName">LucidaGrande</string>
-													<double key="NSSize">1.000000e+01</double>
-													<int key="NSfFlags">16</int>
-												</object>
+												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="486881740"/>
 												<int key="NSButtonFlags">138690815</int>
-												<int key="NSButtonFlags2">268435586</int>
+												<int key="NSButtonFlags2">268435526</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">button-forward</string>
@@ -776,17 +770,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="785733105">
 											<reference key="NSNextResponder" ref="240548138"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{102, 19}, {64, 64}}</string>
+											<string key="NSFrame">{{100, 12}, {64, 64}}</string>
 											<reference key="NSSuperview" ref="240548138"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="25560369">
 												<int key="NSCellFlags">604110336</int>
 												<int key="NSCellFlags2">134250496</int>
 												<string key="NSContents">Fast Back</string>
-												<reference key="NSSupport" ref="24"/>
+												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="785733105"/>
 												<int key="NSButtonFlags">138690815</int>
-												<int key="NSButtonFlags2">268435586</int>
+												<int key="NSButtonFlags2">268435526</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">button-rewind</string>
@@ -800,16 +794,16 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="572828041">
 											<reference key="NSNextResponder" ref="240548138"/>
 											<int key="NSvFlags">264</int>
-											<string key="NSFrame">{{180, 6}, {90, 90}}</string>
+											<string key="NSFrame">{{180, 8}, {90, 90}}</string>
 											<reference key="NSSuperview" ref="240548138"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="15734211">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">134250496</int>
+												<int key="NSCellFlags2">268468224</int>
 												<string key="NSContents">Play</string>
 												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="572828041"/>
-												<int key="NSButtonFlags">-1237040897</int>
+												<int key="NSButtonFlags">138690815</int>
 												<int key="NSButtonFlags2">70</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
@@ -871,17 +865,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="275484826">
 											<reference key="NSNextResponder" ref="359792871"/>
 											<int key="NSvFlags">264</int>
-											<string key="NSFrame">{{103, 54}, {80, 80}}</string>
+											<string key="NSFrame">{{107, 52}, {80, 80}}</string>
 											<reference key="NSSuperview" ref="359792871"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="743420451">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">268435456</int>
+												<int key="NSCellFlags2">134217728</int>
 												<string key="NSContents">Previous</string>
 												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="275484826"/>
 												<int key="NSButtonFlags">138690815</int>
-												<int key="NSButtonFlags2">134</int>
+												<int key="NSButtonFlags2">70</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">BackArrow</string>
@@ -895,17 +889,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="266001721">
 											<reference key="NSNextResponder" ref="359792871"/>
 											<int key="NSvFlags">264</int>
-											<string key="NSFrame">{{271, 54}, {80, 80}}</string>
+											<string key="NSFrame">{{267, 52}, {80, 80}}</string>
 											<reference key="NSSuperview" ref="359792871"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="161832250">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">268435456</int>
+												<int key="NSCellFlags2">134217728</int>
 												<string key="NSContents">Next</string>
 												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="266001721"/>
 												<int key="NSButtonFlags">138690815</int>
-												<int key="NSButtonFlags2">134</int>
+												<int key="NSButtonFlags2">70</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">ForwardArrow</string>
@@ -924,12 +918,12 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="385691224">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">268435456</int>
+												<int key="NSCellFlags2">134217728</int>
 												<string key="NSContents">Down Level</string>
 												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="1018505814"/>
 												<int key="NSButtonFlags">138690815</int>
-												<int key="NSButtonFlags2">134</int>
+												<int key="NSButtonFlags2">70</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">DownArrow</string>
@@ -943,17 +937,17 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 										<object class="NSButton" id="410830839">
 											<reference key="NSNextResponder" ref="359792871"/>
 											<int key="NSvFlags">264</int>
-											<string key="NSFrame">{{187, 96}, {80, 80}}</string>
+											<string key="NSFrame">{{187, 94}, {80, 80}}</string>
 											<reference key="NSSuperview" ref="359792871"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="666080367">
 												<int key="NSCellFlags">604110336</int>
-												<int key="NSCellFlags2">268435456</int>
+												<int key="NSCellFlags2">134217728</int>
 												<string key="NSContents">Up Level</string>
 												<reference key="NSSupport" ref="848049536"/>
 												<reference key="NSControlView" ref="410830839"/>
 												<int key="NSButtonFlags">139739391</int>
-												<int key="NSButtonFlags2">134</int>
+												<int key="NSButtonFlags2">70</int>
 												<object class="NSCustomResource" key="NSNormalImage">
 													<string key="NSClassName">NSImage</string>
 													<string key="NSResourceName">UpArrow</string>
@@ -1426,7 +1420,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1685,7 +1679,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -3549,9 +3542,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1018505814"/>
-							<reference ref="275484826"/>
 							<reference ref="266001721"/>
 							<reference ref="410830839"/>
+							<reference ref="275484826"/>
 						</object>
 						<reference key="parent" ref="865623825"/>
 					</object>
@@ -4526,7 +4519,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="1404"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="1404"/>
-					<string>{{6, 763}, {616, 0}}</string>
+					<string>{{14, 692}, {616, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

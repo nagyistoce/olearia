@@ -23,7 +23,8 @@
 #import "TBPluginInterface.h"
 #import "TBFileUtils.h"
 #import "TBStdInfoView.h"
-#import "TBStdTextView.h" 
+#import "TBStdTextView.h"
+#import "TBBookData.h"
 
 @class TBNavigationController, TBPackageDoc, TBControlDoc;
 

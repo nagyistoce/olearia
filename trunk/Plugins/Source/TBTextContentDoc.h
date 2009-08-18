@@ -19,7 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-@class TBBookData;
+#import "TBBookData.h"
 
 
 @interface TBTextContentDoc : NSObject 
@@ -37,7 +37,6 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
 
-//@property (readwrite, assign) TBBookData *bookData;
 
 @end
 

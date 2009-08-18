@@ -20,6 +20,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TBBookData.h"
 
 @interface TBControlDoc : NSObject
 {

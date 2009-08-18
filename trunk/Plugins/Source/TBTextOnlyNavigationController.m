@@ -104,7 +104,12 @@
 	currentTextFilename = nil;
 	currentTag = nil;
 	_didUserNavigation = NO;
-		
+	_isSpeaking = NO;
+	
+	// call the supers resetController method which
+	// will remove us from the notification center
+	[super resetController];
+	
 	
 }
 
@@ -113,22 +118,37 @@
 
 - (void)startPlayback
 {
-	[[bookData talkingBookSpeechSynth] startSpeakingString:[textDocument contentText]];
+	if(_isSpeaking && !bookData.isPlaying)
+		[[bookData talkingBookSpeechSynth] continueSpeaking];
+	else
+		[[bookData talkingBookSpeechSynth] startSpeakingString:[textDocument contentText]];
 	
+	bookData.isPlaying = YES;
 }
 
 - (void)stopPlayback
 {
-	[[bookData talkingBookSpeechSynth] stopSpeaking];
+	_isSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
+	[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+	
+	bookData.isPlaying = NO;
 }
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	NSLog(@"did finish speaking");
+	if(smilDocument && success)
+	{	
+		[smilDocument nextTextPlaybackPoint];
+		
+	}
+	
 }
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
 {
+	
+	// send a notifcation or tell the web/text view to 
+	//highlight the current word about to be spoken
 	NSString *wordIs = [text substringWithRange:wordToSpeak];
 	NSLog(@"speaking -> %@",wordIs);
 }
