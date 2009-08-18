@@ -43,6 +43,8 @@
 - (BOOL)audioAfterCurrentPosition;
 - (NSString *)relativeAudioFilePath;
 - (NSString *)relativeTextFilePath;
+- (void)nextTextPlaybackPoint;
+- (void)previousPlaybackPoint;
 
 @property (readwrite,copy)		NSString	*currentNodePath;
 

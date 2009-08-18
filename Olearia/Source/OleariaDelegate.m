@@ -155,8 +155,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// 0x0020 is the space bar character
 	[playPauseButton setKeyEquivalent:[NSString stringWithFormat:@"%C",0x0020]];
 	//[[playPauseButton cell] setHighlightsBy:NSChangeGrayCellMask];
-	[[playPauseButton image] setBackgroundColor:[NSColor lightGrayColor]];
-	NSLog(@"color %@",[[playPauseButton image] backgroundColor]);
+	//[[playPauseButton image] setBackgroundColor:[NSColor lightGrayColor]];
+	//NSLog(@"color %@",[[playPauseButton image] backgroundColor]);
 	
 	// set the title of the play/pause menu item
 	[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
@@ -256,30 +256,21 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	{
 		// set the button status and menuitem title 
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Pause         <space>",@"menu item pause string")];
-		[[playPauseMenuItem menu] sizeToFit];
-		
-		// we switch the images like this to allow for differences between names when using normal 
-		// or high contrast icons.
-//		NSImage *tempImage = [playPauseButton image];
-//		[playPauseButton setImage:[playPauseButton alternateImage]];
-//		[playPauseButton setAlternateImage:tempImage];
-				
 		[talkingBook play];
 	}
 	else // isPlaying == YES
 	{
 		[playPauseMenuItem setTitle:NSLocalizedString(@"Play          <space>", @"menu item play string")];
-		[[playPauseMenuItem menu] sizeToFit];
-		
-		// we switch the images like this to allow for differences between names when using normal 
-		// or high contrast icons.
-//		NSImage *tempImage = [playPauseButton image];
-//		[playPauseButton setImage:[playPauseButton alternateImage]];
-//		[playPauseButton setAlternateImage:tempImage];
-		
 		[talkingBook pause];
-		
 	}
+	
+	[[playPauseMenuItem menu] sizeToFit];
+		
+	// we switch the images like this to allow for differences between names when using normal 
+	// or high contrast icons.
+	NSImage *tempImage = [playPauseButton image];
+	[playPauseButton setImage:[playPauseButton alternateImage]];
+	[playPauseButton setAlternateImage:tempImage];
 }
 
 - (IBAction)upLevel:(id)sender

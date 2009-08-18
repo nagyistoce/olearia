@@ -410,16 +410,20 @@
 	NSInteger thislevel = bookData.currentLevel;
 	NSString *attribContent = [self stringForXquery:@"data(@class)" ofNode:aNode];
 	
-	if(nil != attribContent) // check that we have something to evaluate
+	if((nil != attribContent) ) // check that we have something to evaluate
 	{
-		// get the ascii code of the characters at index 0 and 1
-		unichar prefixChar = [attribContent characterAtIndex:0];
-		unichar levelChar =  [attribContent characterAtIndex:1];
-		
-		if(('h' == prefixChar) && (YES == isdigit(levelChar)))
+		if([attribContent length] >= 2)
 		{
-			thislevel = levelChar - 48;
+			// get the ascii code of the characters at index 0 and 1
+			unichar prefixChar = [attribContent characterAtIndex:0];
+			unichar levelChar =  [attribContent characterAtIndex:1];
+			
+			if(('h' == prefixChar) && (YES == isdigit(levelChar)))
+			{
+				thislevel = levelChar - 48;
+			}
 		}
+		
 	}
 	
 	return thislevel;
