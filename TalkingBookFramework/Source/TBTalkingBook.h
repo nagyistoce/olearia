@@ -21,7 +21,7 @@
 
 #import <QTKit/QTTime.h>
 #import "TBPluginInterface.h"
-#import "TalkingBookTypes.h"
+//#import "TalkingBookTypes.h"
 
 @class TBInfoController;
 @class TBBookData;
@@ -47,7 +47,7 @@ typedef enum
 	
 	
 	
-	TalkingBookType		_controlMode;
+	//TalkingBookType		_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	

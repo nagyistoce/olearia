@@ -94,7 +94,7 @@
 		// setup for package navigation
 	}
 	
-	[[bookData talkingBookSpeechSynth] setDelegate:self];
+	
 }
 
 - (void)resetController
@@ -121,7 +121,7 @@
 	if(_isSpeaking && !bookData.isPlaying)
 		[[bookData talkingBookSpeechSynth] continueSpeaking];
 	else
-		[[bookData talkingBookSpeechSynth] startSpeakingString:[textDocument contentText]];
+		[textDocument startSpeaking];
 	
 	bookData.isPlaying = YES;
 }
@@ -134,24 +134,7 @@
 	bookData.isPlaying = NO;
 }
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
-{
-	if(smilDocument && success)
-	{	
-		[smilDocument nextTextPlaybackPoint];
-		
-	}
-	
-}
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
-{
-	
-	// send a notifcation or tell the web/text view to 
-	//highlight the current word about to be spoken
-	NSString *wordIs = [text substringWithRange:wordToSpeak];
-	NSLog(@"speaking -> %@",wordIs);
-}
 
 
 @end

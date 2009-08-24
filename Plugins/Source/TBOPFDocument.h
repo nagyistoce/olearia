@@ -34,12 +34,12 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-@property (readonly, retain) NSDictionary *manifest; 	
-@property (readonly, retain) NSDictionary *guide;
-@property (readonly, retain) NSArray *spine;
-@property (readonly, retain) NSArray *tour;
+@property (readwrite, retain) NSDictionary *manifest; 	
+@property (readwrite, retain) NSDictionary *guide;
+@property (readwrite, retain) NSArray *spine;
+@property (readwrite, retain) NSArray *tour;
 
-@property (readonly) NSInteger	currentPosInSpine;
+@property (readwrite) NSInteger	currentPosInSpine;
 
 @end
 

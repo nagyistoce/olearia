@@ -23,10 +23,6 @@
 
 @interface TBOPFNimasDocument ()
 
-@property (readwrite, retain) NSDictionary *manifest; 	
-@property (readwrite, retain) NSArray *spine;
-@property (readwrite) NSInteger	currentPosInSpine;
-
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement;
 - (NSDictionary *)processManifestSection:(NSXMLElement *)aRootElement;
 
@@ -235,15 +231,6 @@
 	// return the dict which may be nil if there was no manifest 
 	return ([manifestContents count]) ? manifestContents : nil;
 }
-
-
-@synthesize spine,manifest;
-
-@synthesize currentPosInSpine;
-
-
-
-
 
 
 @end

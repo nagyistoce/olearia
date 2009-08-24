@@ -96,9 +96,23 @@
 			// get the first par node
 			NSArray *nodes = nil;
 			nodes = [_xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]//audio[1]" error:nil];
-			_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
-			if(_currentNode)
-				openedOk = YES;
+			if([nodes count])
+			{
+				_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
+				if(_currentNode)
+					openedOk = YES;
+			}
+			else 
+			{
+				nodes = [_xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]/*/par[1]" error:nil];
+				if([nodes count])
+				{
+					_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
+					if(_currentNode)
+						openedOk = YES;
+				}
+			}
+			
 		}
 		
 	}
@@ -224,7 +238,6 @@
 
 - (NSString *)currentIdTag
 {
-	
 	NSArray *idTags = nil;
 	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
 	
@@ -235,24 +248,26 @@
 {
 	NSArray *audioFilenames = [_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil];
 	
-	if([audioFilenames count])
+	if(([audioFilenames count]))
+	{
 		if(![self isCompoundString:[audioFilenames objectAtIndex:0]])
 			return [audioFilenames objectAtIndex:0];
 		else
 			return [self filenameFromCompoundString:[audioFilenames objectAtIndex:0]];
-	
+	}
 return nil;
 }
 
 - (NSString *)relativeTextFilePath
 {
 	NSArray *textFilenames = [_currentNode objectsForXQuery:@".//text/data(@src)" error:nil];
-	if([textFilenames count])
+	if(([textFilenames count]))
+	{
 		if(![self isCompoundString:[textFilenames objectAtIndex:0]])
 			return [textFilenames objectAtIndex:0];
 		else
 			return [self filenameFromCompoundString:[textFilenames objectAtIndex:0]];
-
+	}
 	return nil;
 }
 

@@ -27,8 +27,6 @@
 
 @interface DTB2005BookPlugin()
 
-@property (readwrite, retain)	NSArray *validFileExtensions;
-
 @end
 
 @interface DTB2005BookPlugin (Private)
@@ -283,8 +281,6 @@
 	return nil;
 }
 
-
-@synthesize validFileExtensions, navCon;
 
 @end
 
