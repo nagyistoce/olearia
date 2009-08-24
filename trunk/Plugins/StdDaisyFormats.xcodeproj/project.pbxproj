@@ -42,6 +42,7 @@
 		EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */; };
 		EEEE9C8F0FF7591D001822EA /* TBStdTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */; };
 		EEEE9C960FF75A32001822EA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEE9C950FF75A32001822EA /* WebKit.framework */; };
+		EEFC92971042A67B000D9864 /* NSXMLNode-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEFC92961042A67B000D9864 /* NSXMLNode-TBAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +122,8 @@
 		EEEE9C8D0FF7591D001822EA /* TBStdTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdTextView.h; sourceTree = "<group>"; };
 		EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdTextView.m; sourceTree = "<group>"; };
 		EEEE9C950FF75A32001822EA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EEFC92951042A67B000D9864 /* NSXMLNode-TBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLNode-TBAdditions.h"; sourceTree = "<group>"; };
+		EEFC92961042A67B000D9864 /* NSXMLNode-TBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLNode-TBAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +257,8 @@
 		EE3172CC0FE0D98A00B27804 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				EEFC92951042A67B000D9864 /* NSXMLNode-TBAdditions.h */,
+				EEFC92961042A67B000D9864 /* NSXMLNode-TBAdditions.m */,
 				EE3172CD0FE0D9B100B27804 /* NSString-TBAdditions.h */,
 				EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */,
 			);
@@ -453,6 +458,7 @@
 				EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */,
 				EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */,
 				EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */,
+				EEFC92971042A67B000D9864 /* NSXMLNode-TBAdditions.m in Sources */,
 				EE3172EE0FE0DC0E00B27804 /* RegexKitLite.m in Sources */,
 				EE3174C10FE0E1E100B27804 /* TBNavigationController.m in Sources */,
 				EEB7A3A50FE5D52200662B04 /* TBStdInfoViewItem.m in Sources */,
@@ -587,16 +593,19 @@
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/StdDaisyFormats_Prefix.pch;
 				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;

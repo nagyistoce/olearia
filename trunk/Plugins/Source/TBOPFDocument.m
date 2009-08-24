@@ -23,12 +23,6 @@
 
 @interface TBOPFDocument ()
 
-@property (readwrite, retain) NSDictionary *manifest; 	
-@property (readwrite, retain) NSDictionary *guide;
-@property (readwrite, retain) NSArray *spine;
-@property (readwrite, retain) NSArray *tour;
-@property (readwrite) NSInteger	currentPosInSpine;
-
 - (NSArray *)processSpineSection:(NSXMLElement *)aRootElement;
 - (NSArray *)processTourSection:(NSXMLElement *)aRootElement;
 - (NSDictionary *)processManifestSection:(NSXMLElement *)aRootElement;

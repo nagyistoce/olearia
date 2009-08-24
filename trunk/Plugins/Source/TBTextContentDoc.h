@@ -25,19 +25,23 @@
 @interface TBTextContentDoc : NSObject 
 {
 	TBBookData		*bookData;
-	NSXMLDocument	*_xmlTextDoc;
-	NSXMLElement	*_xmlRoot;
+	NSXMLDocument	*xmlTextDoc;
 	NSXMLNode		*_currentNode;
+	NSString		*_contentStr;
+
+	BOOL			_endOfBook;
+	BOOL			_firstTime;
 	
-	
+	NSArray			*_singleSpecifiers;
+	NSArray			*_prefixSpecifiers;
+	NSArray			*_groupSpecifiers;
 }
 
 
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
-- (void)processData;
-
-
+- (void)startSpeakingFromIdTag:(NSString *)aTag;
+- (void)startSpeaking;
 @end
 
 @interface TBTextContentDoc (Synchronization)
@@ -63,7 +67,6 @@
 
 @interface TBTextContentDoc (Navigation)
 
-- (void)moveToNextSegment;
 - (void)moveToNextSegmentAtSameLevel;
 - (void)moveToPreviousSegment;
 - (void)goUpALevel;

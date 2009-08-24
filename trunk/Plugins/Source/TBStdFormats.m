@@ -58,7 +58,9 @@
 + (id)bookType
 {
 	// subclasses will return an instance of themselves via this method
+#ifdef DEBUG 	
 	NSLog(@"Super Class %@ used instead of subclass",[self className]);
+#endif
 	return nil;	
 }
 
@@ -130,7 +132,9 @@
 
 - (BOOL)canOpenBook:(NSURL *)bookURL;
 {
+#ifdef DEBUG	
 	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
+#endif
 	return NO;
 }
 
@@ -144,7 +148,9 @@
 
 - (BOOL)openBook:(NSURL *)bookURL
 {
+#ifdef DEBUG
 	NSLog(@"Super Class method %@ in Class %@ used instead of subclass method",@selector(_cmd),[self className]);
+#endif
 	return NO;
 }
 
@@ -215,8 +221,8 @@
 	}
 	else // nav controller already loaded from previous book.
 	{
-		if(bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat)
-			if([navCon isKindOfClass:[TBNavigationController class]])
+		if((bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat))
+		{	if([navCon isKindOfClass:[TBNavigationController class]])
 			{
 				navCon = nil;
 				navCon = [[TBTextOnlyNavigationController alloc] init];
@@ -226,6 +232,7 @@
 				navCon = nil;
 				navCon = [[TBNavigationController alloc] init];
 			}
+		}
 	}
 }
 

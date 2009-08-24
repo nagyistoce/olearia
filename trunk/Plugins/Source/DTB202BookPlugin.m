@@ -26,8 +26,6 @@
 
 @interface DTB202BookPlugin()
 
-@property (readwrite, retain)	NSArray *validFileExtensions;
-
 - (BOOL)canOpenBook:(NSURL *)bookURL;
 
 @end
@@ -253,10 +251,6 @@
 	// did not find a valid file for opening
 	return NO;
 }
-
-
-
-@synthesize validFileExtensions;
 
 @end
 

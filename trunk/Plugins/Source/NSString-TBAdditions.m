@@ -86,18 +86,18 @@
 		{
 			if(capt4 < 1000) // milliseconds value less than 1 second?
 			{
-				totalTimeInSeconds = (int)(capt4 * 10);
-				fractions = (int)(capt5 * 10); // leftover milliseconds 
+				totalTimeInSeconds = (NSInteger)(capt4 * 10);
+				fractions = (NSInteger)(capt5 * 10); // leftover milliseconds 
 			}
 			else 
 			{	// more than 1 second of milliseconds 
-				totalTimeInSeconds = (int)(capt4 / 1000);
-				fractions = (int)(capt4 % 1000) + (int)(capt5 * 10); // leftover milliseconds 
+				totalTimeInSeconds = (NSInteger)(capt4 / 1000);
+				fractions = (NSInteger)(capt4 % 1000) + (int)(capt5 * 10); // leftover milliseconds 
 			}
 		}
-		hours = totalTimeInSeconds / 3600; 
-		minutes = (totalTimeInSeconds / 3600) % 60; 
-		seconds = ((totalTimeInSeconds / 3600) % 60) % 60;
+		hours = (NSInteger)totalTimeInSeconds / 3600; 
+		minutes = (NSInteger)(totalTimeInSeconds / 3600) % 60; 
+		seconds = (NSInteger)((totalTimeInSeconds / 3600) % 60) % 60;
 	}
 	else 
 	{	

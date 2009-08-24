@@ -25,7 +25,7 @@
 @interface TBTalkingBook ()
 
 @property (readwrite, retain)	NSMutableArray	*formatPlugins;
-@property (readwrite)		TalkingBookType _controlMode;
+//@property (readwrite)		TalkingBookType _controlMode;
 
 @property (readwrite)	BOOL	_wasPlaying;
 
@@ -441,7 +441,7 @@
 
 @synthesize bookData;
 
-@synthesize _controlMode;
+//@synthesize _controlMode;
 @synthesize _wasPlaying;
 @synthesize bookIsLoaded;
 
@@ -461,7 +461,7 @@
 	
 	_levelNavConMode = levelNavigationControlMode; // set the default level mode
 	_maxLevelConMode = levelNavigationControlMode; // set the default max level mode. 
-	_controlMode = UnknownBookType; // set the default control mode to unknown
+//	_controlMode = UnknownBookType; // set the default control mode to unknown
 	
 	_hasPageNavigation = NO;
 	_hasPhraseNavigation = NO;

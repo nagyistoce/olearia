@@ -60,7 +60,7 @@
 		_mainIsSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
 		
 		if(_mainIsSpeaking)
-			[[bookData talkingBookSpeechSynth] stopSpeaking];
+			[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 		
 		if(bookData.isPlaying)
 		{
