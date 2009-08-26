@@ -48,7 +48,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			self.bookData.folderPath = bookURL;
+			bookData.folderPath = bookURL;
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.folderPath path]  WithExtension:@"opf"];
 			// check if we found the OPF file
@@ -208,7 +208,7 @@
 - (NSURL *)loadedURL
 {
 	if(navCon.packageDocument)
-		return self.navCon.packageDocument.fileURL;
+		return navCon.packageDocument.fileURL;
 	if(navCon.controlDocument)
 		return navCon.controlDocument.fileURL;
 	

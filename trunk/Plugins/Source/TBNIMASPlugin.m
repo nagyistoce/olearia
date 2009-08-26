@@ -55,7 +55,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			self.bookData.folderPath = bookURL;
+			bookData.folderPath = bookURL;
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
 		}
@@ -86,7 +86,7 @@
 					
 					// set the folder path if required
 					if(!bookData.folderPath)
-						self.bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
+						bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the text content filename
 					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];

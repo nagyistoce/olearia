@@ -43,7 +43,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	NSString				*sectionTitle;
 
 	NSInteger				totalPages;
-	NSInteger				currentPage;
+	NSString				*currentPage;
 	NSString				*pageString;
 	NSString				*bookTotalTime;
 	
@@ -94,11 +94,11 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 
 @property (readwrite)		BOOL		settingsHaveChanged;
 
-@property (readwrite)		NSInteger	currentPage;
+@property (readwrite, copy)	NSString	*currentPage;
 @property (readwrite)		NSInteger	totalPages;
-@property (readwrite,copy)	NSString	*pageString;
+@property (readwrite, copy)	NSString	*pageString;
 
-@property (readwrite,copy)	NSString	*bookTotalTime;
+@property (readwrite, copy)	NSString	*bookTotalTime;
 
 @property (readwrite) BOOL		hasNextChapter;
 @property (readwrite) BOOL		hasPreviousChapter;

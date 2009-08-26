@@ -80,7 +80,7 @@
 	if(xmlPackageDoc)
 	{
 		loadedOk = YES;
-		self.fileURL = [aURL copy];
+		fileURL = [aURL copy];
 	}
 	else // we got a nil return so display the error to the user
 	{

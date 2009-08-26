@@ -60,14 +60,14 @@
 	{
 		// set the book title
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-		self.bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
+		bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
 	}
 	
 	if([bookData.bookSubject isEqualToString:@""])
 	{
 		// set the subject
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-		self.bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
+		bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
 	}
 	
 	if(bookData.totalPages == 0)
@@ -76,7 +76,7 @@
 		tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" ofNode:nil];
 		if(!tempStr)
 			tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'maxPageNormal')]/data(@content)" ofNode:nil];
-		self.bookData.totalPages = (tempStr) ? [tempStr intValue] : 0; 
+		bookData.totalPages = (tempStr) ? [tempStr intValue] : 0; 
 	}
 		
 }
@@ -87,12 +87,12 @@
 - (void)updateDataForCurrentPosition
 {
 	NSString *sectionStr = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
-	self.bookData.sectionTitle = (sectionStr != nil) ? [sectionStr copy] : self.bookData.sectionTitle;   
-	self.bookData.currentLevel = [self levelOfNode:currentNavPoint];
-	self.bookData.hasLevelUp = [self canGoUpLevel];
-	self.bookData.hasLevelDown = [self canGoDownLevel];
-	self.bookData.hasPreviousSegment = [self canGoPrev];
-	self.bookData.hasNextSegment = [self canGoNext];
+	bookData.sectionTitle = (sectionStr != nil) ? [sectionStr copy] : self.bookData.sectionTitle;   
+	bookData.currentLevel = [self levelOfNode:currentNavPoint];
+	bookData.hasLevelUp = [self canGoUpLevel];
+	bookData.hasLevelDown = [self canGoDownLevel];
+	bookData.hasPreviousSegment = [self canGoPrev];
+	bookData.hasNextSegment = [self canGoNext];
 }
 
 #pragma mark -
@@ -283,7 +283,7 @@
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
 		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
-		self.bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
+		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
 	}
 	[self updateDataForCurrentPosition];
 }
@@ -293,7 +293,7 @@
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
 		currentNavPoint = [currentNavPoint parent];
-		self.bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
+		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
 	}
 	[self updateDataForCurrentPosition];
 }

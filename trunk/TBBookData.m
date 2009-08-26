@@ -52,16 +52,16 @@ static TBBookData *sharedTBBookData = nil;
 
 - (void) dealloc
 {
-	
-	bookTitle = nil;
-	bookSubject = nil;
-	sectionTitle = nil;
-	levelString = nil;
-	pageString = nil;
-	bookTotalTime = nil;
-	folderPath = nil;
-	preferredVoice = nil;
-	talkingBookSpeechSynth = nil;
+	self.currentPage = nil;
+	self.bookTitle = nil;
+	self.bookSubject = nil;
+	self.sectionTitle = nil;
+	self.levelString = nil;
+	self.pageString = nil;
+	self.bookTotalTime = nil;
+	self.folderPath = nil;
+	self.preferredVoice = nil;
+	self.talkingBookSpeechSynth = nil;
 	
 	[super dealloc];
 }
@@ -108,12 +108,12 @@ static TBBookData *sharedTBBookData = nil;
 {
 	// set the defaults for the newly loaded book before they are updated
 	self.totalPages = 0;
-	self.currentPage = 0;
+	self.currentPage = @"0";
 	self.currentLevel = 1;
 	self.bookTitle = nil;
 	self.bookSubject = nil;
 	self.levelString = nil;
-	self.pageString = nil;
+	self.pageString = @"";
 	self.sectionTitle = nil;
 	self.bookTotalTime = nil;
 	self.hasNextChapter = NO;
@@ -139,22 +139,21 @@ static TBBookData *sharedTBBookData = nil;
 	self.levelString = [NSString stringWithFormat:@"%d",currentLevel];
 }
 
-- (void)setCurrentPage:(NSInteger)aPageNum
+- (void)setCurrentPage:(NSString *)aPageNum
 {
-	currentPage = aPageNum;
+	currentPage = [aPageNum copy];
 	if(totalPages > 0)
-		self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+		self.pageString = [NSString stringWithFormat:@"%@ of %d",currentPage,totalPages];
 	else
-		self.pageString = [NSString stringWithFormat:@"%d",currentPage];
+		self.pageString = [NSString stringWithFormat:@"%@",currentPage];
 
-		
 }
 
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
 	totalPages = totalPageNum;
 	if(totalPages > 0)
-		self.pageString = [NSString stringWithFormat:@"%d of %d",currentPage,totalPages];
+		self.pageString = [NSString stringWithFormat:@"%@ of %d",currentPage,totalPages];
 	else
 		self.pageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
 }

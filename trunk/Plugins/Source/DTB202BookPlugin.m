@@ -141,7 +141,7 @@
 		
 		[navCon prepareForPlayback];
 		
-		self.currentPlugin = self;
+		currentPlugin = self;
 		
 	}
 	

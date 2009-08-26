@@ -30,8 +30,7 @@
 	if (self != nil)
 	{
 		bookData = [TBBookData sharedBookData];
-		
-		_audioIsPlaying = NO;
+
 		_mainIsSpeaking = NO;
 		
 		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoice] retain];
@@ -62,12 +61,6 @@
 		if(_mainIsSpeaking)
 			[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 		
-		if(bookData.isPlaying)
-		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStopPlayback object:nil ];
-			_audioIsPlaying = YES;
-		}
-		
 		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
 	}
 		
@@ -81,11 +74,6 @@
 {
 	if([keyPath isEqualToString:@"preferredVoice"])	
 		[_auxSpeechSynth setVoice:bookData.preferredVoice];
-	else
-		[super observeValueForKeyPath:keyPath
-							 ofObject:object
-							   change:change
-							  context:context];
 }
 
 
@@ -95,8 +83,10 @@
 	{	
 		if(_mainIsSpeaking)
 			[[bookData talkingBookSpeechSynth] continueSpeaking];
-		else if(_audioIsPlaying)
+		else
 			[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStartPlayback object:nil];
+			
+		
 	}
 			
 	

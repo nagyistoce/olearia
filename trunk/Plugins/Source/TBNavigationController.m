@@ -264,7 +264,7 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 	_didUserNavigation = YES;
 	
 	[self updateAfterNavigationChange];
-	
+	[self stopPlayback];
 	[speechCon speakLevelChange];
 }
 
@@ -279,6 +279,7 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 	
 	[self updateAfterNavigationChange];
 	
+	[self stopPlayback];
 	[speechCon speakLevelChange];
 }
 
@@ -332,7 +333,9 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 	// check that we have not passed in a nil string
 	if(relativePathToFile != nil)
 	{
-		[noteCentre removeObserver:self];
+		[noteCentre removeObserver:self name:QTMovieLoadStateDidChangeNotification object:_audioFile];
+		[noteCentre removeObserver:self name:QTMovieDidEndNotification object:_audioFile];
+		[noteCentre removeObserver:self name:QTMovieChapterDidChangeNotification object:_audioFile];
 		
 		[_audioFile stop]; // pause the playback if there is any currently playing
 		_audioFile = nil;
@@ -355,7 +358,7 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 			if(([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete))
 			{	
 				// no chapters and its loaded so post a notification to add chapters
-				[[NSNotificationCenter defaultCenter] postNotificationName:QTMovieLoadStateDidChangeNotification object:_audioFile];
+				[noteCentre postNotificationName:QTMovieLoadStateDidChangeNotification object:_audioFile];
 			}
 			loadedOK = YES;
 		}
@@ -455,7 +458,9 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 	_didUserNavigation = NO;
 	_justAddedChapters = NO;
 	
-	[noteCentre removeObserver:self];
+	[noteCentre removeObserver:self name:QTMovieLoadStateDidChangeNotification object:_audioFile];
+	[noteCentre removeObserver:self name:QTMovieDidEndNotification object:_audioFile];
+	[noteCentre removeObserver:self name:QTMovieChapterDidChangeNotification object:_audioFile];
 }
 
 #pragma mark -
