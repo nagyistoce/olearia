@@ -1,5 +1,5 @@
 //
-//  TBTextContentDoc.m
+//  TBBookshareTextContentDoc.m
 //  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 13/07/09.
@@ -19,16 +19,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import "TBTextContentDoc.h"
+#import "TBBookshareTextContentDoc.h"
 #import "NSXMLNode-TBAdditions.h"
 
-@interface TBTextContentDoc ()
+@interface TBBookshareTextContentDoc ()
 
 @property (readwrite, copy) NSString *_contentStr;
 
 @end
 
-@interface TBTextContentDoc (Private)
+@interface TBBookshareTextContentDoc (Private)
 
 - (NSUInteger)itemsOnCurrentLevel;
 - (NSUInteger)itemIndexOnCurrentLevel;
@@ -38,7 +38,7 @@
 @end
 
 
-@implementation TBTextContentDoc
+@implementation TBBookshareTextContentDoc
 
 - (id)init
 {
@@ -76,8 +76,10 @@
 	if(xmlTextDoc)
 	{	
 		
-		_currentNode = nil;
-		_currentNode = [[xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/bodymatter[1]" error:nil] objectAtIndex:0];
+		
+		NSArray *startNodes = nil;
+		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/bodymatter[1]" error:nil];
+		_currentNode = (startNodes) ?[startNodes objectAtIndex:0] : nil;
 		
 		if(nil != _currentNode)
 		{	
@@ -127,7 +129,7 @@
 
 @end
 
-@implementation TBTextContentDoc (Synchronization)
+@implementation TBBookshareTextContentDoc (Synchronization)
 
 - (void)jumpToNodeWithPath:(NSString *)fullPathToNode
 {
@@ -192,7 +194,7 @@
 @end
 
 
-@implementation TBTextContentDoc (Navigation)
+@implementation TBBookshareTextContentDoc (Navigation)
 
 
 
@@ -256,7 +258,7 @@
 @end
 
 
-@implementation TBTextContentDoc (Information)
+@implementation TBBookshareTextContentDoc (Information)
 
 - (BOOL)canGoNext
 {
@@ -292,7 +294,7 @@
 
 @end
 
-@implementation TBTextContentDoc (Private)
+@implementation TBBookshareTextContentDoc (Private)
 
 - (NSUInteger)itemsOnCurrentLevel
 {

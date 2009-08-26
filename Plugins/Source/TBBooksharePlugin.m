@@ -22,7 +22,7 @@
 #import "TBBooksharePlugin.h"
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
-#import "TBNavigationController.h"
+#import "TBBookshareNavigationController.h"
 
 @interface TBBooksharePlugin (Private)
 
@@ -46,7 +46,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			self.bookData.folderPath = bookURL;
+			bookData.folderPath = bookURL;
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.folderPath path] WithExtension:@"opf"];
 			// check if we found the OPF file
@@ -78,7 +78,7 @@
 						// with badly authored books.
 						controlFileURL = bookURL;  
 						
-						self.packageDoc = nil;
+						packageDoc = nil;
 					}
 				}
 			}
@@ -89,28 +89,33 @@
 			if(!packageDoc)
 				packageDoc = [[TBOPFDocument alloc] init];
 			
+//			// check if the folder path has already been set
+//			if(!bookData.folderPath)
+//				bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
 				NSString *bookFormatString = [[packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/data(*:Format)" ofNode:nil] uppercaseString];
 				
-				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) 
+				if(YES == (([bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) || ([bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"]))) 
 				{	
 					NSString *schemeStr = [packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
-					if((schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
+					if((nil != schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
-						// the opf file specifies that it is a 2002 format book and it has the bookshare scheme tag
-						bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+						// the opf file specifies that it is a 2002/2005 format book and it has the bookshare scheme tag
+						bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
-						packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='ncx'][@media-type='text/xml']/data(@href)" ofNode:nil];
-	
+						packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='ncx']/data(@href)" ofNode:nil];
+
 						// get the text content filename
-						packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='text'][@media-type='text/xml']/data(@href)" ofNode:nil];
+						packageDoc.textContentFilename = [packageDoc stringForXquery:@"(/package[1]/manifest[1]/item[@id='xml']|/package[1]/manifest[1]/item[@id='text'])/data(@href)" ofNode:nil];
 
 						[packageDoc processData];
 						
+						// we set the format here to override the unknown format found in the processData Method
 						bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 						
 						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.folderPath];  
@@ -131,11 +136,17 @@
 		{
 			if(!controlDoc)
 				controlDoc = [[TBNCXDocument alloc] init];
-			
+				
 			// check if the folder path has already been set
 			if (!bookData.folderPath)
 				bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
 			// attempt to load the ncx file
+			
+			if([controlDoc openWithContentsOfURL:controlFileURL])
+			{	
+				[controlDoc processData];
+				ncxLoaded = YES;
+			}
 			
 			bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 			
@@ -144,7 +155,8 @@
 
 	if(ncxLoaded || opfLoaded)
 	{
-		[super chooseCorrectNavControllerForBook];
+		if(!navCon)
+			navCon = [[TBBookshareNavigationController alloc] init];
 		
 		if(opfLoaded)
 		{	
@@ -152,6 +164,7 @@
 			packageDoc = nil;
 			currentPlugin = self;
 		}
+		
 		if(ncxLoaded)
 		{	
 			navCon.controlDocument = controlDoc;
@@ -179,16 +192,6 @@
 	
 	return nil;
 }
-
-//- (void)startPlayback
-//{	
-//	[super startPlayback];
-//}
-//
-//- (void)stopPlayback
-//{	
-//	[super stopPlayback];
-//}
 
 - (NSString *)FormatDescription
 {
@@ -235,36 +238,12 @@
 #pragma mark -
 #pragma mark Navigation
 
-
-//- (void)nextReadingElement;
-//{
-//	[super nextReadingElement];
-//}
-//
-//- (void)previousReadingElement;
-//{
-//	[super previousReadingElement];
-//}
-//
-//- (void)upLevel;
-//{
-//	[super upLevel];
-//}
-//
-//- (void)downLevel
-//{
-//	[super downLevel];
-//}
-
 #pragma mark -
 
 - (void) dealloc
 {
-	
 	[super dealloc];
 }
-
-
 
 
 @end

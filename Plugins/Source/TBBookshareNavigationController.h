@@ -1,10 +1,9 @@
 //
-//  NSXMLNode-TBAdditions.h
+//  TBBookshareNavigationController.h
 //  StdDaisyFormats
 //
-//  Created by Kieren Eaton on 20/08/09.
+//  Created by Kieren Eaton on 25/08/09.
 //  Copyright 2009 BrainBender Software. All rights reserved.
-//
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,11 +19,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "TBTextOnlyNavigationController.h"
 
+@interface TBBookshareNavigationController : TBTextOnlyNavigationController
+{
 
-@interface NSXMLNode (TBAdditions)
-
-- (NSString *)contentValue;
+	
+}
 
 @end

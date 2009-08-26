@@ -95,7 +95,7 @@
 					// with badly authored books.
 					controlFileURL = bookURL;  
 					
-					self.packageDoc = nil;
+					packageDoc = nil;
 				}
 			}
 		}
@@ -195,7 +195,7 @@
 {
 	if(self.navCon.packageDocument)
 		return [[navCon packageDocument] fileURL];
-	else if(self.navCon.controlDocument)
+	else if(navCon.controlDocument)
 		return [[navCon controlDocument] fileURL];
 	
 	return nil;

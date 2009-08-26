@@ -71,7 +71,7 @@
 	if((xmlControlDoc) && (!theError))
 	{	
 		loadedOk = YES;
-		self.fileURL = [aURL copy];
+		fileURL = [aURL copy];
 	}
 	else
 	{

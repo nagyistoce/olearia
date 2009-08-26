@@ -54,9 +54,9 @@
 	
 	// check we have any valid metadata before adding the rest.
 	
-	self.manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
-	self.spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
-	self.guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
+	manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
+	spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
+	guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
 	currentPosInSpine = -1;
 	
 	// ends-with is used extensively here to avoid issues if the namespaces attached to the content 
@@ -67,11 +67,11 @@
 	
 	// set the book title
 	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-	self.bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
+	bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
 	
 	// set the subject
 	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-	self.bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
+	bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
 		
 }
 
@@ -103,7 +103,7 @@
 - (NSInteger)nextSpinePos
 {
 	NSUInteger newPos = (currentPosInSpine + 1);
-	return (newPos == [self.spine count]) ? [self.spine count] : newPos;
+	return (newPos == [spine count]) ? [spine count] : newPos;
 	
 }
 
@@ -113,7 +113,7 @@
 	if(newPos == currentPosInSpine)
 		return nil; // we are at the end of the spine
 	
-	self.currentPosInSpine = newPos;
+	currentPosInSpine = newPos;
 	return [spine objectAtIndex:currentPosInSpine];
 }
 
@@ -123,7 +123,7 @@
 	if(newPos == currentPosInSpine)
 		return nil; // we are at the beginning of the spine
 	
-	self.currentPosInSpine = newPos;
+	currentPosInSpine = newPos;
 	return [spine objectAtIndex:currentPosInSpine];
 }
 
@@ -138,7 +138,7 @@
 	NSInteger newPos = [self nextSpinePos];
 	if(newPos > currentPosInSpine)
 	{	
-		self.currentPosInSpine = newPos;
+		currentPosInSpine = newPos;
 		//spineId = [NSString stringWithString:[spine objectAtIndex:currentPosInSpine]];
 	
 		// check if we got an ID ref back
@@ -162,7 +162,7 @@
 	NSInteger newPos = [self prevSpinePos];
 	if(newPos < currentPosInSpine)
 	{	
-		self.currentPosInSpine = newPos;
+		currentPosInSpine = newPos;
 		//spineId = [NSString stringWithString:[spine objectAtIndex:currentPosInSpine]];
 	
 		// check if we got an 
@@ -188,7 +188,7 @@
 - (NSString *)filenameForCurrentSpinePos
 {
 	// a nil value indicates there was no id or filename
-	return [self filenameForID:[self.spine objectAtIndex:currentPosInSpine]];
+	return [self filenameForID:[spine objectAtIndex:currentPosInSpine]];
 }
 
 #pragma mark -

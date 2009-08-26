@@ -1,8 +1,8 @@
 //
-//  TBSpeechController.h
+//  TBBookshareTextContentDoc.h
 //  StdDaisyFormats
 //
-//  Created by Kieren Eaton on 28/07/09.
+//  Created by Kieren Eaton on 25/08/09.
 //  Copyright 2009 BrainBender Software. All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,43 @@
 //
 
 #import "TBBookData.h"
+#import "TBTextContentDoc.h"
 
-@interface TBSpeechController : NSObject 
+@interface TBBookshareTextContentDoc : TBTextContentDoc 
 {
 
-	TBBookData			*bookData;
 
-	NSSpeechSynthesizer *_auxSpeechSynth;
-	
-	BOOL				_mainIsSpeaking;
-
-	
 }
 
-- (void)speakLevelChange;
+@end
+
+@interface TBBookshareTextContentDoc (Synchronization)
+
+- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
+- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
+- (void)updateDataForCurrentPosition;
+- (NSString *)currentIdTag;
+
 
 @end
+
+
+@interface TBBookshareTextContentDoc (Information)
+
+- (BOOL)canGoNext;
+- (BOOL)canGoPrev;
+- (BOOL)canGoUpLevel;
+- (BOOL)canGoDownLevel;
+- (NSString *)contentText;
+
+@end
+
+@interface TBBookshareTextContentDoc (Navigation)
+
+- (void)moveToNextSegmentAtSameLevel;
+- (void)moveToPreviousSegment;
+- (void)goUpALevel;
+- (void)goDownALevel;
+
+@end
+

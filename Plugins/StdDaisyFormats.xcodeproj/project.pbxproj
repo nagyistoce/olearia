@@ -29,6 +29,8 @@
 		EE9E52AC0FC3CD1B00D0564C /* DTB2005BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AB0FC3CD1B00D0564C /* DTB2005BookPlugin.m */; };
 		EE9E52AF0FC3CDB400D0564C /* TBBooksharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */; };
 		EE9E53050FC3DE2700D0564C /* TBNIMASPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */; };
+		EEB66B1C104374BB003378BB /* TBBookshareNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB66B1A104374BB003378BB /* TBBookshareNavigationController.m */; };
+		EEB66B29104386F6003378BB /* TBBookshareTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */; };
 		EEB7A3A50FE5D52200662B04 /* TBStdInfoViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */; };
 		EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3DC0FE5EC0D00662B04 /* TBStdInfoView.m */; };
 		EEBF2DF00FE62416004D5771 /* InformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBF2DEF0FE62416004D5771 /* InformationView.xib */; };
@@ -100,6 +102,10 @@
 		EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBooksharePlugin.m; sourceTree = "<group>"; };
 		EE9E53030FC3DE2700D0564C /* TBNIMASPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNIMASPlugin.h; sourceTree = "<group>"; };
 		EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNIMASPlugin.m; sourceTree = "<group>"; };
+		EEB66B1A104374BB003378BB /* TBBookshareNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookshareNavigationController.m; sourceTree = "<group>"; };
+		EEB66B1B104374BB003378BB /* TBBookshareNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareNavigationController.h; sourceTree = "<group>"; };
+		EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookshareTextContentDoc.m; sourceTree = "<group>"; };
+		EEB66B28104386F6003378BB /* TBBookshareTextContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareTextContentDoc.h; sourceTree = "<group>"; };
 		EEB7A3890FE5D3A800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InformationView.xib; sourceTree = "<group>"; };
 		EEB7A38B0FE5D3C800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TextView.xib; sourceTree = "<group>"; };
 		EEB7A3A20FE5D52200662B04 /* TBStdInfoViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoViewItem.h; sourceTree = "<group>"; };
@@ -241,6 +247,8 @@
 			children = (
 				EE247B55100AD5B300C51EC5 /* TBTextContentDoc.h */,
 				EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */,
+				EEB66B28104386F6003378BB /* TBBookshareTextContentDoc.h */,
+				EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -272,6 +280,8 @@
 				EE3174C00FE0E1E100B27804 /* TBNavigationController.m */,
 				EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */,
 				EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */,
+				EEB66B1B104374BB003378BB /* TBBookshareNavigationController.h */,
+				EEB66B1A104374BB003378BB /* TBBookshareNavigationController.m */,
 				EEE1C54F101EB3EF00E217DD /* TBSpeechController.h */,
 				EEE1C550101EB3EF00E217DD /* TBSpeechController.m */,
 			);
@@ -467,6 +477,8 @@
 				EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */,
 				EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */,
 				EEE1C551101EB3EF00E217DD /* TBSpeechController.m in Sources */,
+				EEB66B1C104374BB003378BB /* TBBookshareNavigationController.m in Sources */,
+				EEB66B29104386F6003378BB /* TBBookshareTextContentDoc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

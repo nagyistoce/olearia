@@ -49,7 +49,7 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	self.loadFromCurrentLevel = NO;
+	loadFromCurrentLevel = NO;
 	bookData.currentLevel = 1;
 	_currentNodeIndex = 0;
 	_totalBodyNodes = 0;
@@ -67,7 +67,7 @@
 	[tempString  setString:[self stringForXquery:@"/html/head/data(title)" ofNode:nil]]; 
 	if(!tempString) // check the alternative location
 		[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'title')]/data(@content)" ofNode:nil]];
-	self.bookData.bookTitle = (tempString) ? tempString : NSLocalizedString(@"No Title", @"no title string");
+	bookData.bookTitle = (tempString) ? tempString : NSLocalizedString(@"No Title", @"no title string");
 	
 	
 	// check for total page count
@@ -241,18 +241,18 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		self.bookData.currentPage = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] integerValue];
+		bookData.currentPage = [[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue];
 	}
 	else
 	{
-		self.bookData.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
-		self.bookData.currentLevel = (NSInteger)[self levelOfNodeAtIndex:_currentNodeIndex];
+		bookData.sectionTitle = [self stringForXquery:@"./data(a)" ofNode:[_bodyNodes objectAtIndex:_currentNodeIndex]];
+		bookData.currentLevel = (NSInteger)[self levelOfNodeAtIndex:_currentNodeIndex];
 	}
 
-	self.bookData.hasLevelUp = [self canGoUpLevel];
-	self.bookData.hasLevelDown = [self canGoDownLevel];
-	self.bookData.hasPreviousSegment = [self canGoPrev];
-	self.bookData.hasNextSegment = [self canGoNext];
+	bookData.hasLevelUp = [self canGoUpLevel];
+	bookData.hasLevelDown = [self canGoDownLevel];
+	bookData.hasPreviousSegment = [self canGoPrev];
+	bookData.hasNextSegment = [self canGoNext];
 	
 }
 
