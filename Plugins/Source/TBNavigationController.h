@@ -21,12 +21,15 @@
 
 extern NSString * const TBStdPluginShouldStopPlayback;
 extern NSString * const TBStdPluginShouldStartPlayback;
+extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 #import "TBTextContentDoc.h"
+#import  "TBSpeechController.h"
+
 @class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
-@class TBSpeechController;
+
 
 @interface TBNavigationController : NSObject 
 {
@@ -59,6 +62,7 @@ extern NSString * const TBStdPluginShouldStartPlayback;
 - (NSString *)currentTime;
 
 
+- (void)resetController;
 - (void)prepareForPlayback;
 - (void)startPlayback;
 - (void)stopPlayback;
@@ -68,6 +72,8 @@ extern NSString * const TBStdPluginShouldStartPlayback;
 - (void)goUpLevel;
 - (void)goDownLevel;
 
+
+
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
@@ -75,6 +81,13 @@ extern NSString * const TBStdPluginShouldStartPlayback;
 @property (readwrite, copy)	NSString				*currentTag;
 @property (readwrite, copy)	NSString				*currentSmilFilename;
 @property (readwrite, copy)	NSString				*currentTextFilename;
+@property (readwrite, retain)	TBSpeechController	*speechCon;
 
+
+@end
+
+@interface TBNavigationController (Synchronization)
+
+- (void)updateAfterNavigationChange;
 
 @end

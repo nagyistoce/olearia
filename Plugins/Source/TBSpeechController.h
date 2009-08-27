@@ -29,10 +29,14 @@
 	NSSpeechSynthesizer *_auxSpeechSynth;
 	
 	BOOL				_mainIsSpeaking;
+	BOOL				_didUserNavigationChange;
+	
+	NSString			*_stringToSpeak;
 
 	
 }
 
 - (void)speakLevelChange;
+- (void)speakUserLevelChange;
 
 @end
