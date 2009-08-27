@@ -42,6 +42,7 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)startSpeakingFromIdTag:(NSString *)aTag;
 - (void)startSpeaking;
+
 @end
 
 @interface TBTextContentDoc (Synchronization)

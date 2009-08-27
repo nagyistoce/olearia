@@ -32,6 +32,8 @@
 		bookData = [TBBookData sharedBookData];
 
 		_mainIsSpeaking = NO;
+		_didUserNavigationChange = NO;
+		_stringToSpeak = [[NSString alloc] init];
 		
 		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoice] retain];
 		[_auxSpeechSynth setDelegate:self];
@@ -67,6 +69,22 @@
 
 }
 
+- (void)speakUserLevelChange
+{
+	if(bookData.speakUserLevelChange)
+	{	
+		_mainIsSpeaking = NO;
+		[[bookData talkingBookSpeechSynth] stopSpeaking];
+		
+		_didUserNavigationChange = YES;
+		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
+		
+	}
+	
+	
+}
+
+
 #pragma mark -
 #pragma mark KVO Methods
 
@@ -84,9 +102,17 @@
 		if(_mainIsSpeaking)
 			[[bookData talkingBookSpeechSynth] continueSpeaking];
 		else
-			[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStartPlayback object:nil];
+		{	
+			if(!_didUserNavigationChange)
+				[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStartPlayback object:nil];
+			else
+			{	
+				_didUserNavigationChange = NO;
+				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+			}
 			
-		
+		}
+
 	}
 			
 	

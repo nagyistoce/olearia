@@ -109,6 +109,8 @@
 {
 	if(bookData.talkingBookSpeechSynth.delegate != self)
 		[[bookData talkingBookSpeechSynth] setDelegate:self];
+	
+	[[bookData talkingBookSpeechSynth] stopSpeaking];
 	[self jumpToNodeWithIdTag:aTag];
 	[self updateDataForCurrentPosition];
 	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
@@ -117,11 +119,15 @@
 
 - (void)startSpeaking
 {
+	// check if we are the main synths delegate so we can set ourselves
+	// to watch for delegate notifications
 	if(bookData.talkingBookSpeechSynth.delegate != self)
 		[[bookData talkingBookSpeechSynth] setDelegate:self];
+	
 	[self updateDataForCurrentPosition];
 	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
 }
+
 
 @synthesize _contentStr;
 

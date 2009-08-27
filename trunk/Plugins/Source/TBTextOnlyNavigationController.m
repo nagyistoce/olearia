@@ -18,6 +18,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+
+
 #import "TBTextOnlyNavigationController.h"
 #import "TBOPFDocument.h"
 #import "TBNCXDocument.h"
@@ -37,7 +40,10 @@
 	self = [super init];
 	if (self != nil) 
 	{
-		
+		[noteCentre addObserver:self
+					   selector:@selector(startPlayback)
+						   name:TBAuxSpeechConDidFinishSpeaking
+						 object:speechCon];
 	}
 	
 	return self;
@@ -113,8 +119,6 @@
 	
 }
 
-#pragma mark -
-#pragma mark Private Methods
 
 - (void)startPlayback
 {
@@ -134,6 +138,71 @@
 	bookData.isPlaying = NO;
 }
 
+- (void)nextElement
+{
+	if(controlDocument)
+	{	
+		[controlDocument moveToNextSegmentAtSameLevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[super updateAfterNavigationChange];
+
+	[textDocument startSpeakingFromIdTag:currentTag];
+}
+
+- (void)previousElement
+{
+	if(controlDocument)
+	{	
+		[controlDocument moveToPreviousSegment];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[super updateAfterNavigationChange];
+	
+	[textDocument startSpeakingFromIdTag:currentTag];
+}
+
+- (void)goUpLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goUpALevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	_isSpeaking = NO;
+	[self updateAfterNavigationChange];
+	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	
+	[speechCon speakUserLevelChange];
+
+	
+}
+
+- (void)goDownLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goDownALevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	_didUserNavigation = YES;
+	_isSpeaking = NO;
+	[self updateAfterNavigationChange];
+	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	
+	[speechCon speakUserLevelChange];
+	
+}
 
 
 

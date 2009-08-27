@@ -21,6 +21,7 @@
 
 NSString * const TBStdPluginShouldStopPlayback = @"TBStdPluginShouldStopPlayback";
 NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayback";
+NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpeaking";
 
 #import <Cocoa/Cocoa.h>
 #import "TBNavigationController.h"
@@ -28,7 +29,6 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 #import "TBNCXDocument.h"
 #import "TBSMILDocument.h"
 #import "TBAudioSegment.h"
-#import "TBSpeechController.h"
 
 @interface TBNavigationController () 
 
@@ -39,8 +39,7 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
 - (BOOL)updateAudioFile:(NSString *)pathToFile;
-- (void)updateAfterNavigationChange;
-- (void)resetController;
+
 
 @end
 
@@ -386,40 +385,6 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 	[controlDocument updateDataForCurrentPosition];
 }
 
-- (void)updateAfterNavigationChange
-{
-	NSString *filename = [controlDocument contentFilenameFromCurrentNode];
-	if([[filename pathExtension] isEqualToString:@"smil"])
-	{
-		// check if the smil file REALLY needs to be loaded
-		// Failsafe for single smil books 
-		if(![currentSmilFilename isEqualToString:filename])
-		{
-			if(!smilDocument)
-				smilDocument = [[TBSMILDocument alloc] init];
-			
-			currentSmilFilename = [filename copy];
-			[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
-		}
-		
-		// user navigation uses the control Doc to change position
-		if(_didUserNavigation) 
-		{	
-			if((bookData.mediaFormat != AudioOnlyMediaFormat) && (bookData.mediaFormat != AudioNcxOrNccMediaFormat))
-			{
-				if(controlDocument)
-					[smilDocument jumpToNodeWithIdTag:currentTag];
-			}
-			_didUserNavigation = NO;
-		}
-		
-		_currentAudioFilename = smilDocument.relativeAudioFilePath;
-		
-		if(_currentAudioFilename)
-			[self updateAudioFile:_currentAudioFilename];
-		[controlDocument updateDataForCurrentPosition];
-	}
-}
 
 - (void)addChaptersToAudioSegment
 {
@@ -574,9 +539,50 @@ NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayba
 }
 
 
-@synthesize packageDocument, controlDocument, textDocument, smilDocument;
+@synthesize packageDocument, controlDocument, textDocument, smilDocument, speechCon;
 @synthesize currentSmilFilename, currentTextFilename, currentTag;
 
 
 @end
+
+@implementation TBNavigationController (Synchronization)
+
+- (void)updateAfterNavigationChange
+{
+	NSString *filename = [controlDocument contentFilenameFromCurrentNode];
+	if([[filename pathExtension] isEqualToString:@"smil"])
+	{
+		// check if the smil file REALLY needs to be loaded
+		// Failsafe for single smil books 
+		if(![currentSmilFilename isEqualToString:filename])
+		{
+			if(!smilDocument)
+				smilDocument = [[TBSMILDocument alloc] init];
+			
+			currentSmilFilename = [filename copy];
+			[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
+		}
+		
+		// user navigation uses the control Doc to change position
+		if(_didUserNavigation) 
+		{	
+			if((bookData.mediaFormat != AudioOnlyMediaFormat) && (bookData.mediaFormat != AudioNcxOrNccMediaFormat))
+			{
+				if(controlDocument)
+					[smilDocument jumpToNodeWithIdTag:currentTag];
+			}
+			_didUserNavigation = NO;
+		}
+		
+		_currentAudioFilename = smilDocument.relativeAudioFilePath;
+		
+		if(_currentAudioFilename)
+			[self updateAudioFile:_currentAudioFilename];
+		[controlDocument updateDataForCurrentPosition];
+	}
+}
+
+
+@end
+
 
