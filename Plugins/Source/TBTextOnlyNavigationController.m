@@ -40,10 +40,7 @@
 	self = [super init];
 	if (self != nil) 
 	{
-		[noteCentre addObserver:self
-					   selector:@selector(startPlayback)
-						   name:TBAuxSpeechConDidFinishSpeaking
-						 object:speechCon];
+
 	}
 	
 	return self;
@@ -87,6 +84,11 @@
 				currentTextFilename = [filename copy];
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.folderPath]];
 			}
+			[noteCentre addObserver:self
+						   selector:@selector(startPlayback)
+							   name:TBAuxSpeechConDidFinishSpeaking
+							 object:speechCon];
+
 		}
 		else
 		{

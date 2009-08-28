@@ -104,7 +104,7 @@
 		else
 		{	
 			if(!_didUserNavigationChange)
-				[[NSNotificationCenter defaultCenter] postNotificationName:TBStdPluginShouldStartPlayback object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
 			else
 			{	
 				_didUserNavigationChange = NO;

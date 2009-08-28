@@ -24,7 +24,7 @@
 #import "TBNCCDocument.h"
 #import "TBNavigationController.h"
 
-@interface DTB202BookPlugin()
+@interface DTB202BookPlugin (Private)
 
 - (BOOL)canOpenBook:(NSURL *)bookURL;
 
@@ -128,22 +128,27 @@
 			else 
 				controlDoc = nil;
 		}
+		
+		if(nccLoaded)
+		{
+			[super chooseCorrectNavControllerForBook];
+			
+			navCon.controlDocument = controlDoc;
+			controlDoc = nil;
+			
+			[navCon moveControlPoint:nil withTime:nil];
+			
+			[navCon prepareForPlayback];
+			
+			currentPlugin = self;
+			
+		}
+		
 	}
+	else
+		if(navCon)
+			[navCon resetController];
 	
-	if(nccLoaded)
-	{
-		[super chooseCorrectNavControllerForBook];
-		
-		navCon.controlDocument = controlDoc;
-		controlDoc = nil;
-		
-		[navCon moveControlPoint:nil withTime:nil];
-		
-		[navCon prepareForPlayback];
-		
-		currentPlugin = self;
-		
-	}
 	
 	// return YES if NCC.html Control Document loaded correctly
 	return (nccLoaded);
@@ -225,8 +230,9 @@
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Private Methods
+@end
+
+@implementation DTB202BookPlugin (Private)
 
 - (BOOL)canOpenBook:(NSURL *)bookURL
 {

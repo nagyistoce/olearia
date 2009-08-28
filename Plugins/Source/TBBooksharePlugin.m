@@ -88,11 +88,7 @@
 		{
 			if(!packageDoc)
 				packageDoc = [[TBOPFDocument alloc] init];
-			
-//			// check if the folder path has already been set
-//			if(!bookData.folderPath)
-//				bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
-			
+						
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
 				// the opf file opened correctly
@@ -151,32 +147,40 @@
 			bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 			
 		}
+		
+		if(ncxLoaded || opfLoaded)
+		{
+			if(!navCon)
+				navCon = [[TBBookshareNavigationController alloc] init];
+			
+			[navCon resetController];
+			
+			if(opfLoaded)
+			{	
+				navCon.packageDocument = packageDoc;
+				packageDoc = nil;
+				currentPlugin = self;
+			}
+			
+			if(ncxLoaded)
+			{	
+				navCon.controlDocument = controlDoc;
+				controlDoc = nil;
+				currentPlugin = self;
+			}
+			
+			[navCon moveControlPoint:nil withTime:nil];
+			
+			[navCon prepareForPlayback];
+			
+		}	
+		
 	}
+	else
+		if(navCon)
+			[navCon resetController];
 
-	if(ncxLoaded || opfLoaded)
-	{
-		if(!navCon)
-			navCon = [[TBBookshareNavigationController alloc] init];
-		
-		if(opfLoaded)
-		{	
-			navCon.packageDocument = packageDoc;
-			packageDoc = nil;
-			currentPlugin = self;
-		}
-		
-		if(ncxLoaded)
-		{	
-			navCon.controlDocument = controlDoc;
-			controlDoc = nil;
-			currentPlugin = self;
-		}
-		
-		[navCon moveControlPoint:nil withTime:nil];
-		
-		[navCon prepareForPlayback];
-		
-	}	
+
 	// return YES if the Package document and/or Control Document loaded correctly
 	return ((opfLoaded) || (ncxLoaded));
 }

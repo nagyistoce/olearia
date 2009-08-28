@@ -19,8 +19,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-extern NSString * const TBStdPluginShouldStopPlayback;
-extern NSString * const TBStdPluginShouldStartPlayback;
 extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 
 #import <Foundation/Foundation.h>
