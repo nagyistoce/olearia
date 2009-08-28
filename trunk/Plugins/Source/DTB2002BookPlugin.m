@@ -28,10 +28,15 @@
 
 @interface DTB2002BookPlugin ()
 
-- (BOOL)canOpenBook:(NSURL *)bookURL;
+
 
 @end
 
+@interface DTB2002BookPlugin (Private)
+
+- (BOOL)canOpenBook:(NSURL *)bookURL;
+
+@end
 
 @implementation DTB2002BookPlugin
 
@@ -138,33 +143,35 @@
 			else
 				navCon.controlDocument = nil;
 		}
-	}
-	
-	
-	if(ncxLoaded || opfLoaded)
-	{
-		[super chooseCorrectNavControllerForBook];
 		
-		if(opfLoaded)
-		{	
-			navCon.packageDocument = packageDoc;
-			packageDoc = nil;
-			currentPlugin = self;
+		if(ncxLoaded || opfLoaded)
+		{
+			[super chooseCorrectNavControllerForBook];
+			
+			if(opfLoaded)
+			{	
+				navCon.packageDocument = packageDoc;
+				packageDoc = nil;
+				currentPlugin = self;
+			}
+			
+			if(ncxLoaded)
+			{	
+				navCon.controlDocument = controlDoc;
+				controlDoc = nil;
+				currentPlugin = self;
+			}
+			
+			[navCon moveControlPoint:nil withTime:nil];
+			
+			[navCon prepareForPlayback];
+			
 		}
 		
-		if(ncxLoaded)
-		{	
-			navCon.controlDocument = controlDoc;
-			controlDoc = nil;
-			currentPlugin = self;
-		}
-		
-		[navCon moveControlPoint:nil withTime:nil];
-		
-		[navCon prepareForPlayback];
-		
 	}
-	
+	else
+		if(navCon)
+			[navCon resetController];
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
@@ -248,8 +255,10 @@
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Private Methods
+@end
+
+
+@implementation DTB2002BookPlugin (Private)
 
 // this method checks the url for a file with a valid extension
 // if a directory URL is passed the directory is scanned for a file with a valid extension
@@ -280,4 +289,7 @@
 
 
 @end
+
+
+
 

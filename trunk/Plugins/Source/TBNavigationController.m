@@ -19,8 +19,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-NSString * const TBStdPluginShouldStopPlayback = @"TBStdPluginShouldStopPlayback";
-NSString * const TBStdPluginShouldStartPlayback = @"TBStdPluginShouldStartPlayback";
 NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpeaking";
 
 #import <Cocoa/Cocoa.h>
@@ -65,15 +63,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;
 	
-	[noteCentre addObserver:self 
-				   selector:@selector(startPlayback) 
-					   name:TBStdPluginShouldStartPlayback 
-					 object:nil];
-	
-	[noteCentre addObserver:self
-				   selector:@selector(stopPlayback)
-					   name:TBStdPluginShouldStopPlayback
-					 object:nil];
 	
 	// watch KVO notifications
 	[bookData addObserver:self
@@ -194,7 +183,14 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		
 		if(_currentAudioFilename) 
 			if([self updateAudioFile:_currentAudioFilename])
+			{
 				currentTag = [controlDocument currentIdTag];			
+				[noteCentre addObserver:self
+							   selector:@selector(startPlayback)
+								   name:TBAuxSpeechConDidFinishSpeaking
+								 object:speechCon];
+			}
+	
 	}
 	else if(packageDocument)
 	{
@@ -423,9 +419,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	_didUserNavigation = NO;
 	_justAddedChapters = NO;
 	
-	[noteCentre removeObserver:self name:QTMovieLoadStateDidChangeNotification object:_audioFile];
-	[noteCentre removeObserver:self name:QTMovieDidEndNotification object:_audioFile];
-	[noteCentre removeObserver:self name:QTMovieChapterDidChangeNotification object:_audioFile];
+	[noteCentre removeObserver:self];
 }
 
 #pragma mark -

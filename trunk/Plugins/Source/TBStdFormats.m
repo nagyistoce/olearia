@@ -86,7 +86,9 @@
 	{	
 		if(navCon.packageDocument.textContentFilename)
 		{	
-			NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
+			//NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
+			NSURL *textFileURL = [NSURL URLWithString:navCon.packageDocument.textContentFilename relativeToURL:bookData.folderPath];
+			
 			foundTextFile = YES;
 			[textview setURL:textFileURL];
 			[textview setFrame:[[textview superview] frame]];
@@ -221,19 +223,20 @@
 	}
 	else // nav controller already loaded from previous book.
 	{
-		if((bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat))
-		{	if([navCon isKindOfClass:[TBNavigationController class]])
-			{
-				navCon = nil;
-				navCon = [[TBTextOnlyNavigationController alloc] init];
-			}
-			else // must be loaded as text only nav controller 
-			{
-				navCon = nil;
-				navCon = [[TBNavigationController alloc] init];
-			}
+		
+		if(([navCon isKindOfClass:[TBNavigationController class]]) && (bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat))
+		{
+			navCon = nil;
+			navCon = [[TBTextOnlyNavigationController alloc] init];
+		}
+		else if(([navCon isKindOfClass:[TBTextOnlyNavigationController class]]) && (bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat))
+		{	
+			navCon = nil;
+			navCon = [[TBNavigationController alloc] init];
 		}
 	}
+	
+	[navCon resetController];
 }
 
 #pragma mark -

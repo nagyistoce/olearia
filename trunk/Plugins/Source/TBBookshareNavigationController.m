@@ -85,6 +85,11 @@
 				currentTextFilename = [[packageDocument textContentFilename] copy];
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.folderPath]];
 			}
+			
+			[noteCentre addObserver:self
+						   selector:@selector(startPlayback)
+							   name:TBAuxSpeechConDidFinishSpeaking
+							 object:speechCon];
 		}
 		
 	}

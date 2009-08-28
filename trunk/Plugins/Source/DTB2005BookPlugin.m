@@ -158,32 +158,36 @@
 			}
 			else
 				controlDoc = nil;
+		}	
+		
+		if(ncxLoaded || opfLoaded)
+		{
+			[super chooseCorrectNavControllerForBook];
+			
+			if(opfLoaded)
+			{	
+				navCon.packageDocument = packageDoc;
+				packageDoc = nil;
+				currentPlugin = self;
+			}
+			if(ncxLoaded)
+			{	
+				navCon.controlDocument = controlDoc;
+				controlDoc = nil;
+				currentPlugin = self;
+			}
+			
+			[navCon moveControlPoint:nil withTime:nil];
+			
+			[navCon prepareForPlayback];
+			
 		}
+		
 	}
-
+	else
+		if(navCon)
+			[navCon resetController];
 	
-	if(ncxLoaded || opfLoaded)
-	{
-		[super chooseCorrectNavControllerForBook];
-		
-		if(opfLoaded)
-		{	
-			navCon.packageDocument = packageDoc;
-			packageDoc = nil;
-			currentPlugin = self;
-		}
-		if(ncxLoaded)
-		{	
-			navCon.controlDocument = controlDoc;
-			controlDoc = nil;
-			currentPlugin = self;
-		}
-		
-		[navCon moveControlPoint:nil withTime:nil];
-		
-		[navCon prepareForPlayback];
-		
-	}
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// The Control document gives us full navigation.

@@ -103,21 +103,27 @@
 			else
 				packageDoc = nil;
 		}
+		
+		
+		if(opfLoaded)
+		{
+			[super chooseCorrectNavControllerForBook];
+			
+			navCon.packageDocument = packageDoc;
+			packageDoc = nil;
+			currentPlugin = self;
+			
+			[navCon moveControlPoint:nil withTime:nil];
+			
+			[navCon prepareForPlayback];
+			
+		}
+		
 	}
+	else
+		if(navCon)
+			[navCon resetController];
 
-	if(opfLoaded)
-	{
-		[super chooseCorrectNavControllerForBook];
-		
-		navCon.packageDocument = packageDoc;
-		packageDoc = nil;
-		currentPlugin = self;
-		
-		[navCon moveControlPoint:nil withTime:nil];
-		
-		[navCon prepareForPlayback];
-		
-	}
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
