@@ -14,6 +14,8 @@
 		EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74850E3B5106001CF3C2 /* daisyicons.icns */; };
 		EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74860E3B5106001CF3C2 /* olearia.icns */; };
 		EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */ = {isa = PBXBuildFile; fileRef = EE0A74870E3B5106001CF3C2 /* SMILicons.icns */; };
+		EE155572104B6BCF00A20F90 /* TalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE155508104B693100A20F90 /* TalkingBook.framework */; };
+		EE155573104B6BD800A20F90 /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE155508104B693100A20F90 /* TalkingBook.framework */; };
 		EE1A076F0ED68A730007E357 /* HC-BackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07640ED68A730007E357 /* HC-BackArrow.png */; };
 		EE1A07700ED68A730007E357 /* HC-bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07650ED68A730007E357 /* HC-bookmark.png */; };
 		EE1A07710ED68A730007E357 /* HC-button-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1A07660ED68A730007E357 /* HC-button-forward.png */; };
@@ -34,6 +36,7 @@
 		EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */; };
 		EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE436AE40E5D500F00276672 /* OleariaPrefsController.h */; };
 		EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */; };
+		EE3075A6104B5822005DA7DC /* StdDaisyFormats.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = EE30759C104B56E8005DA7DC /* StdDaisyFormats.plugin */; };
 		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
@@ -41,8 +44,6 @@
 		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Voice.png */; };
 		EE8BA956100198AF000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA955100198AF000E242F /* Localizable.strings */; };
-		EEA2AA1B0FD94E0C00AAD1CF /* TalkingBook.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
-		EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */; };
 		EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */; };
 		EEADAC1A102163DE006FC113 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */; };
 		EEADAC5110216903006FC113 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = EEADAC5010216903006FC113 /* General.png */; };
@@ -64,19 +65,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EE155507104B693100A20F90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EE155504104B693000A20F90;
+			remoteInfo = TalkingBook;
+		};
+		EE30759B104B56E8005DA7DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = StdDaisyFormats;
+		};
+		EE307603104B5AAA005DA7DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = StdDaisyFormats;
+		};
 		EE5A11D20EDB914900398FFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5A11CC0EDB912B00398FFC;
 			remoteInfo = RelaunchHelper;
-		};
-		EEA2AA150FD94DE100AAD1CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = TalkingBook;
 		};
 		EEA2AA1E0FD94E2B00AAD1CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -88,6 +103,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		EE3075A5104B5781005DA7DC /* Copy Plugins */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EE3075A6104B5822005DA7DC /* StdDaisyFormats.plugin in Copy Plugins */,
+			);
+			name = "Copy Plugins";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE5A13580EDB928000398FFC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,7 +130,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EEA2AA1B0FD94E0C00AAD1CF /* TalkingBook.framework in Copy Frameworks */,
+				EE155572104B6BCF00A20F90 /* TalkingBook.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,11 +167,13 @@
 		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
 		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
+		EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StdDaisyFormats.xcodeproj; path = ../Plugins/StdDaisyFormats.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
 		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
+		EE4F9293104B8BA30022653C /* StdDaisyFormats.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StdDaisyFormats.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE7272501014014600FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -186,7 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEA2AA230FD94E9000AAD1CF /* TalkingBook.framework in Frameworks */,
+				EE155573104B6BD800A20F90 /* TalkingBook.framework in Frameworks */,
 				EEF98E820EED4DE5002F50BC /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,8 +249,10 @@
 			isa = PBXGroup;
 			children = (
 				EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */,
+				EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */,
 				8D1107320486CEB800E47090 /* Olearia.app */,
 				EE5A11CD0EDB912B00398FFC /* RelaunchHelper */,
+				EE4F9293104B8BA30022653C /* StdDaisyFormats.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,6 +351,14 @@
 			path = Source;
 			sourceTree = SOURCE_ROOT;
 		};
+		EE307598104B56E8005DA7DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE30759C104B56E8005DA7DC /* StdDaisyFormats.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,7 +390,7 @@
 		EEA2AA120FD94DE100AAD1CF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */,
+				EE155508104B693100A20F90 /* TalkingBook.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -379,6 +417,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Olearia" */;
 			buildPhases = (
+				EE3075A5104B5781005DA7DC /* Copy Plugins */,
 				EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */,
 				EE24ED410FCF9DC600D88546 /* Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -393,6 +432,7 @@
 			dependencies = (
 				EEA2AA1F0FD94E2B00AAD1CF /* PBXTargetDependency */,
 				EE5A11D30EDB914900398FFC /* PBXTargetDependency */,
+				EE307604104B5AAA005DA7DC /* PBXTargetDependency */,
 			);
 			name = Olearia;
 			productInstallPath = "$(HOME)/Applications";
@@ -437,6 +477,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = EE307598104B56E8005DA7DC /* Products */;
+					ProjectRef = EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */;
+				},
+				{
 					ProductGroup = EEA2AA120FD94DE100AAD1CF /* Products */;
 					ProjectRef = EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */;
 				},
@@ -450,11 +494,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EEA2AA160FD94DE100AAD1CF /* TalkingBook.framework */ = {
+		EE155508104B693100A20F90 /* TalkingBook.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = TalkingBook.framework;
-			remoteRef = EEA2AA150FD94DE100AAD1CF /* PBXContainerItemProxy */;
+			remoteRef = EE155507104B693100A20F90 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EE30759C104B56E8005DA7DC /* StdDaisyFormats.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = StdDaisyFormats.plugin;
+			remoteRef = EE30759B104B56E8005DA7DC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -563,6 +614,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EE307604104B5AAA005DA7DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = StdDaisyFormats;
+			targetProxy = EE307603104B5AAA005DA7DC /* PBXContainerItemProxy */;
+		};
 		EE5A11D30EDB914900398FFC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EE5A11CC0EDB912B00398FFC /* RelaunchHelper */;
@@ -734,8 +790,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = 0.9.31;
-				ARCHS = "$(NATIVE_ARCH)";
+				APPLICATION_VERSION = 0.9.35;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_OPENMP_SUPPORT = NO;
@@ -786,7 +842,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = 0.9.31;
+				APPLICATION_VERSION = 0.9.35;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ALTIVEC_EXTENSIONS = YES;
@@ -888,7 +944,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = 0.9.31;
+				APPLICATION_VERSION = 0.9.35;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ALTIVEC_EXTENSIONS = YES;

@@ -24,7 +24,6 @@
 
 @interface TBBookshareTextContentDoc ()
 
-@property (readwrite, copy) NSString *_contentStr;
 
 @end
 
@@ -124,8 +123,6 @@
 	[self updateDataForCurrentPosition];
 	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
 }
-
-@synthesize _contentStr;
 
 @end
 

@@ -20,7 +20,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class TBBookData;
+#import "TBBookData.h"
 
 @protocol TBPluginInterface <NSObject>
 

@@ -20,7 +20,6 @@
 //
 
 #import "TBStdTextView.h"
-//#import <WebKit/WebKit.h>
 
 @implementation TBStdTextView
 
@@ -29,7 +28,7 @@
     self = [super initWithFrame:frame];
     if (self) 
 	{
-		
+		[theWebView setMainFrameURL:@""];
     }
     return self;
 }

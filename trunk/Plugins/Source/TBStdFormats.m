@@ -92,6 +92,7 @@
 			foundTextFile = YES;
 			[textview setURL:textFileURL];
 			[textview setFrame:[[textview superview] frame]];
+			
 		}
 		else
 			errorTextFilename = @"ErrorLoadingTextContent.html";
@@ -107,6 +108,7 @@
 		
 		[textview  setURL:noTextURL];
 		[textview setFrame:[[textview superview] frame]];
+		
 	}
 			
 	

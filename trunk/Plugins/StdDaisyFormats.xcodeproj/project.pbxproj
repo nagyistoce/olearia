@@ -14,6 +14,7 @@
 		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
 		EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */; };
 		EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */ = {isa = PBXBuildFile; fileRef = EE2768920FF875FD00C3DB1C /* NoTextContent.html */; };
+		EE307564104B4F61005DA7DC /* TalkingBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE307547104B4DE2005DA7DC /* TalkingBook.framework */; };
 		EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */; };
 		EE3172EE0FE0DC0E00B27804 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */; };
 		EE3172F60FE0DCFC00B27804 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3172F50FE0DCFC00B27804 /* libicucore.dylib */; };
@@ -21,7 +22,6 @@
 		EE3174C10FE0E1E100B27804 /* TBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3174C00FE0E1E100B27804 /* TBNavigationController.m */; };
 		EE3927950FC3F0C40093CBBD /* TBFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3927940FC3F0C40093CBBD /* TBFileUtils.m */; };
 		EE54A0D10FFD859100C55D6F /* TBTextOnlyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */; };
-		EE80C5300FD8AF55009F55BB /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE80C52F0FD8AF55009F55BB /* TBBookData.m */; };
 		EE8BA94A1001980A000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA9491001980A000E242F /* Localizable.strings */; };
 		EE9E52910FC3B08C00D0564C /* TBStdFormats.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */; };
 		EE9E52A60FC3CA1500D0564C /* DTB202BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52A50FC3CA1500D0564C /* DTB202BookPlugin.m */; };
@@ -47,6 +47,16 @@
 		EEFC92971042A67B000D9864 /* NSXMLNode-TBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEFC92961042A67B000D9864 /* NSXMLNode-TBAdditions.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EE307546104B4DE2005DA7DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE307542104B4DE2005DA7DC /* TalkingBook.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = TalkingBook;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -62,6 +72,7 @@
 		EE247B55100AD5B300C51EC5 /* TBTextContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextContentDoc.h; sourceTree = "<group>"; };
 		EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextContentDoc.m; sourceTree = "<group>"; };
 		EE2768930FF875FD00C3DB1C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/NoTextContent.html; sourceTree = "<group>"; };
+		EE307542104B4DE2005DA7DC /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE3172CD0FE0D9B100B27804 /* NSString-TBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-TBAdditions.h"; sourceTree = "<group>"; };
 		EE3172CE0FE0D9B100B27804 /* NSString-TBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-TBAdditions.m"; sourceTree = "<group>"; };
 		EE3172EC0FE0DC0E00B27804 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = ../RegexKitLite.h; sourceTree = SOURCE_ROOT; };
@@ -87,8 +98,6 @@
 		EE72706D1013EDD700FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EE72706E1013EDDD00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
-		EE80C52E0FD8AF55009F55BB /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBBookData.h; path = ../TBBookData.h; sourceTree = SOURCE_ROOT; };
-		EE80C52F0FD8AF55009F55BB /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBBookData.m; path = ../TBBookData.m; sourceTree = SOURCE_ROOT; };
 		EE8BA947100197EB000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE9E528F0FC3B08C00D0564C /* TBStdFormats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdFormats.m; sourceTree = "<group>"; };
 		EE9E52900FC3B08C00D0564C /* TBStdFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdFormats.h; sourceTree = "<group>"; };
@@ -137,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE307564104B4F61005DA7DC /* TalkingBook.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				EE3172F60FE0DCFC00B27804 /* libicucore.dylib in Frameworks */,
 				EE3172F80FE0DD1200B27804 /* QTKit.framework in Frameworks */,
@@ -214,6 +224,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				EE307542104B4DE2005DA7DC /* TalkingBook.xcodeproj */,
 				8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */,
 			);
 			name = Products;
@@ -225,8 +236,6 @@
 				EE3172EC0FE0DC0E00B27804 /* RegexKitLite.h */,
 				EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */,
 				EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */,
-				EE80C52E0FD8AF55009F55BB /* TBBookData.h */,
-				EE80C52F0FD8AF55009F55BB /* TBBookData.m */,
 				32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */,
 			);
 			name = "Other Source";
@@ -260,6 +269,14 @@
 				EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */,
 			);
 			name = Audio;
+			sourceTree = "<group>";
+		};
+		EE307543104B4DE2005DA7DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE307547104B4DE2005DA7DC /* TalkingBook.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		EE3172CC0FE0D98A00B27804 /* Categories */ = {
@@ -423,12 +440,28 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* StdDaisyFormats */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EE307543104B4DE2005DA7DC /* Products */;
+					ProjectRef = EE307542104B4DE2005DA7DC /* TalkingBook.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* StdDaisyFormats */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		EE307547104B4DE2005DA7DC /* TalkingBook.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TalkingBook.framework;
+			remoteRef = EE307546104B4DE2005DA7DC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D5B49AF048680CD000E48DA /* Resources */ = {
@@ -464,7 +497,6 @@
 				EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */,
 				EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */,
 				EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */,
-				EE80C5300FD8AF55009F55BB /* TBBookData.m in Sources */,
 				EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */,
 				EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */,
 				EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */,
@@ -597,7 +629,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_VERSION = 1.0;
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -642,7 +674,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_VERSION = 1.0;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
