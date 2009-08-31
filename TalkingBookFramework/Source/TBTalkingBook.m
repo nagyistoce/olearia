@@ -397,6 +397,7 @@
 		{
 			[textView addSubview:[currentPlugin bookTextView]];
 			[textWindow makeKeyAndOrderFront:self];
+			
 		}
 	}
 	else
@@ -406,6 +407,7 @@
 				[textView addSubview:[currentPlugin bookTextView]];
 			
 			[textWindow makeKeyAndOrderFront:self];
+			[[textWindow contentView] setNeedsDisplay:YES];
 		}
 	
 }
@@ -524,7 +526,6 @@
 	}
 	
 	[bundleSearchPaths addObject:[[NSBundle mainBundle] builtInPlugInsPath]];
-	[bundleSearchPaths addObject:[[NSBundle bundleForClass:[self class]] builtInPlugInsPath]];	
 	
 	for(currPath in bundleSearchPaths)
 	{

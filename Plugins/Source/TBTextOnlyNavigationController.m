@@ -59,7 +59,6 @@
 	
 	if(controlDocument)
 	{
-		
 		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
 		if([[filename pathExtension] isEqualToString:@"smil"])
 		{
