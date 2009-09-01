@@ -11,13 +11,13 @@
 		EE05F8550FCE35A700DFB1F1 /* TBTalkingBook.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F8560FCE35A700DFB1F1 /* TBTalkingBook.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */; };
 		EE05F8890FCE439000DFB1F1 /* TBBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EE05F88A0FCE439000DFB1F1 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05F8870FCE439000DFB1F1 /* TBBookData.m */; };
 		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE1A700110167F8C0001BEDB /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE1A700010167F8C0001BEDB /* TBBookInfo.nib */; };
 		EE307618104B5D3B005DA7DC /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE307617104B5D3B005DA7DC /* QTKit.framework */; };
 		EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */; };
 		EE8BA987100198E3000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA986100198E3000E242F /* Localizable.strings */; };
 		EED2CD1710167909002AC50A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1667FE841158C02AAC07 /* InfoPlist.strings */; };
+		EEDC6D50104CFB9000380583 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC6D4F104CFB9000380583 /* TBBookData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +28,7 @@
 		EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBook.h; sourceTree = "<group>"; };
 		EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTalkingBook.m; sourceTree = "<group>"; };
 		EE05F8680FCE389500DFB1F1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
-		EE05F8860FCE439000DFB1F1 /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBBookData.h; path = ../TBBookData.h; sourceTree = SOURCE_ROOT; };
-		EE05F8870FCE439000DFB1F1 /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBBookData.m; path = ../TBBookData.m; sourceTree = SOURCE_ROOT; };
+		EE05F8860FCE439000DFB1F1 /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookData.h; sourceTree = "<group>"; };
 		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
 		EE155504104B693000A20F90 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE1A700210167F980001BEDB /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
@@ -39,6 +38,7 @@
 		EE7270AA1013EE6E00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE7270AB1013EE7200FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE8BA984100198D6000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EEDC6D4F104CFB9000380583 /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookData.m; sourceTree = "<group>"; };
 		EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TBTextWindow.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,8 +100,10 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EEDC6D4F104CFB9000380583 /* TBBookData.m */,
 				EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */,
 				EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */,
+				EE05F8860FCE439000DFB1F1 /* TBBookData.h */,
 			);
 			name = Classes;
 			path = Source;
@@ -127,8 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				32DBCF5E0370ADEE00C91783 /* TalkingBook_Prefix.pch */,
-				EE05F8860FCE439000DFB1F1 /* TBBookData.h */,
-				EE05F8870FCE439000DFB1F1 /* TBBookData.m */,
 				EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */,
 			);
 			name = "Other Sources";
@@ -215,7 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE05F8560FCE35A700DFB1F1 /* TBTalkingBook.m in Sources */,
-				EE05F88A0FCE439000DFB1F1 /* TBBookData.m in Sources */,
+				EEDC6D50104CFB9000380583 /* TBBookData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
