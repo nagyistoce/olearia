@@ -13,11 +13,11 @@
 		EE05F8890FCE439000DFB1F1 /* TBBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE1A700110167F8C0001BEDB /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE1A700010167F8C0001BEDB /* TBBookInfo.nib */; };
-		EE307618104B5D3B005DA7DC /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE307617104B5D3B005DA7DC /* QTKit.framework */; };
 		EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */; };
 		EE8BA987100198E3000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA986100198E3000E242F /* Localizable.strings */; };
 		EED2CD1710167909002AC50A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1667FE841158C02AAC07 /* InfoPlist.strings */; };
 		EEDC6D50104CFB9000380583 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC6D4F104CFB9000380583 /* TBBookData.m */; };
+		EEDC6E3D104D01BB00380583 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,6 @@
 		EE155504104B693000A20F90 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE1A700210167F980001BEDB /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
 		EE1A700310167F9D0001BEDB /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = no.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
-		EE307617104B5D3B005DA7DC /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		EE7270AA1013EE6E00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE7270AB1013EE7200FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -47,8 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEDC6E3D104D01BB00380583 /* QTKit.framework in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				EE307618104B5D3B005DA7DC /* QTKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +70,6 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				EE307617104B5D3B005DA7DC /* QTKit.framework */,
 			);
 			name = TalkingBook;
 			sourceTree = "<group>";
@@ -100,10 +98,10 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EEDC6D4F104CFB9000380583 /* TBBookData.m */,
 				EE05F8530FCE35A700DFB1F1 /* TBTalkingBook.h */,
 				EE05F8540FCE35A700DFB1F1 /* TBTalkingBook.m */,
 				EE05F8860FCE439000DFB1F1 /* TBBookData.h */,
+				EEDC6D4F104CFB9000380583 /* TBBookData.m */,
 			);
 			name = Classes;
 			path = Source;
