@@ -50,7 +50,7 @@
 	plugs = [self insertPlugin:[DTB2002BookPlugin bookType] intoArray:plugs];
 	plugs = [self insertPlugin:[DTB2005BookPlugin bookType] intoArray:plugs];
 	plugs = [self insertPlugin:[TBBooksharePlugin bookType] intoArray:plugs];
-	plugs = [self insertPlugin:[TBNIMASPlugin bookType] intoArray:plugs];
+	//plugs = [self insertPlugin:[TBNIMASPlugin bookType] intoArray:plugs];
 	
 	return [plugs count] ? plugs : nil;
 }

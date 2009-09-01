@@ -499,15 +499,35 @@
 - (void)loadPlugins
 {
 	NSArray *bundlePaths = [self availBundles];
-	for (NSString *pluginPath in bundlePaths) 
+	if([bundlePaths count])
 	{
-		NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
-		if (YES == [pluginBundle load])
+		for (NSString *pluginPath in bundlePaths) 
 		{
-			if([self plugInClassIsValid:[pluginBundle principalClass]])
-				[formatPlugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
+			NSBundle* pluginBundle = [[[NSBundle alloc] initWithPath:pluginPath] autorelease];
+			if (YES == [pluginBundle load])
+			{
+				if([self plugInClassIsValid:[pluginBundle principalClass]])
+					[formatPlugins addObjectsFromArray:[[pluginBundle principalClass] plugins]];
+			}
 		}
 	}
+	else 
+	{
+		// put up a dialog saying that there were no plugins found
+		NSAlert *anAlert = [[NSAlert alloc] init];
+		[anAlert setMessageText:NSLocalizedString(@"No Plugins Found", @"No plugins found short msg")];
+		[anAlert setInformativeText:NSLocalizedString(@"There were no suitable plugins available.\nPlease put them in the correct folder\nand restart the application.",@"no plugins found long msg")];
+		[anAlert setAlertStyle:NSWarningAlertStyle];
+		[anAlert setIcon:[NSApp applicationIconImage]];
+		// we dont need a response from the user so set all options except window to nil;
+		[anAlert beginSheetModalForWindow:[NSApp mainWindow]
+							modalDelegate:nil 
+						   didEndSelector:nil 
+							  contextInfo:nil];
+		anAlert = nil;
+		
+	}
+
 }
 
 - (NSArray *)availBundles
