@@ -403,7 +403,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// stop playing if we are playing
 	if(talkingBook.bookData.isPlaying)
 		[talkingBook pause];
-		//talkingBook.bookData.isPlaying = NO;
 	
 	if(talkingBook.bookIsLoaded)
 		[self saveCurrentBookSettings];
@@ -579,7 +578,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	// get the settings that have been saved for the currently loaded book
 	NSMutableDictionary *oldSettings = [[NSMutableDictionary alloc] init];
 
-	[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
+	if([_recentBooks count])
+		[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
 		
 		// get the current settings from the book and save them to the recent files list
 	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.audioPlaybackRate] forKey:@"AudioRate"];
@@ -589,7 +589,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	[oldSettings setValue:[talkingBook currentControlPositionID] forKey:@"PlayPosition"];
 	[oldSettings setValue:[talkingBook currentTimePosition] forKey:@"TimePosition"];
-	[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
+	if([_recentBooks count])
+		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
+	else 
+		[_recentBooks addObject:oldSettings];
 
 }
 
