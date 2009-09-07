@@ -127,6 +127,73 @@
 }
 
 
+- (void)nextElement
+{
+	if(controlDocument)
+	{	
+		[controlDocument moveToNextSegmentAtSameLevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[super updateAfterNavigationChange];
+
+	[textDocument startSpeakingFromIdTag:currentTag];
+}
+
+- (void)previousElement
+{
+	if(controlDocument)
+	{	
+		[controlDocument moveToPreviousSegment];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	
+	[super updateAfterNavigationChange];
+	
+	[textDocument startSpeakingFromIdTag:currentTag];
+}
+
+- (void)goUpLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goUpALevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	
+	_didUserNavigation = YES;
+	_isSpeaking = NO;
+	[self updateAfterNavigationChange];
+	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument updateDataAfterJump];
+	
+	[speechCon speakUserLevelChange];
+
+	
+}
+
+- (void)goDownLevel
+{
+	if(controlDocument)
+	{	
+		[controlDocument goDownALevel];
+		currentTag = [controlDocument currentIdTag];
+	}
+	_didUserNavigation = YES;
+	_isSpeaking = NO;
+	[self updateAfterNavigationChange];
+	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument updateDataAfterJump];
+	
+	[speechCon speakUserLevelChange];
+	
+}
 
 
 @end

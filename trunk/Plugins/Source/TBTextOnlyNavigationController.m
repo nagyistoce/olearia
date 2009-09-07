@@ -182,6 +182,7 @@
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument updateDataAfterJump];
 	
 	[speechCon speakUserLevelChange];
 
@@ -200,11 +201,55 @@
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument updateDataAfterJump];
 	
 	[speechCon speakUserLevelChange];
 	
 }
 
+- (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime
+{
+	// the control document will always be our first choice for navigation
+	if(controlDocument)
+	{	
+		[controlDocument jumpToNodeWithPath:aNodePath];
+		currentTag = [controlDocument currentIdTag];
+	}
+	else if(packageDocument)
+	{
+		// need to add navigation methods for package documents
+	}
+	
+	_didUserNavigation = YES;
+	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	
+	[self updateAfterNavigationChange];
+	[textDocument updateDataAfterJump];
+	
+}
 
+- (NSString *)currentNodePath
+{
+	if(controlDocument)
+		return [controlDocument currentPositionID];
+	
+	return nil;
+}
+
+- (NSString *)currentTime
+{	
+	// return nil as there is no time sig in textOnly
+	// books
+	
+	return nil;
+}
+
+- (void)updateAfterNavigationChange
+{
+	
+	[textDocument updateDataForCurrentPosition];
+	
+}
 
 @end

@@ -50,6 +50,7 @@
 - (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
 - (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
 - (void)updateDataForCurrentPosition;
+- (void)updateDataAfterJump;
 - (NSString *)currentIdTag;
 
 
@@ -70,8 +71,8 @@
 
 - (void)moveToNextSegmentAtSameLevel;
 - (void)moveToPreviousSegment;
-- (void)goUpALevel;
-- (void)goDownALevel;
+//- (void)goUpALevel;
+//- (void)goDownALevel;
 
 @end
 
