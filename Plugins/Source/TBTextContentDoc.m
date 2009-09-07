@@ -153,8 +153,52 @@
 		
 		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
 	}
+	
 }
 
+// this method is used when a user changes the position in the 
+// document and we have to establish the current positional data
+// from the path we are now at
+- (void)updateDataAfterJump
+{
+	NSXMLNode *tempNode = _currentNode;
+	BOOL levelHasBeenSet = NO;
+	
+	while(![[tempNode name] isEqualToString:@"book"])
+	{
+		//NSLog(@"node path -> %@",[tempNode XPath]);
+		if([[tempNode name] hasPrefix:@"level"])
+		{	
+			if(!levelHasBeenSet)
+			{	
+				bookData.currentLevel = [[[tempNode name] substringFromIndex:5] integerValue];
+				bookData.hasLevelUp = (bookData.currentLevel > 1) ? YES : NO;
+				
+				levelHasBeenSet = YES;
+				
+			}
+		}
+		
+		if([[tempNode name] isEqualToString:@"pagenum"])
+		{	
+			bookData.currentPage = [tempNode contentValue];
+		}
+		else if([self isHeadingNode:tempNode])
+		{	
+			bookData.sectionTitle = [tempNode contentValue];
+		}
+		
+		tempNode = [tempNode parent];
+
+		
+	}
+	
+	
+	
+}
+
+
+// this method is used when auto navigating through the document
 - (void)updateDataForCurrentPosition
 {
 	if([[_currentNode name] hasPrefix:@"level"])
@@ -248,16 +292,7 @@
 	
 }
 
-- (void)goUpALevel
-{
-	
-}
 
-- (void)goDownALevel
-{
-	
-	 
-}
 
 @end
 

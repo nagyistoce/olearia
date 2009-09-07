@@ -32,10 +32,12 @@
 
 @interface TBBookshareTextContentDoc (Synchronization)
 
-- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
-- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
-- (void)updateDataForCurrentPosition;
-- (NSString *)currentIdTag;
+
+//
+//- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
+//- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
+//- (void)updateDataForCurrentPosition;
+//- (NSString *)currentIdTag;
 
 
 @end

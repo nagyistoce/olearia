@@ -128,65 +128,6 @@
 
 @implementation TBBookshareTextContentDoc (Synchronization)
 
-- (void)jumpToNodeWithPath:(NSString *)fullPathToNode
-{
-	NSArray *nodes = nil;
-	if(nil != fullPathToNode)
-		nodes = [xmlTextDoc nodesForXPath:fullPathToNode error:nil];
-	_currentNode = ([nodes count] > 0) ? [nodes objectAtIndex:0] : _currentNode;
-}
-
-- (void)jumpToNodeWithIdTag:(NSString *)aTag
-{
-	if(aTag)
-	{	
-		NSString *queryStr = [NSString stringWithFormat:@"/dtbook[1]/book[1]//*[@id='%@']",aTag];
-		NSArray *tagNodes = nil;
-		tagNodes = [xmlTextDoc nodesForXPath:queryStr error:nil];
-		
-		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
-	}
-}
-
-- (void)updateDataForCurrentPosition
-{
-	if([[_currentNode name] hasPrefix:@"level"])
-	{	
-		bookData.currentLevel = [[[_currentNode name] substringFromIndex:5] integerValue];
-		[self moveToNextSuitableNode];
-	}
-	
-	if([[_currentNode name] isEqualToString:@"pagenum"])
-	{	
-		bookData.currentPage = [_currentNode stringValue];
-		_contentStr = [[NSString stringWithFormat:@"Page, %@",bookData.currentPage] copy];
-	}
-	else if([self isHeadingNode:_currentNode])
-	{	
-		bookData.sectionTitle = [_currentNode stringValue];
-		_contentStr = [[NSString stringWithFormat:@"Heading, %@",bookData.sectionTitle] copy];
-	}
-	else if([[_currentNode name] isEqualToString:@"img"])
-	{
-		NSXMLNode *tempNode = [(NSXMLElement *)_currentNode attributeForName:@"alt"];
-		_contentStr = [[NSString stringWithFormat:@"Image caption, %@",[tempNode contentValue]] copy];
-	}
-	else
-		_contentStr = [_currentNode contentValue];
-	
-}
-
-- (NSString *)currentIdTag
-{
-	
-	//NSArray *idTags = nil;
-	NSString *aTag = nil;
-	aTag = [[(NSXMLElement *)_currentNode attributeForName:@"id"] stringValue];
-	//idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
-	
-	return aTag;
-	//return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
-}
 
 @end
 
@@ -197,6 +138,7 @@
 
 - (void)moveToNextSegmentAtSameLevel
 {
+	NSLog(@"bookshare move to next segent at this level");
 	// this only used when the user chooses to go to the next file on a given level
 //	currentNavPoint = [currentNavPoint nextSibling];
 //	[self updateDataForCurrentPosition];
@@ -241,16 +183,7 @@
 	
 }
 
-- (void)goUpALevel
-{
-	
-}
 
-- (void)goDownALevel
-{
-	
-	 
-}
 
 @end
 

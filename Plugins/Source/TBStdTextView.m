@@ -35,7 +35,7 @@
 
 - (void)setURL:(NSURL *)theURL
 {
-	if(![theURL isEqualTo:[theWebView mainFrameURL]])
+	if(![[theURL path] isEqualToString:[theWebView mainFrameURL]])
 		[theWebView setMainFrameURL:[theURL path]];
 
 }
