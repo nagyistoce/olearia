@@ -21,7 +21,7 @@
 
 #import <QTKit/QTTime.h>
 #import "TBPluginInterface.h"
-//#import "TalkingBookTypes.h"
+
 
 @class TBInfoController;
 @class TBBookData;
@@ -62,7 +62,7 @@ typedef enum
 	BOOL					canPlay;
 	
 	// outlets
-	IBOutlet NSPanel			*infoPanel;
+	IBOutlet NSPanel		*infoPanel;
 	IBOutlet NSWindow		*textWindow;
 	IBOutlet NSView			*infoView;
 	IBOutlet NSView			*textView;

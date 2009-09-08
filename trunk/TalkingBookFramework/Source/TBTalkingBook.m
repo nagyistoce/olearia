@@ -370,7 +370,7 @@
 	if(infoPanel)
 	{
 		if([infoPanel isVisible])
-			[infoPanel close];
+			[infoPanel orderOut:nil];
 		else
 		{
 			[infoView addSubview:[currentPlugin bookInfoView]];
@@ -392,7 +392,7 @@
 	if(textWindow)
 	{
 		if([textWindow isVisible])
-			[textWindow close];
+			[textWindow orderOut:nil];
 		else
 		{
 			[textView addSubview:[currentPlugin bookTextView]];
@@ -403,11 +403,15 @@
 	else
 		if([NSBundle loadNibNamed:@"TBTextWindow" owner:self])
 		{	
+			
+			
+			
+			//[textWindow makeKeyAndOrderFront:self];
+			//[[textWindow contentView] setNeedsDisplay:YES];
+			//[textView setNeedsDisplay:YES];
 			if(currentPlugin)
 				[textView addSubview:[currentPlugin bookTextView]];
 			
-			[textWindow makeKeyAndOrderFront:self];
-			[[textWindow contentView] setNeedsDisplay:YES];
 		}
 	
 }
@@ -559,6 +563,19 @@
 	}
 	
 	return allBundles;
+}
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	if(sender == textWindow)
+	{	
+		[sender orderOut:nil];
+		return NO;
+	}
+	else if(sender == infoPanel)
+		infoPanel = nil;
+	
+	return YES;
 }
 
 @end
