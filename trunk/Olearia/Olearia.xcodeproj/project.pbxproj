@@ -37,7 +37,6 @@
 		EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE436AE40E5D500F00276672 /* OleariaPrefsController.h */; };
 		EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */; };
 		EE3075A6104B5822005DA7DC /* StdDaisyFormats.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = EE30759C104B56E8005DA7DC /* StdDaisyFormats.plugin */; };
-		EE394C360EA88898001DC23C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EE394C350EA88898001DC23C /* Credits.rtf */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
 		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
@@ -49,6 +48,7 @@
 		EEADAC5110216903006FC113 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = EEADAC5010216903006FC113 /* General.png */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
+		EED0006910570CF6007A949B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EED0006810570CF6007A949B /* Credits.rtf */; };
 		EEEB96D10E8DE7B400D77B4D /* UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C50E8DE7B300D77B4D /* UpArrow.png */; };
 		EEEB96D20E8DE7B400D77B4D /* Sound.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C60E8DE7B300D77B4D /* Sound.png */; };
 		EEEB96D30E8DE7B400D77B4D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEB96C70E8DE7B300D77B4D /* info.png */; };
@@ -168,7 +168,7 @@
 		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
 		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StdDaisyFormats.xcodeproj; path = ../Plugins/StdDaisyFormats.xcodeproj; sourceTree = SOURCE_ROOT; };
-		EE394C350EA88898001DC23C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		EE394C350EA88898001DC23C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
 		EE436AE50E5D500F00276672 /* OleariaPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OleariaPrefsController.m; sourceTree = "<group>"; };
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
@@ -194,6 +194,9 @@
 		EEAEF2220ECC0D650064FF29 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEAEF2230ECC0D760064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
+		EED0006A10570D00007A949B /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = French.lproj/Credits.rtf; sourceTree = "<group>"; };
+		EED0006B10570D07007A949B /* German */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = German; path = German.lproj/Credits.rtf; sourceTree = "<group>"; };
+		EED0006C10570D2C007A949B /* no */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = no; path = no.lproj/Credits.rtf; sourceTree = "<group>"; };
 		EEEB96C50E8DE7B300D77B4D /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
 		EEEB96C60E8DE7B300D77B4D /* Sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sound.png; sourceTree = "<group>"; };
 		EEEB96C70E8DE7B300D77B4D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
@@ -285,7 +288,7 @@
 				EE2278690ECA51B200309491 /* MainWindow.nib */,
 				EE22786C0ECA51E800309491 /* About.nib */,
 				9D12C0470EB7960F0091FBA3 /* Help */,
-				EE394C350EA88898001DC23C /* Credits.rtf */,
+				EED0006810570CF6007A949B /* Credits.rtf */,
 				EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */,
 				EE0A74840E3B509E001CF3C2 /* Button Images */,
 				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
@@ -532,7 +535,7 @@
 				EEEB96DA0E8DE7B400D77B4D /* button-forward.png in Resources */,
 				EEEB96DB0E8DE7B400D77B4D /* bookmark.png in Resources */,
 				EEEB96DC0E8DE7B400D77B4D /* BackArrow.png in Resources */,
-				EE394C360EA88898001DC23C /* Credits.rtf in Resources */,
+				EED0006910570CF6007A949B /* Credits.rtf in Resources */,
 				EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */,
 				9D12C06B0EB7960F0091FBA3 /* Help in Resources */,
 				EE2278680ECA518A00309491 /* Preferences.nib in Resources */,
@@ -683,6 +686,17 @@
 				EE7272511014014C00FBF671 /* no */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		EED0006810570CF6007A949B /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE394C350EA88898001DC23C /* English */,
+				EED0006A10570D00007A949B /* French */,
+				EED0006B10570D07007A949B /* German */,
+				EED0006C10570D2C007A949B /* no */,
+			);
+			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
