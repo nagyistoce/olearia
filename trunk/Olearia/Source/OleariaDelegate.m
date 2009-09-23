@@ -581,7 +581,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	if([_recentBooks count])
 		[oldSettings addEntriesFromDictionary:[_recentBooks objectAtIndex:0]];
 		
-		// get the current settings from the book and save them to the recent files list
+	// get the current settings from the book and save them to the recent files list
 	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.audioPlaybackRate] forKey:@"AudioRate"];
 	[oldSettings setValue:[NSNumber numberWithFloat:talkingBook.bookData.audioPlaybackVolume] forKey:@"AudioVolume"];
 	[oldSettings setValue:talkingBook.bookData.preferredVoice forKey:@"Voice"];
@@ -592,7 +592,15 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	if([_recentBooks count])
 		[_recentBooks replaceObjectAtIndex:0 withObject:oldSettings];
 	else 
-		[_recentBooks addObject:oldSettings];
+	{
+		if([talkingBook bookIsLoaded])
+		{
+			[oldSettings setValue:[[talkingBook bookData] bookTitle] forKey:@"Title"];
+			[oldSettings setValue:[[[talkingBook currentPlugin] loadedURL] path] forKey:@"FilePath"];
+			[_recentBooks addObject:oldSettings];
+		}
+		
+	}
 
 }
 
@@ -667,18 +675,19 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 {
 	NSString *loadedFromPrefix = NSLocalizedString(@"Loaded from - ",@"loaded from tooltip msg");
 	NSMenu *newRecentMenu = [[NSMenu alloc] init];
-	
-	for (NSDictionary *aBook in _recentBooks)
-	{
-		NSMenuItem *theItem = [[NSMenuItem alloc] init];
-		[theItem setTitle:[aBook valueForKey:@"Title"]];
-		[theItem setAction:@selector(openRecentBook:)];
-		[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
-		[newRecentMenu addItem:theItem];
-	}
-	// add a separator if there are any items
 	if([_recentBooks count])
+	{
+		for (NSDictionary *aBook in _recentBooks)
+		{
+			NSMenuItem *theItem = [[NSMenuItem alloc] init];
+			[theItem setTitle:[aBook valueForKey:@"Title"]];
+			[theItem setAction:@selector(openRecentBook:)];
+			[theItem setToolTip:[loadedFromPrefix stringByAppendingString:[[aBook valueForKey:@"FilePath"] stringByDeletingLastPathComponent]]];
+			[newRecentMenu addItem:theItem];
+		}
+		// add a separator if there are any items
 		[newRecentMenu addItem:[NSMenuItem separatorItem]];
+	}
 	// add the clear recent item
 	NSMenuItem *theItem = [[NSMenuItem alloc] init];
 	[theItem setTitle:@"Clear Books"];

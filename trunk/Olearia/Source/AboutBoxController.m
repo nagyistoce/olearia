@@ -61,12 +61,7 @@
 	
 	NSString *creditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 	
-	NSAttributedString *creditsString = [[[NSAttributedString alloc] initWithPath:creditsPath 
-										  documentAttributes:nil] autorelease];
-	
-	[creditsView replaceCharactersInRange:NSMakeRange( 0, 0 ) 
-								 withRTFD:[creditsString RTFDFromRange:NSMakeRange( 0, [creditsString length] )
-												    documentAttributes:nil]];
+	[creditsView readRTFDFromFile:creditsPath];
 	
 	[[self window] makeKeyAndOrderFront:self];
 	
