@@ -31,8 +31,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 @interface TBNavigationController () 
 
 - (void)checkMediaFormat;
-
-
 - (void)updateForAudioChapterPosition;
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
@@ -40,7 +38,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 
 @end
-
 
 
 @implementation TBNavigationController

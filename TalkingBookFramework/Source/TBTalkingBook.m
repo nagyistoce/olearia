@@ -107,9 +107,15 @@
 			bookIsLoaded = YES;
 			self.canPlay = YES;
 			if([infoPanel isVisible])
+			{	
 				[infoView addSubview:[currentPlugin bookInfoView]];
+				
+			}
 			if([textWindow isVisible])
-				[textView addSubview:[currentPlugin bookTextView]];
+			{	
+				[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+				[[currentPlugin bookTextView] setFrame:[textView frame]];
+			}
 			break;
 		}
 	}
@@ -395,25 +401,22 @@
 			[textWindow orderOut:nil];
 		else
 		{
-			[textView addSubview:[currentPlugin bookTextView]];
-			[textWindow makeKeyAndOrderFront:self];
+
+			[textView replaceSubview:[[textView subviews] objectAtIndex:0] with:[currentPlugin bookTextView]];
+			[[currentPlugin bookTextView] setFrame:[textView frame]];
 			
+			[textWindow makeKeyAndOrderFront:self];
 		}
 	}
 	else
 		if([NSBundle loadNibNamed:@"TBTextWindow" owner:self])
 		{	
-			
-			
-			
-			//[textWindow makeKeyAndOrderFront:self];
-			//[[textWindow contentView] setNeedsDisplay:YES];
-			//[textView setNeedsDisplay:YES];
 			if(currentPlugin)
+			{
 				[textView addSubview:[currentPlugin bookTextView]];
-			
+				[[currentPlugin bookTextView] setFrame:[textView frame]];
+			}
 		}
-	
 }
 
 

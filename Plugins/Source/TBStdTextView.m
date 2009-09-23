@@ -1,5 +1,5 @@
 //
-//  TBTextView.m
+//  TBStdTextView.m
 //  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 28/06/09.
@@ -23,21 +23,26 @@
 
 @implementation TBStdTextView
 
-- (id)initWithFrame:(NSRect)frame 
-{
-    self = [super initWithFrame:frame];
-    if (self) 
-	{
-		[theWebView setMainFrameURL:@""];
-    }
-    return self;
-}
 
 - (void)setURL:(NSURL *)theURL
 {
-	if(![[theURL path] isEqualToString:[theWebView mainFrameURL]])
-		[theWebView setMainFrameURL:[theURL path]];
+	if(![[theURL path] isEqualToString:[webContentView mainFrameURL]])
+		[webContentView setMainFrameURL:[theURL path]];
 
+	//NSAttributedString *contentString = [[[NSAttributedString alloc] initWithPath:[theURL path] 
+//															   documentAttributes:nil] autorelease];
+//	NSString *contentString = [NSString stringWithContentsOfURL:theURL encoding:NSUTF8StringEncoding error:nil];
+//	
+//	[textContentView read];
+
+//		NSAttributedString *creditsString = [[[NSAttributedString alloc] initWithURL:theURL
+//																  documentAttributes:nil]
+//											 autorelease];
+//		
+//		[textContentView replaceCharactersInRange:NSMakeRange( 0, 0 ) 
+//									 withRTFD:[creditsString RTFDFromRange:NSMakeRange( 0, [creditsString length] )
+//													    documentAttributes:nil]];
+	
 }
 
 
