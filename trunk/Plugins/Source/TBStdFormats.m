@@ -91,7 +91,7 @@
 			
 			foundTextFile = YES;
 			[textview setURL:textFileURL];
-			[textview setFrame:[[textview superview] frame]];
+			
 			
 		}
 		else
@@ -104,11 +104,9 @@
 		// no text file found or it an audio only book
 		// so set a message in the view for the user.
 		NSString *localizedPath = [[NSBundle bundleForClass:[self class]] pathForResource:errorTextFilename ofType:nil];
-		NSURL *noTextURL = [NSURL fileURLWithPath:localizedPath];
+		NSURL *errorTextURL = [NSURL fileURLWithPath:localizedPath];
 		
-		[textview  setURL:noTextURL];
-		[textview setFrame:[[textview superview] frame]];
-		
+		[textview  setURL:errorTextURL];
 	}
 			
 	

@@ -36,7 +36,7 @@
 	NSArray				*validFileExtensions;
 	
 	IBOutlet TBStdInfoView	*infoView;
-	IBOutlet TBStdTextView   *textview;
+	IBOutlet TBStdTextView	*textview;
 
 	TBNavigationController	*navCon;
 	

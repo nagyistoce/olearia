@@ -167,6 +167,7 @@
 			if(opfLoaded)
 			{	
 				navCon.packageDocument = packageDoc;
+				
 				packageDoc = nil;
 				currentPlugin = self;
 			}

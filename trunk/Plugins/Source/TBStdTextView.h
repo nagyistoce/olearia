@@ -1,5 +1,5 @@
 //
-//  TBTextView.h
+//  TBStdTextView.h
 //  StdDaisyFormats
 //
 //  Created by Kieren Eaton on 28/06/09.
@@ -22,10 +22,9 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
-
 @interface TBStdTextView : NSView
 {
-	IBOutlet WebView	*theWebView;
+	IBOutlet WebView		*webContentView;
 }
 
 - (void)setURL:(NSURL *)theURL;
