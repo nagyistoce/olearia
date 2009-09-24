@@ -77,8 +77,8 @@
 		
 		
 		NSArray *startNodes = nil;
-		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/bodymatter[1]" error:nil];
-		_currentNode = (startNodes) ?[startNodes objectAtIndex:0] : nil;
+		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
+		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
 		
 		if(nil != _currentNode)
 		{	
@@ -183,7 +183,15 @@
 	
 }
 
+- (void)goUpALevel
+{
+	
+}
 
+- (void)goDownALevel
+{
+	
+}
 
 @end
 
