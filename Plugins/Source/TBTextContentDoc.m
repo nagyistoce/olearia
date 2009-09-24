@@ -77,7 +77,7 @@
 	{	
 		
 		_currentNode = nil;
-		_currentNode = [[xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/bodymatter[1]" error:nil] objectAtIndex:0];
+		_currentNode = [[xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/*" error:nil] objectAtIndex:0];
 		
 		if(nil != _currentNode)
 		{	
