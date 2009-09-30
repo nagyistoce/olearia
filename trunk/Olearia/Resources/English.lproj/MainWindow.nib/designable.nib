@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10A432</string>
+		<string key="IBDocument.SystemVersion">10B504</string>
 		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038</string>
+		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -13,6 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
+			<integer value="956"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1223,7 +1224,7 @@
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1293,8 +1294,8 @@
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="139382963">
 							<int key="NSCellFlags">68288064</int>
-							<int key="NSCellFlags2">272630784</int>
-							<real value="9.9900000000000002" key="NSContents"/>
+							<int key="NSCellFlags2">272634880</int>
+							<integer value="9" key="NSContents"/>
 							<reference key="NSSupport" ref="848049536"/>
 							<object class="NSNumberFormatter" key="NSFormatter" id="966529617">
 								<object class="NSMutableDictionary" key="NS.attributes">
@@ -1304,6 +1305,7 @@
 										<string>allowsFloats</string>
 										<string>alwaysShowsDecimalSeparator</string>
 										<string>formatterBehavior</string>
+										<string>generatesDecimalNumbers</string>
 										<string>locale</string>
 										<string>maximumIntegerDigits</string>
 										<string>minimumFractionDigits</string>
@@ -1316,24 +1318,25 @@
 									</object>
 									<object class="NSMutableArray" key="dict.values">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<real value="1"/>
-										<real value="1"/>
+										<boolean value="NO"/>
+										<boolean value="NO"/>
 										<integer value="1040"/>
+										<boolean value="NO"/>
 										<object class="NSLocale" id="238131597">
 											<string key="NS.identifier"/>
 										</object>
 										<integer value="3"/>
 										<integer value="0"/>
 										<real value="1"/>
-										<real value="1"/>
+										<real value="100"/>
 										<integer value="3"/>
-										<string>#0%</string>
+										<string>###%</string>
 										<real value="1"/>
 										<integer value="0"/>
 									</object>
 								</object>
-								<string key="NS.positiveformat">#0%</string>
-								<string key="NS.negativeformat">#1%</string>
+								<string key="NS.positiveformat">###%</string>
+								<string key="NS.negativeformat">#%</string>
 								<nil key="NS.positiveattrs"/>
 								<nil key="NS.negativeattrs"/>
 								<nil key="NS.zero"/>
@@ -1367,7 +1370,7 @@
 								<string key="NS.thousand">,</string>
 								<bool key="NS.hasthousands">NO</bool>
 								<bool key="NS.localized">NO</bool>
-								<bool key="NS.allowsfloats">YES</bool>
+								<bool key="NS.allowsfloats">NO</bool>
 							</object>
 							<reference key="NSControlView" ref="379381253"/>
 							<reference key="NSBackgroundColor" ref="347998375"/>
@@ -1478,6 +1481,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -4845,7 +4849,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
+					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
