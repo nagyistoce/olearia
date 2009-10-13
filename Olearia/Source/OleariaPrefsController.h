@@ -25,7 +25,7 @@
 
 @interface OleariaPrefsController : DBPrefsWindowController 
 {
-	NSArray			*availableVoices;
+	NSArray			*_availableVoices;
 		
 	IBOutlet NSPopUpButton	*voicesPopup;
 	IBOutlet NSButton		*highContrastCheckBox;
@@ -34,10 +34,14 @@
 	IBOutlet NSView		*soundPrefsView;
 	IBOutlet NSView		*voicePrefsView;
 	IBOutlet NSView		*textPrefsView;
+	
+	IBOutlet NSArrayController *voicesArrayController;
 }
 
-- (IBAction)setSelectedPlaybackVoice:(id)sender;
 - (IBAction)toggleHighContrastIcons:(id)sender;
 - (IBAction)setNewSkipDuration:(id)sender;
+
+//@property (readwrite,retain) NSArray *availableVoices;
+
 
 @end
