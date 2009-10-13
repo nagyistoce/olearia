@@ -41,7 +41,7 @@
 
 - (void) dealloc
 {
-	[availableVoices release];
+	[_availableVoices release];
 	
 	[super dealloc];
 }
@@ -50,22 +50,19 @@
 - (void)windowDidLoad
 {	
 	
-	availableVoices = [[NSSpeechSynthesizer availableVoices] retain];
-
-	[voicesPopup removeAllItems];
-	// populate the voices popup with the names of all the voices available.
-	for(NSString *voiceTitle in availableVoices)
-	{	
-		NSDictionary *voiceAttribs = [NSSpeechSynthesizer attributesForVoice:voiceTitle];
-		[voicesPopup addItemWithTitle:[voiceAttribs objectForKey:NSVoiceName]];
+	// get all the identifiers and names of the available voices
+	NSMutableArray *someVoices = [[[NSMutableArray alloc] init] autorelease];
+	for(NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices])
+	{
+		NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:voiceIdentifier] objectForKey:NSVoiceName];
+		NSDictionary *voiceAtts = [[NSDictionary alloc] initWithObjectsAndKeys:voiceIdentifier,@"identifier",voiceName,@"name",nil];
+		
+		[someVoices addObject:voiceAtts];
 	}
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	// get the name of the voice the user set
-	NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:[defaults objectForKey:OleariaPreferredVoice]] objectForKey:NSVoiceName];
 	
-	// select the voicename in the popup
-	[voicesPopup selectItemWithTitle:voiceName];
+	_availableVoices = [[NSArray arrayWithArray:someVoices] retain]; 
+	[voicesArrayController setContent:_availableVoices];
 	
 	[super windowDidLoad];
 }
@@ -75,13 +72,6 @@
 #pragma mark -
 #pragma mark Action Methods
 
-- (IBAction)setSelectedPlaybackVoice:(id)sender
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	[defaults setObject:[availableVoices objectAtIndex:[sender indexOfSelectedItem]] forKey:OleariaPreferredVoice];
-	[defaults synchronize];
-}
 
 - (IBAction)toggleHighContrastIcons:(id)sender
 {
@@ -116,4 +106,5 @@
 		[[NSApp delegate] doRelaunch];
 	}
 }
+
 @end
