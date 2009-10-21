@@ -70,7 +70,7 @@
 			if(![currentSmilFilename isEqualToString:filename])
 			{
 				currentSmilFilename = [filename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
 			filename = [smilDocument relativeTextFilePath];
@@ -81,7 +81,7 @@
 			if(![currentTextFilename isEqualToString:filename])
 			{
 				currentTextFilename = [filename copy];
-				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.folderPath]];
+				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			[noteCentre addObserver:self
 						   selector:@selector(startPlayback)

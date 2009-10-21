@@ -41,7 +41,4 @@
 - (IBAction)toggleHighContrastIcons:(id)sender;
 - (IBAction)setNewSkipDuration:(id)sender;
 
-//@property (readwrite,retain) NSArray *availableVoices;
-
-
 @end

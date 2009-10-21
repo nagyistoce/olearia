@@ -168,7 +168,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 			if(![currentSmilFilename isEqualToString:filename])
 			{
 				currentSmilFilename = [filename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			_currentAudioFilename = smilDocument.relativeAudioFilePath;
 		}
@@ -331,7 +331,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		
 		[_audioFile stop]; // pause the playback if there is any currently playing
 		_audioFile = nil;
-		_audioFile = [[TBAudioSegment alloc] initWithFile:[[[bookData folderPath] path] stringByAppendingPathComponent:relativePathToFile] error:&theError];
+		_audioFile = [[TBAudioSegment alloc] initWithFile:[[[bookData baseFolderPath] path] stringByAppendingPathComponent:relativePathToFile] error:&theError];
 		
 		if(_audioFile != nil)
 		{
@@ -551,7 +551,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 				smilDocument = [[TBSMILDocument alloc] init];
 			
 			currentSmilFilename = [filename copy];
-			[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.folderPath]];
+			[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 		}
 		
 		// user navigation uses the control Doc to change position

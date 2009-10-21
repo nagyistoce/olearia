@@ -32,9 +32,9 @@
 	BOOL			_endOfBook;
 	BOOL			_firstTime;
 	
-	NSArray			*_singleSpecifiers;
-	NSArray			*_prefixSpecifiers;
-	NSArray			*_groupSpecifiers;
+	//NSArray			*_singleSpecifiers;
+	//NSArray			*_prefixSpecifiers;
+	NSArray			*_specifiers;
 }
 
 

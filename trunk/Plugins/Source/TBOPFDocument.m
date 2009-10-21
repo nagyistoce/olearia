@@ -234,7 +234,7 @@
 			for(NSXMLElement *anElement in manifestElements)
 			{
 				// get the values and keys and add them tou our dictionary 
-				NSMutableDictionary *nodeContents = [[NSMutableDictionary alloc] init];
+				NSMutableDictionary *nodeContents = [[[NSMutableDictionary alloc] init] autorelease];
 				[nodeContents setValue:[[anElement attributeForName:@"href"] stringValue] forKey:@"href"];
 				[nodeContents setValue:[[anElement attributeForName:@"media-type"] stringValue] forKey:@"media-type"];
 				[manifestContents setObject:(NSDictionary *)nodeContents forKey:[[anElement attributeForName:@"id"] stringValue]];
@@ -260,9 +260,13 @@
 		{
 			for(NSXMLElement *anElement in guideElements)
 			{
-				NSMutableDictionary *nodeContents = [[NSMutableDictionary alloc] init];
-				[nodeContents setValue:[[anElement attributeForName:@"type"] stringValue] forKey:@"type"];
-				[nodeContents setValue:[[anElement attributeForName:@"href"] stringValue] forKey:@"href"];
+//				NSMutableDictionary *nodeContents = [[[NSMutableDictionary alloc] init] autorelease];
+//				[nodeContents setValue:[[anElement attributeForName:@"type"] stringValue] forKey:@"type"];
+//				[nodeContents setValue:[[anElement attributeForName:@"href"] stringValue] forKey:@"href"];
+				NSDictionary *nodeContents = [[[NSDictionary alloc] initWithObjectsAndKeys:
+											  [[anElement attributeForName:@"type"] stringValue], @"type",
+											  [[anElement attributeForName:@"href"] stringValue], @"href",
+											   nil] autorelease];
 				[guideContents setObject:(NSDictionary *)nodeContents forKey:[[anElement attributeForName:@"title"] stringValue]];
 			}
 		}

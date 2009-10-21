@@ -87,7 +87,7 @@
 		if(navCon.packageDocument.textContentFilename)
 		{	
 			//NSURL *textFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:navCon.packageDocument.textContentFilename]];
-			NSURL *textFileURL = [NSURL URLWithString:navCon.packageDocument.textContentFilename relativeToURL:bookData.folderPath];
+			NSURL *textFileURL = [NSURL URLWithString:navCon.packageDocument.textContentFilename relativeToURL:bookData.baseFolderPath];
 			
 			foundTextFile = YES;
 			[textview setURL:textFileURL];

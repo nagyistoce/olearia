@@ -24,7 +24,7 @@
 
 @interface TBTextContentDoc ()
 
-@property (readwrite, copy) NSString *_contentStr;
+//@property (readwrite, copy) NSString *_contentStr;
 
 @end
 
@@ -45,11 +45,11 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	_contentStr = @"";
+	_contentStr = [[NSString alloc] init];
 	
-	_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",nil] retain];
-	_prefixSpecifiers = [[NSArray arrayWithObjects:@"level",@"h",nil] retain];
-	_groupSpecifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",nil] retain];
+	//_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",@"docauthor",@"doctitle",@"span",nil] retain];
+	//_prefixSpecifiers = [[NSArray arrayWithObjects:nil] retain];
+	_specifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",@"level",@"h",nil] retain];
 	
 	[[bookData talkingBookSpeechSynth] setDelegate:self];
 	
@@ -58,9 +58,11 @@
 
 - (void) dealloc
 {
-	[_singleSpecifiers release];
-	[_prefixSpecifiers release];
+	[_specifiers release];
+	//[_prefixSpecifiers release];
 	[xmlTextDoc release];
+	_contentStr = nil;
+	_currentNode = nil;
 	
 	[super dealloc];
 }
@@ -75,15 +77,15 @@
 	
 	if(xmlTextDoc)
 	{	
-		
-		_currentNode = nil;
-		_currentNode = [[xmlTextDoc nodesForXPath:@"/dtbook[1]/book[1]/*" error:nil] objectAtIndex:0];
+	
+		NSArray *startNodes = nil;
+		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
+		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
 		
 		if(nil != _currentNode)
 		{	
-	
+			
 			[self moveToNextSuitableNode];
-			//_currentNode = [_currentNode nextNode];
 			[self updateDataForCurrentPosition];
 			_endOfBook = NO;
 			loadedOk = YES;
@@ -96,13 +98,14 @@
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Text Content", @"text content open fail alert short msg")];
 		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
-									modalDelegate:nil 
-								  didEndSelector:nil 
-									  contextInfo:nil];
+							 modalDelegate:nil 
+							didEndSelector:nil 
+							   contextInfo:nil];
 	}
 	
 	return loadedOk;
 }
+
 
 
 - (void)startSpeakingFromIdTag:(NSString *)aTag
@@ -129,7 +132,7 @@
 }
 
 
-@synthesize _contentStr;
+//@synthesize _contentStr;
 
 @end
 
@@ -181,7 +184,7 @@
 		
 		if([[tempNode name] isEqualToString:@"pagenum"])
 		{	
-			bookData.currentPage = [tempNode contentValue];
+			bookData.currentPageNumber = [[tempNode contentValue] intValue];
 		}
 		else if([self isHeadingNode:tempNode])
 		{	
@@ -209,8 +212,8 @@
 	
 	if([[_currentNode name] isEqualToString:@"pagenum"])
 	{	
-		bookData.currentPage = [_currentNode stringValue];
-		_contentStr = [[NSString stringWithFormat:@"Page, %@",bookData.currentPage] copy];
+		bookData.currentPageNumber = [[_currentNode stringValue] intValue];
+		_contentStr = [[NSString stringWithFormat:@"Page, %d",bookData.currentPageNumber] copy];
 	}
 	else if([self isHeadingNode:_currentNode])
 	{	
@@ -365,33 +368,114 @@
 
 - (BOOL)moveToNextSuitableNode
 {
-	BOOL foundNode = YES;
-	NSXMLNode *tempNode = [_currentNode nextNode];
-	if(tempNode != nil)
+	BOOL foundNode = NO;
+	NSXMLNode *tempNode = _currentNode;
+	NSXMLNode *checkNode;
+	if (([[tempNode name] isEqualToString:@"frontmatter"]) || ([[tempNode name] isEqualToString:@"bodymatter"])) 
 	{
-		if([tempNode kind] == NSXMLTextKind)
-		{	
-			tempNode = ([_currentNode nextSibling]) ? [_currentNode nextSibling] : [[_currentNode parent] nextSibling];
-			if(tempNode == nil)
-				return NO;
-		}
+		tempNode = [tempNode childAtIndex:0];
 		
-		if([_groupSpecifiers containsObject:[tempNode name]])
-			_currentNode = [tempNode childAtIndex:0];
-		else if([_singleSpecifiers containsObject:[tempNode name]])
-			_currentNode = tempNode;
-		else
-			for(NSString *aPrefix in _prefixSpecifiers)
-			{
-				if([[tempNode name] hasPrefix:aPrefix])
-				{
-					_currentNode = tempNode;
-					break;
-				}
-			}
 	}
-	else
-		foundNode = NO; // should only reach here at the end of the book
+//	else 
+//	{
+		if([tempNode nextNode] != nil)
+		{
+			
+			//if([[tempNode nextNode] kind] == NSXMLTextKind)
+			//{	
+				tempNode = [tempNode nextNode];
+				//NSLog(@"node name -> %@",[tempNode name]);
+			
+			
+			while (([tempNode kind] != NSXMLElementKind))
+			{
+				tempNode = [tempNode nextNode];
+				if ([_specifiers containsObject:[tempNode name]])
+				{
+					if ([tempNode childCount] > 1)
+					{
+						tempNode = [tempNode childAtIndex:0];
+					}
+				}
+				//NSLog(@"node name -> %@",[tempNode name]);
+			}
+			_currentNode = tempNode;
+			foundNode = YES;
+//				if([tempNode index] < ([[tempNode parent] childCount]-1))
+//				{
+//					//NSLog(@"");
+//					tempNode = [tempNode nextSibling];
+//					
+//					//tempNode = ([tempNode kind] == NSXMLTextKind) ? [[tempNode parent] ne] : [[tempNode childAtIndex:0] nextNode];
+//				}
+//				
+				
+				//NSLog(@"checknode path -> %@",[checkNode XPath]);
+//				checkNode = tempNode;
+//				while ((!checkNode))
+//				{
+//					checkNode = [checkNode parent];
+//					// check if we are at the top of the books data section
+//					// this may contain the frontmatter section 
+//					// and will contain the bodymatter section
+//					if([[[checkNode parent] name]  isEqualToString:@"book"] )
+//					{
+//						// check if we were in the frontmatter section
+//						if ([[[checkNode nextSibling] name] isEqualToString:@"bodymatter"])
+//						{
+//							tempNode = [[checkNode nextSibling] nextNode];
+//						}
+//						
+//					}
+//					
+//					
+//					
+//				}
+				
+				
+			//}
+			//else 
+			//{
+			//	tempNode = [tempNode nextSibling];
+			//}
+			
+			
+//		}
+		
+	}
+	
+
+	
+//	if([_groupSpecifiers containsObject:[tempNode name]])
+//	{	
+//		if (![[tempNode contentValue] isEqualToString:@"\n"]) 
+//		{
+//			_currentNode = tempNode;
+//			foundNode = YES;
+//		}
+//		else 
+//		{
+//			_currentNode = [tempNode childAtIndex:0];
+//			foundNode = [self moveToNextSuitableNode];
+//		}
+//		
+//
+//	}
+//	else if([_singleSpecifiers containsObject:[tempNode name]])
+//	{
+//		_currentNode = tempNode;
+//		foundNode = YES;
+//	}
+//	else
+//		for(NSString *aPrefix in _prefixSpecifiers)
+//		{
+//			if([[tempNode name] hasPrefix:aPrefix])
+//			{
+//				_currentNode = tempNode;
+//				foundNode = YES;
+//				break;
+//			}
+//		}
 	
 	return foundNode;
 	
@@ -399,7 +483,7 @@
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	if((sender == bookData.talkingBookSpeechSynth) && (success) && (!_endOfBook))
+	if((sender == bookData.talkingBookSpeechSynth) && (!_endOfBook))
 	{	
 		if([self moveToNextSuitableNode])
 		{	

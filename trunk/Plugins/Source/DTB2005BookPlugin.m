@@ -41,7 +41,7 @@
 
 + (DTB2005BookPlugin *)bookType
 {
-	DTB2005BookPlugin *instance = [[self alloc] init];
+	DTB2005BookPlugin *instance = [[[self alloc] init] autorelease];
 	if (instance)
 	{	
 		[instance setupPluginSpecifics];
@@ -65,7 +65,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			bookData.folderPath = [bookURL copy];
+			bookData.baseFolderPath = [bookURL copy];
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
 			// check if we found the OPF file
@@ -113,13 +113,13 @@
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"])
 				{
 					// the opf file specifies that it is a 2005 format book
-					if(!bookData.folderPath)
-						bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+					if(!bookData.baseFolderPath)
+						bookData.baseFolderPath = [[NSURL alloc] initFileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='application/x-dtbncx+xml']/data(@href)" ofNode:nil];
 					if(packageDoc.ncxFilename)
-						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:[packageDoc ncxFilename]]] ;
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData baseFolderPath] path] stringByAppendingPathComponent:[packageDoc ncxFilename]]] ;
 					
 					// get the text content filename
 					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='application/x-dtbook+xml']/data(@href)" ofNode:nil];
@@ -149,8 +149,8 @@
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
-				if (!bookData.folderPath)
-					bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+				if (!bookData.baseFolderPath)
+					bookData.baseFolderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[controlDoc processData];
 				

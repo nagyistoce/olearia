@@ -69,8 +69,8 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 - (void)previousElement;
 - (void)goUpLevel;
 - (void)goDownLevel;
-
-
+- (void)jumpAudioForwardInTime;
+- (void)jumpAudioBackInTime;
 
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
