@@ -3,16 +3,16 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="913"/>
+			<integer value="914"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,12 +39,6 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSUserDefaultsController" id="577670496">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>OleariaPreferredVoice</string>
-					<string>overrideRecordedContent</string>
-					<string>OleariaUseVoiceForPlayback</string>
-				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSCustomView" id="130477757">
@@ -57,6 +51,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{42, 188}, {82, 17}}</string>
 						<reference key="NSSuperview" ref="130477757"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="397618544">
 							<int key="NSCellFlags">68288064</int>
@@ -74,7 +69,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="573924085">
@@ -93,6 +88,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{126, 183}, {281, 26}}</string>
 						<reference key="NSSuperview" ref="130477757"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="721058324">
 							<int key="NSCellFlags">-2076049856</int>
@@ -125,6 +121,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{43, 151}, {327, 18}}</string>
 						<reference key="NSSuperview" ref="130477757"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="30563843">
 							<int key="NSCellFlags">67239424</int>
@@ -152,6 +149,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{43, 92}, {180, 18}}</string>
 						<reference key="NSSuperview" ref="130477757"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="525622854">
 							<int key="NSCellFlags">67239424</int>
@@ -174,6 +172,7 @@
 						<int key="NSvFlags">12</int>
 						<string key="NSFrame">{{12, 128}, {426, 5}}</string>
 						<reference key="NSSuperview" ref="130477757"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -202,10 +201,11 @@
 				</object>
 				<string key="NSFrameSize">{450, 300}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="63839865">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -450,8 +450,8 @@
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="605119444">
 							<int key="NSCellFlags">68288064</int>
-							<int key="NSCellFlags2">272630784</int>
-							<real value="9.9900000000000002" key="NSContents"/>
+							<int key="NSCellFlags2">-1874852864</int>
+							<string key="NSContents">999%</string>
 							<reference key="NSSupport" ref="759661860"/>
 							<object class="NSNumberFormatter" key="NSFormatter" id="821104113">
 								<object class="NSMutableDictionary" key="NS.attributes">
@@ -462,6 +462,7 @@
 										<string>alwaysShowsDecimalSeparator</string>
 										<string>formatterBehavior</string>
 										<string>locale</string>
+										<string>maximum</string>
 										<string>maximumIntegerDigits</string>
 										<string>minimum</string>
 										<string>minimumFractionDigits</string>
@@ -474,15 +475,16 @@
 									</object>
 									<object class="NSMutableArray" key="dict.values">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<integer value="1"/>
-										<integer value="1"/>
+										<boolean value="YES"/>
+										<boolean value="NO"/>
 										<integer value="1040"/>
 										<reference ref="155188454"/>
+										<real value="400"/>
 										<integer value="3"/>
-										<integer value="0"/>
+										<real value="10"/>
 										<integer value="0"/>
 										<integer value="1"/>
-										<integer value="1"/>
+										<real value="100"/>
 										<integer value="3"/>
 										<string>#1%</string>
 										<integer value="1"/>
@@ -499,15 +501,8 @@
 									<string key="NSString">NaN</string>
 									<reference key="NSAttributes" ref="778128563"/>
 								</object>
-								<integer value="0" key="NS.min"/>
-								<object class="NSDecimalNumberPlaceholder" key="NS.max">
-									<int key="NS.exponent">0</int>
-									<int key="NS.length">0</int>
-									<bool key="NS.negative">YES</bool>
-									<bool key="NS.compact">NO</bool>
-									<int key="NS.mantissa.bo">1</int>
-									<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
-								</object>
+								<real value="10" key="NS.min"/>
+								<real value="400" key="NS.max"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -609,6 +604,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{450, 300}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="836258681">
@@ -1323,8 +1319,6 @@
 						<reference key="object" ref="63839865"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="546623824"/>
-							<reference ref="878306355"/>
 							<reference ref="1038153251"/>
 							<reference ref="887346204"/>
 							<reference ref="318806162"/>
@@ -1333,6 +1327,8 @@
 							<reference ref="706689121"/>
 							<reference ref="522192390"/>
 							<reference ref="561136060"/>
+							<reference ref="878306355"/>
+							<reference ref="546623824"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Sound</string>
@@ -1815,7 +1811,7 @@
 					<string>{{201, 233}, {281, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{318, 505}, {450, 300}}</string>
+					<string>{{268, 505}, {450, 300}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1873,12 +1869,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>setNewSkipDuration:</string>
-							<string>setSelectedPlaybackVoice:</string>
 							<string>toggleHighContrastIcons:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
