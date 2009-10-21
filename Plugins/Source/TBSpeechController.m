@@ -35,7 +35,7 @@
 		_didUserNavigationChange = NO;
 		_stringToSpeak = [[NSString alloc] init];
 		
-		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoice] retain];
+		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoiceIdentifier] retain];
 		[_auxSpeechSynth setDelegate:self];
 		
 		[bookData addObserver:self 
@@ -91,7 +91,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if([keyPath isEqualToString:@"preferredVoice"])	
-		[_auxSpeechSynth setVoice:bookData.preferredVoice];
+		[_auxSpeechSynth setVoice:bookData.preferredVoiceIdentifier];
 }
 
 

@@ -53,13 +53,13 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			bookData.folderPath = bookURL;
+			bookData.baseFolderPath = bookURL;
 			// passed a folder so first check for an OPF file 
-			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.folderPath path]  WithExtension:@"opf"];
+			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.baseFolderPath path]  WithExtension:@"opf"];
 			// check if we found the OPF file
 			if (!packageFileUrl)
 				// no opf file found so check for the NCX file
-				controlFileURL = [fileUtils fileURLFromFolder:[bookData.folderPath path] WithExtension:@"ncx"];
+				controlFileURL = [fileUtils fileURLFromFolder:[bookData.baseFolderPath path] WithExtension:@"ncx"];
 		}
 		else
 		{
@@ -97,13 +97,13 @@
 				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"])
 				{
 					// the opf file specifies that it is a 2002 format book
-					if(!bookData.folderPath)
-						bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+					if(!bookData.baseFolderPath)
+						bookData.baseFolderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 					
 					// get the ncx filename
 					packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.ncx')] /data(@href)" ofNode:nil];
 					if(packageDoc.ncxFilename)
-						controlFileURL = [NSURL fileURLWithPath:[[[bookData folderPath] path] stringByAppendingPathComponent:packageDoc.ncxFilename]];
+						controlFileURL = [NSURL fileURLWithPath:[[[bookData baseFolderPath] path] stringByAppendingPathComponent:packageDoc.ncxFilename]];
 						
 					// get the text content filename
 					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml'][starts-with(@id,'Text')]/data(@href)" ofNode:nil];
@@ -133,8 +133,8 @@
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
-				if (!bookData.folderPath)
-					bookData.folderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
+				if (!bookData.baseFolderPath)
+					bookData.baseFolderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[controlDoc processData];
 				

@@ -32,7 +32,7 @@
 - (NSUInteger)itemsOnCurrentLevel;
 - (NSUInteger)itemIndexOnCurrentLevel;
 - (BOOL)isHeadingNode:(NSXMLNode *)aNode;
-- (BOOL)moveToNextSuitableNode;
+//- (BOOL)moveToNextSuitableNode;
 
 @end
 
@@ -43,67 +43,66 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	bookData = [TBBookData sharedBookData];
-	_contentStr = @"";
-	
-	_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",nil] retain];
-	_prefixSpecifiers = [[NSArray arrayWithObjects:@"level",@"h",nil] retain];
-	_groupSpecifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",nil] retain];
-	
-	[[bookData talkingBookSpeechSynth] setDelegate:self];
+	//bookData = [TBBookData sharedBookData];
+//	
+//	
+//	_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",nil] retain];
+//	_prefixSpecifiers = [[NSArray arrayWithObjects:@"level",@"h",nil] retain];
+//	_groupSpecifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",nil] retain];
+//	
+//	[[bookData talkingBookSpeechSynth] setDelegate:self];
 	
 	return self;
 }
 
 - (void) dealloc
 {
-	[_singleSpecifiers release];
-	[_prefixSpecifiers release];
-	[xmlTextDoc release];
+//	[_singleSpecifiers release];
+//	[_prefixSpecifiers release];
+//	[xmlTextDoc release];
 	
 	[super dealloc];
 }
 
 
-- (BOOL)openWithContentsOfURL:(NSURL *)aURL
-{
-	BOOL loadedOk = NO;
-	NSError *theError = nil;
-	
-	xmlTextDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-	
-	if(xmlTextDoc)
-	{	
-		
-		
-		NSArray *startNodes = nil;
-		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
-		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
-		
-		if(nil != _currentNode)
-		{	
-	
-			[self moveToNextSuitableNode];
-			//_currentNode = [_currentNode nextNode];
-			[self updateDataForCurrentPosition];
-			_endOfBook = NO;
-			loadedOk = YES;
-			
-		}
-	}
-	else // we got a nil return so display the error to the user
-	{
-		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Error Opening Text Content", @"text content open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
-		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
-									modalDelegate:nil 
-								  didEndSelector:nil 
-									  contextInfo:nil];
-	}
-	
-	return loadedOk;
-}
+//- (BOOL)openWithContentsOfURL:(NSURL *)aURL
+//{
+//	BOOL loadedOk = NO;
+//	NSError *theError = nil;
+//	
+//	xmlTextDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+//	
+//	if(xmlTextDoc)
+//	{	
+//		
+//		
+//		NSArray *startNodes = nil;
+//		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
+//		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
+//		
+//		if(nil != _currentNode)
+//		{	
+//	
+//			[self moveToNextSuitableNode];
+//			[self updateDataForCurrentPosition];
+//			_endOfBook = NO;
+//			loadedOk = YES;
+//			
+//		}
+//	}
+//	else // we got a nil return so display the error to the user
+//	{
+//		NSAlert *theAlert = [NSAlert alertWithError:theError];
+//		[theAlert setMessageText:NSLocalizedString(@"Error Opening Text Content", @"text content open fail alert short msg")];
+//		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
+//		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
+//									modalDelegate:nil 
+//								  didEndSelector:nil 
+//									  contextInfo:nil];
+//	}
+//	
+//	return loadedOk;
+//}
 
 
 - (void)startSpeakingFromIdTag:(NSString *)aTag
@@ -262,74 +261,80 @@
 	return NO;
 }
 
-- (BOOL)moveToNextSuitableNode
-{
-	BOOL foundNode = YES;
-	NSXMLNode *tempNode = [_currentNode nextNode];
-	if(tempNode != nil)
-	{
-		if([tempNode kind] == NSXMLTextKind)
-		{	
-			tempNode = ([_currentNode nextSibling]) ? [_currentNode nextSibling] : [[_currentNode parent] nextSibling];
-			if(tempNode == nil)
-				return NO;
-		}
-		
-		if([_groupSpecifiers containsObject:[tempNode name]])
-			_currentNode = [tempNode childAtIndex:0];
-		else if([_singleSpecifiers containsObject:[tempNode name]])
-			_currentNode = tempNode;
-		else
-			for(NSString *aPrefix in _prefixSpecifiers)
-			{
-				if([[tempNode name] hasPrefix:aPrefix])
-				{
-					_currentNode = tempNode;
-					break;
-				}
-			}
-	}
-	else
-		foundNode = NO; // should only reach here at the end of the book
-	
-	return foundNode;
-	
-}
+//- (BOOL)moveToNextSuitableNode
+//{
+//	BOOL foundNode = NO;
+//	NSXMLNode *tempNode = [_currentNode nextNode];
+//	if(tempNode != nil)
+//	{
+//		if([tempNode kind] == NSXMLTextKind)
+//		{	
+//			tempNode = ([_currentNode nextSibling]) ? [_currentNode nextSibling] : [[_currentNode parent] nextSibling];
+//			if(tempNode != nil)
+//			{
+//				_currentNode = tempNode;
+//				return YES;
+//				
+//			}
+//		}
+//		
+//		if([_groupSpecifiers containsObject:[tempNode name]])
+//			_currentNode = [tempNode childAtIndex:0];
+//		else if([_singleSpecifiers containsObject:[tempNode name]])
+//		{	
+//			_currentNode = tempNode;
+//			foundNode = YES;
+//		}
+//		else
+//			for(NSString *aPrefix in _prefixSpecifiers)
+//			{
+//				if([[tempNode name] hasPrefix:aPrefix])
+//				{
+//					_currentNode = tempNode;
+//					foundNode = YES;
+//					break;
+//				}
+//			}
+//	}
+//	
+//	return foundNode;
+//	
+//}
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
-{
-	if((sender == bookData.talkingBookSpeechSynth) && (success) && (!_endOfBook))
-	{	
-		if([self moveToNextSuitableNode])
-		{	
-			[self updateDataForCurrentPosition];
-			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-		}
-		else
-		{
-			_contentStr = @"End of book.";
-			_endOfBook = YES;
-			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-		}
-	}
-	else
-		if((sender == bookData.talkingBookSpeechSynth) && (_endOfBook))
-		{
-			// remove ourselves as the speech synth delegate
-			[[bookData talkingBookSpeechSynth] setDelegate:nil];
-			// post a notification back to the controller that the book has finished
-		}
-	
-}
-
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
-{
-	
-	// send a notifcation or tell the web/text view to 
-	//highlight the current word about to be spoken
-	//NSString *wordIs = [text substringWithRange:wordToSpeak];
-	//NSLog(@"speaking -> %@",wordIs);
-}
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+//{
+//	if((sender == bookData.talkingBookSpeechSynth) && (success) && (!_endOfBook))
+//	{	
+//		if([self moveToNextSuitableNode])
+//		{	
+//			[self updateDataForCurrentPosition];
+//			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//		}
+//		else
+//		{
+//			_contentStr = @"End of book.";
+//			_endOfBook = YES;
+//			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//		}
+//	}
+//	else
+//		if((sender == bookData.talkingBookSpeechSynth) && (_endOfBook))
+//		{
+//			// remove ourselves as the speech synth delegate
+//			[[bookData talkingBookSpeechSynth] setDelegate:nil];
+//			// post a notification back to the controller that the book has finished
+//		}
+//	
+//}
+//
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+//{
+//	
+//	// send a notifcation or tell the web/text view to 
+//	//highlight the current word about to be spoken
+//	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+//	//NSLog(@"speaking -> %@",wordIs);
+//}
 
 @end
 

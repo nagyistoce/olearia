@@ -61,7 +61,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			//self.bookData.folderPath = bookURL;
+			//self.bookData.baseFolderPath = bookURL;
 			NSArray *htmlFiles = [fileUtils fileURLsFromFolder:[bookURL path] WithExtension:@"html"];
 			if([htmlFiles count])
 			{
@@ -69,7 +69,7 @@
 				{
 					if([[[[fileURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 					{	
-						controlFileURL = [fileURL copy];
+						controlFileURL = [[[NSURL alloc] initFileURLWithPath:[fileURL path]] autorelease];
 						break;
 					}
 				}
@@ -81,7 +81,7 @@
 			// check for an ncc.html file
 			if(YES == [[[[bookURL path] lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
 			{
-				controlFileURL = [[bookURL copy] autorelease];
+				controlFileURL = [[[NSURL alloc] initFileURLWithPath:[bookURL path]] autorelease];
 			}
 			else 
 			{
@@ -111,8 +111,8 @@
 			if([controlDoc openWithContentsOfURL:controlFileURL])
 			{
 				// check if the folder path has already been set
-				if (!bookData.folderPath)
-					bookData.folderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
+				if (!bookData.baseFolderPath)
+					bookData.baseFolderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
 				NSString *bookFormatString = [[controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
@@ -122,11 +122,20 @@
 					nccLoaded = YES;
 				}
 				else 
+				{
 					controlDoc = nil;
+					
+				}
 				
 			}
 			else 
+			{
+	
 				controlDoc = nil;
+				
+			}
+		
+			
 		}
 		
 		if(nccLoaded)

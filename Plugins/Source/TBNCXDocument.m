@@ -54,7 +54,7 @@
 - (void)processData
 {
 
-	NSString *tempStr = [[[NSString alloc] init] autorelease];
+	NSString *tempStr = @"";
 	
 	if([bookData.bookTitle isEqualToString:@""])
 	{
@@ -63,6 +63,8 @@
 		bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
 	}
 	
+	tempStr = nil;
+	
 	if([bookData.bookSubject isEqualToString:@""])
 	{
 		// set the subject
@@ -70,15 +72,20 @@
 		bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
 	}
 	
+	tempStr = nil;
+	
 	if(bookData.totalPages == 0)
 	{
 		// check for total page count
 		tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'totalPageCount')]/data(@content)" ofNode:nil];
-		if(!tempStr)
+		if(nil == tempStr)
 			tempStr = [self stringForXquery:@"/ncx/head/meta[@name][ends-with(@name,'maxPageNormal')]/data(@content)" ofNode:nil];
 		bookData.totalPages = (tempStr) ? [tempStr intValue] : 0; 
+	
 	}
-		
+	
+	if(nil != tempStr)
+		tempStr = nil;
 }
 
 #pragma mark -

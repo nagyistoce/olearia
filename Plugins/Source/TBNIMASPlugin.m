@@ -55,7 +55,7 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			bookData.folderPath = bookURL;
+			bookData.baseFolderPath = bookURL;
 			// passed a folder so first check for an OPF file 
 			packageFileUrl = [fileUtils fileURLFromFolder:[bookURL path] WithExtension:@"opf"];
 		}
@@ -85,8 +85,8 @@
 					// the opf file specifies that it is a NIMAS format book
 					
 					// set the folder path if required
-					if(!bookData.folderPath)
-						bookData.folderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
+					if(!bookData.baseFolderPath)
+						bookData.baseFolderPath = [NSURL URLWithString:[[packageFileUrl path] stringByDeletingLastPathComponent]];
 					
 					// get the text content filename
 					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml' ] [ends-with(@href,'.xml')] /data(@href)" ofNode:nil];

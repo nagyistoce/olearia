@@ -46,13 +46,13 @@
 		// first check if we were passed a folder
 		if ([fileUtils URLisDirectory:bookURL])
 		{	
-			bookData.folderPath = bookURL;
+			bookData.baseFolderPath = bookURL;
 			// passed a folder so first check for an OPF file 
-			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.folderPath path] WithExtension:@"opf"];
+			packageFileUrl = [fileUtils fileURLFromFolder:[bookData.baseFolderPath path] WithExtension:@"opf"];
 			// check if we found the OPF file
 			if (!packageFileUrl)
 				// no opf file found so check for the NCX file
-				controlFileURL = [fileUtils fileURLFromFolder:[bookData.folderPath path] WithExtension:@"ncx"];
+				controlFileURL = [fileUtils fileURLFromFolder:[bookData.baseFolderPath path] WithExtension:@"ncx"];
 		}
 		else
 		{
@@ -101,7 +101,7 @@
 					if((nil != schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
 					{
 						// the opf file specifies that it is a 2002/2005 format book and it has the bookshare scheme tag
-						bookData.folderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
+						bookData.baseFolderPath = [NSURL fileURLWithPath:[[packageFileUrl path] stringByDeletingLastPathComponent] isDirectory:YES];
 						
 						// get the ncx filename
 						packageDoc.ncxFilename = [packageDoc stringForXquery:@"/package[1]/manifest[1]/item[@id='ncx']/data(@href)" ofNode:nil];
@@ -114,7 +114,7 @@
 						// we set the format here to override the unknown format found in the processData Method
 						bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
 						
-						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.folderPath];  
+						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.baseFolderPath];  
 						
 						opfLoaded = YES;
 					}
@@ -134,8 +134,8 @@
 				controlDoc = [[TBNCXDocument alloc] init];
 				
 			// check if the folder path has already been set
-			if (!bookData.folderPath)
-				bookData.folderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
+			if (!bookData.baseFolderPath)
+				bookData.baseFolderPath = [NSURL URLWithString:[[controlFileURL path] stringByDeletingLastPathComponent]];
 			// attempt to load the ncx file
 			
 			if([controlDoc openWithContentsOfURL:controlFileURL])

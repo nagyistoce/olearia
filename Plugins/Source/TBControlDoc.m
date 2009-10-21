@@ -146,7 +146,7 @@
 - (NSString *)filenameFromID:(NSString *)anIdString
 {
 	NSAssert(anIdString != nil, @"anIdString is nil");
-	int markerPos = [anIdString rangeOfString:@"#"].location;
+	NSInteger markerPos = [anIdString rangeOfString:@"#"].location;
 	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
 	
 }

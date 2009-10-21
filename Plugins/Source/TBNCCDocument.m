@@ -241,7 +241,7 @@
 	// check if its a span node which will indicate a new page number
 	if ([[[[_bodyNodes objectAtIndex:_currentNodeIndex] name] lowercaseString] isEqualToString:@"span"])
 	{
-		bookData.currentPage = [[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue];
+		bookData.currentPageNumber = [[[_bodyNodes objectAtIndex:_currentNodeIndex] stringValue] intValue];
 	}
 	else
 	{
@@ -403,7 +403,7 @@
 - (NSString *)filenameFromID:(NSString *)anIdString
 {
 	NSAssert(anIdString != nil, @"anIdString is nil");
-	int markerPos = [anIdString rangeOfString:@"#"].location;
+	NSInteger markerPos = [anIdString rangeOfString:@"#"].location;
 	return (markerPos > 0) ? [anIdString substringToIndex:markerPos] : anIdString;
 	
 }

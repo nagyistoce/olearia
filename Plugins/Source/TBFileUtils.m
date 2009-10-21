@@ -101,7 +101,7 @@
 - (NSArray *)fileURLsFromFolder:(NSString *)aPath WithExtension:(NSString *)anExtension
 {
 	BOOL isDir;
-	NSString *folderPath;
+	NSString *folderPath = nil;
 	NSDirectoryEnumerator *dirEnum = nil;
 	//NSDirectoryEnumerator *dirEnum = [[[NSDirectoryEnumerator alloc] init] autorelease];
 	NSMutableArray *foundPaths = [[[NSMutableArray alloc] init] autorelease];
@@ -119,9 +119,11 @@
 	{
 		if([[[anItem pathExtension] lowercaseString] isEqualToString:anExtension])
 		{	
-			[foundPaths addObject:[[NSURL alloc] initFileURLWithPath:[folderPath stringByAppendingPathComponent:anItem]]];
+			NSURL *theURL = [[[NSURL alloc] initFileURLWithPath:[folderPath stringByAppendingPathComponent:anItem]] autorelease];
+			[foundPaths addObject:theURL];
 		}
 	}
+	[folderPath release];
 	
 	return foundPaths;
 }

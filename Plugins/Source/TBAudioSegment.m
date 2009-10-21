@@ -59,10 +59,16 @@
 		
 		while(NSOrderedAscending == QTTimeCompare(chapterStart, movieDur))
 		{
-			NSMutableDictionary *thisChapter = [[NSMutableDictionary alloc] init];
-			[thisChapter setObject:[NSValue valueWithQTTime:(chapterStart)] forKey:QTMovieChapterStartTime];
-			[thisChapter setObject:[[NSNumber numberWithInt:chIndex] stringValue] forKey:QTMovieChapterName];
-			[tempChapts addObject:thisChapter];
+			//NSMutableDictionary *thisChapter = [[[NSMutableDictionary alloc] init] autorelease];
+			//[thisChapter setObject:[NSValue valueWithQTTime:(chapterStart)] forKey:QTMovieChapterStartTime];
+			//[thisChapter setObject:[[NSNumber numberWithInteger:chIndex] stringValue] forKey:QTMovieChapterName];
+			
+			NSDictionary *thisChapter =[[[NSDictionary alloc] initWithObjectsAndKeys:
+										 [NSValue valueWithQTTime:(chapterStart)],QTMovieChapterStartTime,
+										 [[NSNumber numberWithInteger:chIndex] stringValue],QTMovieChapterName,
+										 nil] autorelease];
+			
+										 [tempChapts addObject:thisChapter];
 			chIndex++;
 			chapterStart = QTTimeIncrement(chapterStart, aDuration);
 		}
@@ -80,9 +86,9 @@
 	else
 	{
 		// there were no chapters added so add a first chapter 
-		NSDictionary *thisChapter = [[NSDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithQTTime:(QTZeroTime)],QTMovieChapterStartTime,
+		NSDictionary *thisChapter = [[[NSDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithQTTime:(QTZeroTime)],QTMovieChapterStartTime,
 									 @"1",QTMovieChapterName,
-									 nil];
+									 nil] autorelease];
 		[tempChapts addObject:thisChapter];
 		[self addChapters:tempChapts withAttributes:musicTrackDict error:nil];
 	}
@@ -92,7 +98,7 @@
 - (void)addChapters:(NSArray *)chapters withAttributes:(NSDictionary *)attributes error:(NSError **)errorPtr
 {
 	
-	[super addChapters:chapters withAttributes:attributes error:errorPtr];
+	[super addChapters:chapters withAttributes:attributes error:(NSError **)errorPtr];
 	if(([self hasChapters]))
 	{	
 		_extendedChapterData = [chapters copy];
