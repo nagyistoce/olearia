@@ -85,7 +85,7 @@ typedef enum
 - (NSString *)currentControlPositionID;
 - (NSString *)currentTimePosition;
 
-- (void)updateSkipDuration:(float)newDuration;
+
 
 - (void)showHideBookInfo;
 - (void)showHideTextWindow;
@@ -93,6 +93,7 @@ typedef enum
 - (NSDictionary *)getCurrentPageInfo;
 - (void)setAudioPlayRate:(float)aRate;
 - (void)setAudioVolume:(float)aVolumeLevel;
+- (void)setAudioSkipDuration:(float)newDuration;
 
 @property (readwrite, retain)		TBBookData	*bookData;
 
