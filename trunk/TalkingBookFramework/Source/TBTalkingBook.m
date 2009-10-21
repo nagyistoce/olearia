@@ -125,9 +125,10 @@
 	
 }
 
-- (void)updateSkipDuration:(float)newDuration
+
+- (void)setAudioSkipDuration:(float)newDuration
 {
-	self.bookData.chapterSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
+	bookData.audioSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
 }
 
 #pragma mark -
@@ -430,7 +431,7 @@
 
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
-	bookData.preferredVoice = aVoiceID;
+	bookData.preferredVoiceIdentifier = aVoiceID;
 }
 
 

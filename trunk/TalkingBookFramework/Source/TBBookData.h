@@ -38,65 +38,62 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @interface TBBookData : NSObject 
 {
 	// bindings ivars
-	NSString				*bookTitle;
-	NSString				*bookSubject;
-	NSString				*sectionTitle;
+	NSString				*m_bookTitle;
+	NSString				*m_bookSubject;
+	NSString				*m_sectionTitle;
 
-	NSInteger				totalPages;
-	NSString				*currentPage;
-	NSString				*pageString;
-	NSString				*bookTotalTime;
+	NSInteger				m_totalPages;
+	NSInteger				m_currentPageNumber;
+	NSString				*m_currentPageString;
+	NSString				*m_bookTotalTime;
 	
-	NSString				*levelString;
-	NSInteger				currentLevel;
-	
-
-	
-	BOOL					hasNextChapter;
-	BOOL					hasPreviousChapter;
-	BOOL					hasLevelUp;
-	BOOL					hasLevelDown;
-	BOOL					hasNextSegment;
-	BOOL					hasPreviousSegment;
-	
-	BOOL					isPlaying;
-	
-	BOOL					settingsHaveChanged;
+	NSString				*m_currentLevelString;
+	NSInteger				m_currentLevel;
 	
 
 	
-	TalkingBookMediaFormat	mediaFormat;
-	NSSpeechSynthesizer		*talkingBookSpeechSynth;
+	BOOL					m_hasNextChapter;
+	BOOL					m_hasPreviousChapter;
+	BOOL					m_hasLevelUp;
+	BOOL					m_hasLevelDown;
+	BOOL					m_hasNextSegment;
+	BOOL					m_hasPreviousSegment;
+	BOOL					m_isPlaying;
+	
+	QTTime					m_audioSkipDuration;
+	
+	BOOL					m_localBookSettingsHaveChanged;
+	
+	TalkingBookMediaFormat	m_mediaFormat;
+	NSSpeechSynthesizer		*m_talkingBookSpeechSynth;
 
 	
-	NSURL					*folderPath;
+	NSURL					*m_baseFolderPath;
 	
 	// User settings
-	NSString				*preferredVoice;
-	BOOL					overrideRecordedContent;
-	BOOL					speakUserLevelChange;
-	QTTime					chapterSkipDuration;
-	BOOL					includeSkippableContent;
-	float					audioPlaybackRate;
-	float					audioPlaybackVolume;
+	NSString				*m_preferredVoiceIdentifier;
+	BOOL					m_ignoreRecordedAudioContent;
+	BOOL					m_speakUserLevelChange;
+	BOOL					m_includeSkippableContent;
+	float					m_audioPlaybackRate;
+	float					m_audioPlaybackVolume;
 	
 	
 }
 
-// bindings ivars
+// UI Feedback 
 @property (readwrite, copy)	NSString	*bookTitle;
 @property (readwrite, copy)	NSString	*bookSubject;
 @property (readwrite, copy)	NSString	*sectionTitle;
 
 @property (readwrite)		NSInteger	currentLevel;
-@property (readwrite, copy)	NSString	*levelString;
+@property (readwrite, copy)	NSString	*currentLevelString;
 
+@property (readwrite)		BOOL		localBookSettingsHaveChanged;
 
-@property (readwrite)		BOOL		settingsHaveChanged;
-
-@property (readwrite, copy)	NSString	*currentPage;
+@property (readwrite)		NSInteger	currentPageNumber;
+@property (readwrite, copy)	NSString	*currentPageString;
 @property (readwrite)		NSInteger	totalPages;
-@property (readwrite, copy)	NSString	*pageString;
 
 @property (readwrite, copy)	NSString	*bookTotalTime;
 
@@ -106,24 +103,19 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite) BOOL		hasLevelDown;
 @property (readwrite) BOOL		hasNextSegment;
 @property (readwrite) BOOL		hasPreviousSegment;
-
 @property (readwrite) BOOL		isPlaying;
 
-
-
-@property (readwrite) TalkingBookMediaFormat mediaFormat;
+@property (readwrite)			TalkingBookMediaFormat mediaFormat;
 @property (readwrite, retain)	NSSpeechSynthesizer *talkingBookSpeechSynth;
 
-
-
-@property (readwrite,retain)	NSURL *folderPath;
+@property (readwrite,retain)	NSURL *baseFolderPath;
 
 // user settings
-@property (readwrite, copy)	NSString	*preferredVoice;
-@property (readwrite)		BOOL		overrideRecordedContent;
+@property (readwrite, copy)	NSString	*preferredVoiceIdentifier;
+@property (readwrite)		BOOL		ignoreRecordedAudioContent;
 @property (readwrite)		BOOL		speakUserLevelChange;
 @property (readwrite)		BOOL		includeSkippableContent;
-@property (readwrite)		QTTime		chapterSkipDuration;
+@property (readwrite)		QTTime		audioSkipDuration;
 @property (readwrite)		float		audioPlaybackRate;
 @property (readwrite)		float		audioPlaybackVolume;
 
