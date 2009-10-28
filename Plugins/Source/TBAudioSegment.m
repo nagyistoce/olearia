@@ -25,6 +25,7 @@
 @interface TBAudioSegment ()
 
 @property (readwrite, retain)   NSArray	*_extendedChapterData;
+@property (readwrite)			BOOL isPlaying;
 
 @end
 
@@ -34,13 +35,39 @@
 - (id)initWithFile:(NSString *)fileName error:(NSError **)errorPtr
 {
 	self = [super initWithFile:fileName error:errorPtr];
-
+	if (nil == self) return nil;
+	
 	_extendedChapterData = [[NSArray alloc] init];
 	
 	return self;
 }
 
+- (void)play
+{
+	self.isPlaying = YES;
+	[super play];
+}
 
+- (void)stop
+{
+	self.isPlaying = NO;
+	[super stop];
+}
+
+- (void)setAttribute:(id)value forKey:(NSString *)attributeKey
+{
+	if ([attributeKey isEqualToString:QTMoviePreferredRateAttribute])
+	{
+		// this is a workaround for the issue that play will start
+		// after the attribute is set even if the movie is not playing
+		[super setAttribute:value forKey:QTMoviePreferredRateAttribute];
+		if (!isPlaying) 
+			[self stop];
+	}
+	else 
+		[super setAttribute:value forKey:attributeKey];
+
+}
 
 #pragma mark -
 #pragma mark ------- Public Methods ---------
@@ -59,16 +86,12 @@
 		
 		while(NSOrderedAscending == QTTimeCompare(chapterStart, movieDur))
 		{
-			//NSMutableDictionary *thisChapter = [[[NSMutableDictionary alloc] init] autorelease];
-			//[thisChapter setObject:[NSValue valueWithQTTime:(chapterStart)] forKey:QTMovieChapterStartTime];
-			//[thisChapter setObject:[[NSNumber numberWithInteger:chIndex] stringValue] forKey:QTMovieChapterName];
-			
 			NSDictionary *thisChapter =[[[NSDictionary alloc] initWithObjectsAndKeys:
 										 [NSValue valueWithQTTime:(chapterStart)],QTMovieChapterStartTime,
 										 [[NSNumber numberWithInteger:chIndex] stringValue],QTMovieChapterName,
 										 nil] autorelease];
 			
-										 [tempChapts addObject:thisChapter];
+			[tempChapts addObject:thisChapter];
 			chIndex++;
 			chapterStart = QTTimeIncrement(chapterStart, aDuration);
 		}
@@ -167,6 +190,6 @@
 }
 
 
-@synthesize _extendedChapterData;
+@synthesize _extendedChapterData, isPlaying;
 
 @end
