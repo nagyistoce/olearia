@@ -105,23 +105,25 @@
 //}
 
 
-- (void)startSpeakingFromIdTag:(NSString *)aTag
-{
-	if(bookData.talkingBookSpeechSynth.delegate != self)
-		[[bookData talkingBookSpeechSynth] setDelegate:self];
-	[self jumpToNodeWithIdTag:aTag];
-	[self updateDataForCurrentPosition];
-	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-}
-
-
-- (void)startSpeaking
-{
-	if(bookData.talkingBookSpeechSynth.delegate != self)
-		[[bookData talkingBookSpeechSynth] setDelegate:self];
-	[self updateDataForCurrentPosition];
-	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-}
+//- (void)startSpeakingFromIdTag:(NSString *)aTag
+//{
+//	if(bookData.talkingBookSpeechSynth.delegate != self)
+//		[[bookData talkingBookSpeechSynth] setDelegate:self];
+//	[self jumpToNodeWithIdTag:aTag];
+//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//}
+//
+//
+//- (void)startSpeaking
+//{
+//	if(bookData.talkingBookSpeechSynth.delegate != self)
+//		[[bookData talkingBookSpeechSynth] setDelegate:self];
+//	
+//	// testing purposes only
+//	bookData.hasNextSegment = YES;
+//	
+//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//}
 
 @end
 

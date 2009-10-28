@@ -23,7 +23,6 @@
 
 @interface TBTextOnlyNavigationController : TBNavigationController
 {
-	BOOL	_isSpeaking;
 	
 }
 

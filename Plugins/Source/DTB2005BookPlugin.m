@@ -178,8 +178,9 @@
 				currentPlugin = self;
 			}
 			
-			[navCon moveControlPoint:nil withTime:nil];
-			
+			// set the initial position for playback
+			// this may be changed if the book has been previously opened
+			//[navCon moveControlPoint:nil withTime:nil];
 			[navCon prepareForPlayback];
 			
 		}

@@ -57,11 +57,13 @@
 	
 	if(packageDocument)
 	{
-		
+		// depending on how the Bookshare book was authored there will be 
+		// one of 2 types of initial SMIL item
 		NSString *smilFilename = [packageDocument stringForXquery:@"(/package[1]/manifest[1]/item[@id='SMIL']|/package[1]/manifest[1]/item[@id='SMIL1'])/data(@href)" ofNode:nil];
 		// do a sanity check on the extension
 		if([[smilFilename pathExtension] isEqualToString:@"smil"])
 		{
+			// check if the smil instance has been loaded
 			if(!smilDocument)
 				smilDocument = [[TBSMILDocument alloc] init];
 			
@@ -73,6 +75,11 @@
 				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 		}
+		
+		// set the smil file to the correct start point for navigation and playback
+		currentTag = [controlDocument currentIdTag];
+		[smilDocument jumpToNodeWithIdTag:currentTag];
+		
 		
 		// load the text content document
 		if(nil != packageDocument.textContentFilename) 
@@ -86,10 +93,11 @@
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
-			[noteCentre addObserver:self
-						   selector:@selector(startPlayback)
-							   name:TBAuxSpeechConDidFinishSpeaking
-							 object:speechCon];
+			[textDocument updateDataAfterJump];
+			
+			
+			
+			
 		}
 		
 	}
@@ -97,31 +105,31 @@
 	
 }
 
-- (void)resetController
-{	
-	// call the supers resetController method which
-	// will remove us from the notification center
-	// and reset all our local ivars
-	[super resetController];
-}
+//- (void)resetController
+//{	
+//	// call the supers resetController method which
+//	// will remove us from the notification center
+//	// and reset all our local ivars
+//	[super resetController];
+//}
 
 #pragma mark -
 #pragma mark Private Methods
 
 - (void)startPlayback
 {
-	if(_isSpeaking && !bookData.isPlaying)
-		[[bookData talkingBookSpeechSynth] continueSpeaking];
+	if(_mainSynthIsSpeaking && !bookData.isPlaying)
+		[mainSpeechSynth continueSpeaking];
 	else
-		[textDocument startSpeaking];
+		[mainSpeechSynth startSpeakingString:[textDocument contentText]];
 	
 	bookData.isPlaying = YES;
 }
 
 - (void)stopPlayback
 {
-	_isSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
-	[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+	_mainSynthIsSpeaking = [mainSpeechSynth isSpeaking];
+	[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 	
 	bookData.isPlaying = NO;
 }
@@ -129,32 +137,45 @@
 
 - (void)nextElement
 {
-	if(controlDocument)
-	{	
-		[controlDocument moveToNextSegmentAtSameLevel];
-		currentTag = [controlDocument currentIdTag];
+//	if(controlDocument)
+//	{	
+//		[controlDocument moveToNextSegmentAtSameLevel];
+//		currentTag = [controlDocument currentIdTag];
+//	}
+	
+	if(smilDocument)
+	{
+		[smilDocument nextTextPlaybackPoint];
+		[smilDocument updateAfterPositionChange];
+		currentTag = [smilDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	//m_didUserNavigationChange = YES;
 	
-	[super updateAfterNavigationChange];
+	//[super updateAfterNavigationChange];
 
-	[textDocument startSpeakingFromIdTag:currentTag];
+	if(bookData.isPlaying)
+	{
+		//[textDocument updateDataAfterJump];
+		
+		//[textDocument startSpeakingFromIdTag:currentTag];
+	}
+	
 }
 
 - (void)previousElement
 {
-	if(controlDocument)
-	{	
-		[controlDocument moveToPreviousSegment];
-		currentTag = [controlDocument currentIdTag];
-	}
+	if(smilDocument)
+	{
+		[smilDocument previousTextPlaybackPoint];
+		currentTag = [smilDocument currentIdTag];
+	}	
+	m_didUserNavigationChange = YES;
 	
-	_didUserNavigation = YES;
+	//[super updateAfterNavigationChange];
 	
-	[super updateAfterNavigationChange];
-	
-	[textDocument startSpeakingFromIdTag:currentTag];
+	[textDocument updateDataAfterJump];
+	//[textDocument startSpeakingFromIdTag:currentTag];
 }
 
 - (void)goUpLevel
@@ -165,14 +186,14 @@
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
-	_isSpeaking = NO;
+	m_didUserNavigationChange = YES;
+	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
-	[speechCon speakUserLevelChange];
+	[self speakLevelChange];
 
 	
 }
@@ -184,14 +205,14 @@
 		[controlDocument goDownALevel];
 		currentTag = [controlDocument currentIdTag];
 	}
-	_didUserNavigation = YES;
-	_isSpeaking = NO;
+	m_didUserNavigationChange = YES;
+	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
-	[speechCon speakUserLevelChange];
+	[self speakLevelChange];
 	
 }
 

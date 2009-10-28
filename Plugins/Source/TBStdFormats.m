@@ -210,6 +210,8 @@
 {
 	if(navCon)
 		[navCon moveControlPoint:aPoint withTime:aTime];
+		
+	
 }
 
 - (void)chooseCorrectNavControllerForBook
@@ -236,7 +238,7 @@
 		}
 	}
 	
-	[navCon resetController];
+	//[navCon resetController];
 }
 
 #pragma mark -

@@ -32,7 +32,7 @@
 		bookData = [TBBookData sharedBookData];
 
 		_mainIsSpeaking = NO;
-		_didUserNavigationChange = NO;
+		m_didUserNavigationChange = NO;
 		_stringToSpeak = [[NSString alloc] init];
 		
 		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoiceIdentifier] retain];
@@ -58,10 +58,10 @@
 {
 	if(bookData.speakUserLevelChange)
 	{	
-		_mainIsSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
-		
-		if(_mainIsSpeaking)
-			[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+//		_mainIsSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
+//		
+//		if(_mainIsSpeaking)
+//			[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 		
 		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
 	}
@@ -74,9 +74,9 @@
 	if(bookData.speakUserLevelChange)
 	{	
 		_mainIsSpeaking = NO;
-		[[bookData talkingBookSpeechSynth] stopSpeaking];
+//		[[bookData talkingBookSpeechSynth] stopSpeaking];
 		
-		_didUserNavigationChange = YES;
+		m_didUserNavigationChange = YES;
 		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
 		
 	}
@@ -99,19 +99,19 @@
 {
 	if(sender == _auxSpeechSynth)
 	{	
-		if(_mainIsSpeaking)
-			[[bookData talkingBookSpeechSynth] continueSpeaking];
-		else
-		{	
-			if(!_didUserNavigationChange)
-				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-			else
-			{	
-				_didUserNavigationChange = NO;
-				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-			}
-			
-		}
+//		if(_mainIsSpeaking)
+//			[[bookData talkingBookSpeechSynth] continueSpeaking];
+//		else
+//		{	
+//			if(!m_didUserNavigationChange)
+//				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+//			else
+//			{	
+//				m_didUserNavigationChange = NO;
+//				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+//			}
+//			
+//		}
 
 	}
 			

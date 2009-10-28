@@ -65,7 +65,6 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	BOOL					m_localBookSettingsHaveChanged;
 	
 	TalkingBookMediaFormat	m_mediaFormat;
-	NSSpeechSynthesizer		*m_talkingBookSpeechSynth;
 
 	
 	NSURL					*m_baseFolderPath;
@@ -77,6 +76,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	BOOL					m_includeSkippableContent;
 	float					m_audioPlaybackRate;
 	float					m_audioPlaybackVolume;
+	float					m_voicePlaybackVolume;
 	
 	
 }
@@ -106,7 +106,6 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite) BOOL		isPlaying;
 
 @property (readwrite)			TalkingBookMediaFormat mediaFormat;
-@property (readwrite, retain)	NSSpeechSynthesizer *talkingBookSpeechSynth;
 
 @property (readwrite,retain)	NSURL *baseFolderPath;
 
@@ -118,6 +117,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite)		QTTime		audioSkipDuration;
 @property (readwrite)		float		audioPlaybackRate;
 @property (readwrite)		float		audioPlaybackVolume;
+@property (readwrite)		float		voicePlaybackVolume;
 
 + (TBBookData *)sharedBookData;
 - (void)resetForNewBook;

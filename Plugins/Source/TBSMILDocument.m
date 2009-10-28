@@ -312,9 +312,14 @@ return nil;
 	
 }
 
-- (void)previousPlaybackPoint
+- (void)previousTextPlaybackPoint
 {
 	
+}
+
+- (void)updateAfterPositionChange
+{
+
 }
 
 @synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;

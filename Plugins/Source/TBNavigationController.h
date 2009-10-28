@@ -37,21 +37,29 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 	TBControlDoc		*controlDocument;
 	TBTextContentDoc	*textDocument;
 	TBSMILDocument		*smilDocument;
-	TBSpeechController	*speechCon;
+	NSSpeechSynthesizer	*mainSpeechSynth;
+	NSSpeechSynthesizer *auxiliarySpeechSynth;
 	
 	NSString			*currentSmilFilename;
 	NSString			*currentTextFilename;
 	NSString			*currentTag;
+	NSString			*_contentToSpeak;
 	
 	TBAudioSegment		*_audioFile;
+	//BOOL				_audioIsLoaded;
 	NSString			*_currentAudioFilename;
 	BOOL				_justAddedChapters;
-	BOOL				_didUserNavigation;
+	BOOL				m_didUserNavigationChange;
 	BOOL				_shouldJumpToTime;
 	BOOL				_isPlaying;
+	BOOL				_mainSynthIsSpeaking;
 	QTTime				_timeToJumpTo;
 	
+	
 	NSNotificationCenter *noteCentre;
+
+	
+	
 }
 
 // methods used for setting and getting the current position in the document
@@ -59,11 +67,12 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 - (NSString *)currentNodePath;
 - (NSString *)currentTime;
 
-
 - (void)resetController;
 - (void)prepareForPlayback;
 - (void)startPlayback;
 - (void)stopPlayback;
+- (void)speakLevelChange;
+
 - (void)resetController;
 - (void)nextElement;
 - (void)previousElement;
@@ -76,10 +85,9 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
 @property (readwrite, retain)	TBTextContentDoc	*textDocument;
-@property (readwrite, copy)	NSString				*currentTag;
-@property (readwrite, copy)	NSString				*currentSmilFilename;
-@property (readwrite, copy)	NSString				*currentTextFilename;
-@property (readwrite, retain)	TBSpeechController	*speechCon;
+@property (readwrite, copy)		NSString			*currentTag;
+@property (readwrite, copy)		NSString			*currentSmilFilename;
+@property (readwrite, copy)		NSString			*currentTextFilename;
 
 
 @end
@@ -89,3 +97,13 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 - (void)updateAfterNavigationChange;
 
 @end
+
+@interface TBNavigationController (SpeechDelegate)
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success;
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text;
+
+@end
+
+
+

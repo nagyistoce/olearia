@@ -44,8 +44,6 @@ static TBBookData *sharedTBBookData = nil;
 	if (self != nil) 
 	{
 		[self resetForNewBook];
-		self.talkingBookSpeechSynth = [[NSSpeechSynthesizer alloc] init];
-		
 	}
 	return self;
 }
@@ -61,7 +59,6 @@ static TBBookData *sharedTBBookData = nil;
 	self.bookTotalTime = nil;
 	self.baseFolderPath = nil;
 	self.preferredVoiceIdentifier = nil;
-	self.talkingBookSpeechSynth = nil;
 	
 	[super dealloc];
 }
@@ -125,6 +122,7 @@ static TBBookData *sharedTBBookData = nil;
 	self.localBookSettingsHaveChanged = NO;
 	self.baseFolderPath = nil;
 	self.mediaFormat = UnknownMediaFormat;
+	self.voicePlaybackVolume = (float)1.0;
 		
 }
 
@@ -184,12 +182,6 @@ static TBBookData *sharedTBBookData = nil;
 
 }
 
-- (void)setPreferredVoiceIdentifier:(NSString *)aVoiceStr
-{
-	m_preferredVoiceIdentifier = aVoiceStr;
-	[m_talkingBookSpeechSynth setVoice:aVoiceStr];
-}
-
 // bindings related
 @synthesize bookTitle = m_bookTitle, bookSubject = m_bookSubject;
 @synthesize sectionTitle = m_sectionTitle, bookTotalTime = m_bookTotalTime;
@@ -205,11 +197,11 @@ static TBBookData *sharedTBBookData = nil;
 @synthesize baseFolderPath = m_baseFolderPath;
 
 @synthesize preferredVoiceIdentifier = m_preferredVoiceIdentifier;
-@synthesize talkingBookSpeechSynth = m_talkingBookSpeechSynth;
 @synthesize ignoreRecordedAudioContent = m_ignoreRecordedAudioContent;
 @synthesize speakUserLevelChange = m_speakUserLevelChange;
 @synthesize includeSkippableContent = m_includeSkippableContent;
 @synthesize audioSkipDuration = m_audioSkipDuration;
 @synthesize audioPlaybackRate = m_audioPlaybackRate, audioPlaybackVolume = m_audioPlaybackVolume;
+@synthesize voicePlaybackVolume = m_voicePlaybackVolume;
 
 @end
