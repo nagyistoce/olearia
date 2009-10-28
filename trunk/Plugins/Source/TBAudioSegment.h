@@ -24,6 +24,7 @@
 @interface TBAudioSegment : QTMovie 
 {
 	NSArray					*_extendedChapterData;
+	BOOL					isPlaying;
 }
 
 - (BOOL)nextChapterIsAvail;
@@ -35,5 +36,7 @@
 - (NSInteger)currentChapterNumber;
 - (NSDictionary *)currentChapterInfo;
 - (QTTime)startTimeOfChapterWithTitle:(NSString *)aChapterTitle;
+
+@property (readonly)	BOOL isPlaying;
 
 @end
