@@ -32,7 +32,7 @@
 	BOOL			_endOfBook;
 	BOOL			_firstTime;
 	
-	//NSArray			*_singleSpecifiers;
+	NSArray			*_singleSpecifiers;
 	//NSArray			*_prefixSpecifiers;
 	NSArray			*_specifiers;
 }
@@ -40,8 +40,8 @@
 
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
-- (void)startSpeakingFromIdTag:(NSString *)aTag;
-- (void)startSpeaking;
+//- (void)startSpeakingFromIdTag:(NSString *)aTag;
+//- (void)startSpeaking;
 
 @end
 
@@ -69,8 +69,8 @@
 
 @interface TBTextContentDoc (Navigation)
 
-- (void)moveToNextSegmentAtSameLevel;
-- (void)moveToPreviousSegment;
+//- (void)moveToNextSegmentAtSameLevel;
+//- (void)moveToPreviousSegment;
 //- (void)goUpALevel;
 //- (void)goDownALevel;
 

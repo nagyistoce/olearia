@@ -50,17 +50,23 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	controlDocument = nil;
 	smilDocument = nil;
 	_audioFile = nil;
+	
 	currentTag = nil;
+	_contentToSpeak = nil;
 	
 	
 	bookData = [TBBookData sharedBookData];
-	speechCon = [[TBSpeechController alloc] init];
+	mainSpeechSynth = [[[NSSpeechSynthesizer  alloc] initWithVoice:[bookData preferredVoiceIdentifier]] retain];
+	[mainSpeechSynth setDelegate:self];
+	auxiliarySpeechSynth = [[[NSSpeechSynthesizer  alloc] initWithVoice:[bookData preferredVoiceIdentifier]] retain];
+	[auxiliarySpeechSynth setDelegate:self];
+		
 	
 	noteCentre = [NSNotificationCenter defaultCenter];
 	_shouldJumpToTime = NO;
 	_timeToJumpTo = QTZeroTime;
 	
-	
+		
 	// watch KVO notifications
 	[bookData addObserver:self
 			    forKeyPath:@"audioPlaybackRate" 
@@ -72,6 +78,11 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 				   options:NSKeyValueObservingOptionNew
 				   context:NULL]; 
 	
+	[bookData addObserver:self 
+			   forKeyPath:@"preferredVoiceIdentifier"
+				  options:NSKeyValueObservingOptionNew
+				  context:NULL];
+
 	return self;
 
 }
@@ -81,8 +92,9 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	packageDocument = nil;
 	controlDocument = nil;
 	
-	currentTag = nil;
-	_currentAudioFilename = nil;
+	[currentTag release];
+	[_contentToSpeak release];
+	[_currentAudioFilename release];
 	currentSmilFilename = nil;
 	smilDocument = nil;
 	_audioFile = nil;
@@ -117,7 +129,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		_timeToJumpTo = QTTimeFromString(aTime);
 	}
 
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[self updateAfterNavigationChange];
 	
@@ -156,6 +168,11 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	
 	if(controlDocument)
 	{
+		if(nil == controlDocument.currentNavPoint)
+		{	
+			[controlDocument jumpToNodeWithPath:nil];
+			currentTag = [controlDocument currentIdTag];
+		}
 		
 		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
 		if([[filename pathExtension] isEqualToString:@"smil"])
@@ -179,20 +196,25 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		}
 		
 		if(_currentAudioFilename) 
+		{	
+	
+			
+
+			
 			if([self updateAudioFile:_currentAudioFilename])
 			{
 				currentTag = [controlDocument currentIdTag];			
-				[noteCentre addObserver:self
-							   selector:@selector(startPlayback)
-								   name:TBAuxSpeechConDidFinishSpeaking
-								 object:speechCon];
 			}
+		}
+			
 	
 	}
 	else if(packageDocument)
 	{
 		// setup for package navigation
 	}
+	
+	
 }
 
 
@@ -204,7 +226,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		// create an alert for the user as we cant establish what the media the book contains
 		NSAlert *mediaFormatAlert = [[[NSAlert alloc] init] autorelease];
 		[mediaFormatAlert setAlertStyle:NSWarningAlertStyle];
-		[mediaFormatAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+		[mediaFormatAlert setIcon:[NSApp applicationIconImage]];
 		[mediaFormatAlert setMessageText:NSLocalizedString(@"Unknown Media Format", @"Unknown Media Format alert title")];
 		[mediaFormatAlert setInformativeText:NSLocalizedString(@"This Book did not specify what type of media it contains.\n  It will be assumed it contains audio only content.", @"Unknown Media Format alert msg text")];
 		[mediaFormatAlert runModal];
@@ -225,7 +247,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[self updateAfterNavigationChange];
 }
@@ -238,9 +260,10 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[self updateAfterNavigationChange];
+	
 	
 	
 }
@@ -253,11 +276,10 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[self updateAfterNavigationChange];
-	[self stopPlayback];
-	[speechCon speakLevelChange];
+	[self speakLevelChange];
 }
 
 - (void)goDownLevel
@@ -267,17 +289,16 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		[controlDocument goDownALevel];
 		currentTag = [controlDocument currentIdTag];
 	}
-	_didUserNavigation = YES;
+	
+	m_didUserNavigationChange = YES;
 	
 	[self updateAfterNavigationChange];
-	
-	[self stopPlayback];
-	[speechCon speakLevelChange];
+	[self speakLevelChange];
 }
 
 - (void)startPlayback
 {
-	if(_audioFile)
+	if((!bookData.isPlaying) && (!_audioFile.isPlaying))
 	{	
 		[_audioFile play];
 		bookData.isPlaying = YES;
@@ -286,13 +307,35 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 - (void)stopPlayback
 {
-	if(_audioFile)
+	if((bookData.isPlaying) && (_audioFile.isPlaying))
 	{	
 		[_audioFile stop];
 		bookData.isPlaying = NO;
 	}
 	
 }
+
+- (void)speakLevelChange
+{
+	if(bookData.speakUserLevelChange)
+	{	
+		if ([mainSpeechSynth isSpeaking])
+		{
+			[mainSpeechSynth stopSpeaking];
+		}
+		
+		
+		if (_audioFile.isPlaying)
+		{
+			[_audioFile stop];
+		}
+		[auxiliarySpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
+		
+	}
+	
+	
+}
+
 
 #pragma mark -
 #pragma mark Private Methods
@@ -305,11 +348,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	[_audioFile setVolume:bookData.audioPlaybackVolume];
 	
 	[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackRate] forKey:QTMoviePreferredRateAttribute];
-	if(!bookData.isPlaying)
-	{	
-		[_audioFile stop];
-	}
-	else
+	if(bookData.isPlaying && _audioFile.isPlaying)
 	{	
 		[_audioFile setRate:bookData.audioPlaybackRate];
 	}
@@ -322,6 +361,8 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	BOOL loadedOK = NO;
 	NSError *theError = nil;
 	
+	
+	
 	// check that we have not passed in a nil string
 	if(relativePathToFile != nil)
 	{
@@ -329,27 +370,40 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		[noteCentre removeObserver:self name:QTMovieDidEndNotification object:_audioFile];
 		[noteCentre removeObserver:self name:QTMovieChapterDidChangeNotification object:_audioFile];
 		
-		[_audioFile stop]; // pause the playback if there is any currently playing
-		_audioFile = nil;
-		_audioFile = [[TBAudioSegment alloc] initWithFile:[[[bookData baseFolderPath] path] stringByAppendingPathComponent:relativePathToFile] error:&theError];
+		if (_audioFile)
+		{
+			[_audioFile stop]; // pause the playback
+			_audioFile = nil;
+		}
+
+		
+		
+		
+		 
+		NSString *fullFilePath = [[NSString stringWithString:[[[bookData baseFolderPath] path] stringByAppendingPathComponent:relativePathToFile]] autorelease];
+		_audioFile = [[TBAudioSegment alloc] initWithFile:fullFilePath error:&theError];
 		
 		if(_audioFile != nil)
 		{
-			
 			// watch for load state changes
 			[noteCentre addObserver:self
 						   selector:@selector(loadStateDidChange:)
 							   name:QTMovieLoadStateDidChangeNotification
 							 object:_audioFile];
 			
+			// watch for chapter change notifications 
+			[noteCentre addObserver:self 
+						   selector:@selector(updateForChapterChange:) 
+							   name:QTMovieChapterDidChangeNotification 
+							 object:_audioFile];
+						
 			// make the file editable and set the timescale for it 
 			[_audioFile setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
 			
 			// small audio files load so fast they do not post a notification for load completed
-			// so check the load state an if the file has any chapters
 			if(([[_audioFile attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete))
 			{	
-				// no chapters and its loaded so post a notification to add chapters
+				// post a notification to add chapters and set attributes
 				[noteCentre postNotificationName:QTMovieLoadStateDidChangeNotification object:_audioFile];
 			}
 			loadedOK = YES;
@@ -363,7 +417,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		[theAlert setMessageText:NSLocalizedString(@"Error Opening Audio File", @"audio error alert short msg")];
 		[theAlert setInformativeText:NSLocalizedString(@"There was a problem loading an audio file.\n Please check the book for problems.\nOlearia will now reset as we cannot continue", @"audio error alert short msg")];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
-		[theAlert setIcon:[NSImage imageNamed:@"olearia.icns"]];		
+		[theAlert setIcon:[NSApp applicationIconImage]];		
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
 		
 	}
@@ -394,12 +448,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 			// add the chapters both to the Audio track
 			_justAddedChapters = YES;
 			[_audioFile addChapters:chapters withAttributes:trackDict error:&theError];
-			if([_audioFile hasChapters])
-				// watch for chapter change notifications 
-				[noteCentre addObserver:self 
-							   selector:@selector(updateForChapterChange:) 
-								   name:QTMovieChapterDidChangeNotification 
-								 object:_audioFile];
+			
 		}
 		
 	}
@@ -408,13 +457,19 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 - (void)resetController
 {
 	if(_audioFile)
-		[_audioFile release];
-	_audioFile = nil;
+	{	
+		[_audioFile stop];
+		_audioFile = nil;
+	}
+	
 	_currentAudioFilename = nil;
+	_contentToSpeak = nil;
 	currentSmilFilename = nil;
 	currentTag = nil;
-	_didUserNavigation = NO;
+	m_didUserNavigationChange = NO;
 	_justAddedChapters = NO;
+	[mainSpeechSynth stopSpeaking];
+	[auxiliarySpeechSynth stopSpeaking];
 	
 	[noteCentre removeObserver:self];
 }
@@ -428,16 +483,17 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		[_audioFile setVolume:bookData.audioPlaybackVolume];
 	else if([keyPath isEqualToString:@"audioPlaybackRate"])
 	{
-		[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackRate] forKey:QTMoviePreferredRateAttribute];
-		if(!bookData.isPlaying) 
-		{	
-			// this is a workaround for the current issue where setting the 
-			// playback speed using setRate: automatically starts playback
-			[_audioFile stop];
-		}
+		
+		if(!_audioFile.isPlaying) 
+			[_audioFile setAttribute:[NSNumber numberWithFloat:bookData.audioPlaybackRate] forKey:QTMoviePreferredRateAttribute];
 		else
 			[_audioFile setRate:bookData.audioPlaybackRate];
 		
+	}
+	else if([keyPath isEqualToString:@"preferredVoiceIdentifier"])	
+	{		
+		[mainSpeechSynth setVoice:bookData.preferredVoiceIdentifier];
+		[auxiliarySpeechSynth setVoice:bookData.preferredVoiceIdentifier];
 	}
 	else
 		[super observeValueForKeyPath:keyPath
@@ -455,31 +511,40 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 	if([notification object] == _audioFile)
 	{
-		// update the smil doc to the current tags position
-		[smilDocument jumpToNodeWithIdTag:currentTag];
-		// check for a new audio segment in the smil file
-		if([smilDocument audioAfterCurrentPosition])
+		if (!_justAddedChapters)
 		{
-			_currentAudioFilename = smilDocument.relativeAudioFilePath;
-			currentTag = [smilDocument currentIdTag];
-			// sync the new position in the smil with the control document
-			if(controlDocument)
-				[controlDocument jumpToNodeWithIdTag:currentTag];
-			if(_currentAudioFilename)
-				[self updateAudioFile:smilDocument.relativeAudioFilePath];
-		}
-		else
-		{
-			if(controlDocument)
+			// update the smil doc to the current tags position
+			[smilDocument jumpToNodeWithIdTag:currentTag];
+			// check for a new audio segment in the smil file
+			if([smilDocument audioAfterCurrentPosition])
 			{
-				// update the control documents current position 
-				[controlDocument jumpToNodeWithIdTag:currentTag];
-				[controlDocument moveToNextSegment];
-				// set the tag for the new position
-				currentTag = [controlDocument currentIdTag];
-				[self updateAfterNavigationChange];
+				_currentAudioFilename = smilDocument.relativeAudioFilePath;
+				currentTag = [smilDocument currentIdTag];
+				// sync the new position in the smil with the control document
+				if(controlDocument)
+					[controlDocument jumpToNodeWithIdTag:currentTag];
+				if(_currentAudioFilename)
+					[self updateAudioFile:smilDocument.relativeAudioFilePath];
 			}
+			else
+			{
+				if(controlDocument)
+				{
+					// update the control documents current position 
+					[controlDocument jumpToNodeWithIdTag:currentTag];
+					[controlDocument moveToNextSegment];
+					// set the tag for the new position
+					currentTag = [controlDocument currentIdTag];
+					[self updateAfterNavigationChange];
+				}
+			}
+			
 		}
+		else 
+		{
+			_justAddedChapters = NO;
+		}
+
 	}
 }
 
@@ -507,7 +572,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 							   selector:@selector(audioFileDidEnd:) 
 								   name:QTMovieDidEndNotification 
 								 object:_audioFile];
-								
+				
 				if(bookData.isPlaying)
 					[_audioFile play];
 			}
@@ -530,7 +595,20 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 }
 
 
-@synthesize packageDocument, controlDocument, textDocument, smilDocument, speechCon;
+- (void)jumpAudioForwardInTime
+{
+	
+}
+
+- (void)jumpAudioBackInTime
+{
+	
+}
+
+
+
+
+@synthesize packageDocument, controlDocument, textDocument, smilDocument;
 @synthesize currentSmilFilename, currentTextFilename, currentTag;
 
 
@@ -555,20 +633,21 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		}
 		
 		// user navigation uses the control Doc to change position
-		if(_didUserNavigation) 
+		if(m_didUserNavigationChange) 
 		{	
 			if((bookData.mediaFormat != AudioOnlyMediaFormat) && (bookData.mediaFormat != AudioNcxOrNccMediaFormat))
 			{
 				if(controlDocument)
 					[smilDocument jumpToNodeWithIdTag:currentTag];
 			}
-			_didUserNavigation = NO;
+			m_didUserNavigationChange = NO;
 		}
 		
 		_currentAudioFilename = smilDocument.relativeAudioFilePath;
 		
 		if(_currentAudioFilename)
 			[self updateAudioFile:_currentAudioFilename];
+		
 		[controlDocument updateDataForCurrentPosition];
 	}
 }
@@ -576,4 +655,45 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 @end
 
+@implementation TBNavigationController (SpeechDelegate)
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(sender == auxiliarySpeechSynth)
+	{	
+		if (bookData.isPlaying && !_audioFile.isPlaying)
+		{
+			[_audioFile play];
+		}
+//		if(_mainSynthIsSpeaking)
+//			[mainSpeechSynth continueSpeaking];
+		//				else
+		//				{	
+		//				if(!m_didUserNavigationChange)
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//					else
+		//					{	
+		//						m_didUserNavigationChange = NO;
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//				}
+		
+	
+	
+	}
+
+	
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+{
+//	if(sender == mainSpeechSynth)
+//	{
+//		//NSLog(@"word num is %d",wordToSpeak.location);
+//	}
+	// send a notifcation or tell the web/text view to 
+	//highlight the current word about to be spoken
+	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+	//NSLog(@"speaking -> %@",wordIs);
+}
+@end
 

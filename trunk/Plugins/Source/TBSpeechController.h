@@ -29,7 +29,7 @@
 	NSSpeechSynthesizer *_auxSpeechSynth;
 	
 	BOOL				_mainIsSpeaking;
-	BOOL				_didUserNavigationChange;
+	BOOL				m_didUserNavigationChange;
 	
 	NSString			*_stringToSpeak;
 

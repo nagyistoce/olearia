@@ -44,7 +44,8 @@
 - (NSString *)relativeAudioFilePath;
 - (NSString *)relativeTextFilePath;
 - (void)nextTextPlaybackPoint;
-- (void)previousPlaybackPoint;
+- (void)previousTextPlaybackPoint;
+- (void)updateAfterPositionChange;
 
 @property (readwrite,copy)		NSString	*currentNodePath;
 

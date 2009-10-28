@@ -83,10 +83,7 @@
 				currentTextFilename = [filename copy];
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
-			[noteCentre addObserver:self
-						   selector:@selector(startPlayback)
-							   name:TBAuxSpeechConDidFinishSpeaking
-							 object:speechCon];
+			
 
 		}
 		else
@@ -104,37 +101,41 @@
 	
 }
 
-- (void)resetController
-{
-	
-	currentSmilFilename = nil;
-	currentTextFilename = nil;
-	currentTag = nil;
-	_didUserNavigation = NO;
-	_isSpeaking = NO;
-	
-	// call the supers resetController method which
-	// will remove us from the notification center
-	[super resetController];
-	
-	
-}
+//- (void)resetController
+//{
+//	
+//	currentSmilFilename = nil;
+//	currentTextFilename = nil;
+//	currentTag = nil;
+//	m_didUserNavigationChange = NO;
+//	_mainSynthIsSpeaking = NO;
+//	
+//	// call the supers resetController method which
+//	// will remove us from the notification center
+//	[super resetController];
+//	
+//	
+//}
 
 
 - (void)startPlayback
 {
-	if(_isSpeaking && !bookData.isPlaying)
-		[[bookData talkingBookSpeechSynth] continueSpeaking];
+	if(_mainSynthIsSpeaking && !bookData.isPlaying)
+		[mainSpeechSynth continueSpeaking];
 	else
-		[textDocument startSpeaking];
+	{
+		
+		[mainSpeechSynth startSpeaking];
+		
+	}
 	
 	bookData.isPlaying = YES;
 }
 
 - (void)stopPlayback
 {
-	_isSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
-	[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+	_mainSynthIsSpeaking = [mainSpeechSynth isSpeaking];
+	[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 	
 	bookData.isPlaying = NO;
 }
@@ -147,11 +148,11 @@
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[super updateAfterNavigationChange];
 
-	[textDocument startSpeakingFromIdTag:currentTag];
+	//[textDocument startSpeakingFromIdTag:currentTag];
 }
 
 - (void)previousElement
@@ -162,11 +163,11 @@
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[super updateAfterNavigationChange];
 	
-	[textDocument startSpeakingFromIdTag:currentTag];
+	//[textDocument startSpeakingFromIdTag:currentTag];
 }
 
 - (void)goUpLevel
@@ -177,14 +178,14 @@
 		currentTag = [controlDocument currentIdTag];
 	}
 	
-	_didUserNavigation = YES;
-	_isSpeaking = NO;
+	m_didUserNavigationChange = YES;
+	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
-	[speechCon speakUserLevelChange];
+	[self speakLevelChange];
 
 	
 }
@@ -196,14 +197,14 @@
 		[controlDocument goDownALevel];
 		currentTag = [controlDocument currentIdTag];
 	}
-	_didUserNavigation = YES;
-	_isSpeaking = NO;
+	m_didUserNavigationChange = YES;
+	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
-	[speechCon speakUserLevelChange];
+	[self speakLevelChange];
 	
 }
 
@@ -220,7 +221,7 @@
 		// need to add navigation methods for package documents
 	}
 	
-	_didUserNavigation = YES;
+	m_didUserNavigationChange = YES;
 	
 	[textDocument jumpToNodeWithIdTag:currentTag];
 	
