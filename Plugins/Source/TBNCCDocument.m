@@ -67,7 +67,7 @@
 	[tempString  setString:[self stringForXquery:@"/html/head/data(title)" ofNode:nil]]; 
 	if(!tempString) // check the alternative location
 		[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'title')]/data(@content)" ofNode:nil]];
-	bookData.bookTitle = (tempString) ? tempString : NSLocalizedString(@"No Title", @"no title string");
+	bookData.bookTitle = (tempString) ? tempString : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string");
 	
 	
 	// check for total page count

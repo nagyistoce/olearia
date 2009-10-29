@@ -67,11 +67,11 @@
 	
 	// set the book title
 	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-	bookData.bookTitle = (titleStr) ? titleStr : NSLocalizedString(@"No Title", @"no title string"); 
+	bookData.bookTitle = (titleStr) ? titleStr : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string"); 
 	
 	// set the subject
 	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-	bookData.bookSubject =  (subjectStr) ? subjectStr : NSLocalizedString(@"No Subject", @"no subject string");
+	bookData.bookSubject =  (subjectStr) ? subjectStr : LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string");
 		
 }
 

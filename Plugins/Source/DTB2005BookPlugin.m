@@ -178,9 +178,6 @@
 				currentPlugin = self;
 			}
 			
-			// set the initial position for playback
-			// this may be changed if the book has been previously opened
-			//[navCon moveControlPoint:nil withTime:nil];
 			[navCon prepareForPlayback];
 			
 		}
@@ -209,7 +206,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
+	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the Daisy 2005 standard",@"Daisy 2005 Standard description");
 }
 
 #pragma mark -

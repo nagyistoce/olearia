@@ -76,8 +76,8 @@
 	else
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Error Opening Control File", @"control open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"Failed to open the control file.\n Playback and limited navigation may be possible if the OPF file loaded correctly.", @"control open fail alert long msg")];
+		[theAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Error Opening Control File", @"control open fail alert short msg")];
+		[theAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"Failed to open the control file.\n Playback and limited navigation may be possible if the OPF file loaded correctly.", @"control open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
 							 modalDelegate:nil 
 							didEndSelector:nil 

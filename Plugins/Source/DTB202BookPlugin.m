@@ -229,7 +229,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"This Book has been authored with the Daisy 2.02 standard",@"Daisy 2.02 Standard description");
+	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the Daisy 2.02 standard",@"Daisy 2.02 Standard description");
 }
 
 #pragma mark -

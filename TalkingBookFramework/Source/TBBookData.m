@@ -20,6 +20,7 @@
 //
 
 #import "TBBookData.h"
+#import "TBTalkingBookCommon.h"
 
 static TBBookData *sharedTBBookData = nil;
 
@@ -151,7 +152,7 @@ static TBBookData *sharedTBBookData = nil;
 	if(self.totalPages > 0)
 		self.currentPageString = [NSString stringWithFormat:@"%d of %d",self.currentPageNumber,self.totalPages];
 	else
-		self.currentPageString = NSLocalizedString(@"No Page Numbers", @"no page numbers string");
+		self.currentPageString = LocalizedStringInTBFrameworkBundle(@"No Page Numbers", @"no page numbers string");
 }
 
 - (void)setMediaFormatFromString:(NSString *)mediaTypeString

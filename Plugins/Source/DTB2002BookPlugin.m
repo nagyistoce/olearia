@@ -190,7 +190,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"This Book has been authored with the Daisy 2002 standard",@"Daisy 2002 Standard description");
+	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the Daisy 2002 standard",@"Daisy 2002 Standard description");
 }
 
 + (DTB2002BookPlugin *)bookType

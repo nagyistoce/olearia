@@ -92,8 +92,8 @@
 	else // we got a nil return so display the error to the user
 	{
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Error Opening Text Content", @"text content open fail alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
+		[theAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Error Opening Text Content", @"text content open fail alert short msg")];
+		[theAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
 							 modalDelegate:nil 
 							didEndSelector:nil 
