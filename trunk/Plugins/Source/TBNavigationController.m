@@ -30,7 +30,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 @interface TBNavigationController () 
 
-- (void)checkMediaFormat;
 - (void)updateForAudioChapterPosition;
 - (void)addChaptersToAudioSegment;
 - (void)setPreferredAudioAttributes;
@@ -164,8 +163,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 {
 	[self resetController];
 	
-	[self checkMediaFormat];
-	
 	if(controlDocument)
 	{
 		if(nil == controlDocument.currentNavPoint)
@@ -219,21 +216,6 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 
 
 
-- (void)checkMediaFormat
-{
-	if(UnknownMediaFormat == bookData.mediaFormat)
-	{
-		// create an alert for the user as we cant establish what the media the book contains
-		NSAlert *mediaFormatAlert = [[[NSAlert alloc] init] autorelease];
-		[mediaFormatAlert setAlertStyle:NSWarningAlertStyle];
-		[mediaFormatAlert setIcon:[NSApp applicationIconImage]];
-		[mediaFormatAlert setMessageText:NSLocalizedString(@"Unknown Media Format", @"Unknown Media Format alert title")];
-		[mediaFormatAlert setInformativeText:NSLocalizedString(@"This Book did not specify what type of media it contains.\n  It will be assumed it contains audio only content.", @"Unknown Media Format alert msg text")];
-		[mediaFormatAlert runModal];
-		
-		bookData.mediaFormat = AudioOnlyMediaFormat;
-	}
-}
 
 
 #pragma mark -
@@ -414,8 +396,8 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	if((!_audioFile))
 	{	
 		NSAlert *theAlert = [NSAlert alertWithError:theError];
-		[theAlert setMessageText:NSLocalizedString(@"Error Opening Audio File", @"audio error alert short msg")];
-		[theAlert setInformativeText:NSLocalizedString(@"There was a problem loading an audio file.\n Please check the book for problems.\nOlearia will now reset as we cannot continue", @"audio error alert short msg")];
+		[theAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Error Opening Audio File", @"audio error alert short msg")];
+		[theAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"There was a problem loading an audio file.\n Please check the book for problems.\nOlearia will now reset as we cannot continue", @"audio error alert short msg")];
 		[theAlert setAlertStyle:NSWarningAlertStyle];
 		[theAlert setIcon:[NSApp applicationIconImage]];		
 		[theAlert beginSheetModalForWindow:[NSApp keyWindow] modalDelegate:self didEndSelector:@selector(errorDialogDidEnd) contextInfo:nil];
@@ -695,5 +677,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	//NSString *wordIs = [text substringWithRange:wordToSpeak];
 	//NSLog(@"speaking -> %@",wordIs);
 }
+
+
 @end
 

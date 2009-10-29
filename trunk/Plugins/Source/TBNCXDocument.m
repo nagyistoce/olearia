@@ -60,7 +60,7 @@
 	{
 		// set the book title
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-		bookData.bookTitle = (tempStr) ? tempStr : NSLocalizedString(@"No Title", @"no title string"); 
+		bookData.bookTitle = (tempStr) ? tempStr : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string"); 
 	}
 	
 	tempStr = nil;
@@ -69,7 +69,7 @@
 	{
 		// set the subject
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-		bookData.bookSubject =  (tempStr) ? tempStr : NSLocalizedString(@"No Subject", @"no subject string");
+		bookData.bookSubject =  (tempStr) ? tempStr : LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string");
 	}
 	
 	tempStr = nil;

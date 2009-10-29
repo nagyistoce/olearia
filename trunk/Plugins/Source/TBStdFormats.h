@@ -52,6 +52,7 @@
 - (NSXMLNode *)infoMetadataNode;
 - (void)chooseCorrectNavControllerForBook;
 
+
 @property (readonly, retain)	NSArray					*validFileExtensions;
 @property (readwrite, assign)	TBBookData				*bookData;
 

@@ -33,8 +33,8 @@
 		EEB66B29104386F6003378BB /* TBBookshareTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */; };
 		EEB7A3A50FE5D52200662B04 /* TBStdInfoViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */; };
 		EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3DC0FE5EC0D00662B04 /* TBStdInfoView.m */; };
-		EEBF2DF00FE62416004D5771 /* InformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBF2DEF0FE62416004D5771 /* InformationView.xib */; };
 		EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBF2DF10FE62426004D5771 /* TextView.xib */; };
+		EEC3D88A1099451000F375A1 /* InformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC3D8891099451000F375A1 /* InformationView.xib */; };
 		EECDD40D0FCBD56A00C0EDDC /* TBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */; };
 		EECDD40E0FCBD56A00C0EDDC /* TBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4080FCBD56A00C0EDDC /* TBNCCDocument.m */; };
 		EECDD40F0FCBD56A00C0EDDC /* TBNCXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD40A0FCBD56A00C0EDDC /* TBNCXDocument.m */; };
@@ -93,8 +93,6 @@
 		EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextOnlyNavigationController.m; sourceTree = "<group>"; };
 		EE7270631013ED1F00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/TextView.xib; sourceTree = "<group>"; };
 		EE7270641013ED2B00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = no.lproj/TextView.xib; sourceTree = "<group>"; };
-		EE7270651013ED5600FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/InformationView.xib; sourceTree = "<group>"; };
-		EE7270661013ED5B00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = no.lproj/InformationView.xib; sourceTree = "<group>"; };
 		EE7270671013ED8100FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE7270681013ED8700FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE7270691013ED9900FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/NoTextContent.html; sourceTree = "<group>"; };
@@ -122,12 +120,15 @@
 		EEB66B1B104374BB003378BB /* TBBookshareNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareNavigationController.h; sourceTree = "<group>"; };
 		EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookshareTextContentDoc.m; sourceTree = "<group>"; };
 		EEB66B28104386F6003378BB /* TBBookshareTextContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareTextContentDoc.h; sourceTree = "<group>"; };
-		EEB7A3890FE5D3A800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InformationView.xib; sourceTree = "<group>"; };
+		EEB7A3890FE5D3A800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../Resources/English.lproj/InformationView.xib; sourceTree = "<group>"; };
 		EEB7A38B0FE5D3C800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TextView.xib; sourceTree = "<group>"; };
 		EEB7A3A20FE5D52200662B04 /* TBStdInfoViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoViewItem.h; sourceTree = "<group>"; };
 		EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdInfoViewItem.m; sourceTree = "<group>"; };
 		EEB7A3DB0FE5EC0D00662B04 /* TBStdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoView.h; sourceTree = "<group>"; };
 		EEB7A3DC0FE5EC0D00662B04 /* TBStdInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdInfoView.m; sourceTree = "<group>"; };
+		EEC3D8241099349300F375A1 /* TBStdPluginCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdPluginCommon.h; sourceTree = "<group>"; };
+		EEC3D88B1099453000F375A1 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = ../Resources/French.lproj/InformationView.xib; sourceTree = "<group>"; };
+		EEC3D88C1099453600F375A1 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = ../Resources/no.lproj/InformationView.xib; sourceTree = "<group>"; };
 		EECDD4050FCBD56A00C0EDDC /* TBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBControlDoc.h; sourceTree = "<group>"; };
 		EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBControlDoc.m; sourceTree = "<group>"; };
 		EECDD4070FCBD56A00C0EDDC /* TBNCCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNCCDocument.h; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 				EE3172ED0FE0DC0E00B27804 /* RegexKitLite.m */,
 				EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */,
 				32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */,
+				EEC3D8241099349300F375A1 /* TBStdPluginCommon.h */,
 			);
 			name = "Other Source";
 			path = Source;
@@ -343,7 +345,7 @@
 		EEB7A3990FE5D4F400662B04 /* Information View */ = {
 			isa = PBXGroup;
 			children = (
-				EEBF2DEF0FE62416004D5771 /* InformationView.xib */,
+				EEC3D8891099451000F375A1 /* InformationView.xib */,
 				EEB7A3A20FE5D52200662B04 /* TBStdInfoViewItem.h */,
 				EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */,
 				EEB7A3DB0FE5EC0D00662B04 /* TBStdInfoView.h */,
@@ -419,6 +421,7 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
+				EEC3D7F310992E2300F375A1 /* Generate Localizable Strings  */,
 			);
 			buildRules = (
 			);
@@ -436,6 +439,9 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "BrainBender Software";
+			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "StdDaisyFormats" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
@@ -477,7 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				EEBF2DF00FE62416004D5771 /* InformationView.xib in Resources */,
+				EEC3D88A1099451000F375A1 /* InformationView.xib in Resources */,
 				EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */,
 				EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */,
 				EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */,
@@ -486,6 +492,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EEC3D7F310992E2300F375A1 /* Generate Localizable Strings  */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable Strings ";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/csh;
+			shellScript = "#!/bin/csh\n\nif ($CONFIGURATION == \"Release\") then\n\techo \"Generating Standard Plugins Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -s LocalizedStringInTBStdPluginBundle -o Resources/English.lproj Source/*.m\nendif\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D5B49B1048680CD000E48DA /* Sources */ = {
@@ -563,17 +586,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		EEBF2DEF0FE62416004D5771 /* InformationView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EEB7A3890FE5D3A800662B04 /* English */,
-				EE7270651013ED5600FBF671 /* French */,
-				EE7270661013ED5B00FBF671 /* no */,
-			);
-			name = InformationView.xib;
-			path = ../Resources;
-			sourceTree = "<group>";
-		};
 		EEBF2DF10FE62426004D5771 /* TextView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -583,6 +595,16 @@
 			);
 			name = TextView.xib;
 			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		EEC3D8891099451000F375A1 /* InformationView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEB7A3890FE5D3A800662B04 /* English */,
+				EEC3D88B1099453000F375A1 /* French */,
+				EEC3D88C1099453600F375A1 /* no */,
+			);
+			name = InformationView.xib;
 			sourceTree = "<group>";
 		};
 		EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */ = {
@@ -617,6 +639,7 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_NAME = StdDaisyFormats;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Debug;

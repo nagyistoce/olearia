@@ -36,6 +36,7 @@
 @interface TBStdFormats (Private)
 
 + (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray;
+- (TalkingBookMediaFormat)checkMediaFormat;
 
 @end
 
@@ -129,7 +130,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"No Book Format Description",@"No Book Format Description");
+	return LocalizedStringInTBStdPluginBundle(@"No Book Format Description",@"No Book Format Description");
 }
 
 - (BOOL)canOpenBook:(NSURL *)bookURL;
@@ -216,6 +217,8 @@
 
 - (void)chooseCorrectNavControllerForBook
 {
+	bookData.mediaFormat = [self checkMediaFormat];
+	
 	if(!navCon)
 	{	
 		if(bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat)
@@ -240,6 +243,8 @@
 	
 	//[navCon resetController];
 }
+
+
 
 #pragma mark -
 #pragma mark Navigation
@@ -315,6 +320,41 @@
 		[currentTypes addObject:aPlugin];
 
 	return currentTypes;
+}
+
+- (TalkingBookMediaFormat)checkMediaFormat
+{
+	NSInteger result;
+	TalkingBookMediaFormat theFormat = bookData.mediaFormat;
+	
+	if(UnknownMediaFormat == theFormat)
+	{
+		// create an alert for the user as we cant establish what the media the book contains
+		NSAlert *mediaFormatAlert = [[[NSAlert alloc] init] autorelease];
+		[mediaFormatAlert setAlertStyle:NSWarningAlertStyle];
+		[mediaFormatAlert setIcon:[NSApp applicationIconImage]];
+		[mediaFormatAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Unknown Media Format", @"Unknown Media Format alert title")];
+		[mediaFormatAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"This Book did not specify what type of media it contains.\nPlease choose the type of media this book contains.", @"Unknown Media Format alert msg text")];
+		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Audio Only",@"Audio Only Button")];
+		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Text Only",@"Text Only Button")];
+		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Cancel",@"Cancel Button")];
+		result = [mediaFormatAlert runModal];
+		
+		switch (result)
+		{
+			case NSAlertFirstButtonReturn:
+				theFormat = AudioOnlyMediaFormat;
+				break;
+			case NSAlertSecondButtonReturn:
+				theFormat = TextOnlyNcxOrNccMediaFormat;	
+				break;
+			default:
+				theFormat = UnknownMediaFormat;
+				break;
+		}
+	}
+	
+	return theFormat;
 }
 
 @end

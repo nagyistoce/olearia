@@ -144,7 +144,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
+	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
 }
 
 - (NSURL *)loadedURL

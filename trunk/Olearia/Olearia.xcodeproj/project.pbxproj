@@ -40,7 +40,7 @@
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
 		EE5A11D10EDB914200398FFC /* RelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */; };
-		EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
+		EE5A13590EDB92B600398FFC /* RelaunchHelper in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Voice.png */; };
 		EE8BA956100198AF000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA955100198AF000E242F /* Localizable.strings */; };
 		EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */; };
@@ -114,14 +114,15 @@
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EE5A13580EDB928000398FFC /* CopyFiles */ = {
+		EE5A13580EDB928000398FFC /* Copy Helper Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				EE5A13590EDB92B600398FFC /* RelaunchHelper in CopyFiles */,
+				EE5A13590EDB92B600398FFC /* RelaunchHelper in Copy Helper Files */,
 			);
+			name = "Copy Helper Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */ = {
@@ -425,7 +426,7 @@
 				EE24ED410FCF9DC600D88546 /* Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D1107290486CEB800E47090 /* Resources */,
-				EE5A13580EDB928000398FFC /* CopyFiles */,
+				EE5A13580EDB928000398FFC /* Copy Helper Files */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				EE2159110DDB5BF4009155A1 /* Set Version */,
 				EE891651101450D500E3E7A0 /* Automate Appcast Build */,

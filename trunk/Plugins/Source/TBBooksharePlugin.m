@@ -199,7 +199,7 @@
 
 - (NSString *)FormatDescription
 {
-	return NSLocalizedString(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
+	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
 }
 
 - (BOOL)isVariant
