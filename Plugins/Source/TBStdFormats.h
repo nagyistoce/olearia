@@ -50,7 +50,7 @@
 - (void)setupPluginSpecifics;
 + (id)bookType;
 - (NSXMLNode *)infoMetadataNode;
-- (void)chooseCorrectNavControllerForBook;
+- (BOOL)loadCorrectNavControllerForBookFormat;
 
 
 @property (readonly, retain)	NSArray					*validFileExtensions;

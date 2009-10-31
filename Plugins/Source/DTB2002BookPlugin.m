@@ -44,6 +44,7 @@
 {
 	BOOL opfLoaded = NO;
 	BOOL ncxLoaded = NO;
+	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
 	
@@ -93,8 +94,8 @@
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
-				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"])
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"/package/metadata/dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
+				if(YES == [bookFormatString hasSuffix:@"Z39.86-2002"])
 				{
 					// the opf file specifies that it is a 2002 format book
 					if(!bookData.baseFolderPath)
@@ -146,26 +147,32 @@
 		
 		if(ncxLoaded || opfLoaded)
 		{
-			[super chooseCorrectNavControllerForBook];
+			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
 			
-			if(opfLoaded)
-			{	
-				navCon.packageDocument = packageDoc;
-				packageDoc = nil;
-				currentPlugin = self;
+			if (navConDidLoad) 
+			{
+				if(opfLoaded)
+				{	
+					navCon.packageDocument = packageDoc;
+					packageDoc = nil;
+					currentPlugin = self;
+				}
+				
+				if(ncxLoaded)
+				{	
+					navCon.controlDocument = controlDoc;
+					controlDoc = nil;
+					currentPlugin = self;
+				}
+				
+				//[navCon moveControlPoint:nil withTime:nil];
+				
+				[navCon prepareForPlayback];
+				
+				
 			}
-			
-			if(ncxLoaded)
-			{	
-				navCon.controlDocument = controlDoc;
-				controlDoc = nil;
-				currentPlugin = self;
-			}
-			
-			[navCon moveControlPoint:nil withTime:nil];
-			
-			[navCon prepareForPlayback];
-			
+			else
+				[bookData resetForNewBook];
 		}
 		
 	}
@@ -175,7 +182,7 @@
 	
 	// return YES if the Package document and/or Control Document loaded correctly
 	// as we can do limited control and playback functions from the opf file this is a valid scenario.
-	return (opfLoaded || ncxLoaded);
+	return ((opfLoaded || ncxLoaded) && navConDidLoad);
 }
 
 - (void)startPlayback

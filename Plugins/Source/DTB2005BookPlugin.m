@@ -55,6 +55,7 @@
 {
 	BOOL opfLoaded = NO;
 	BOOL ncxLoaded = NO;
+	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
 	
@@ -109,8 +110,8 @@
 			{
 				// the opf file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[packageDoc stringForXquery:@"dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
-				if(YES == [bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"])
+				NSString *bookFormatString = [[packageDoc stringForXquery:@"/package/metadata/dc-metadata/data(*:Format)" ofNode:[packageDoc metadataNode]] uppercaseString];
+				if(YES == [bookFormatString hasSuffix:@"Z39.86-2005"])
 				{
 					// the opf file specifies that it is a 2005 format book
 					if(!bookData.baseFolderPath)
@@ -162,23 +163,28 @@
 		
 		if(ncxLoaded || opfLoaded)
 		{
-			[super chooseCorrectNavControllerForBook];
+			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
 			
-			if(opfLoaded)
-			{	
-				navCon.packageDocument = packageDoc;
+			if (navConDidLoad)
+			{
+				if(opfLoaded)
+				{	
+					navCon.packageDocument = packageDoc;
+					
+					packageDoc = nil;
+					currentPlugin = self;
+				}
+				if(ncxLoaded)
+				{	
+					navCon.controlDocument = controlDoc;
+					controlDoc = nil;
+					currentPlugin = self;
+				}
 				
-				packageDoc = nil;
-				currentPlugin = self;
-			}
-			if(ncxLoaded)
-			{	
-				navCon.controlDocument = controlDoc;
-				controlDoc = nil;
-				currentPlugin = self;
+				[navCon prepareForPlayback];
+				
 			}
 			
-			[navCon prepareForPlayback];
 			
 		}
 		
@@ -191,7 +197,7 @@
 	// return YES if the Package document and/or Control Document loaded correctly
 	// The Control document gives us full navigation.
 	// limited control from the (opf) package file.
-	return (ncxLoaded || opfLoaded);
+	return ((ncxLoaded || opfLoaded) && navConDidLoad);
 }
 
 - (NSURL *)loadedURL

@@ -15,7 +15,7 @@
 		EE1A700110167F8C0001BEDB /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE1A700010167F8C0001BEDB /* TBBookInfo.nib */; };
 		EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */; };
 		EE8BA987100198E3000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA986100198E3000E242F /* Localizable.strings */; };
-		EE8BDC381099AE72005A7088 /* TBTalkingBookCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */; };
+		EE8BDC381099AE72005A7088 /* TBTalkingBookCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		EEDC6D50104CFB9000380583 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC6D4F104CFB9000380583 /* TBBookData.m */; };
 		EEDC6E3D104D01BB00380583 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */; };
 /* End PBXBuildFile section */
