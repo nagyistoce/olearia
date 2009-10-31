@@ -433,7 +433,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	{	
 		if(talkingBook.bookData.isPlaying)
 		{
-			//talkingBook.bookData.isPlaying = NO;
 			// we switch the images like this to allow for differences between names when using normal 
 			// or high contrast icons.
 			NSImage *tempImage = [playPauseButton image];

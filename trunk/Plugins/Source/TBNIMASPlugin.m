@@ -47,6 +47,7 @@
 - (BOOL)openBook:(NSURL *)bookURL
 {
 	BOOL opfLoaded = NO;
+	
 	NSURL *packageFileUrl = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
@@ -107,13 +108,15 @@
 		
 		if(opfLoaded)
 		{
-			[super chooseCorrectNavControllerForBook];
+			//[super loadCorrectNavControllerForBookFormat];
+			
+			// load nimas specific nav controller here
 			
 			navCon.packageDocument = packageDoc;
 			packageDoc = nil;
 			currentPlugin = self;
 			
-			[navCon moveControlPoint:nil withTime:nil];
+			//[navCon moveControlPoint:nil withTime:nil];
 			
 			[navCon prepareForPlayback];
 			

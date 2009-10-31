@@ -20,7 +20,6 @@
 //
 
 #import "TBBookData.h"
-#import "TBTalkingBookCommon.h"
 
 static TBBookData *sharedTBBookData = nil;
 
@@ -108,8 +107,8 @@ static TBBookData *sharedTBBookData = nil;
 	self.totalPages = 0;
 	self.currentPageNumber = 0;
 	self.currentLevel = 1;
-	self.bookTitle = nil;
-	self.bookSubject = nil;
+	self.bookTitle = LocalizedStringInTBFrameworkBundle(@"No Title", @"no title string");
+	self.bookSubject = LocalizedStringInTBFrameworkBundle(@"No Subject", @"no subject string");
 	self.currentPageNumber = 0;
 	self.sectionTitle = nil;
 	self.bookTotalTime = nil;
@@ -140,7 +139,7 @@ static TBBookData *sharedTBBookData = nil;
 {
 	m_currentPageNumber = aPageNum;
 	if(self.totalPages > 0)
-		self.currentPageString = [NSString stringWithFormat:@"%d of %d",self.currentPageNumber,self.totalPages];
+		self.currentPageString = [NSString stringWithFormat:LocalizedStringInTBFrameworkBundle(@"%d of %d",@"current Page of total pages"),self.currentPageNumber,self.totalPages];
 	else
 		self.currentPageString = [NSString stringWithFormat:@"%d",self.currentPageNumber];
 
@@ -150,7 +149,7 @@ static TBBookData *sharedTBBookData = nil;
 {
 	m_totalPages = totalPageNum;
 	if(self.totalPages > 0)
-		self.currentPageString = [NSString stringWithFormat:@"%d of %d",self.currentPageNumber,self.totalPages];
+		self.currentPageString = [NSString stringWithFormat:LocalizedStringInTBFrameworkBundle(@"%d of %d",@"current Page of total pages"),self.currentPageNumber,self.totalPages];
 	else
 		self.currentPageString = LocalizedStringInTBFrameworkBundle(@"No Page Numbers", @"no page numbers string");
 }

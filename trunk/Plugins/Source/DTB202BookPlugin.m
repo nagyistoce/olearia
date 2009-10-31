@@ -53,6 +53,7 @@
 {
 	
 	BOOL nccLoaded = NO;
+	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
 
 	// do a sanity check first to see that we can attempt to open the URL. 
@@ -140,16 +141,22 @@
 		
 		if(nccLoaded)
 		{
-			[super chooseCorrectNavControllerForBook];
+			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
 			
-			navCon.controlDocument = controlDoc;
-			controlDoc = nil;
-			
-			[navCon moveControlPoint:nil withTime:nil];
-			
-			[navCon prepareForPlayback];
-			
-			currentPlugin = self;
+			if (navConDidLoad)
+			{
+				
+				navCon.controlDocument = controlDoc;
+				controlDoc = nil;
+				
+				[navCon moveControlPoint:nil withTime:nil];
+				
+				[navCon prepareForPlayback];
+				
+				currentPlugin = self;
+				
+			}
+
 			
 		}
 		
@@ -160,7 +167,7 @@
 	
 	
 	// return YES if NCC.html Control Document loaded correctly
-	return (nccLoaded);
+	return (nccLoaded && navConDidLoad);
 }
 
 - (NSXMLNode *)infoMetadataNode

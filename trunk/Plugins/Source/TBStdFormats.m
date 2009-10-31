@@ -31,8 +31,6 @@
 #import "TBPackageDoc.h"
 #import "TBControlDoc.h"
 
-//static NSBundle* pluginBundle = nil;
-
 @interface TBStdFormats (Private)
 
 + (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray;
@@ -215,33 +213,50 @@
 	
 }
 
-- (void)chooseCorrectNavControllerForBook
+- (BOOL)loadCorrectNavControllerForBookFormat
 {
+	BOOL loadedOK = NO;
 	bookData.mediaFormat = [self checkMediaFormat];
 	
-	if(!navCon)
-	{	
-		if(bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat)
-			navCon = [[TBNavigationController alloc] init];
-		else
-			navCon = [[TBTextOnlyNavigationController alloc] init];
-	}
-	else // nav controller already loaded from previous book.
+	// check if a navigation controller has been loaded before
+	if(navCon)
 	{
-		
 		if(([navCon isKindOfClass:[TBNavigationController class]]) && (bookData.mediaFormat == TextOnlyNcxOrNccMediaFormat))
 		{
 			navCon = nil;
-			navCon = [[TBTextOnlyNavigationController alloc] init];
 		}
 		else if(([navCon isKindOfClass:[TBTextOnlyNavigationController class]]) && (bookData.mediaFormat != TextOnlyNcxOrNccMediaFormat))
 		{	
 			navCon = nil;
-			navCon = [[TBNavigationController alloc] init];
 		}
 	}
+	if (UnknownMediaFormat != bookData.mediaFormat) 
+	{
+		if(!navCon)
+		{
+			switch (bookData.mediaFormat)
+			{
+				case TextOnlyNcxOrNccMediaFormat:
+					navCon = [[TBTextOnlyNavigationController alloc] init];
+					loadedOK = YES;
+					break;
+				case UnknownMediaFormat:
+					navCon = nil;
+					break;
+				default:
+					navCon = [[TBNavigationController alloc] init];
+					loadedOK = YES;
+					break;
+			}
+		}
+		else
+			loadedOK = YES;
+		
+	}
+	else
+		[bookData resetForNewBook];
 	
-	//[navCon resetController];
+	return loadedOK;
 }
 
 
@@ -324,38 +339,39 @@
 
 - (TalkingBookMediaFormat)checkMediaFormat
 {
-	NSInteger result;
-	TalkingBookMediaFormat theFormat = bookData.mediaFormat;
+	NSInteger resultCode;
+	TalkingBookMediaFormat format = bookData.mediaFormat;
 	
-	if(UnknownMediaFormat == theFormat)
+	if(UnknownMediaFormat == format)
 	{
 		// create an alert for the user as we cant establish what the media the book contains
 		NSAlert *mediaFormatAlert = [[[NSAlert alloc] init] autorelease];
 		[mediaFormatAlert setAlertStyle:NSWarningAlertStyle];
 		[mediaFormatAlert setIcon:[NSApp applicationIconImage]];
 		[mediaFormatAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Unknown Media Format", @"Unknown Media Format alert title")];
-		[mediaFormatAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"This Book did not specify what type of media it contains.\nPlease choose the type of media this book contains.", @"Unknown Media Format alert msg text")];
+		[mediaFormatAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"This Book did not specify what type of media it contains.\nPlease choose the type of media for this book.\n\nNOTE: Choosing the incorrect type may cause unexpected playback problems, if in doubt choose Cancel and the book will not be loaded.", @"Unknown Media Format alert msg text")];
 		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Audio Only",@"Audio Only Button")];
 		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Text Only",@"Text Only Button")];
 		[mediaFormatAlert addButtonWithTitle:LocalizedStringInTBStdPluginBundle(@"Cancel",@"Cancel Button")];
-		result = [mediaFormatAlert runModal];
-		
-		switch (result)
-		{
-			case NSAlertFirstButtonReturn:
-				theFormat = AudioOnlyMediaFormat;
-				break;
-			case NSAlertSecondButtonReturn:
-				theFormat = TextOnlyNcxOrNccMediaFormat;	
-				break;
-			default:
-				theFormat = UnknownMediaFormat;
-				break;
-		}
-	}
+		resultCode = [mediaFormatAlert runModal];
 	
-	return theFormat;
+		switch (resultCode)
+		{
+		case NSAlertFirstButtonReturn:
+			format = AudioOnlyMediaFormat;
+			break;
+		case NSAlertSecondButtonReturn:
+			format = TextOnlyNcxOrNccMediaFormat;	
+			break;
+		default:
+			format = UnknownMediaFormat;
+			break;
+		}
+
+	}
+	return format;
 }
+
 
 @end
 

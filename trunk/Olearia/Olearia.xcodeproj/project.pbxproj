@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		9D12C06B0EB7960F0091FBA3 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 9D12C0470EB7960F0091FBA3 /* Help */; };
 		EE083D5E0EDD2544009F5020 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE083D5D0EDD2544009F5020 /* License.txt */; };
@@ -519,7 +518,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				EE0A74880E3B5106001CF3C2 /* daisyicons.icns in Resources */,
 				EE0A74890E3B5106001CF3C2 /* olearia.icns in Resources */,
 				EE0A748A0E3B5106001CF3C2 /* SMILicons.icns in Resources */,

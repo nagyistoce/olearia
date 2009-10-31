@@ -56,20 +56,20 @@
 
 	NSString *tempStr = @"";
 	
-	if([bookData.bookTitle isEqualToString:@""])
+	if([bookData.bookTitle isEqualToString:LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string")])
 	{
 		// set the book title
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-		bookData.bookTitle = (tempStr) ? tempStr : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string"); 
+		bookData.bookTitle = (tempStr) ? tempStr : bookData.bookTitle; 
 	}
 	
 	tempStr = nil;
 	
-	if([bookData.bookSubject isEqualToString:@""])
+	if([bookData.bookSubject isEqualToString:LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string")])
 	{
 		// set the subject
 		tempStr = [self stringForXquery:@"./dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-		bookData.bookSubject =  (tempStr) ? tempStr : LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string");
+		bookData.bookSubject =  (tempStr) ? tempStr : bookData.bookSubject;
 	}
 	
 	tempStr = nil;
