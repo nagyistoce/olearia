@@ -27,3 +27,10 @@
 }
 
 @end
+
+//@interface TBNavigationController (SpeechDelegate)
+//
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success;
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text;
+//
+//@end

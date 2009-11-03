@@ -150,6 +150,7 @@
 		tagNodes = [xmlTextDoc nodesForXPath:queryStr error:nil];
 		
 		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
+		_contentStr = [_currentNode contentValue];
 	}
 	
 }

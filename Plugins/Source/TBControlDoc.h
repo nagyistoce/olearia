@@ -27,6 +27,7 @@
 	NSURL				*fileURL;
 	
 	TBBookData			*bookData;
+	//	TalkingBookMediaFormat mediaFormat;
 	
 	NSXMLNode			*currentNavPoint;
 	
@@ -41,6 +42,7 @@
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
+- (NSString *)mediaFormatString;
 
 // syncronization
 - (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
@@ -68,7 +70,6 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
-@property (readwrite, retain) TBBookData		*bookData;
 @property (readwrite, copy)	NSXMLNode			*currentNavPoint;
 @property (readonly, copy)	NSURL				*fileURL;
 @property (readwrite, copy) NSString *currentPositionID;

@@ -37,6 +37,7 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
+	//	mediaFormat = UnknownMediaFormat;
 	
 	return self;
 }
@@ -95,11 +96,18 @@
 	[self doesNotRecognizeSelector:_cmd];
 }
 
-- (NSXMLNode *)metadataNode
+- (NSString *)mediaFormatString
 {
 #ifdef DEBUG
 	NSLog(@"superclass method of %@ used",[self className]);
 #endif
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (NSXMLNode *)metadataNode
+{
+
 	return nil;
 }
 
@@ -273,7 +281,7 @@
 
 }
 
-@synthesize bookData;
+//@synthesize bookData;
 @synthesize currentPositionID;
 @synthesize navigateForChapters;
 @synthesize currentNavPoint;

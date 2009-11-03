@@ -94,7 +94,7 @@
 					
 					[packageDoc processData];
 					
-					bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
+					_mediaFormat = TextWithControlMediaFormat;
 					
 					opfLoaded = YES;
 				}
@@ -108,7 +108,7 @@
 		
 		if(opfLoaded)
 		{
-			//[super loadCorrectNavControllerForBookFormat];
+			[super loadCorrectNavControllerForBookFormat];
 			
 			// load nimas specific nav controller here
 			
@@ -117,7 +117,7 @@
 			currentPlugin = self;
 			
 			//[navCon moveControlPoint:nil withTime:nil];
-			
+			navCon.bookMediaFormat = _mediaFormat;
 			[navCon prepareForPlayback];
 			
 		}

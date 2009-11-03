@@ -24,6 +24,14 @@
 #define LocalizedStringInTBStdPluginBundle(key, comment) \
 [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:nil]
 
-@interface TBStdPluginCommon : NSObject 
+typedef enum 
+{
+	FullAudioFullTextMediaFormat,
+	FullAudioPartialTextMediaFormat,
+	AudioWithControlMediaFormat,
+	AudioOnlyMediaFormat,
+	FullTextPartialAudioMediaFormat,
+	TextWithControlMediaFormat,
+	UnknownMediaFormat
+} TalkingBookMediaFormat;
 
-@end

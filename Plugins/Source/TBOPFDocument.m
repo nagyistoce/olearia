@@ -49,29 +49,18 @@
 - (void)processData
 {
 		
-	// get the root element of the tree
-	NSXMLElement *opfRoot = [xmlPackageDoc rootElement];
-	
-	// check we have any valid metadata before adding the rest.
-	
-	manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:opfRoot]];
-	spine = [NSArray arrayWithArray:[self processSpineSection:opfRoot]];
-	guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:opfRoot]];
-	currentPosInSpine = -1;
-	
-	// ends-with is used extensively here to avoid issues if the namespaces attached to the content 
-	// ever change
-	
-	// get the media format of the book. 
-	[bookData setMediaFormatFromString:[self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:opfRoot]];
-	
-	// set the book title
-	NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
-	bookData.bookTitle = (titleStr) ? titleStr : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string"); 
-	
-	// set the subject
-	NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
-	bookData.bookSubject =  (subjectStr) ? subjectStr : LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string");
+		manifest = [NSDictionary dictionaryWithDictionary:[self processManifestSection:[xmlPackageDoc rootElement]]];
+		spine = [NSArray arrayWithArray:[self processSpineSection:[xmlPackageDoc rootElement]]];
+		guide = [NSDictionary dictionaryWithDictionary:[self processGuideSection:[xmlPackageDoc rootElement]]];
+		currentPosInSpine = -1;
+		
+		// set the book title
+		NSString *titleStr = [self stringForXquery:@"dc-metadata/data(*:Title)" ofNode:[self metadataNode]];
+		bookData.bookTitle = (titleStr) ? titleStr : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string"); 
+		
+		// set the subject
+		NSString *subjectStr = [self stringForXquery:@"dc-metadata/data(*:Subject)" ofNode:[self metadataNode]];
+		bookData.bookSubject =  (subjectStr) ? subjectStr : LocalizedStringInTBStdPluginBundle(@"No Subject", @"no subject string");
 		
 }
 
@@ -88,6 +77,12 @@
 	if(tour) [tour release];
 	
 	[super dealloc];
+}
+
+- (NSString *)mediaFormatString
+{
+	return [self stringForXquery:@"//meta[@name][ends-with(@name,'multimediaType')]/data(@content)" 
+						  ofNode:[xmlPackageDoc rootElement]];
 }
 
 

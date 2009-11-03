@@ -35,6 +35,8 @@
 	TBFileUtils			*fileUtils;
 	NSArray				*validFileExtensions;
 	
+	TalkingBookMediaFormat _mediaFormat;
+	
 	IBOutlet TBStdInfoView	*infoView;
 	IBOutlet TBStdTextView	*textview;
 
@@ -51,11 +53,10 @@
 + (id)bookType;
 - (NSXMLNode *)infoMetadataNode;
 - (BOOL)loadCorrectNavControllerForBookFormat;
+- (TalkingBookMediaFormat)mediaFormatFromString:(NSString *)mediaTypeString;
 
 
 @property (readonly, retain)	NSArray					*validFileExtensions;
-@property (readwrite, assign)	TBBookData				*bookData;
-
 @property (readwrite, retain)	TBNavigationController	*navCon;
 @property (readwrite, assign)	TBPackageDoc			*packageDoc;
 @property (readwrite, assign)	TBControlDoc			*controlDoc;

@@ -36,6 +36,7 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
+	//	mediaFormat = UnknownMediaFormat;
 	
 	return self;
 }
@@ -114,6 +115,12 @@
 	return nil;
 }
 - (NSString *)prevAudioSegmentFilename
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (NSString *)mediaFormatString
 {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;

@@ -25,6 +25,3 @@
 [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:nil]
 
 
-@interface TBTalkingBookCommon : NSObject 
-
-@end

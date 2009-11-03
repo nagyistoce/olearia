@@ -119,6 +119,7 @@
 				NSString *bookFormatString = [[controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
 				if(YES == [bookFormatString isEqualToString:@"DAISY 2.02"])
 				{
+					_mediaFormat = [self mediaFormatFromString:[controlDoc mediaFormatString]];
 					[controlDoc processData];
 					nccLoaded = YES;
 				}
