@@ -37,7 +37,13 @@
 	self = [super initWithFile:fileName error:errorPtr];
 	if (nil == self) return nil;
 	
+	// make the file editable 
+	[super setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
+	// set the preserves pitch option
+	[super setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieRateChangesPreservePitchAttribute];
+	// setup the array for extended chapter data
 	_extendedChapterData = [[NSArray alloc] init];
+	
 	
 	return self;
 }
@@ -67,6 +73,22 @@
 	else 
 		[super setAttribute:value forKey:attributeKey];
 
+}
+
+- (void)setRate:(float)rate
+{
+	if (isPlaying)
+	{
+		[super setRate:rate];
+	}
+	[super setAttribute:[NSNumber numberWithFloat:rate] forKey:QTMoviePreferredRateAttribute];
+	
+}
+
+- (void)setVolume:(float)volume
+{
+	[super setAttribute:[NSNumber numberWithFloat:volume] forKey:QTMoviePreferredVolumeAttribute];
+	[super setVolume:volume];
 }
 
 #pragma mark -

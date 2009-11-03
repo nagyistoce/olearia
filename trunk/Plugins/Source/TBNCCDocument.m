@@ -76,13 +76,6 @@
 	bookData.totalPages = (tempString) ? [tempString intValue] : 0; 
 	
 	
-	// get the media type of the book
-	[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'multimediaType')]/data(@content)" ofNode:nil]];
-	
-	[tempString setString:(tempString) ? [tempString lowercaseString] : nil];	
-	if(tempString)
-		[bookData setMediaFormatFromString:tempString];	
-
 	// get all the child nodes of the body node
 	_bodyNodes = [[[rootNode nodesForXPath:@"/html[1]/body[1]" error:nil] objectAtIndex:0] children];
 	_totalBodyNodes = [_bodyNodes count];
@@ -92,7 +85,11 @@
 }
 
 
-
+- (NSString *)mediaFormatString
+{
+	return [[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'multimediaType')]/data(@content)" 
+						  ofNode:nil] lowercaseString];
+}
 
 #pragma mark -
 #pragma mark Public Methods

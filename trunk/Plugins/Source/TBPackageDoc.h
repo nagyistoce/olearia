@@ -24,6 +24,7 @@
 	NSXMLDocument			*xmlPackageDoc;
 	
 	TBBookData				*bookData;
+	//	TalkingBookMediaFormat mediaFormat;
 	
 	NSString				*ncxFilename;
 	NSString				*textContentFilename;
@@ -35,6 +36,7 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
 - (void)processData;
 - (NSXMLNode *)metadataNode;
+- (NSString *)mediaFormatString;
 
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;

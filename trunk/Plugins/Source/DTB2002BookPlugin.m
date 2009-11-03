@@ -88,6 +88,7 @@
 		
 		if(packageFileUrl)
 		{
+
 			packageDoc = [[TBOPFDocument alloc] init];
 			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
@@ -110,6 +111,8 @@
 					packageDoc.textContentFilename = [packageDoc stringForXquery:@"/package/manifest/item[@media-type='text/xml'][starts-with(@id,'Text')]/data(@href)" ofNode:nil];
 					
 					[packageDoc processData];
+					
+						
 					
 					opfLoaded = YES;
 				}
@@ -138,7 +141,7 @@
 					bookData.baseFolderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[controlDoc processData];
-				
+
 				ncxLoaded = YES;
 			}
 			else
@@ -153,6 +156,7 @@
 			{
 				if(opfLoaded)
 				{	
+					_mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
 					navCon.packageDocument = packageDoc;
 					packageDoc = nil;
 					currentPlugin = self;
@@ -165,14 +169,13 @@
 					currentPlugin = self;
 				}
 				
-				//[navCon moveControlPoint:nil withTime:nil];
-				
+				navCon.bookMediaFormat = _mediaFormat;
 				[navCon prepareForPlayback];
 				
 				
 			}
 			else
-				[bookData resetForNewBook];
+				[bookData resetData];
 		}
 		
 	}

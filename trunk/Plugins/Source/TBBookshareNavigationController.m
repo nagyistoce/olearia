@@ -39,7 +39,7 @@
 	self = [super init];
 	if (self != nil) 
 	{
-		
+		[mainSpeechSynth setDelegate:self];
 	}
 	
 	return self;
@@ -150,15 +150,18 @@
 		currentTag = [smilDocument currentIdTag];
 	}
 	
-	//m_didUserNavigationChange = YES;
-	
-	//[super updateAfterNavigationChange];
+	m_didUserNavigationChange = YES;
 
 	if(bookData.isPlaying)
 	{
-		//[textDocument updateDataAfterJump];
-		
-		//[textDocument startSpeakingFromIdTag:currentTag];
+		if ([mainSpeechSynth isSpeaking]) 
+		{
+			[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+		}
+		[textDocument jumpToNodeWithIdTag:currentTag];
+		[textDocument updateDataAfterJump];
+		_contentToSpeak = [textDocument contentText];
+		[mainSpeechSynth startSpeakingString:_contentToSpeak];
 	}
 	
 }

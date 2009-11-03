@@ -112,7 +112,7 @@
 						[packageDoc processData];
 						
 						// we set the format here to override the unknown format found in the processData Method
-						bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
+						_mediaFormat = TextWithControlMediaFormat;
 						
 						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.baseFolderPath];  
 						
@@ -144,7 +144,7 @@
 				ncxLoaded = YES;
 			}
 			
-			bookData.mediaFormat = TextOnlyNcxOrNccMediaFormat;
+			_mediaFormat = TextWithControlMediaFormat;
 			
 		}
 		

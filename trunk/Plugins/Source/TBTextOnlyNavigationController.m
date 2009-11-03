@@ -40,7 +40,7 @@
 	self = [super init];
 	if (self != nil) 
 	{
-
+		[mainSpeechSynth setDelegate:self];
 	}
 	
 	return self;
@@ -62,6 +62,8 @@
 		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
 		if([[filename pathExtension] isEqualToString:@"smil"])
 		{
+			
+			
 			if(!smilDocument)
 				smilDocument = [[TBSMILDocument alloc] init];
 			
@@ -73,6 +75,10 @@
 				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
+			// set the smil file to the correct start point for navigation and playback
+			currentTag = [controlDocument currentIdTag];
+			[smilDocument jumpToNodeWithIdTag:currentTag];
+			
 			filename = [smilDocument relativeTextFilePath];
 			
 			if(!textDocument)
@@ -83,7 +89,9 @@
 				currentTextFilename = [filename copy];
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
-			
+			[textDocument jumpToNodeWithIdTag:currentTag];
+			[textDocument updateDataAfterJump];
+			_contentToSpeak = [textDocument contentText];
 
 		}
 		else
@@ -125,7 +133,8 @@
 	else
 	{
 		
-		[mainSpeechSynth startSpeaking];
+		
+		[mainSpeechSynth startSpeakingString:_contentToSpeak];
 		
 	}
 	
@@ -254,3 +263,56 @@
 }
 
 @end
+
+@implementation TBTextOnlyNavigationController (SpeechDelegate)
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(sender == mainSpeechSynth)
+	{	
+		if (!m_didUserNavigationChange)
+		{
+			if (controlDocument)
+			{
+				[controlDocument moveToNextSegment];
+				[controlDocument updateDataForCurrentPosition];
+				currentTag = [controlDocument currentIdTag];
+				[textDocument jumpToNodeWithIdTag:currentTag];
+				_contentToSpeak = [textDocument contentText];
+				[self startPlayback];
+			}
+		}
+		//		if(_mainSynthIsSpeaking)
+		//			[mainSpeechSynth continueSpeaking];
+		//				else
+		//				{	
+		//				if(!m_didUserNavigationChange)
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//					else
+		//					{	
+		//						m_didUserNavigationChange = NO;
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//				}
+		
+		
+		
+	}
+	
+	
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+{
+	//	if(sender == mainSpeechSynth)
+	//	{
+	//		//NSLog(@"word num is %d",wordToSpeak.location);
+	//	}
+	// send a notifcation or tell the web/text view to 
+	//highlight the current word about to be spoken
+	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+	//NSLog(@"speaking -> %@",wordIs);
+}
+
+
+@end
+

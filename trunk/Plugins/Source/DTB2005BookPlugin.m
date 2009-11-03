@@ -154,7 +154,7 @@
 					bookData.baseFolderPath = [[NSURL alloc] initFileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent] isDirectory:YES];
 				
 				[controlDoc processData];
-				
+
 				ncxLoaded = YES;
 			}
 			else
@@ -169,6 +169,8 @@
 			{
 				if(opfLoaded)
 				{	
+					_mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
+
 					navCon.packageDocument = packageDoc;
 					
 					packageDoc = nil;
@@ -180,7 +182,7 @@
 					controlDoc = nil;
 					currentPlugin = self;
 				}
-				
+				navCon.bookMediaFormat = _mediaFormat;
 				[navCon prepareForPlayback];
 				
 			}

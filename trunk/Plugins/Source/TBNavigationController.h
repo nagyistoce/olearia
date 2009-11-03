@@ -33,6 +33,8 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 {
 	TBBookData			*bookData;
 	
+	TalkingBookMediaFormat bookMediaFormat;
+	
 	TBPackageDoc		*packageDocument;
 	TBControlDoc		*controlDocument;
 	TBTextContentDoc	*textDocument;
@@ -81,6 +83,7 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 - (void)jumpAudioForwardInTime;
 - (void)jumpAudioBackInTime;
 
+@property (readwrite)			TalkingBookMediaFormat bookMediaFormat;
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;

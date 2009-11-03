@@ -21,7 +21,11 @@
 
 #import "TBBookData.h"
 
-static TBBookData *sharedTBBookData = nil;
+NSString * const PreferredSynthesizerVoice = @"preferredVoiceIdentifier";
+NSString * const AudioPlaybackRate = @"audioPlaybackRate";
+NSString * const AudioPlaybackVolume = @"audioPlaybackVolume";
+
+static TBBookData *sharedBookDataManager = nil;
 
 @implementation TBBookData
 
@@ -29,79 +33,58 @@ static TBBookData *sharedTBBookData = nil;
 {
     @synchronized(self)
 	{
-		if(sharedTBBookData == nil) 
+		if(sharedBookDataManager == nil) 
 		{
-			sharedTBBookData = [[self alloc] init]; 
+			sharedBookDataManager = [[self alloc] init]; 
 		}
 	}
-	return sharedTBBookData;
+	return sharedBookDataManager;
 }
 
 
 - (id) init
 {
-	self = [super init];
-	if (self != nil) 
+	Class myClass = [self class];
+    @synchronized(myClass) 
 	{
-		[self resetForNewBook];
-	}
-	return self;
-}
-
-- (void) dealloc
-{
-	
-	self.bookTitle = nil;
-	self.bookSubject = nil;
-	self.sectionTitle = nil;
-	self.currentLevelString = nil;
-	self.currentPageString = nil;
-	self.bookTotalTime = nil;
-	self.baseFolderPath = nil;
-	self.preferredVoiceIdentifier = nil;
-	
-	[super dealloc];
+        if (sharedBookDataManager == nil) 
+		{
+            if ((self = [super init])) 
+			{
+                sharedBookDataManager = self;
+                
+            }
+        }
+    }
+	[self resetData];
+    return sharedBookDataManager;
 }
 
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    @synchronized(self) {
-        if (sharedTBBookData == nil) {
-            sharedTBBookData = [super allocWithZone:zone];
-            return sharedTBBookData;  // assignment and return on first allocation
+    @synchronized(self) 
+	{
+        if (sharedBookDataManager == nil) 
+		{
+            sharedBookDataManager = [super allocWithZone:zone];
         }
     }
-    return nil; //on subsequent allocation attempts return nil
+	return sharedBookDataManager;
 }
 
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
+- (id)copyWithZone:(NSZone *)zone { return self; }
 
-- (id)retain
-{
-    return self;
-}
+- (id)retain{ return self; }
 
-- (NSUInteger)retainCount
-{
-    return UINT_MAX;  //denotes an object that cannot be released
-}
+- (NSUInteger)retainCount{ return UINT_MAX; }
 
-- (void)release
-{
-    //do nothing
-}
+- (void)release{}
 
-- (id)autorelease
-{
-    return self;
-}
+- (id)autorelease{ return self; }
 
 
-- (void)resetForNewBook
+- (void)resetData
 {
 	// set the defaults for the newly loaded book before they are updated
 	self.totalPages = 0;
@@ -110,8 +93,8 @@ static TBBookData *sharedTBBookData = nil;
 	self.bookTitle = LocalizedStringInTBFrameworkBundle(@"No Title", @"no title string");
 	self.bookSubject = LocalizedStringInTBFrameworkBundle(@"No Subject", @"no subject string");
 	self.currentPageNumber = 0;
-	self.sectionTitle = nil;
-	self.bookTotalTime = nil;
+	self.sectionTitle = @"";
+	self.bookTotalTime = @"";
 	self.hasNextChapter = NO;
 	self.hasPreviousChapter = NO;
 	self.hasLevelUp = NO;
@@ -121,7 +104,7 @@ static TBBookData *sharedTBBookData = nil;
 	self.isPlaying = NO;
 	self.localBookSettingsHaveChanged = NO;
 	self.baseFolderPath = nil;
-	self.mediaFormat = UnknownMediaFormat;
+	//self.mediaFormat = UnknownMediaFormat;
 	self.voicePlaybackVolume = (float)1.0;
 		
 }
@@ -154,38 +137,38 @@ static TBBookData *sharedTBBookData = nil;
 		self.currentPageString = LocalizedStringInTBFrameworkBundle(@"No Page Numbers", @"no page numbers string");
 }
 
-- (void)setMediaFormatFromString:(NSString *)mediaTypeString
-{
-	if(nil != mediaTypeString)
-	{
-		// make sure the string is lowercase for proper evaluation
-		NSString *typeStr = [mediaTypeString lowercaseString];
-		
-		// set the mediaformat accordingly
-		if([typeStr isEqualToString:@"audiofulltext"])
-			self.mediaFormat = AudioFullTextMediaFormat;
-		else if([typeStr isEqualToString:@"audioparttext"])
-			self.mediaFormat = AudioPartialTextMediaFormat;
-		else if([typeStr isEqualToString:@"audioonly"])
-			self.mediaFormat = AudioOnlyMediaFormat;
-		else if(([typeStr isEqualToString:@"audioncc"])||([typeStr isEqualToString:@"audioncx"]))
-			self.mediaFormat = AudioNcxOrNccMediaFormat;
-		else if([typeStr isEqualToString:@"textpartaudio"])
-			self.mediaFormat = TextPartialAudioMediaFormat;
-		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
-			self.mediaFormat = TextOnlyNcxOrNccMediaFormat;
-		else 
-			self.mediaFormat = UnknownMediaFormat;		
-	}
-	else
-		self.mediaFormat = UnknownMediaFormat;
-
-}
+//- (void)setMediaFormatFromString:(NSString *)mediaTypeString
+//{
+//	if(nil != mediaTypeString)
+//	{
+//		// make sure the string is lowercase for proper evaluation
+//		NSString *typeStr = [mediaTypeString lowercaseString];
+//		
+//		// set the mediaformat accordingly
+//		if([typeStr isEqualToString:@"audiofulltext"])
+//			self.mediaFormat = AudioFullTextMediaFormat;
+//		else if([typeStr isEqualToString:@"audioparttext"])
+//			self.mediaFormat = AudioPartialTextMediaFormat;
+//		else if([typeStr isEqualToString:@"audioonly"])
+//			self.mediaFormat = AudioOnlyMediaFormat;
+//		else if(([typeStr isEqualToString:@"audioncc"])||([typeStr isEqualToString:@"audioncx"]))
+//			self.mediaFormat = AudioNcxOrNccMediaFormat;
+//		else if([typeStr isEqualToString:@"textpartaudio"])
+//			self.mediaFormat = TextPartialAudioMediaFormat;
+//		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
+//			self.mediaFormat = TextOnlyNcxOrNccMediaFormat;
+//		else 
+//			self.mediaFormat = UnknownMediaFormat;		
+//	}
+//	else
+//		self.mediaFormat = UnknownMediaFormat;
+//
+//}
 
 // bindings related
 @synthesize bookTitle = m_bookTitle, bookSubject = m_bookSubject;
 @synthesize sectionTitle = m_sectionTitle, bookTotalTime = m_bookTotalTime;
-@synthesize mediaFormat = m_mediaFormat;
+//@synthesize mediaFormat = m_mediaFormat;
 @synthesize currentLevel = m_currentLevel, currentLevelString = m_currentLevelString;
 @synthesize currentPageNumber = m_currentPageNumber, currentPageString = m_currentPageString;
 @synthesize totalPages = m_totalPages;

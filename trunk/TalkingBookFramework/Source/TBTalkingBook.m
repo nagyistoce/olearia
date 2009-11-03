@@ -480,7 +480,7 @@
 	
 	self.canPlay = NO;
 	
-	[bookData resetForNewBook];
+	[bookData resetData];
 	
 	if(currentPlugin)
 		[currentPlugin reset];

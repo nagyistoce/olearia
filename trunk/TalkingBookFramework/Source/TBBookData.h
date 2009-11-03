@@ -22,22 +22,25 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 
-typedef enum 
-	{
-		AudioFullTextMediaFormat,
-		AudioPartialTextMediaFormat,
-		AudioNcxOrNccMediaFormat,
-		AudioOnlyMediaFormat,
-		TextPartialAudioMediaFormat,
-		TextOnlyNcxOrNccMediaFormat,
-		UnknownMediaFormat
-	} TalkingBookMediaFormat;
+//typedef enum 
+//	{
+//		FullAudioFullTextMediaFormat,
+//		FullAudioPartialTextMediaFormat,
+//		AudioWithControlMediaFormat,
+//		AudioOnlyMediaFormat,
+//		FullTextPartialAudioMediaFormat,
+//		TextWithControlMediaFormat,
+//		UnknownMediaFormat
+//	} TalkingBookMediaFormat;
 
-extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
+extern NSString * const PreferredSynthesizerVoice;
+extern NSString * const AudioPlaybackRate;
+extern NSString * const AudioPlaybackVolume;
+
 
 @interface TBBookData : NSObject 
 {
-	// bindings ivars
+	
 	NSString				*m_bookTitle;
 	NSString				*m_bookSubject;
 	NSString				*m_sectionTitle;
@@ -64,7 +67,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 	
 	BOOL					m_localBookSettingsHaveChanged;
 	
-	TalkingBookMediaFormat	m_mediaFormat;
+	//TalkingBookMediaFormat	m_mediaFormat;
 
 	
 	NSURL					*m_baseFolderPath;
@@ -105,7 +108,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite) BOOL		hasPreviousSegment;
 @property (readwrite) BOOL		isPlaying;
 
-@property (readwrite)			TalkingBookMediaFormat mediaFormat;
+//@property (readwrite)			TalkingBookMediaFormat mediaFormat;
 
 @property (readwrite,retain)	NSURL *baseFolderPath;
 
@@ -120,7 +123,7 @@ extern NSString * const TalkingBookAudioSegmentDidChangeNotification;
 @property (readwrite)		float		voicePlaybackVolume;
 
 + (TBBookData *)sharedBookData;
-- (void)resetForNewBook;
-- (void)setMediaFormatFromString:(NSString *)mediaTypeString;
+- (void)resetData;
+//- (void)setMediaFormatFromString:(NSString *)mediaTypeString;
 
 @end

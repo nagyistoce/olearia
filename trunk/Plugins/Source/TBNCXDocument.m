@@ -86,7 +86,11 @@
 	
 	if(nil != tempStr)
 		tempStr = nil;
+	
+	[self jumpToNodeWithPath:nil];
+
 }
+
 
 #pragma mark -
 #pragma mark Information
@@ -94,7 +98,7 @@
 - (void)updateDataForCurrentPosition
 {
 	NSString *sectionStr = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
-	bookData.sectionTitle = (sectionStr != nil) ? [sectionStr copy] : self.bookData.sectionTitle;   
+	bookData.sectionTitle = (sectionStr != nil) ? [sectionStr copy] : bookData.sectionTitle;   
 	bookData.currentLevel = [self levelOfNode:currentNavPoint];
 	bookData.hasLevelUp = [self canGoUpLevel];
 	bookData.hasLevelDown = [self canGoDownLevel];
