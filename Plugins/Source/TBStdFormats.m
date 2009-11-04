@@ -247,7 +247,7 @@
 					break;
 				default:
 					// check if the user wants to use the synthesized voice and its Full Text, Full Audio
-					if ((![bookData ignoreRecordedAudioContent]) && (FullAudioFullTextMediaFormat == _mediaFormat)) 
+					if ((![bookData ignoreRecordedAudioContent]) && ((FullAudioFullTextMediaFormat == _mediaFormat) || (AudioWithControlMediaFormat == _mediaFormat)) ) 
 					{
 						navCon = [[TBNavigationController alloc] init];
 					}

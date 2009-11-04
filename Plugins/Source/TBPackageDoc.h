@@ -24,7 +24,6 @@
 	NSXMLDocument			*xmlPackageDoc;
 	
 	TBBookData				*bookData;
-	//	TalkingBookMediaFormat mediaFormat;
 	
 	NSString				*ncxFilename;
 	NSString				*textContentFilename;

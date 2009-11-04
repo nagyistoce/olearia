@@ -80,18 +80,26 @@
 			[smilDocument jumpToNodeWithIdTag:currentTag];
 			
 			filename = [smilDocument relativeTextFilePath];
-			
-			if(!textDocument)
-				textDocument = [[TBTextContentDoc alloc] init];
-			
-			if(![currentTextFilename isEqualToString:filename])
+			if(filename)
 			{
-				currentTextFilename = [filename copy];
-				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
+				if(!textDocument)
+					textDocument = [[TBTextContentDoc alloc] init];
+				
+				if(![currentTextFilename isEqualToString:filename])
+				{
+					currentTextFilename = [filename copy];
+					[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
+				}
+				[textDocument jumpToNodeWithIdTag:currentTag];
+				[textDocument updateDataAfterJump];
+				_contentToSpeak = [textDocument contentText];
 			}
-			[textDocument jumpToNodeWithIdTag:currentTag];
-			[textDocument updateDataAfterJump];
-			_contentToSpeak = [textDocument contentText];
+			else // no audio filenames found 
+			{
+				
+			}
+
+
 
 		}
 		else

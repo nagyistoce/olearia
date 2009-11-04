@@ -47,6 +47,7 @@
 	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
+	_mediaFormat = UnknownMediaFormat;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
 	if([self canOpenBook:bookURL])
@@ -150,13 +151,14 @@
 		
 		if(ncxLoaded || opfLoaded)
 		{
+			_mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
 			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
 			
 			if (navConDidLoad) 
 			{
+				navCon.bookMediaFormat = _mediaFormat;
 				if(opfLoaded)
 				{	
-					_mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
 					navCon.packageDocument = packageDoc;
 					packageDoc = nil;
 					currentPlugin = self;
@@ -169,7 +171,6 @@
 					currentPlugin = self;
 				}
 				
-				navCon.bookMediaFormat = _mediaFormat;
 				[navCon prepareForPlayback];
 				
 				

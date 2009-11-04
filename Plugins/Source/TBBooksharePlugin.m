@@ -39,6 +39,7 @@
 	BOOL ncxLoaded = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
+	_mediaFormat = UnknownMediaFormat;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
 	if([self canOpenBook:bookURL])
@@ -150,13 +151,17 @@
 		
 		if(ncxLoaded || opfLoaded)
 		{
+			
 			if(!navCon)
 				navCon = [[TBBookshareNavigationController alloc] init];
-			
 			[navCon resetController];
+			
+			_mediaFormat = TextWithControlMediaFormat;
+			navCon.bookMediaFormat = _mediaFormat;
 			
 			if(opfLoaded)
 			{	
+				
 				navCon.packageDocument = packageDoc;
 				packageDoc = nil;
 				currentPlugin = self;

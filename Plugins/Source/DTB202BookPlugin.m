@@ -55,6 +55,7 @@
 	BOOL nccLoaded = NO;
 	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
+	_mediaFormat = UnknownMediaFormat;
 
 	// do a sanity check first to see that we can attempt to open the URL. 
 	if([self canOpenBook:bookURL])
@@ -116,10 +117,10 @@
 					bookData.baseFolderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
-				NSString *bookFormatString = [[controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil] uppercaseString];
-				if(YES == [bookFormatString isEqualToString:@"DAISY 2.02"])
+				NSString *bookFormatString = [controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil];
+				if(YES == [bookFormatString hasSuffix:@"2.02"])
 				{
-					_mediaFormat = [self mediaFormatFromString:[controlDoc mediaFormatString]];
+					
 					[controlDoc processData];
 					nccLoaded = YES;
 				}
@@ -142,15 +143,17 @@
 		
 		if(nccLoaded)
 		{
+			_mediaFormat = [self mediaFormatFromString:[controlDoc mediaFormatString]];
 			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
 			
 			if (navConDidLoad)
 			{
 				
+				navCon.bookMediaFormat = _mediaFormat;
 				navCon.controlDocument = controlDoc;
 				controlDoc = nil;
 				
-				[navCon moveControlPoint:nil withTime:nil];
+				//[navCon moveControlPoint:nil withTime:nil];
 				
 				[navCon prepareForPlayback];
 				
