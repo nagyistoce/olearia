@@ -164,11 +164,12 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 	
 	if(controlDocument)
 	{
-		if(nil == controlDocument.currentNavPoint)
-		{	
-			[controlDocument jumpToNodeWithPath:nil];
-			currentTag = [controlDocument currentIdTag];
+		if ([controlDocument isKindOfClass:[TBNCXDocument class]])
+		{
+			if(nil == controlDocument.currentNavPoint)
+				[controlDocument jumpToNodeWithPath:nil];
 		}
+		currentTag = [controlDocument currentIdTag];
 		
 		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
 		if([[filename pathExtension] isEqualToString:@"smil"])
@@ -183,25 +184,25 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 				currentSmilFilename = [filename copy];
 				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
-			_currentAudioFilename = smilDocument.relativeAudioFilePath;
+			_currentAudioFilename = [smilDocument relativeAudioFilePath];
 		}
 		else
 		{
 			// no smil filename
+			// take the audio filename directly from the control document
 			
 		}
 		
 		if(_currentAudioFilename) 
 		{	
-	
-			
-
-			
-			if([self updateAudioFile:_currentAudioFilename])
-			{
-				currentTag = [controlDocument currentIdTag];			
-			}
+			[self updateAudioFile:_currentAudioFilename];
 		}
+		else // no audio filename found
+		{
+			[controlDocument moveToNextSegment];
+			[self prepareForPlayback];
+		}
+
 			
 	
 	}

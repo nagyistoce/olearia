@@ -281,7 +281,6 @@
 
 }
 
-//@synthesize bookData;
 @synthesize currentPositionID;
 @synthesize navigateForChapters;
 @synthesize currentNavPoint;

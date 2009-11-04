@@ -27,7 +27,6 @@
 	NSURL				*fileURL;
 	
 	TBBookData			*bookData;
-	//	TalkingBookMediaFormat mediaFormat;
 	
 	NSXMLNode			*currentNavPoint;
 	
@@ -72,7 +71,7 @@
 
 @property (readwrite, copy)	NSXMLNode			*currentNavPoint;
 @property (readonly, copy)	NSURL				*fileURL;
-@property (readwrite, copy) NSString *currentPositionID;
+@property (readwrite, copy) NSString			*currentPositionID;
 @property (readwrite) BOOL navigateForChapters;
 
 

@@ -36,7 +36,6 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	//	mediaFormat = UnknownMediaFormat;
 	
 	return self;
 }
