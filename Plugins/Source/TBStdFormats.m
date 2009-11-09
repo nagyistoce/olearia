@@ -191,28 +191,20 @@
 	return nil;
 }
 
-- (NSString *)currentPlaybackTime
-{
-	if(navCon)
-		return [navCon currentTime];
-	
-	return nil;
-}
-
 - (NSString *)currentControlPoint
 {
-	if(navCon)
-		return [navCon currentNodePath];
+	return (navCon) ? [navCon currentNodePath] : nil;
+}
 
-	return nil;
+- (NSString *)currentPlaybackTime
+{
+	return (navCon) ? [navCon currentPlaybackTime] : nil;
 }
 
 - (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
 {
 	if(navCon)
 		[navCon moveControlPoint:aPoint withTime:aTime];
-		
-	
 }
 
 - (BOOL)loadCorrectNavControllerForBookFormat
@@ -225,10 +217,12 @@
 	{
 		if(([navCon isKindOfClass:[TBNavigationController class]]) && (_mediaFormat == TextWithControlMediaFormat))
 		{
+			[navCon release];
 			navCon = nil;
 		}
 		else if(([navCon isKindOfClass:[TBTextOnlyNavigationController class]]) && (_mediaFormat != TextWithControlMediaFormat))
 		{	
+			[navCon release];
 			navCon = nil;
 		}
 	}
@@ -243,6 +237,7 @@
 					loadedOK = YES;
 					break;
 				case UnknownMediaFormat:
+					[navCon release];
 					navCon = nil;
 					break;
 				default:

@@ -69,16 +69,16 @@
 			
 			// check if the smil file REALLY needs to be loaded
 			// Failsafe for single smil books 
-			if(![currentSmilFilename isEqualToString:smilFilename])
+			if(![_currentSmilFilename isEqualToString:smilFilename])
 			{
-				currentSmilFilename = [smilFilename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
+				_currentSmilFilename = [smilFilename copy];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 		}
 		
 		// set the smil file to the correct start point for navigation and playback
-		currentTag = [controlDocument currentIdTag];
-		[smilDocument jumpToNodeWithIdTag:currentTag];
+		_currentTag = [controlDocument currentIdTag];
+		[smilDocument jumpToNodeWithIdTag:_currentTag];
 		
 		
 		// load the text content document
@@ -87,10 +87,10 @@
 			if(!textDocument)
 				textDocument = [[TBBookshareTextContentDoc alloc] init];
 			
-			if(![currentTextFilename isEqualToString:packageDocument.textContentFilename])
+			if(![_currentTextFilename isEqualToString:packageDocument.textContentFilename])
 			{
-				currentTextFilename = [[packageDocument textContentFilename] copy];
-				[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
+				_currentTextFilename = [[packageDocument textContentFilename] copy];
+				[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
 			[textDocument updateDataAfterJump];
@@ -140,17 +140,17 @@
 //	if(controlDocument)
 //	{	
 //		[controlDocument moveToNextSegmentAtSameLevel];
-//		currentTag = [controlDocument currentIdTag];
+//		_currentTag = [controlDocument currentIdTag];
 //	}
 	
 	if(smilDocument)
 	{
 		[smilDocument nextTextPlaybackPoint];
 		[smilDocument updateAfterPositionChange];
-		currentTag = [smilDocument currentIdTag];
+		_currentTag = [smilDocument currentIdTag];
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 
 	if(bookData.isPlaying)
 	{
@@ -158,7 +158,7 @@
 		{
 			[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
 		}
-		[textDocument jumpToNodeWithIdTag:currentTag];
+		[textDocument jumpToNodeWithIdTag:_currentTag];
 		[textDocument updateDataAfterJump];
 		_contentToSpeak = [textDocument contentText];
 		[mainSpeechSynth startSpeakingString:_contentToSpeak];
@@ -171,14 +171,14 @@
 	if(smilDocument)
 	{
 		[smilDocument previousTextPlaybackPoint];
-		currentTag = [smilDocument currentIdTag];
+		_currentTag = [smilDocument currentIdTag];
 	}	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	
 	//[super updateAfterNavigationChange];
 	
 	[textDocument updateDataAfterJump];
-	//[textDocument startSpeakingFromIdTag:currentTag];
+	//[textDocument startSpeakingFromIdTag:_currentTag];
 }
 
 - (void)goUpLevel
@@ -186,14 +186,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument goUpALevel];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
-	[self updateAfterNavigationChange];
+	[super updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument jumpToNodeWithIdTag:_currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -206,13 +206,13 @@
 	if(controlDocument)
 	{	
 		[controlDocument goDownALevel];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument jumpToNodeWithIdTag:_currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -221,3 +221,56 @@
 
 
 @end
+
+@implementation TBBookshareNavigationController (SpeechDelegate)
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+{
+	if(sender == mainSpeechSynth)
+	{	
+		if (!_didUserNavigationChange)
+		{
+			if (smilDocument)
+			{
+				[smilDocument nextTextPlaybackPoint];
+				_currentTag = [smilDocument currentIdTag];
+				[textDocument jumpToNodeWithIdTag:_currentTag];
+				[textDocument updateDataForCurrentPosition];
+				_contentToSpeak = [textDocument contentText];
+				[self startPlayback];
+			}
+		}
+		//		if(_mainSynthIsSpeaking)
+		//			[mainSpeechSynth continueSpeaking];
+		//				else
+		//				{	
+		//				if(!_didUserNavigationChange)
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//					else
+		//					{	
+		//						_didUserNavigationChange = NO;
+		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+		//				}
+		
+		
+		
+	}
+	
+	
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+{
+	//	if(sender == mainSpeechSynth)
+	//	{
+	//		//NSLog(@"word num is %d",wordToSpeak.location);
+	//	}
+	// send a notifcation or tell the web/text view to 
+	//highlight the current word about to be spoken
+	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+	//NSLog(@"speaking -> %@",wordIs);
+}
+
+
+@end
+

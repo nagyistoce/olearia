@@ -88,7 +88,7 @@
 		if(packageFileUrl)
 		{
 			if(!packageDoc)
-				packageDoc = [[TBOPFDocument alloc] init];
+				packageDoc = [[[TBOPFDocument alloc] init] autorelease];
 						
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
@@ -132,7 +132,7 @@
 		if (controlFileURL)
 		{
 			if(!controlDoc)
-				controlDoc = [[TBNCXDocument alloc] init];
+				controlDoc = [[[TBNCXDocument alloc] init] autorelease];
 				
 			// check if the folder path has already been set
 			if (!bookData.baseFolderPath)

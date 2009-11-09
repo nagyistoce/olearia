@@ -179,7 +179,6 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		if(nil != validFilePath)
 		if(NO == [self loadBookAtPath:validFilePath])
 		{
-			//[recentBooksMenu removeItemAtIndex:0];
 			[_recentBooks removeObjectAtIndex:0];
 		}
 	}
@@ -615,7 +614,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 		if(foundIndex != NSNotFound)
 		{   
 			// get the settings that have been saved previously
-			NSMutableDictionary *savedSettings = [[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:foundIndex]];
+			NSMutableDictionary *savedSettings = [[[NSMutableDictionary alloc] initWithDictionary:[_recentBooks objectAtIndex:foundIndex]] autorelease];
 			
 			// set the newly loaded book to the settings that were saved for it	
 			talkingBook.bookData.audioPlaybackRate = [[savedSettings valueForKey:@"AudioRate"] floatValue];

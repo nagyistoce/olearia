@@ -48,12 +48,12 @@ extern NSString * const AudioPlaybackVolume;
 	NSInteger				m_totalPages;
 	NSInteger				m_currentPageNumber;
 	NSString				*m_currentPageString;
-	NSString				*m_bookTotalTime;
-	
+	QTTime					m_totalPlaybackTime;
+	QTTime					m_currentPlaybackTime;
+	NSString				*m_totalPlaybackTimeString;
+	NSString				*m_currentPlaybackTimeString;
 	NSString				*m_currentLevelString;
 	NSInteger				m_currentLevel;
-	
-
 	
 	BOOL					m_hasNextChapter;
 	BOOL					m_hasPreviousChapter;
@@ -66,9 +66,6 @@ extern NSString * const AudioPlaybackVolume;
 	QTTime					m_audioSkipDuration;
 	
 	BOOL					m_localBookSettingsHaveChanged;
-	
-	//TalkingBookMediaFormat	m_mediaFormat;
-
 	
 	NSURL					*m_baseFolderPath;
 	
@@ -96,9 +93,14 @@ extern NSString * const AudioPlaybackVolume;
 
 @property (readwrite)		NSInteger	currentPageNumber;
 @property (readwrite, copy)	NSString	*currentPageString;
-@property (readwrite)		NSInteger	totalPages;
 
-@property (readwrite, copy)	NSString	*bookTotalTime;
+@property (readwrite) QTTime					totalPlaybackTime;
+@property (readwrite) QTTime					currentPlaybackTime;
+@property (readwrite, copy) NSString			*totalPlaybackTimeString;
+@property (readwrite, copy) NSString			*currentPlaybackTimeString;
+
+
+@property (readwrite)		NSInteger	totalPages;
 
 @property (readwrite) BOOL		hasNextChapter;
 @property (readwrite) BOOL		hasPreviousChapter;
@@ -107,8 +109,6 @@ extern NSString * const AudioPlaybackVolume;
 @property (readwrite) BOOL		hasNextSegment;
 @property (readwrite) BOOL		hasPreviousSegment;
 @property (readwrite) BOOL		isPlaying;
-
-//@property (readwrite)			TalkingBookMediaFormat mediaFormat;
 
 @property (readwrite,retain)	NSURL *baseFolderPath;
 
@@ -124,6 +124,5 @@ extern NSString * const AudioPlaybackVolume;
 
 + (TBBookData *)sharedBookData;
 - (void)resetData;
-//- (void)setMediaFormatFromString:(NSString *)mediaTypeString;
 
 @end

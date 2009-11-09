@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="21"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1223,7 +1223,7 @@
 				<string key="NSClassName">OleariaDelegate</string>
 			</object>
 			<object class="NSCustomView" id="920940361">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1232,7 +1232,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 104}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="200395421">
 							<int key="NSCellFlags">-1543110912</int>
@@ -1259,7 +1258,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{175, 138}, {65, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="203774473">
 							<int key="NSCellFlags">68288064</int>
@@ -1276,7 +1274,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{158, 77}, {113, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="252880672">
 							<int key="NSCellFlags">68288064</int>
@@ -1293,7 +1290,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{242, 138}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="139382963">
 							<int key="NSCellFlags">68288064</int>
@@ -1385,7 +1381,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{273, 77}, {25, 17}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="88537448">
 							<int key="NSCellFlags">68288064</int>
@@ -1466,7 +1461,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 43}, {420, 26}}</string>
 						<reference key="NSSuperview" ref="920940361"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="755523758">
 							<int key="NSCellFlags">604372736</int>
@@ -1486,8 +1480,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{456, 170}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="192939471">
@@ -3211,10 +3203,14 @@
 							<string key="NSLabel">value: selection.currentPageString</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.currentPageString</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1613</int>
+					<int key="connectionID">1615</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3227,10 +3223,14 @@
 							<string key="NSLabel">value: selection.currentLevelString</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.currentLevelString</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1614</int>
+					<int key="connectionID">1616</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3278,12 +3278,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="559037786"/>
 							<reference ref="611061652"/>
-							<reference ref="545486584"/>
 							<reference ref="939407542"/>
 							<reference ref="571463815"/>
 							<reference ref="1051725117"/>
 							<reference ref="934308096"/>
 							<reference ref="78723870"/>
+							<reference ref="545486584"/>
 						</object>
 						<reference key="parent" ref="26522841"/>
 					</object>
@@ -4880,7 +4880,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1614</int>
+			<int key="maxID">1616</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

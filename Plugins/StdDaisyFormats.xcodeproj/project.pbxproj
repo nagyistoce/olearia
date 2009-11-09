@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */; };
+		EE121F7D0FE0D2CB000F8447 /* BBSAudioSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F7C0FE0D2CB000F8447 /* BBSAudioSegment.m */; };
 		EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */; };
 		EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1ACD250FD3910000F88F96 /* TBOPFNimasDocument.m */; };
 		EE247B57100AD5B300C51EC5 /* TBTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EE247B56100AD5B300C51EC5 /* TBTextContentDoc.m */; };
@@ -68,8 +68,8 @@
 		32DBCF630370AF2F00C91783 /* StdDaisyFormats_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdDaisyFormats_Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* StdDaisyFormats.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StdDaisyFormats.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EE121F7B0FE0D2CB000F8447 /* TBAudioSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBAudioSegment.h; sourceTree = "<group>"; };
-		EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBAudioSegment.m; sourceTree = "<group>"; };
+		EE121F7B0FE0D2CB000F8447 /* BBSAudioSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSAudioSegment.h; sourceTree = "<group>"; };
+		EE121F7C0FE0D2CB000F8447 /* BBSAudioSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSAudioSegment.m; sourceTree = "<group>"; };
 		EE121F820FE0D6E5000F8447 /* TBSMILDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBSMILDocument.h; sourceTree = "<group>"; };
 		EE121F830FE0D6E5000F8447 /* TBSMILDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBSMILDocument.m; sourceTree = "<group>"; };
 		EE1ACD240FD3910000F88F96 /* TBOPFNimasDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBOPFNimasDocument.h; sourceTree = "<group>"; };
@@ -269,8 +269,8 @@
 		EE121F760FE0D2A1000F8447 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				EE121F7B0FE0D2CB000F8447 /* TBAudioSegment.h */,
-				EE121F7C0FE0D2CB000F8447 /* TBAudioSegment.m */,
+				EE121F7B0FE0D2CB000F8447 /* BBSAudioSegment.h */,
+				EE121F7C0FE0D2CB000F8447 /* BBSAudioSegment.m */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -522,7 +522,7 @@
 				EECDD4100FCBD56A00C0EDDC /* TBOPFDocument.m in Sources */,
 				EECDD4180FCBD5D700C0EDDC /* TBPackageDoc.m in Sources */,
 				EE1ACD260FD3910000F88F96 /* TBOPFNimasDocument.m in Sources */,
-				EE121F7D0FE0D2CB000F8447 /* TBAudioSegment.m in Sources */,
+				EE121F7D0FE0D2CB000F8447 /* BBSAudioSegment.m in Sources */,
 				EE121F840FE0D6E5000F8447 /* TBSMILDocument.m in Sources */,
 				EE3172CF0FE0D9B100B27804 /* NSString-TBAdditions.m in Sources */,
 				EEFC92971042A67B000D9864 /* NSXMLNode-TBAdditions.m in Sources */,
