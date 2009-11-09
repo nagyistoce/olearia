@@ -69,15 +69,15 @@
 			
 			// check if the smil file REALLY needs to be loaded
 			// Failsafe for single smil books 
-			if(![currentSmilFilename isEqualToString:filename])
+			if(![_currentSmilFilename isEqualToString:filename])
 			{
-				currentSmilFilename = [filename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
+				_currentSmilFilename = [filename copy];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
 			// set the smil file to the correct start point for navigation and playback
-			currentTag = [controlDocument currentIdTag];
-			[smilDocument jumpToNodeWithIdTag:currentTag];
+			_currentTag = [controlDocument currentIdTag];
+			[smilDocument jumpToNodeWithIdTag:_currentTag];
 			
 			filename = [smilDocument relativeTextFilePath];
 			if(filename)
@@ -85,12 +85,12 @@
 				if(!textDocument)
 					textDocument = [[TBTextContentDoc alloc] init];
 				
-				if(![currentTextFilename isEqualToString:filename])
+				if(![_currentTextFilename isEqualToString:filename])
 				{
-					currentTextFilename = [filename copy];
-					[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
+					_currentTextFilename = [filename copy];
+					[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
 				}
-				[textDocument jumpToNodeWithIdTag:currentTag];
+				[textDocument jumpToNodeWithIdTag:_currentTag];
 				[textDocument updateDataAfterJump];
 				_contentToSpeak = [textDocument contentText];
 			}
@@ -120,10 +120,10 @@
 //- (void)resetController
 //{
 //	
-//	currentSmilFilename = nil;
-//	currentTextFilename = nil;
-//	currentTag = nil;
-//	m_didUserNavigationChange = NO;
+//	_currentSmilFilename = nil;
+//	_currentTextFilename = nil;
+//	_currentTag = nil;
+//	_didUserNavigationChange = NO;
 //	_mainSynthIsSpeaking = NO;
 //	
 //	// call the supers resetController method which
@@ -162,14 +162,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument moveToNextSegmentAtSameLevel];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	
 	[super updateAfterNavigationChange];
 
-	//[textDocument startSpeakingFromIdTag:currentTag];
+	//[textDocument startSpeakingFromIdTag:_currentTag];
 }
 
 - (void)previousElement
@@ -177,14 +177,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument moveToPreviousSegment];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	
 	[super updateAfterNavigationChange];
 	
-	//[textDocument startSpeakingFromIdTag:currentTag];
+	//[textDocument startSpeakingFromIdTag:_currentTag];
 }
 
 - (void)goUpLevel
@@ -192,14 +192,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument goUpALevel];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument jumpToNodeWithIdTag:_currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -212,13 +212,13 @@
 	if(controlDocument)
 	{	
 		[controlDocument goDownALevel];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument jumpToNodeWithIdTag:_currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -231,16 +231,16 @@
 	if(controlDocument)
 	{	
 		[controlDocument jumpToNodeWithPath:aNodePath];
-		currentTag = [controlDocument currentIdTag];
+		_currentTag = [controlDocument currentIdTag];
 	}
 	else if(packageDocument)
 	{
 		// need to add navigation methods for package documents
 	}
 	
-	m_didUserNavigationChange = YES;
+	_didUserNavigationChange = YES;
 	
-	[textDocument jumpToNodeWithIdTag:currentTag];
+	[textDocument jumpToNodeWithIdTag:_currentTag];
 	
 	[self updateAfterNavigationChange];
 	[textDocument updateDataAfterJump];
@@ -278,14 +278,14 @@
 {
 	if(sender == mainSpeechSynth)
 	{	
-		if (!m_didUserNavigationChange)
+		if (!_didUserNavigationChange)
 		{
 			if (controlDocument)
 			{
 				[controlDocument moveToNextSegment];
 				[controlDocument updateDataForCurrentPosition];
-				currentTag = [controlDocument currentIdTag];
-				[textDocument jumpToNodeWithIdTag:currentTag];
+				_currentTag = [controlDocument currentIdTag];
+				[textDocument jumpToNodeWithIdTag:_currentTag];
 				_contentToSpeak = [textDocument contentText];
 				[self startPlayback];
 			}
@@ -294,11 +294,11 @@
 		//			[mainSpeechSynth continueSpeaking];
 		//				else
 		//				{	
-		//				if(!m_didUserNavigationChange)
+		//				if(!_didUserNavigationChange)
 		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
 		//					else
 		//					{	
-		//						m_didUserNavigationChange = NO;
+		//						_didUserNavigationChange = NO;
 		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
 		//				}
 		

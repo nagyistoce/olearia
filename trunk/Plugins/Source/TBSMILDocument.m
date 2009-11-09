@@ -49,8 +49,8 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	_currentFileURL = [[NSURL alloc] init];
-	_currentNode = [[NSXMLNode alloc] init];
+	//_currentFileURL = [[NSURL alloc] init];
+	//_currentNode = [[NSXMLNode alloc] init];
 	currentNodePath = [[NSString alloc] init];
 	
 	return self;
@@ -130,10 +130,9 @@
 - (NSArray *)audioChapterMarkersForFilename:(NSString *)aFile WithTimescale:(long)aScale
 {
 	NSMutableArray *chapMarkers = [[NSMutableArray alloc] init];
-	NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//par[audio[@src='%@']])",aFile];
+	NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//par[audio[@src='%@']])",aFile,aFile];
 	
-	NSArray *parNodes = nil;
-	parNodes = [[_xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil];
+	NSArray *parNodes = [[_xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil];
 	if(![parNodes count])
 	{   // no par nodes found so try another approach used for smil files 
 		queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//audio[@src='%@'])",aFile];
@@ -158,14 +157,15 @@
 		
 		// extract the start time if the id and convert it to a QTTime format
 		[items removeAllObjects];
-		[items addObjectsFromArray:[theNode objectsForXQuery:@".//data(@clip-begin|@clipBegin)" error:nil]];
+		[items addObjectsFromArray:[theNode objectsForXQuery:@".//audio/data(@clip-begin|@clipBegin)" error:nil]];
 		NSString *timeStr = ([items count]) ? [NSString QTStringFromSmilTimeString:[items objectAtIndex:0] withTimescale:aScale] : nil ;  
 		
-		// if we got a chapter nam and a time string create a chapter container and add the data
+		// if we got a chapter name and a time string create a chapter container and add the data
 		// we also add the xpath of the node for the given marker as it is used for restarting playback at a given time.
 		if(chapName && timeStr)
 		{
-			NSDictionary *thisChapter = [[NSDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithQTTime:(QTTimeFromString(timeStr))],QTMovieChapterStartTime,
+			NSDictionary *thisChapter = [[NSDictionary alloc] initWithObjectsAndKeys:
+										 [NSValue valueWithQTTime:(QTTimeFromString(timeStr))],QTMovieChapterStartTime,
 										 chapName,QTMovieChapterName,
 										 xPathStr,@"XPath",
 										 nil];
@@ -174,7 +174,7 @@
 		
 	}
 	
-	return ([chapMarkers count]) ? chapMarkers : nil;
+	return ([chapMarkers count]) ? (NSArray *)chapMarkers : nil;
 }
 
 

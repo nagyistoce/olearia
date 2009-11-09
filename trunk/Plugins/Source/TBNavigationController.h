@@ -26,7 +26,7 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 #import "TBTextContentDoc.h"
 #import  "TBSpeechController.h"
 
-@class TBPackageDoc, TBControlDoc, TBSMILDocument, TBAudioSegment;
+@class TBPackageDoc, TBControlDoc, TBSMILDocument, BBSAudioSegment;
 
 
 @interface TBNavigationController : NSObject 
@@ -42,71 +42,75 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 	NSSpeechSynthesizer	*mainSpeechSynth;
 	NSSpeechSynthesizer *auxiliarySpeechSynth;
 	
-	NSString			*currentSmilFilename;
-	NSString			*currentTextFilename;
-	NSString			*currentTag;
+	NSString			*_currentSmilFilename;
+	NSString			*_currentTextFilename;
+	NSString			*_currentTag;
 	NSString			*_contentToSpeak;
 	
-	TBAudioSegment		*_audioFile;
-	//BOOL				_audioIsLoaded;
+	BBSAudioSegment		*_audioSegment;
 	NSString			*_currentAudioFilename;
-	BOOL				_justAddedChapters;
-	BOOL				m_didUserNavigationChange;
+	BOOL				_didUserNavigationChange;
 	BOOL				_shouldJumpToTime;
-	BOOL				_isPlaying;
 	BOOL				_mainSynthIsSpeaking;
 	QTTime				_timeToJumpTo;
 	
 	
 	NSNotificationCenter *noteCentre;
-
-	
 	
 }
-
-// methods used for setting and getting the current position in the document
-- (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime;
-- (NSString *)currentNodePath;
-- (NSString *)currentTime;
-
-- (void)resetController;
-- (void)prepareForPlayback;
-- (void)startPlayback;
-- (void)stopPlayback;
-- (void)speakLevelChange;
-
-- (void)resetController;
-- (void)nextElement;
-- (void)previousElement;
-- (void)goUpLevel;
-- (void)goDownLevel;
-- (void)jumpAudioForwardInTime;
-- (void)jumpAudioBackInTime;
 
 @property (readwrite)			TalkingBookMediaFormat bookMediaFormat;
 @property (readwrite, retain)	TBPackageDoc		*packageDocument;
 @property (readwrite, retain)	TBControlDoc		*controlDocument;
 @property (readwrite, retain)	TBSMILDocument		*smilDocument;
 @property (readwrite, retain)	TBTextContentDoc	*textDocument;
-@property (readwrite, copy)		NSString			*currentTag;
-@property (readwrite, copy)		NSString			*currentSmilFilename;
-@property (readwrite, copy)		NSString			*currentTextFilename;
 
+
+@end
+
+@interface TBNavigationController (Playback)
+
+- (void)prepareForPlayback;
+- (void)resetController;
+- (void)startPlayback;
+- (void)stopPlayback;
+
+@end
+
+
+@interface TBNavigationController (Query)
+
+- (NSString *)currentNodePath;
+- (NSString *)currentPlaybackTime;
+
+@end
+
+
+@interface TBNavigationController (Navigation) 
+
+- (void)nextElement;
+- (void)previousElement;
+- (void)goUpLevel;
+- (void)goDownLevel;
+- (void)jumpAudioForwardInTime;
+- (void)jumpAudioBackInTime;
+- (void)moveControlPoint:(NSString *)aNodePath withTime:(NSString *)aTime;
 
 @end
 
 @interface TBNavigationController (Synchronization)
 
 - (void)updateAfterNavigationChange;
+- (void)updateForAudioChapterPosition;
+- (void)addChaptersToAudioSegment;
+- (void)setPreferredAudioAttributes;
+- (BOOL)updateAudioFile:(NSString *)pathToFile;
+- (void)speakLevelChange;
 
 @end
 
-@interface TBNavigationController (SpeechDelegate)
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success;
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text;
 
-@end
 
 
 

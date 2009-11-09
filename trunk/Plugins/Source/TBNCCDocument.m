@@ -253,11 +253,6 @@
 	
 }
 
-- (NSString *)currentSmilFilename
-{
-	return nil;
-}
-
 - (NSString *)contentFilenameFromCurrentNode
 {
 	return [self currentSegmentFilename];
