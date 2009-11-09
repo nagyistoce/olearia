@@ -52,7 +52,14 @@ static TBBookData *sharedBookDataManager = nil;
             if ((self = [super init])) 
 			{
                 sharedBookDataManager = self;
-                
+				m_bookTitle = [[NSString alloc] init];
+				m_bookSubject = [[NSString alloc] init];
+				m_sectionTitle = [[NSString alloc] init];
+				m_totalPlaybackTimeString = [[NSString alloc] init];
+				m_currentPlaybackTimeString = [[NSString alloc] init];
+				m_currentPageString = [[NSString alloc] init];
+				m_currentLevelString = [[NSString alloc] init];
+				m_preferredVoiceIdentifier = [[NSString alloc] init];
             }
         }
     }
@@ -92,9 +99,9 @@ static TBBookData *sharedBookDataManager = nil;
 	self.currentLevel = 1;
 	self.bookTitle = LocalizedStringInTBFrameworkBundle(@"No Title", @"no title string");
 	self.bookSubject = LocalizedStringInTBFrameworkBundle(@"No Subject", @"no subject string");
-	self.currentPageNumber = 0;
 	self.sectionTitle = @"";
-	self.bookTotalTime = @"";
+	self.totalPlaybackTime = QTZeroTime;
+	self.currentPlaybackTime = QTZeroTime;
 	self.hasNextChapter = NO;
 	self.hasPreviousChapter = NO;
 	self.hasLevelUp = NO;
@@ -104,7 +111,6 @@ static TBBookData *sharedBookDataManager = nil;
 	self.isPlaying = NO;
 	self.localBookSettingsHaveChanged = NO;
 	self.baseFolderPath = nil;
-	//self.mediaFormat = UnknownMediaFormat;
 	self.voicePlaybackVolume = (float)1.0;
 		
 }
@@ -137,38 +143,12 @@ static TBBookData *sharedBookDataManager = nil;
 		self.currentPageString = LocalizedStringInTBFrameworkBundle(@"No Page Numbers", @"no page numbers string");
 }
 
-//- (void)setMediaFormatFromString:(NSString *)mediaTypeString
-//{
-//	if(nil != mediaTypeString)
-//	{
-//		// make sure the string is lowercase for proper evaluation
-//		NSString *typeStr = [mediaTypeString lowercaseString];
-//		
-//		// set the mediaformat accordingly
-//		if([typeStr isEqualToString:@"audiofulltext"])
-//			self.mediaFormat = AudioFullTextMediaFormat;
-//		else if([typeStr isEqualToString:@"audioparttext"])
-//			self.mediaFormat = AudioPartialTextMediaFormat;
-//		else if([typeStr isEqualToString:@"audioonly"])
-//			self.mediaFormat = AudioOnlyMediaFormat;
-//		else if(([typeStr isEqualToString:@"audioncc"])||([typeStr isEqualToString:@"audioncx"]))
-//			self.mediaFormat = AudioNcxOrNccMediaFormat;
-//		else if([typeStr isEqualToString:@"textpartaudio"])
-//			self.mediaFormat = TextPartialAudioMediaFormat;
-//		else if(([typeStr isEqualToString:@"textncc"])||([typeStr isEqualToString:@"textncx"]))
-//			self.mediaFormat = TextOnlyNcxOrNccMediaFormat;
-//		else 
-//			self.mediaFormat = UnknownMediaFormat;		
-//	}
-//	else
-//		self.mediaFormat = UnknownMediaFormat;
-//
-//}
+@synthesize localBookSettingsHaveChanged = m_localBookSettingsHaveChanged;
+@synthesize baseFolderPath = m_baseFolderPath;
 
-// bindings related
+// bindings
 @synthesize bookTitle = m_bookTitle, bookSubject = m_bookSubject;
-@synthesize sectionTitle = m_sectionTitle, bookTotalTime = m_bookTotalTime;
-//@synthesize mediaFormat = m_mediaFormat;
+@synthesize sectionTitle = m_sectionTitle;
 @synthesize currentLevel = m_currentLevel, currentLevelString = m_currentLevelString;
 @synthesize currentPageNumber = m_currentPageNumber, currentPageString = m_currentPageString;
 @synthesize totalPages = m_totalPages;
@@ -176,9 +156,11 @@ static TBBookData *sharedBookDataManager = nil;
 @synthesize hasLevelUp = m_hasLevelUp, hasLevelDown = m_hasLevelDown;
 @synthesize hasNextSegment = m_hasNextSegment, hasPreviousSegment = m_hasPreviousSegment;
 @synthesize isPlaying = m_isPlaying;
-@synthesize localBookSettingsHaveChanged = m_localBookSettingsHaveChanged;
-@synthesize baseFolderPath = m_baseFolderPath;
+@synthesize totalPlaybackTimeString = m_totalPlaybackTimeString, currentPlaybackTimeString = m_currentPlaybackTimeString;
+@synthesize totalPlaybackTime = m_totalPlaybackTime, currentPlaybackTime = m_currentPlaybackTime;
 
+
+// user settings
 @synthesize preferredVoiceIdentifier = m_preferredVoiceIdentifier;
 @synthesize ignoreRecordedAudioContent = m_ignoreRecordedAudioContent;
 @synthesize speakUserLevelChange = m_speakUserLevelChange;
