@@ -229,15 +229,20 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 - (QTTime)startTimeOfChapterWithTitle:(NSString *)aChapterTitle
 {
 	QTTime startTime;
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"QTMovieChapterName like[cd] %@",aChapterTitle];
+	BOOL foundChapter = NO;
 	if ([_theMovie hasChapters])
 	{
-		NSArray *foundChapters = [_extendedChapterData filteredArrayUsingPredicate:predicate];
-		if ([foundChapters count]) 
+		for(NSDictionary *aChapter in _extendedChapterData)
 		{
-			startTime = [[[foundChapters objectAtIndex:0] valueForKey:QTMovieChapterStartTime] QTTimeValue];
+			if ([[aChapter valueForKey:QTMovieChapterName] isEqualToString:aChapterTitle])
+			{
+				startTime = [[aChapter valueForKey:QTMovieChapterStartTime] QTTimeValue];
+				foundChapter = YES;
+				break;
+			}
+			
 		}
-		else 
+		if (!foundChapter)
 			startTime = [_theMovie startTimeOfChapter:0];
 		
 	}
@@ -439,9 +444,10 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 
 - (void)updateForChapterChange:(NSNotification *)notification
 {
-	if((!_didAddChapters) && ([notification object] == _theMovie))
+	if(([notification object] == _theMovie))
 	{
-		[noteCenter postNotificationName:BBSAudioSegmentChapterDidChangeNotifiction object:self];
+		if (!_didAddChapters)
+			[noteCenter postNotificationName:BBSAudioSegmentChapterDidChangeNotifiction object:self];
 		
 	}
 }
