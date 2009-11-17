@@ -154,7 +154,6 @@
 			
 			if(!navCon)
 				navCon = [[TBBookshareNavigationController alloc] init];
-			[navCon resetController];
 			
 			_mediaFormat = TextWithControlMediaFormat;
 			navCon.bookMediaFormat = _mediaFormat;
@@ -173,8 +172,6 @@
 				controlDoc = nil;
 				currentPlugin = self;
 			}
-			
-			[navCon moveControlPoint:nil withTime:nil];
 			
 			[navCon prepareForPlayback];
 			
@@ -238,10 +235,10 @@
 	return [super currentControlPoint];
 }
 
-- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-{
-	[super jumpToControlPoint:aPoint andTime:aTime];
-}
+//- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+//{
+//	[super jumpToControlPoint:aPoint andTime:aTime];
+//}
 
 
 #pragma mark -

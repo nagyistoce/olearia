@@ -59,7 +59,7 @@
 	{
 		// depending on how the Bookshare book was authored there will be 
 		// one of 2 types of initial SMIL item
-		NSString *smilFilename = [packageDocument stringForXquery:@"(/package[1]/manifest[1]/item[@id='SMIL']|/package[1]/manifest[1]/item[@id='SMIL1'])/data(@href)" ofNode:nil];
+		NSString *smilFilename = [packageDocument stringForXquery:@"(/package[1]/manifest[1]/((item[@id='SMIL'])|(item[@id='SMIL1'])))/data(@href)" ofNode:nil];
 		// do a sanity check on the extension
 		if([[smilFilename pathExtension] isEqualToString:@"smil"])
 		{
@@ -92,11 +92,9 @@
 				_currentTextFilename = [[packageDocument textContentFilename] copy];
 				[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
 			}
-			
-			[textDocument updateDataAfterJump];
-			
-			
-			
+			[textDocument jumpToNodeWithIdTag:_currentTag];
+			_contentToSpeak = [textDocument contentText];
+			[self updateAfterNavigationChange];
 			
 		}
 		
@@ -105,81 +103,73 @@
 	
 }
 
-//- (void)resetController
-//{	
-//	// call the supers resetController method which
-//	// will remove us from the notification center
-//	// and reset all our local ivars
-//	[super resetController];
-//}
-
 #pragma mark -
 #pragma mark Private Methods
 
-- (void)startPlayback
-{
-	if(_mainSynthIsSpeaking && !bookData.isPlaying)
-		[mainSpeechSynth continueSpeaking];
-	else
-		[mainSpeechSynth startSpeakingString:[textDocument contentText]];
-	
-	bookData.isPlaying = YES;
-}
+//- (void)startPlayback
+//{
+//	if(_mainSynthIsSpeaking && !bookData.isPlaying)
+//		[mainSpeechSynth continueSpeaking];
+//	else
+//		[mainSpeechSynth startSpeakingString:[textDocument contentText]];
+//	
+//	bookData.isPlaying = YES;
+//}
 
-- (void)stopPlayback
-{
-	_mainSynthIsSpeaking = [mainSpeechSynth isSpeaking];
-	[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
-	
-	bookData.isPlaying = NO;
-}
+//- (void)stopPlayback
+//{
+//	_mainSynthIsSpeaking = [mainSpeechSynth isSpeaking];
+//	[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+//	
+//	bookData.isPlaying = NO;
+//}
 
 
-- (void)nextElement
-{
+//- (void)nextElement
+//{
 //	if(controlDocument)
 //	{	
 //		[controlDocument moveToNextSegmentAtSameLevel];
 //		_currentTag = [controlDocument currentIdTag];
 //	}
-	
-	if(smilDocument)
-	{
-		[smilDocument nextTextPlaybackPoint];
-		[smilDocument updateAfterPositionChange];
-		_currentTag = [smilDocument currentIdTag];
-	}
-	
-	_didUserNavigationChange = YES;
-
-	if(bookData.isPlaying)
-	{
-		if ([mainSpeechSynth isSpeaking]) 
-		{
-			[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
-		}
-		[textDocument jumpToNodeWithIdTag:_currentTag];
-		[textDocument updateDataAfterJump];
-		_contentToSpeak = [textDocument contentText];
-		[mainSpeechSynth startSpeakingString:_contentToSpeak];
-	}
-	
-}
-
-- (void)previousElement
-{
-	if(smilDocument)
-	{
-		[smilDocument previousTextPlaybackPoint];
-		_currentTag = [smilDocument currentIdTag];
-	}	
-	_didUserNavigationChange = YES;
-	
-	//[super updateAfterNavigationChange];
-	
-	[textDocument updateDataAfterJump];
-	//[textDocument startSpeakingFromIdTag:_currentTag];
-}
+//	
+//	//if(smilDocument)
+////	{
+////		[smilDocument nextTextPlaybackPoint];
+////		[smilDocument updateAfterPositionChange];
+////		_currentTag = [smilDocument currentIdTag];
+////	}
+//	
+//	_didUserNavigationChange = YES;
+//
+//	if(bookData.isPlaying)
+//	{
+//		if ([mainSpeechSynth isSpeaking]) 
+//		{
+//			[mainSpeechSynth pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+//		}
+//		[textDocument jumpToNodeWithIdTag:_currentTag];
+//		[textDocument updateDataAfterJump];
+//		_contentToSpeak = [textDocument contentText];
+//		[mainSpeechSynth startSpeakingString:_contentToSpeak];
+//	}
+//	
+//}
+//
+//- (void)previousElement
+//{
+//	if(smilDocument)
+//	{
+//		[smilDocument previousTextPlaybackPoint];
+//		_currentTag = [smilDocument currentIdTag];
+//	}	
+//	_didUserNavigationChange = YES;
+//	
+//	//[super updateAfterNavigationChange];
+//	
+//	[textDocument updateDataAfterJump];
+//	//[textDocument startSpeakingFromIdTag:_currentTag];
+//}
 
 - (void)goUpLevel
 {
@@ -228,18 +218,32 @@
 {
 	if(sender == mainSpeechSynth)
 	{	
-		if (!_didUserNavigationChange)
+		if (!_didUserNavigationChange)// auto play
 		{
-			if (smilDocument)
+			if(controlDocument)
 			{
-				[smilDocument nextTextPlaybackPoint];
-				_currentTag = [smilDocument currentIdTag];
+				[controlDocument moveToNextSegment];
+				_currentTag = [controlDocument currentIdTag];
 				[textDocument jumpToNodeWithIdTag:_currentTag];
 				[textDocument updateDataForCurrentPosition];
 				_contentToSpeak = [textDocument contentText];
 				[self startPlayback];
+				
 			}
+			
 		}
+		else 
+		{
+			//if (smilDocument)
+//			{
+//				[smilDocument nextTextPlaybackPoint];
+//				_currentTag = [smilDocument currentIdTag];
+//							
+//			}
+			_didUserNavigationChange = NO;
+		}
+
+		
 		//		if(_mainSynthIsSpeaking)
 		//			[mainSpeechSynth continueSpeaking];
 		//				else

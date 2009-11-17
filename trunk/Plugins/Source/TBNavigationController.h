@@ -33,6 +33,8 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 {
 	TBBookData			*bookData;
 	
+	BOOL				isEndOfBook;
+	
 	TalkingBookMediaFormat bookMediaFormat;
 	
 	TBPackageDoc		*packageDocument;

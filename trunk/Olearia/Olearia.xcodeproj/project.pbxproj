@@ -138,7 +138,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Olearia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Olearia_Prefix.pch; sourceTree = "<group>"; };
@@ -176,27 +176,14 @@
 		EE4F9293104B8BA30022653C /* StdDaisyFormats.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StdDaisyFormats.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE7272501014014600FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE7272511014014C00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE89DED50EB5BFCB0017EB9D /* Voice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Voice.png; sourceTree = "<group>"; };
 		EE8BA953100198A0000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EEA915E50ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/About.nib; sourceTree = "<group>"; };
-		EEA915E70ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/MainWindow.nib; sourceTree = "<group>"; };
-		EEA915E80ECA78DC008E8A07 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Resources/fr.lproj/Preferences.nib; sourceTree = "<group>"; };
-		EEA915E90ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/About.nib; sourceTree = "<group>"; };
-		EEA915EB0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/MainWindow.nib; sourceTree = "<group>"; };
-		EEA915EC0ECA7933008E8A07 /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = Resources/no.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsWindowController.h; sourceTree = "<group>"; };
 		EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
 		EEADAC5010216903006FC113 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = General.png; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
-		EEAEF2220ECC0D650064FF29 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EEAEF2230ECC0D760064FF29 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = made_with_cocoa.tiff; sourceTree = "<group>"; };
-		EED0006A10570D00007A949B /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = French.lproj/Credits.rtf; sourceTree = "<group>"; };
-		EED0006B10570D07007A949B /* German */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = German; path = German.lproj/Credits.rtf; sourceTree = "<group>"; };
-		EED0006C10570D2C007A949B /* no */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = no; path = no.lproj/Credits.rtf; sourceTree = "<group>"; };
 		EEEB96C50E8DE7B300D77B4D /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
 		EEEB96C60E8DE7B300D77B4D /* Sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sound.png; sourceTree = "<group>"; };
 		EEEB96C70E8DE7B300D77B4D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
@@ -293,7 +280,7 @@
 				EE0A74840E3B509E001CF3C2 /* Button Images */,
 				EE4617E70DDBC3C300F2D375 /* Applcation Icons */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = "Olearia Resources";
 			path = ../Resources;
@@ -420,15 +407,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Olearia" */;
 			buildPhases = (
-				EE3075A5104B5781005DA7DC /* Copy Plugins */,
 				EEA28E9D0E04EAB300D7D6B3 /* Copy Frameworks */,
-				EE24ED410FCF9DC600D88546 /* Headers */,
+				EE3075A5104B5781005DA7DC /* Copy Plugins */,
 				8D11072C0486CEB800E47090 /* Sources */,
+				EE24ED410FCF9DC600D88546 /* Headers */,
 				8D1107290486CEB800E47090 /* Resources */,
 				EE5A13580EDB928000398FFC /* Copy Helper Files */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				EE2159110DDB5BF4009155A1 /* Set Version */,
 				EE891651101450D500E3E7A0 /* Automate Appcast Build */,
+				EE60CF8B10B24E8900E763A1 /* Generate Localizable Strings */,
 			);
 			buildRules = (
 			);
@@ -575,6 +563,21 @@
 			shellPath = /usr/bin/perl;
 			shellScript = "#!/usr/bin/perl\n# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
 		};
+		EE60CF8B10B24E8900E763A1 /* Generate Localizable Strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable Strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/csh;
+			shellScript = "#!/bin/csh\n\nif ($CONFIGURATION == \"Release\") then\n\techo \"Generating Olearia Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -o Resources/English.lproj Source/*.m\nendif";
+			showEnvVarsInLog = 0;
+		};
 		EE891651101450D500E3E7A0 /* Automate Appcast Build */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -634,22 +637,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
-				EEAEF2220ECC0D650064FF29 /* fr */,
-				EEAEF2230ECC0D760064FF29 /* no */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		EE2278660ECA518A00309491 /* Preferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EE2278670ECA518A00309491 /* English */,
-				EEA915E80ECA78DC008E8A07 /* fr */,
-				EEA915EC0ECA7933008E8A07 /* no */,
 			);
 			name = Preferences.nib;
 			path = ..;
@@ -659,8 +650,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE22786A0ECA51B200309491 /* English */,
-				EEA915E70ECA78DC008E8A07 /* fr */,
-				EEA915EB0ECA7933008E8A07 /* no */,
 			);
 			name = MainWindow.nib;
 			path = ..;
@@ -670,8 +659,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE22786D0ECA51E800309491 /* English */,
-				EEA915E50ECA78DC008E8A07 /* fr */,
-				EEA915E90ECA7933008E8A07 /* no */,
 			);
 			name = About.nib;
 			path = ..;
@@ -681,8 +668,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA953100198A0000E242F /* English */,
-				EE7272501014014600FBF671 /* French */,
-				EE7272511014014C00FBF671 /* no */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -691,9 +676,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE394C350EA88898001DC23C /* English */,
-				EED0006A10570D00007A949B /* French */,
-				EED0006B10570D07007A949B /* German */,
-				EED0006C10570D2C007A949B /* no */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";

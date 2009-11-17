@@ -143,16 +143,22 @@
 	}
 }
 
-- (void)moveToNextSegment
+- (BOOL)moveToNextSegment
 {
-	if(YES == [self canGoDownLevel]) // first check if we can go down a level
+	BOOL didMove = NO;
+	
+	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
 		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
 		bookData.currentLevel++; // increment the level
+		didMove = YES;
 	}
-	else if(YES == [self canGoNext]) // we then check if there is another navPoint at the same level
+	else if([self canGoNext]) // we then check if there is another navPoint at the same level
+	{	
 		currentNavPoint = [currentNavPoint nextSibling];
-	else if(YES == [self canGoUpLevel]) // we have reached the end of the current level so go up
+		didMove = YES;
+	}
+	else if([self canGoUpLevel]) // we have reached the end of the current level so go up
 	{
 		if(nil != [[currentNavPoint parent] nextSibling]) // check that there is something after the parent to play
 		{	
@@ -160,8 +166,11 @@
 			// the parent before dropping into this level
 			currentNavPoint = [[currentNavPoint parent] nextSibling];
 			bookData.currentLevel--; // decrement the current level
+			didMove = YES;
 		}
 	}
+
+	return didMove;
 }
 
 - (void)moveToNextSegmentAtSameLevel

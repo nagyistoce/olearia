@@ -167,9 +167,12 @@
 	
 	_didUserNavigationChange = YES;
 	
+	[textDocument jumpToNodeWithIdTag:_currentTag];
+	_contentToSpeak = [textDocument contentText];
 	[super updateAfterNavigationChange];
-
-	//[textDocument startSpeakingFromIdTag:_currentTag];
+	
+	[mainSpeechSynth stopSpeaking];
+	
 }
 
 - (void)previousElement
@@ -182,9 +185,12 @@
 	
 	_didUserNavigationChange = YES;
 	
+	[textDocument jumpToNodeWithIdTag:_currentTag];
+	_contentToSpeak = [textDocument contentText];
 	[super updateAfterNavigationChange];
+
+	[mainSpeechSynth stopSpeaking];
 	
-	//[textDocument startSpeakingFromIdTag:_currentTag];
 }
 
 - (void)goUpLevel
@@ -240,9 +246,8 @@
 	
 	_didUserNavigationChange = YES;
 	
+	//[self updateAfterNavigationChange];
 	[textDocument jumpToNodeWithIdTag:_currentTag];
-	
-	[self updateAfterNavigationChange];
 	[textDocument updateDataAfterJump];
 	
 }
@@ -278,18 +283,39 @@
 {
 	if(sender == mainSpeechSynth)
 	{	
-		if (!_didUserNavigationChange)
+		if (!_didUserNavigationChange)  // auto play
 		{
-			if (controlDocument)
+			if ((controlDocument) && !isEndOfBook)
 			{
-				[controlDocument moveToNextSegment];
-				[controlDocument updateDataForCurrentPosition];
+				isEndOfBook = ![controlDocument moveToNextSegment];
+				if (!isEndOfBook)
+				{
+					[controlDocument updateDataForCurrentPosition];
+					_currentTag = [controlDocument currentIdTag];
+					[textDocument jumpToNodeWithIdTag:_currentTag];
+					_contentToSpeak = [textDocument contentText];
+				}	
+				else 
+					_contentToSpeak = @"End of Book.";
+
+			[self startPlayback];
+
+			}
+			else // the book has finished so reset it to the begining
+			{
+				[self stopPlayback];
+				[self prepareForPlayback];
+				[controlDocument jumpToNodeWithIdTag:nil];
 				_currentTag = [controlDocument currentIdTag];
-				[textDocument jumpToNodeWithIdTag:_currentTag];
-				_contentToSpeak = [textDocument contentText];
-				[self startPlayback];
+				[self updateAfterNavigationChange];
 			}
 		}
+		else 
+		{
+			_didUserNavigationChange = NO;
+			[self startPlayback];
+		}
+
 		//		if(_mainSynthIsSpeaking)
 		//			[mainSpeechSynth continueSpeaking];
 		//				else

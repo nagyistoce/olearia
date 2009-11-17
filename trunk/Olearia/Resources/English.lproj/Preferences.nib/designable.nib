@@ -2,17 +2,16 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="914"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -130,7 +129,7 @@
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="59582697"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<object class="NSCustomResource" key="NSNormalImage" id="853440475">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">NSSwitch</string>
@@ -158,7 +157,7 @@
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="854825080"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="853440475"/>
 							<reference key="NSAlternateImage" ref="345116568"/>
 							<string key="NSAlternateContents"/>
@@ -214,7 +213,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{94, 218}, {138, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="522192390"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="906366624">
 							<int key="NSCellFlags">68288064</int>
@@ -231,7 +230,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{237, 216}, {45, 22}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="318806162"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="752308181">
 							<int key="NSCellFlags">-1804468671</int>
@@ -328,7 +327,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{302, 218}, {54, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="1039269192"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="419740031">
 							<int key="NSCellFlags">68288064</int>
@@ -345,7 +344,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{111, 171}, {187, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="878306355"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="668367406">
 							<int key="NSCellFlags">68288064</int>
@@ -362,7 +361,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{107, 93}, {200, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="546623824"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="205632282">
 							<int key="NSCellFlags">68288064</int>
@@ -379,7 +378,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{281, 213}, {19, 27}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="706689121"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSStepperCell" key="NSCell" id="43984384">
 							<int key="NSCellFlags">917024</int>
@@ -397,7 +396,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 137}, {390, 26}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="124199776"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="502298951">
 							<int key="NSCellFlags">-2079981824</int>
@@ -424,6 +423,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 59}, {390, 26}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSliderCell" key="NSCell" id="727821674">
 							<int key="NSCellFlags">67501824</int>
@@ -446,7 +446,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{300, 171}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="887346204"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="605119444">
 							<int key="NSCellFlags">68288064</int>
@@ -525,7 +525,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{309, 93}, {33, 17}}</string>
 						<reference key="NSSuperview" ref="63839865"/>
-						<reference key="NSNextKeyView" ref="1038153251"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="272905117">
 							<int key="NSCellFlags">68288064</int>
@@ -605,10 +605,11 @@
 				</object>
 				<string key="NSFrameSize">{450, 300}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="836258681">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -617,6 +618,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{196, 165}, {153, 17}}</string>
 						<reference key="NSSuperview" ref="836258681"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="502193616">
 							<int key="NSCellFlags">68288064</int>
@@ -630,10 +632,12 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{450, 300}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="445298770">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -642,6 +646,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{106, 180}, {216, 18}}</string>
 						<reference key="NSSuperview" ref="445298770"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="925022427">
 							<int key="NSCellFlags">67239424</int>
@@ -650,7 +655,7 @@
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="784442784"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="853440475"/>
 							<reference key="NSAlternateImage" ref="345116568"/>
 							<string key="NSAlternateContents"/>
@@ -664,6 +669,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{106, 139}, {238, 18}}</string>
 						<reference key="NSSuperview" ref="445298770"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="706936197">
 							<int key="NSCellFlags">67239424</int>
@@ -672,7 +678,7 @@
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="580567660"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="853440475"/>
 							<reference key="NSAlternateImage" ref="345116568"/>
 							<string key="NSAlternateContents"/>
@@ -686,6 +692,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{105, 101}, {238, 18}}</string>
 						<reference key="NSSuperview" ref="445298770"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="46242375">
 							<int key="NSCellFlags">67239424</int>
@@ -694,7 +701,7 @@
 							<reference key="NSSupport" ref="759661860"/>
 							<reference key="NSControlView" ref="978995050"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="853440475"/>
 							<reference key="NSAlternateImage" ref="345116568"/>
 							<string key="NSAlternateContents"/>
@@ -705,6 +712,8 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{450, 300}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSArrayController" id="1026787383">
@@ -740,283 +749,6 @@
 						<reference key="destination" ref="546623824"/>
 					</object>
 					<int key="connectionID">792</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaShouldOpenLastBookRead</string>
-						<reference key="source" ref="784442784"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="784442784"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaShouldOpenLastBookRead</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaShouldOpenLastBookRead</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">807</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaIgnoreBooksOnRemovableMedia</string>
-						<reference key="source" ref="580567660"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="580567660"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaIgnoreBooksOnRemovableMedia</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaIgnoreBooksOnRemovableMedia</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">811</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaShouldUseHighContrastIcons</string>
-						<reference key="source" ref="978995050"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="978995050"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaShouldUseHighContrastIcons</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaShouldUseHighContrastIcons</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">815</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaChapterSkipIncrement</string>
-						<reference key="source" ref="522192390"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="522192390"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaChapterSkipIncrement</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaChapterSkipIncrement</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEditable</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">820</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaChapterSkipIncrement</string>
-						<reference key="source" ref="318806162"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="318806162"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaChapterSkipIncrement</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaChapterSkipIncrement</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">824</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaAudioPlaybackRate</string>
-						<reference key="source" ref="1038153251"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1038153251"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaAudioPlaybackRate</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaAudioPlaybackRate</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">829</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaAudioPlaybackVolume</string>
-						<reference key="source" ref="887346204"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="887346204"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaAudioPlaybackVolume</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaAudioPlaybackVolume</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">833</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaAudioPlaybackVolume</string>
-						<reference key="source" ref="878306355"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="878306355"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaAudioPlaybackVolume</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaAudioPlaybackVolume</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">836</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OleariaEnableVoiceOnLevelChange</string>
-						<reference key="source" ref="854825080"/>
-						<reference key="destination" ref="577670496"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="854825080"/>
-							<reference key="NSDestination" ref="577670496"/>
-							<string key="NSLabel">value: values.OleariaEnableVoiceOnLevelChange</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OleariaEnableVoiceOnLevelChange</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSAllowsEditingMultipleValuesSelection</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSRaisesForNotApplicableKeys</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-									<boolean value="NO"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">847</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1183,6 +915,229 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaShouldOpenLastBookRead</string>
+						<reference key="source" ref="784442784"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="784442784"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaShouldOpenLastBookRead</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaShouldOpenLastBookRead</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1183</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaIgnoreBooksOnRemovableMedia</string>
+						<reference key="source" ref="580567660"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="580567660"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaIgnoreBooksOnRemovableMedia</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaIgnoreBooksOnRemovableMedia</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1184</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaShouldUseHighContrastIcons</string>
+						<reference key="source" ref="978995050"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="978995050"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaShouldUseHighContrastIcons</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaShouldUseHighContrastIcons</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1185</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaAudioPlaybackVolume</string>
+						<reference key="source" ref="887346204"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="887346204"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaAudioPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaAudioPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaAudioPlaybackVolume</string>
+						<reference key="source" ref="878306355"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="878306355"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaAudioPlaybackVolume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaAudioPlaybackVolume</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1187</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaChapterSkipIncrement</string>
+						<reference key="source" ref="522192390"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="522192390"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaChapterSkipIncrement</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaChapterSkipIncrement</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEditable</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1188</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaChapterSkipIncrement</string>
+						<reference key="source" ref="318806162"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="318806162"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaChapterSkipIncrement</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaChapterSkipIncrement</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1189</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaAudioPlaybackRate</string>
+						<reference key="source" ref="1038153251"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1038153251"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaAudioPlaybackRate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaAudioPlaybackRate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1190</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectedObject: values.OleariaPreferredVoice</string>
 						<reference key="source" ref="967490521"/>
 						<reference key="destination" ref="577670496"/>
@@ -1193,14 +1148,52 @@
 							<string key="NSBinding">selectedObject</string>
 							<string key="NSKeyPath">values.OleariaPreferredVoice</string>
 							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<boolean value="NO" key="NS.object.0"/>
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
 							</object>
 							<reference key="NSPreviousConnector" ref="367404463"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1182</int>
+					<int key="connectionID">1191</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.OleariaEnableVoiceOnLevelChange</string>
+						<reference key="source" ref="854825080"/>
+						<reference key="destination" ref="577670496"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="854825080"/>
+							<reference key="NSDestination" ref="577670496"/>
+							<string key="NSLabel">value: values.OleariaEnableVoiceOnLevelChange</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.OleariaEnableVoiceOnLevelChange</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSConditionallySetsEnabled</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="NO"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1192</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1848,7 +1841,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1182</int>
+			<int key="maxID">1192</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

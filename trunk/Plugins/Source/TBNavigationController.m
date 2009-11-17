@@ -192,6 +192,7 @@ NSString * const TBAuxSpeechConDidFinishSpeaking = @"TBAuxSpeechConDidFinishSpea
 		[_audioSegment stop];
 	}
 	
+	isEndOfBook = NO;
 	_currentAudioFilename = @"";
 	_contentToSpeak = @"";
 	_currentSmilFilename = @"";

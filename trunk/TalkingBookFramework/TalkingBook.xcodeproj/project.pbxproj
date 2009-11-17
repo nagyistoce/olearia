@@ -30,11 +30,7 @@
 		EE05F8860FCE439000DFB1F1 /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookData.h; sourceTree = "<group>"; };
 		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
 		EE155504104B693000A20F90 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE1A700210167F980001BEDB /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
-		EE1A700310167F9D0001BEDB /* no */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = no; path = no.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
 		EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
-		EE7270AA1013EE6E00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE7270AB1013EE7200FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE8BA984100198D6000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBookCommon.h; sourceTree = "<group>"; };
 		EEDC6D4F104CFB9000380583 /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookData.m; sourceTree = "<group>"; };
@@ -158,7 +154,7 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
-				EE8BDC3110999C9E005A7088 /* ShellScript */,
+				EE8BDC3110999C9E005A7088 /* Generate Localizable strings */,
 			);
 			buildRules = (
 			);
@@ -209,18 +205,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EE8BDC3110999C9E005A7088 /* ShellScript */ = {
+		EE8BDC3110999C9E005A7088 /* Generate Localizable strings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Generate Localizable strings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/csh;
-			shellScript = "#!/bin/csh\n\nif ($CONFIGURATION == \"Release\") then\n\techo \"Generating Standard Plugins Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -s LocalizedStringInTBFrameworkBundle -o Resources/English.lproj Source/*.m\nendif\n";
+			shellScript = "#!/bin/csh\n\nif ($CONFIGURATION == \"Release\") then\n\techo \"Generating Talking Book Framework Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -s LocalizedStringInTBFrameworkBundle -o Resources/English.lproj Source/*.m\nendif\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -241,8 +239,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE05F8680FCE389500DFB1F1 /* English */,
-				EE1A700210167F980001BEDB /* French */,
-				EE1A700310167F9D0001BEDB /* no */,
 			);
 			name = TBBookInfo.nib;
 			sourceTree = "<group>";
@@ -251,8 +247,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA984100198D6000E242F /* English */,
-				EE7270AA1013EE6E00FBF671 /* French */,
-				EE7270AB1013EE7200FBF671 /* no */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

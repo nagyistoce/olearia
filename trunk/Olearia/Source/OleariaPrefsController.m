@@ -32,7 +32,7 @@
 	[self addView:generalPrefsView label:@"General"];
 	[self addView:soundPrefsView label:@"Sound"];
 	[self addView:voicePrefsView label:@"Voice"];
-	[self addView:textPrefsView label:@"Text"];
+	//[self addView:textPrefsView label:@"Text"];
 
 	[self setCrossFade:YES];
 	[self setShiftSlowsAnimation:NO];

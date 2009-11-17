@@ -89,14 +89,6 @@
 		EE3927940FC3F0C40093CBBD /* TBFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBFileUtils.m; sourceTree = "<group>"; };
 		EE54A0CF0FFD859100C55D6F /* TBTextOnlyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTextOnlyNavigationController.h; sourceTree = "<group>"; };
 		EE54A0D00FFD859100C55D6F /* TBTextOnlyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBTextOnlyNavigationController.m; sourceTree = "<group>"; };
-		EE7270631013ED1F00FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/TextView.xib; sourceTree = "<group>"; };
-		EE7270641013ED2B00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = no.lproj/TextView.xib; sourceTree = "<group>"; };
-		EE7270671013ED8100FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE7270681013ED8700FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EE7270691013ED9900FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/NoTextContent.html; sourceTree = "<group>"; };
-		EE72706A1013ED9F00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = no; path = no.lproj/NoTextContent.html; sourceTree = "<group>"; };
-		EE72706B1013EDB300FBF671 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
-		EE72706C1013EDBF00FBF671 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = no; path = no.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
 		EE80C52D0FD8AF55009F55BB /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
 		EE886BB7108C6707003FAF1D /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE8BA947100197EB000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -123,8 +115,6 @@
 		EEB7A3DB0FE5EC0D00662B04 /* TBStdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoView.h; sourceTree = "<group>"; };
 		EEB7A3DC0FE5EC0D00662B04 /* TBStdInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdInfoView.m; sourceTree = "<group>"; };
 		EEC3D8241099349300F375A1 /* TBStdPluginCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdPluginCommon.h; sourceTree = "<group>"; };
-		EEC3D88B1099453000F375A1 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = ../Resources/French.lproj/InformationView.xib; sourceTree = "<group>"; };
-		EEC3D88C1099453600F375A1 /* no */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = no; path = ../Resources/no.lproj/InformationView.xib; sourceTree = "<group>"; };
 		EECDD4050FCBD56A00C0EDDC /* TBControlDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBControlDoc.h; sourceTree = "<group>"; };
 		EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBControlDoc.m; sourceTree = "<group>"; };
 		EECDD4070FCBD56A00C0EDDC /* TBNCCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNCCDocument.h; sourceTree = "<group>"; };
@@ -554,8 +544,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE2768930FF875FD00C3DB1C /* English */,
-				EE7270691013ED9900FBF671 /* French */,
-				EE72706A1013ED9F00FBF671 /* no */,
 			);
 			name = NoTextContent.html;
 			sourceTree = "<group>";
@@ -564,8 +552,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA947100197EB000E242F /* English */,
-				EE7270671013ED8100FBF671 /* French */,
-				EE7270681013ED8700FBF671 /* no */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -574,8 +560,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEB7A38B0FE5D3C800662B04 /* English */,
-				EE7270631013ED1F00FBF671 /* French */,
-				EE7270641013ED2B00FBF671 /* no */,
 			);
 			name = TextView.xib;
 			path = ../Resources;
@@ -585,8 +569,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEB7A3890FE5D3A800662B04 /* English */,
-				EEC3D88B1099453000F375A1 /* French */,
-				EEC3D88C1099453600F375A1 /* no */,
 			);
 			name = InformationView.xib;
 			sourceTree = "<group>";
@@ -595,8 +577,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEED048C0FF9DEFA00838EBC /* English */,
-				EE72706B1013EDB300FBF671 /* French */,
-				EE72706C1013EDBF00FBF671 /* no */,
 			);
 			name = ErrorLoadingTextContent.html;
 			sourceTree = "<group>";
