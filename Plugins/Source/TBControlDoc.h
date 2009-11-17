@@ -52,7 +52,7 @@
 - (NSString *)filenameFromID:(NSString *)anIdString;
 
 // navigation
-- (void)moveToNextSegment;
+- (BOOL)moveToNextSegment;
 - (void)moveToNextSegmentAtSameLevel;
 - (void)moveToPreviousSegment;
 - (void)goUpALevel;

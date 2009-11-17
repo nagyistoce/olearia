@@ -23,16 +23,14 @@
 
 @interface TBNCCDocument : TBControlDoc
 {
-
+	BOOL loadFromCurrentLevel;
+	
+@private	
 	NSUInteger			_currentNodeIndex;
 	NSUInteger			_totalBodyNodes;
-	
 	NSXMLElement		*nccRootElement;
 	
 	NSArray				*_bodyNodes;
-	
-	BOOL loadFromCurrentLevel;
-	
 }
 
 @property (readwrite) BOOL loadFromCurrentLevel;

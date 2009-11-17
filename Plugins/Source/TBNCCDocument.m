@@ -100,11 +100,17 @@
 	return ([metaNodes count] > 0) ? [metaNodes objectAtIndex:0] : nil;
 }
 
-- (void)moveToNextSegment
+- (BOOL)moveToNextSegment
 {
-	_currentNodeIndex++;
-	
-	[self updateDataForCurrentPosition];	
+	if ((_currentNodeIndex +1) < _totalBodyNodes) 
+	{
+		_currentNodeIndex++;
+		
+		[self updateDataForCurrentPosition];
+		return YES;
+	}
+		
+	return NO;
 }
 
 - (void)moveToNextSegmentAtSameLevel

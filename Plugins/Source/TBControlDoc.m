@@ -127,12 +127,13 @@
 	[self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)moveToNextSegment
+- (BOOL)moveToNextSegment
 {
 #ifdef DEBUG
 	NSLog(@"superclass method of %@ used",[self className]);
 #endif
 	[self doesNotRecognizeSelector:_cmd];
+	return NO;
 }
 
 - (void)moveToNextSegmentAtSameLevel

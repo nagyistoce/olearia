@@ -349,8 +349,6 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 		else
 		{
 			[_theMovie setAttribute:[NSNumber numberWithFloat:aRate] forKey:QTMoviePreferredRateAttribute];
-			// 
-			//[_theMovie stop];
 		}
 	}
 
@@ -374,42 +372,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 	
 	if([notification object] == _theMovie)
 	{
-		// check if we just added chapter data
-		//if (!_didAddChapters)
-		//{
-			[noteCenter postNotificationName:BBSAudioSegmentDidEndNotification object:self];
-//			// update the smil doc to the current tags position
-//			[smilDocument jumpToNodeWithIdTag:_currentTag];
-//			// check for a new audio segment in the smil file
-//			if([smilDocument audioAfterCurrentPosition])
-//			{
-//				_currentAudioFilename = smilDocument.relativeAudioFilePath;
-//				_currentTag = [smilDocument currentIdTag];
-//				// sync the new position in the smil with the control document
-//				if(controlDocument)
-//					[controlDocument jumpToNodeWithIdTag:_currentTag];
-//				if(_currentAudioFilename)
-//					[self updateAudioFile:smilDocument.relativeAudioFilePath];
-//			}
-//			else
-//			{
-//				if(controlDocument)
-//				{
-//					// update the control documents current position 
-//					[controlDocument jumpToNodeWithIdTag:_currentTag];
-//					[controlDocument moveToNextSegment];
-//					// set the tag for the new position
-//					_currentTag = [controlDocument currentIdTag];
-//					[self updateAfterNavigationChange];
-//				}
-//			}
-			
-//		}
-//		else 
-//		{
-//			_didAddChapters = NO;
-//		}
-		
+		[noteCenter postNotificationName:BBSAudioSegmentDidEndNotification object:self];		
 	}
 }
 
@@ -420,24 +383,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 			if([[_theMovie attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
 			{	
 				[noteCenter postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:self];
-				
-// add chapters if required
-//				[self addChaptersToAudioSegment];
-//				
-//				if(!_shouldJumpToTime)
-//					[_audioFile setCurrentTime:[_audioFile startTimeOfChapterWithTitle:_currentTag]];
-//				else
-//				{	
-//					[_audioFile setCurrentTime:_timeToJumpTo];
-//					_shouldJumpToTime = NO;
-//				}
-//				
-//				[self setPreferredAudioAttributes];
-//				
-//				
-//				
-//				if(bookData.isPlaying)
-//					[_audioFile play];
+
 			}
 }
 
@@ -448,7 +394,6 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 	{
 		if (!_didAddChapters)
 			[noteCenter postNotificationName:BBSAudioSegmentChapterDidChangeNotifiction object:self];
-		
 	}
 }
 

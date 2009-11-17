@@ -229,10 +229,10 @@
 	return [super currentControlPoint];
 }
 
-- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-{
-	[super jumpToControlPoint:aPoint andTime:aTime];
-}
+//- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
+//{
+//	[super jumpToControlPoint:aPoint andTime:aTime];
+//}
 
 - (void)nextReadingElement;
 {
