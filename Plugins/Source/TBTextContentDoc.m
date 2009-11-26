@@ -24,6 +24,7 @@
 
 @interface TBTextContentDoc ()
 
+@property (readwrite,copy)		NSString	*contentText;
 
 @end
 
@@ -44,22 +45,23 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	_contentStr = [[[NSString alloc] init] retain];
+	self.contentText = @"";
+	self.currentNode = nil;
 	
-	_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",@"docauthor",@"doctitle",@"span",nil] retain];
-	//_prefixSpecifiers = [[NSArray arrayWithObjects:nil] retain];
-	_specifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",@"level",@"h",nil] retain];
+	singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",@"docauthor",@"doctitle",@"span",nil] retain];
+	specifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",@"level",@"h",nil] retain];
 	
 	return self;
 }
 
 - (void) dealloc
 {
-	[_specifiers release];
-	//[_prefixSpecifiers release];
+	[specifiers release];
+
 	[xmlTextDoc release];
-	_contentStr = nil;
-	_currentNode = nil;
+	self.contentText = nil;
+	self.currentNode = nil;
+	bookData = nil;
 	
 	[super dealloc];
 }
@@ -77,14 +79,14 @@
 	
 		NSArray *startNodes = nil;
 		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
-		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
+		self.currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
 		
-		if(nil != _currentNode)
+		if(nil != currentNode)
 		{	
 			
 			[self moveToNextSuitableNode];
 			[self updateDataForCurrentPosition];
-			_endOfBook = NO;
+			endOfBook = NO;
 			loadedOk = YES;
 			
 		}
@@ -103,31 +105,7 @@
 	return loadedOk;
 }
 
-
-
-//- (void)startSpeakingFromIdTag:(NSString *)aTag
-//{
-//	if(bookData.talkingBookSpeechSynth.delegate != self)
-//		[[bookData talkingBookSpeechSynth] setDelegate:self];
-//	
-//	[[bookData talkingBookSpeechSynth] stopSpeaking];
-//	[self jumpToNodeWithIdTag:aTag];
-//	[self updateDataForCurrentPosition];
-//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//}
-//
-//
-//- (void)startSpeaking
-//{
-//	// check if we are the main synths delegate so we can set ourselves
-//	// to watch for delegate notifications
-//	if(bookData.talkingBookSpeechSynth.delegate != self)
-//		[[bookData talkingBookSpeechSynth] setDelegate:self];
-//	
-//	[self updateDataForCurrentPosition];
-//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//}
-
+@synthesize contentText, currentNode;
 
 @end
 
@@ -138,7 +116,8 @@
 	NSArray *nodes = nil;
 	if(nil != fullPathToNode)
 		nodes = [xmlTextDoc nodesForXPath:fullPathToNode error:nil];
-	_currentNode = ([nodes count] > 0) ? [nodes objectAtIndex:0] : _currentNode;
+	self.currentNode = ([nodes count] > 0) ? [nodes objectAtIndex:0] : currentNode;
+	self.contentText = [currentNode contentValue];
 }
 
 - (void)jumpToNodeWithIdTag:(NSString *)aTag
@@ -149,8 +128,8 @@
 		NSArray *tagNodes = nil;
 		tagNodes = [xmlTextDoc nodesForXPath:queryStr error:nil];
 		
-		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
-		_contentStr = [_currentNode contentValue];
+		self.currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNode;
+		self.contentText = [currentNode contentValue];
 	}
 	
 }
@@ -160,12 +139,11 @@
 // from the path we are now at
 - (void)updateDataAfterJump
 {
-	NSXMLNode *tempNode = _currentNode;
+	NSXMLNode *tempNode = currentNode;
 	BOOL levelHasBeenSet = NO;
 	
 	while(![[tempNode name] isEqualToString:@"book"])
 	{
-		//NSLog(@"node path -> %@",[tempNode XPath]);
 		if([[tempNode name] hasPrefix:@"level"])
 		{	
 			if(!levelHasBeenSet)
@@ -202,45 +180,42 @@
 {
 
 	
-	if([[_currentNode name] hasPrefix:@"level"])
+	if([[currentNode name] hasPrefix:@"level"])
 	{	
-		bookData.currentLevel = [[[_currentNode name] substringFromIndex:5] integerValue];
+		bookData.currentLevel = [[[currentNode name] substringFromIndex:5] integerValue];
 		[self moveToNextSuitableNode];
 	}
 	
-	if([[_currentNode name] isEqualToString:@"pagenum"])
+	if([[currentNode name] isEqualToString:@"pagenum"])
 	{	
-		bookData.currentPageNumber = [[_currentNode stringValue] intValue];
-		_contentStr = [[NSString stringWithFormat:@"Page, %d",bookData.currentPageNumber] copy];
+		bookData.currentPageNumber = [[currentNode stringValue] intValue];
+		self.contentText = [[NSString stringWithFormat:@"Page, %d",bookData.currentPageNumber] copy];
 	}
-	else if([self isHeadingNode:_currentNode])
+	else if([self isHeadingNode:currentNode])
 	{	
-		bookData.sectionTitle = [_currentNode stringValue];
-		_contentStr = [[NSString stringWithFormat:@"Heading, %@",bookData.sectionTitle] copy];
+		bookData.sectionTitle = [currentNode stringValue];
+		self.contentText = [[NSString stringWithFormat:@"Heading, %@",bookData.sectionTitle] copy];
 	}
-	else if([[_currentNode name] isEqualToString:@"img"])
+	else if([[currentNode name] isEqualToString:@"img"])
 	{
-		NSXMLNode *tempNode = [(NSXMLElement *)_currentNode attributeForName:@"alt"];
-		_contentStr = [[NSString stringWithFormat:@"Image caption, %@",[tempNode contentValue]] copy];
+		NSXMLNode *tempNode = [(NSXMLElement *)currentNode attributeForName:@"alt"];
+		self.contentText = [[NSString stringWithFormat:@"Image caption, %@",[tempNode contentValue]] copy];
 	}
 	else
-		_contentStr = [_currentNode contentValue];
+		self.contentText = [currentNode contentValue];
 	
 }
 
 - (NSString *)currentIdTag
 {
-	
-	//NSArray *idTags = nil;
 	NSString *aTag = nil;
-	aTag = [[(NSXMLElement *)_currentNode attributeForName:@"id"] stringValue];
-	//idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
+	aTag = [[(NSXMLElement *)currentNode attributeForName:@"id"] stringValue];
 	
 	return aTag;
-	//return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
 }
 
 @end
+
 
 
 @implementation TBTextContentDoc (Navigation)
@@ -273,15 +248,9 @@
 {
 	// return YES if there is level? node as the next node
 	NSString *newLevelString = [NSString stringWithFormat:@"level%d",bookData.currentLevel+1];
-	return ([[[_currentNode nextNode] name] isEqualToString:newLevelString]);
+	return ([[[currentNode nextNode] name] isEqualToString:newLevelString]);
 }
 
-
-- (NSString *)contentText
-{
-	
-	return _contentStr;
-}
 
 @end
 
@@ -289,13 +258,13 @@
 
 - (NSUInteger)itemsOnCurrentLevel
 {
-	return [[_currentNode parent] childCount]; 
+	return [[currentNode parent] childCount]; 
 }
 
 - (NSUInteger)itemIndexOnCurrentLevel
 {
 	// returns an index of the current node relative to the other nodes on the same level
-	return [_currentNode index];
+	return [currentNode index];
 }
 
 
@@ -318,7 +287,7 @@
 - (BOOL)moveToNextSuitableNode
 {
 	BOOL foundNode = NO;
-	NSXMLNode *tempNode = _currentNode;
+	NSXMLNode *tempNode = currentNode;
 
 	if (([[tempNode name] isEqualToString:@"frontmatter"]) || ([[tempNode name] isEqualToString:@"bodymatter"])) 
 	{
@@ -338,24 +307,24 @@
 			while ((!foundNode))
 			{
 				tempNode = [tempNode nextNode];
-				if ([_specifiers containsObject:[tempNode name]])
+				if ([specifiers containsObject:[tempNode name]])
 				{
 					if ([tempNode childCount] > 1)
 					{
-						_currentNode = [tempNode childAtIndex:0];
+						currentNode = [tempNode childAtIndex:0];
 						foundNode = YES;
 					}
 					else 
 					{
-						_currentNode = tempNode;
+						currentNode = tempNode;
 						foundNode = YES;
 					}
 
 					
 				}	
-				else if([_singleSpecifiers containsObject:[tempNode name]])
+				else if([singleSpecifiers containsObject:[tempNode name]])
 				{
-					_currentNode = tempNode;
+					currentNode = tempNode;
 					foundNode = YES;
 				}
 				
@@ -365,39 +334,6 @@
 
 	return foundNode;	
 }
-
-//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
-//{
-//	if((sender == bookData.talkingBookSpeechSynth))
-//	{	
-//		if (!_endOfBook)
-//		{
-//			if (success)
-//			{
-//				if([self moveToNextSuitableNode])
-//				{	
-//					[self updateDataForCurrentPosition];
-//					[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//				}
-//			}
-//			
-//			
-//		}
-//		else
-//		{
-//			_contentStr = @"End of book.";
-//			_endOfBook = YES;
-//			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//			
-//			// remove ourselves as the speech synth delegate
-//			[[bookData talkingBookSpeechSynth] setDelegate:nil];
-//			// post a notification back to the controller that the book has finished
-//		}
-//		
-//	}
-//	
-//}
-
 
 @end
 

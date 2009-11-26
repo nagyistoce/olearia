@@ -36,7 +36,7 @@
 @interface TBStdFormats (Private)
 
 //+ (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray;
-- (TalkingBookMediaFormat)checkMediaFormat;
+- (TalkingBookMediaFormat)validateMediaFormat:(TalkingBookMediaFormat)aBookFormat;
 
 @end
 
@@ -83,7 +83,7 @@
 		if (![NSBundle loadNibNamed:@"TextView" owner:self])
 			return nil;
 		
-	if((_mediaFormat != AudioWithControlMediaFormat) && (_mediaFormat != AudioOnlyMediaFormat))
+	if((navCon.bookMediaFormat != AudioWithControlMediaFormat) && (navCon.bookMediaFormat != AudioOnlyMediaFormat))
 	{	
 		if(navCon.packageDocument.textContentFilename)
 		{	
@@ -145,8 +145,6 @@
 {
 	if(navCon)
 		[navCon resetController];
-	packageDoc = nil;
-	controlDoc = nil;
 }
 
 - (BOOL)openBook:(NSURL *)bookURL
@@ -207,30 +205,30 @@
 		[navCon moveControlPoint:aPoint withTime:aTime];
 }
 
-- (BOOL)loadCorrectNavControllerForBookFormat
+- (BOOL)loadCorrectNavControllerForBookFormat:(TalkingBookMediaFormat)theFormat;
 {
 	BOOL loadedOK = NO;
-	_mediaFormat = [self checkMediaFormat];
+	TalkingBookMediaFormat mediaFormat = [self validateMediaFormat:theFormat];
 	
 	// check if a navigation controller has been loaded before
 	if(navCon)
 	{
-		if(([navCon isKindOfClass:[TBNavigationController class]]) && (_mediaFormat == TextWithControlMediaFormat))
+		if(([navCon isKindOfClass:[TBNavigationController class]]) && (mediaFormat == TextWithControlMediaFormat))
 		{
 			[navCon release];
-			navCon = nil;
+			self.navCon = nil;
 		}
-		else if(([navCon isKindOfClass:[TBTextOnlyNavigationController class]]) && (_mediaFormat != TextWithControlMediaFormat))
+		else if(([navCon isKindOfClass:[TBTextOnlyNavigationController class]]) && (mediaFormat != TextWithControlMediaFormat))
 		{	
 			[navCon release];
-			navCon = nil;
+			self.navCon = nil;
 		}
 	}
-	if (UnknownMediaFormat != _mediaFormat) 
+	if (UnknownMediaFormat != mediaFormat) 
 	{
 		if(!navCon)
 		{
-			switch (_mediaFormat)
+			switch (mediaFormat)
 			{
 				case TextWithControlMediaFormat:
 					navCon = [[TBTextOnlyNavigationController alloc] init];
@@ -238,11 +236,11 @@
 					break;
 				case UnknownMediaFormat:
 					[navCon release];
-					navCon = nil;
+					self.navCon = nil;
 					break;
 				default:
 					// check if the user wants to use the synthesized voice and its Full Text, Full Audio
-					if ((![bookData ignoreRecordedAudioContent]) && ((FullAudioFullTextMediaFormat == _mediaFormat) || (AudioWithControlMediaFormat == _mediaFormat)) ) 
+					if ((![bookData ignoreRecordedAudioContent]) && ((FullAudioFullTextMediaFormat == mediaFormat) || (AudioWithControlMediaFormat == mediaFormat)) ) 
 					{
 						navCon = [[TBNavigationController alloc] init];
 					}
@@ -256,11 +254,18 @@
 			}
 		}
 		else
+		{
 			loadedOK = YES;
+			[navCon resetController];
+		}
 		
 	}
 	else
+	{
 		[bookData resetData];
+		[navCon release];
+		self.navCon = nil;
+	}
 	
 	return loadedOK;
 }
@@ -333,6 +338,7 @@
 	bookData = [TBBookData sharedBookData];
 	fileUtils = [[TBFileUtils alloc] init];
 	currentPlugin = nil;
+	navCon = nil;
 	
 	return self;
 }
@@ -342,8 +348,6 @@
 {
 	[fileUtils release];
 	[validFileExtensions release];
-	[controlDoc release];
-	[packageDoc release];
 	[navCon	release];
 	
 	[super dealloc];
@@ -351,7 +355,7 @@
 
 @synthesize currentPlugin;
 @synthesize validFileExtensions;
-@synthesize navCon, packageDoc, controlDoc;
+@synthesize navCon;
 @synthesize bookData;
 
 @end
@@ -359,22 +363,10 @@
 @implementation TBStdFormats (Private)
 
 
-//+ (NSMutableArray *)insertPlugin:(TBStdFormats *)aPlugin intoArray:(NSArray *)anArray
-//{
-//	NSMutableArray *currentTypes = [NSMutableArray arrayWithArray:anArray];
-//	// check if the type is a variant of another type (possibly Standard Type)
-//	if([aPlugin isVariant])
-//		[currentTypes insertObject:aPlugin atIndex:0];
-//	else
-//		[currentTypes addObject:aPlugin];
-//
-//	return currentTypes;
-//}
-
-- (TalkingBookMediaFormat)checkMediaFormat
+- (TalkingBookMediaFormat)validateMediaFormat:(TalkingBookMediaFormat)aBookFormat
 {
 	NSInteger resultCode;
-	TalkingBookMediaFormat format = _mediaFormat;
+	TalkingBookMediaFormat format = aBookFormat;
 	
 	if(UnknownMediaFormat == format)
 	{

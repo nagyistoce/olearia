@@ -19,12 +19,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 #import "TBTextContentDoc.h"
-#import  "TBSpeechController.h"
+#import "TBSpeechController.h"
 
 @class TBPackageDoc, TBControlDoc, TBSMILDocument, BBSAudioSegment;
 
@@ -44,13 +43,13 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 	NSSpeechSynthesizer	*mainSpeechSynth;
 	NSSpeechSynthesizer *auxiliarySpeechSynth;
 	
-	NSString			*_currentSmilFilename;
-	NSString			*_currentTextFilename;
-	NSString			*_currentTag;
-	NSString			*_contentToSpeak;
+	NSString			*currentSmilFilename;
+	NSString			*currentTextFilename;
+	NSString			*currentTag;
+	NSString			*contentToSpeak;
 	
-	BBSAudioSegment		*_audioSegment;
-	NSString			*_currentAudioFilename;
+	BBSAudioSegment		*audioSegment;
+	NSString			*currentAudioFilename;
 	BOOL				_didUserNavigationChange;
 	BOOL				_shouldJumpToTime;
 	BOOL				_mainSynthIsSpeaking;
@@ -61,12 +60,17 @@ extern NSString * const TBAuxSpeechConDidFinishSpeaking;
 	
 }
 
-@property (readwrite)			TalkingBookMediaFormat bookMediaFormat;
-@property (readwrite, retain)	TBPackageDoc		*packageDocument;
-@property (readwrite, retain)	TBControlDoc		*controlDocument;
-@property (readwrite, retain)	TBSMILDocument		*smilDocument;
-@property (readwrite, retain)	TBTextContentDoc	*textDocument;
+@property (readwrite)			TalkingBookMediaFormat	bookMediaFormat;
+@property (readwrite, retain)	TBPackageDoc			*packageDocument;
+@property (readwrite, retain)	TBControlDoc			*controlDocument;
+@property (readwrite, retain)	TBSMILDocument			*smilDocument;
+@property (readwrite, retain)	TBTextContentDoc		*textDocument;
 
+@property (readwrite,copy)		NSString			*currentSmilFilename;
+@property (readwrite,copy)		NSString			*currentTextFilename;
+@property (readwrite,copy)		NSString			*currentTag;
+@property (readwrite,copy)		NSString			*contentToSpeak;	
+@property (readwrite,copy)		NSString			*currentAudioFilename;
 
 @end
 

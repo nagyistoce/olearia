@@ -29,10 +29,11 @@ extern NSString * const BBSAudioSegmentLoadStateDidChangeNotification;
 	
 	QTTime					audioLength;
 
-@private NSArray				*_extendedChapterData;
-@private QTMovie				*_theMovie;
-@private BOOL					_didAddChapters;
-@private NSNotificationCenter	*noteCenter;	
+@private 
+	NSArray					*_extendedChapterData;
+	QTMovie					*_theMovie;
+	BOOL					_didAddChapters;
+	NSNotificationCenter	*noteCenter;	
 	
 }
 

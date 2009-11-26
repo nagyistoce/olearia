@@ -71,10 +71,10 @@
 	// cleanup nice
 	// check what we may have used
 	
-	if(spine) [spine release];
-	if(manifest) [manifest release];
-	if(guide) [guide release];
-	if(tour) [tour release];
+	[spine release];
+	[manifest release];
+	[guide release];
+	[tour release];
 	
 	[super dealloc];
 }
@@ -255,9 +255,7 @@
 		{
 			for(NSXMLElement *anElement in guideElements)
 			{
-//				NSMutableDictionary *nodeContents = [[[NSMutableDictionary alloc] init] autorelease];
-//				[nodeContents setValue:[[anElement attributeForName:@"type"] stringValue] forKey:@"type"];
-//				[nodeContents setValue:[[anElement attributeForName:@"href"] stringValue] forKey:@"href"];
+
 				NSDictionary *nodeContents = [[[NSDictionary alloc] initWithObjectsAndKeys:
 											  [[anElement attributeForName:@"type"] stringValue], @"type",
 											  [[anElement attributeForName:@"href"] stringValue], @"href",

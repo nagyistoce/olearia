@@ -69,10 +69,10 @@
 
 - (NSString *)stringForXquery:(NSString *)aQuery ofNode:(NSXMLNode *)theNode;
 
-@property (readwrite, copy)	NSXMLNode			*currentNavPoint;
-@property (readonly, copy)	NSURL				*fileURL;
-@property (readwrite, copy) NSString			*currentPositionID;
-@property (readwrite) BOOL navigateForChapters;
+@property (readwrite, assign)	NSXMLNode		*currentNavPoint;
+@property (readonly, copy)		NSURL			*fileURL;
+@property (readwrite, copy)		NSString		*currentPositionID;
+@property (readwrite)			BOOL			navigateForChapters;
 
 
 @end

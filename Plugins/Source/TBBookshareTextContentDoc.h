@@ -33,32 +33,18 @@
 @interface TBBookshareTextContentDoc (Synchronization)
 
 
-//
-//- (void)jumpToNodeWithPath:(NSString *)fullPathToNode;
-//- (void)jumpToNodeWithIdTag:(NSString *)anIdTag;
-//- (void)updateDataForCurrentPosition;
-//- (NSString *)currentIdTag;
-
-
 @end
 
 
 @interface TBBookshareTextContentDoc (Information)
 
-- (BOOL)canGoNext;
-- (BOOL)canGoPrev;
-- (BOOL)canGoUpLevel;
-- (BOOL)canGoDownLevel;
-- (NSString *)contentText;
+
 
 @end
 
 @interface TBBookshareTextContentDoc (Navigation)
 
-- (void)moveToNextSegmentAtSameLevel;
-- (void)moveToPreviousSegment;
-- (void)goUpALevel;
-- (void)goDownALevel;
+
 
 @end
 

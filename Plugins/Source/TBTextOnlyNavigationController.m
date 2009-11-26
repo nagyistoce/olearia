@@ -69,15 +69,15 @@
 			
 			// check if the smil file REALLY needs to be loaded
 			// Failsafe for single smil books 
-			if(![_currentSmilFilename isEqualToString:filename])
+			if(![currentSmilFilename isEqualToString:filename])
 			{
-				_currentSmilFilename = [filename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.baseFolderPath]];
+				self.currentSmilFilename = [filename copy];
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
 			// set the smil file to the correct start point for navigation and playback
-			_currentTag = [controlDocument currentIdTag];
-			[smilDocument jumpToNodeWithIdTag:_currentTag];
+			self.currentTag = [controlDocument currentIdTag];
+			[smilDocument jumpToNodeWithIdTag:currentTag];
 			
 			filename = [smilDocument relativeTextFilePath];
 			if(filename)
@@ -85,14 +85,14 @@
 				if(!textDocument)
 					textDocument = [[TBTextContentDoc alloc] init];
 				
-				if(![_currentTextFilename isEqualToString:filename])
+				if(![currentTextFilename isEqualToString:filename])
 				{
-					_currentTextFilename = [filename copy];
-					[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
+					self.currentTextFilename = [filename copy];
+					[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
 				}
-				[textDocument jumpToNodeWithIdTag:_currentTag];
+				[textDocument jumpToNodeWithIdTag:currentTag];
 				[textDocument updateDataAfterJump];
-				_contentToSpeak = [textDocument contentText];
+				self.contentToSpeak = [[textDocument contentText] copy];
 			}
 			else // no audio filenames found 
 			{
@@ -142,7 +142,7 @@
 	{
 		
 		
-		[mainSpeechSynth startSpeakingString:_contentToSpeak];
+		[mainSpeechSynth startSpeakingString:contentToSpeak];
 		
 	}
 	
@@ -162,17 +162,15 @@
 	if(controlDocument)
 	{	
 		[controlDocument moveToNextSegmentAtSameLevel];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	self.contentToSpeak = [textDocument contentText];
+	[self updateAfterNavigationChange];
+	
 	_didUserNavigationChange = YES;
-	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
-	_contentToSpeak = [textDocument contentText];
-	[super updateAfterNavigationChange];
-	
 	[mainSpeechSynth stopSpeaking];
-	
 }
 
 - (void)previousElement
@@ -180,14 +178,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument moveToPreviousSegment];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	
 	_didUserNavigationChange = YES;
 	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
-	_contentToSpeak = [textDocument contentText];
-	[super updateAfterNavigationChange];
+	[textDocument jumpToNodeWithIdTag:currentTag];
+	self.contentToSpeak = [[textDocument contentText] copy];
+	[self updateAfterNavigationChange];
 
 	[mainSpeechSynth stopSpeaking];
 	
@@ -198,14 +196,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument goUpALevel];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	
 	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
+	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -218,13 +216,13 @@
 	if(controlDocument)
 	{	
 		[controlDocument goDownALevel];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
+	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -237,7 +235,7 @@
 	if(controlDocument)
 	{	
 		[controlDocument jumpToNodeWithPath:aNodePath];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	else if(packageDocument)
 	{
@@ -247,7 +245,7 @@
 	_didUserNavigationChange = YES;
 	
 	//[self updateAfterNavigationChange];
-	[textDocument jumpToNodeWithIdTag:_currentTag];
+	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
 }
@@ -291,12 +289,12 @@
 				if (!isEndOfBook)
 				{
 					[controlDocument updateDataForCurrentPosition];
-					_currentTag = [controlDocument currentIdTag];
-					[textDocument jumpToNodeWithIdTag:_currentTag];
-					_contentToSpeak = [textDocument contentText];
+					self.currentTag = [controlDocument currentIdTag];
+					[textDocument jumpToNodeWithIdTag:currentTag];
+					self.contentToSpeak = textDocument.contentText;
 				}	
 				else 
-					_contentToSpeak = @"End of Book.";
+					self.contentToSpeak = @"End of Book.";
 
 			[self startPlayback];
 
@@ -306,7 +304,7 @@
 				[self stopPlayback];
 				[self prepareForPlayback];
 				[controlDocument jumpToNodeWithIdTag:nil];
-				_currentTag = [controlDocument currentIdTag];
+				self.currentTag = [controlDocument currentIdTag];
 				[self updateAfterNavigationChange];
 			}
 		}
@@ -335,17 +333,17 @@
 	
 }
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
-{
-	//	if(sender == mainSpeechSynth)
-	//	{
-	//		//NSLog(@"word num is %d",wordToSpeak.location);
-	//	}
-	// send a notifcation or tell the web/text view to 
-	//highlight the current word about to be spoken
-	//NSString *wordIs = [text substringWithRange:wordToSpeak];
-	//NSLog(@"speaking -> %@",wordIs);
-}
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+//{
+//	//	if(sender == mainSpeechSynth)
+//	//	{
+//	//		//NSLog(@"word num is %d",wordToSpeak.location);
+//	//	}
+//	// send a notifcation or tell the web/text view to 
+//	//highlight the current word about to be spoken
+//	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+//	//NSLog(@"speaking -> %@",wordIs);
+//}
 
 
 @end

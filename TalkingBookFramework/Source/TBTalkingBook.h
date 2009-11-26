@@ -42,7 +42,7 @@ typedef enum
 	BOOL					_wasPlaying;
 	
 	NSMutableArray			*formatPlugins;
-	id<TBPluginInterface>		currentPlugin;
+	id<TBPluginInterface>	currentPlugin;
 	
 	
 	
@@ -96,10 +96,10 @@ typedef enum
 
 @property (readwrite, retain)		TBBookData	*bookData;
 
-@property (readwrite)			BOOL		bookIsLoaded;
+@property (readwrite)				BOOL		bookIsLoaded;
 
-@property (readonly) BOOL		canPlay;
+@property (readonly)				BOOL		canPlay;
 
-@property (readwrite, retain)		id<TBPluginInterface>	currentPlugin;
+@property (readonly, assign)		id<TBPluginInterface>	currentPlugin;
 
 @end

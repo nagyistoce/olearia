@@ -459,6 +459,5 @@
 
 @synthesize loadFromCurrentLevel;
 
-//@synthesize _bodyNodes;
 
 @end

@@ -41,42 +41,42 @@ extern NSString * const AudioPlaybackVolume;
 @interface TBBookData : NSObject 
 {
 	
-	NSString				*m_bookTitle;
-	NSString				*m_bookSubject;
-	NSString				*m_sectionTitle;
+	NSString				*bookTitle;
+	NSString				*bookSubject;
+	NSString				*sectionTitle;
 
-	NSInteger				m_totalPages;
-	NSInteger				m_currentPageNumber;
-	NSString				*m_currentPageString;
-	QTTime					m_totalPlaybackTime;
-	QTTime					m_currentPlaybackTime;
-	NSString				*m_totalPlaybackTimeString;
-	NSString				*m_currentPlaybackTimeString;
-	NSString				*m_currentLevelString;
-	NSInteger				m_currentLevel;
+	NSInteger				totalPages;
+	NSInteger				currentPageNumber;
+	NSString				*currentPageString;
+	QTTime					totalPlaybackTime;
+	QTTime					currentPlaybackTime;
+	NSString				*totalPlaybackTimeString;
+	NSString				*currentPlaybackTimeString;
+	NSString				*currentLevelString;
+	NSInteger				currentLevel;
 	
-	BOOL					m_hasNextChapter;
-	BOOL					m_hasPreviousChapter;
-	BOOL					m_hasLevelUp;
-	BOOL					m_hasLevelDown;
-	BOOL					m_hasNextSegment;
-	BOOL					m_hasPreviousSegment;
-	BOOL					m_isPlaying;
+	BOOL					hasNextChapter;
+	BOOL					hasPreviousChapter;
+	BOOL					hasLevelUp;
+	BOOL					hasLevelDown;
+	BOOL					hasNextSegment;
+	BOOL					hasPreviousSegment;
+	BOOL					isPlaying;
 	
-	QTTime					m_audioSkipDuration;
+	QTTime					audioSkipDuration;
 	
-	BOOL					m_localBookSettingsHaveChanged;
+	BOOL					localBookSettingsHaveChanged;
 	
-	NSURL					*m_baseFolderPath;
+	NSURL					*baseFolderPath;
 	
 	// User settings
-	NSString				*m_preferredVoiceIdentifier;
-	BOOL					m_ignoreRecordedAudioContent;
-	BOOL					m_speakUserLevelChange;
-	BOOL					m_includeSkippableContent;
-	float					m_audioPlaybackRate;
-	float					m_audioPlaybackVolume;
-	float					m_voicePlaybackVolume;
+	NSString				*preferredVoiceIdentifier;
+	BOOL					ignoreRecordedAudioContent;
+	BOOL					speakUserLevelChange;
+	BOOL					includeSkippableContent;
+	float					audioPlaybackRate;
+	float					audioPlaybackVolume;
+	float					voicePlaybackVolume;
 	
 	
 }

@@ -51,6 +51,12 @@
 	return nil;
 }
 
+- (void) dealloc
+{
+	[super dealloc];
+}
+
+
 - (BOOL)openBook:(NSURL *)bookURL
 {
 	BOOL opfLoaded = NO;
@@ -58,7 +64,9 @@
 	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
-	_mediaFormat = UnknownMediaFormat;
+	TalkingBookMediaFormat mediaFormat = UnknownMediaFormat;
+	TBControlDoc *controlDoc = nil;
+	TBPackageDoc *packageDoc = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
 	if([self canOpenBook:bookURL])
@@ -96,8 +104,6 @@
 					// this should not happen that often but might occasionally 
 					// with badly authored books.
 					controlFileURL = bookURL;  
-					
-					packageDoc = nil;
 				}
 			}
 		}
@@ -105,7 +111,7 @@
 		if(packageFileUrl)
 		{
 			if(!packageDoc)
-				packageDoc = [[TBOPFDocument alloc] init];
+				packageDoc = [[[TBOPFDocument alloc] init] autorelease];
 			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
@@ -130,13 +136,10 @@
 					
 					opfLoaded = YES;
 				}
-				else 
-					packageDoc = nil;
 				
 			}
 			else
 			{
-				packageDoc = nil;
 				// opening the opf failed for some reason so try to open just the control file
 				controlFileURL = [fileUtils fileURLFromFolder:[[packageFileUrl path] stringByDeletingLastPathComponent] WithExtension:@"ncx"];
 			}
@@ -145,7 +148,7 @@
 		if (controlFileURL)
 		{
 			if(!controlDoc)
-				controlDoc = [[TBNCXDocument alloc] init];
+				controlDoc = [[[TBNCXDocument alloc] init] autorelease];
 			
 			// attempt to load the ncx file
 			if([controlDoc openWithContentsOfURL:controlFileURL])
@@ -158,31 +161,28 @@
 
 				ncxLoaded = YES;
 			}
-			else
-				controlDoc = nil;
+
 		}	
 		
 		if(ncxLoaded || opfLoaded)
 		{
 			if (opfLoaded) 
-				_mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
-			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
+				mediaFormat = [self mediaFormatFromString:[packageDoc mediaFormatString]];
+			navConDidLoad = [self loadCorrectNavControllerForBookFormat:mediaFormat];
 			
 			if (navConDidLoad)
 			{
-				navCon.bookMediaFormat = _mediaFormat;
+				self.navCon.bookMediaFormat = mediaFormat;
 				
 				if(opfLoaded)
 				{	
-					navCon.packageDocument = packageDoc;
-					packageDoc = nil;
-					currentPlugin = self;
+					self.navCon.packageDocument = packageDoc;
+					self.currentPlugin = self;
 				}
 				if(ncxLoaded)
 				{	
-					navCon.controlDocument = controlDoc;
-					controlDoc = nil;
-					currentPlugin = self;
+					self.navCon.controlDocument = controlDoc;
+					self.currentPlugin = self;
 				}
 				
 				[navCon prepareForPlayback];
@@ -217,66 +217,11 @@
 }
 
 #pragma mark -
-#pragma mark optional protocol methods
-
-- (NSString *)currentPlaybackTime
-{
-	return [super currentPlaybackTime];
-}
-
-- (NSString *)currentControlPoint
-{
-	return [super currentControlPoint];
-}
-
-//- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-//{
-//	[super jumpToControlPoint:aPoint andTime:aTime];
-//}
-
-- (void)nextReadingElement;
-{
-	[super nextReadingElement];
-}
-
-- (void)previousReadingElement;
-{
-	[super previousReadingElement];
-}
-
-- (void)upLevel;
-{
-	[super upLevel];
-}
-
-- (void)downLevel
-{
-	[super downLevel];
-}
-
-- (NSView *)bookTextView;
-{
-	return [super bookTextView];
-}
-
-- (NSView *)bookInfoView;
-{
-	return [super bookInfoView];
-}
-
-#pragma mark -
 
 - (void)setupPluginSpecifics
 {
 	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
-	navCon = nil;
 }
-
-- (void) dealloc
-{	
-	[super dealloc];
-}
-
 
 #pragma mark -
 #pragma mark subclass Methods

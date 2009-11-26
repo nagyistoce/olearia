@@ -25,9 +25,10 @@
 @interface TBTalkingBook ()
 
 @property (readwrite, retain)	NSMutableArray	*formatPlugins;
-//@property (readwrite)		TalkingBookType _controlMode;
 
 @property (readwrite)	BOOL	_wasPlaying;
+
+@property (readwrite, assign)		id<TBPluginInterface>	currentPlugin;
 
 // Bindings related
 @property (readwrite)	BOOL	canPlay;
@@ -54,9 +55,10 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	self.bookData = [TBBookData sharedBookData];
+	bookData = [TBBookData sharedBookData];
 	
 	formatPlugins = [[NSMutableArray alloc] init];
+	currentPlugin = nil;
 	[self loadPlugins];
 	
 	[self resetBook];
@@ -104,7 +106,7 @@
 			// set the currentplugin to the plugin that did open the book
 			currentPlugin = thePlugin;
 			bookDidOpen = YES;
-			bookIsLoaded = YES;
+			self.bookIsLoaded = YES;
 			self.canPlay = YES;
 			if([infoPanel isVisible])
 			{	
@@ -128,7 +130,7 @@
 
 - (void)setAudioSkipDuration:(float)newDuration
 {
-	bookData.audioSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
+	self.bookData.audioSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
 }
 
 #pragma mark -
@@ -136,12 +138,14 @@
 
 - (void)play
 {
-	[currentPlugin startPlayback];
+	if(currentPlugin)
+		[currentPlugin startPlayback];
 }
 
 - (void)pause
 {	
-	[currentPlugin stopPlayback];
+	if(currentPlugin)
+		[currentPlugin stopPlayback];
 }
 
 
@@ -347,7 +351,7 @@
 
 - (void)jumpToPoint:(NSString *)aNodePath andTime:(NSString *)aTimeStr
 {
-	if(aNodePath)
+	if(aNodePath && currentPlugin)
 		[currentPlugin jumpToControlPoint:aNodePath andTime:aTimeStr];
 	
 }
@@ -431,7 +435,7 @@
 
 - (void)setPreferredVoice:(NSString *)aVoiceID;
 {
-	bookData.preferredVoiceIdentifier = aVoiceID;
+	self.bookData.preferredVoiceIdentifier = aVoiceID;
 }
 
 
