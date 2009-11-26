@@ -285,12 +285,12 @@
 		{
 			if ((controlDocument) && !isEndOfBook)
 			{
-				isEndOfBook = ![controlDocument moveToNextSegment];
+				isEndOfBook = ![textDocument moveToNextSuitableNode];
 				if (!isEndOfBook)
 				{
-					[controlDocument updateDataForCurrentPosition];
-					self.currentTag = [controlDocument currentIdTag];
-					[textDocument jumpToNodeWithIdTag:currentTag];
+					[textDocument updateDataForCurrentPosition];
+					self.currentTag = [textDocument currentIdTag];
+					[controlDocument jumpToNodeWithIdTag:currentTag];
 					self.contentToSpeak = textDocument.contentText;
 				}	
 				else 
@@ -305,6 +305,7 @@
 				[self prepareForPlayback];
 				[controlDocument jumpToNodeWithIdTag:nil];
 				self.currentTag = [controlDocument currentIdTag];
+				[textDocument jumpToNodeWithIdTag:currentTag];
 				[self updateAfterNavigationChange];
 			}
 		}
