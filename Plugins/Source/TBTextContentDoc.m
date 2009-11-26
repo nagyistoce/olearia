@@ -33,7 +33,6 @@
 - (NSUInteger)itemsOnCurrentLevel;
 - (NSUInteger)itemIndexOnCurrentLevel;
 - (BOOL)isHeadingNode:(NSXMLNode *)aNode;
-- (BOOL)moveToNextSuitableNode;
 
 @end
 
@@ -220,6 +219,56 @@
 
 @implementation TBTextContentDoc (Navigation)
 
+- (BOOL)moveToNextSuitableNode
+{
+	BOOL foundNode = NO;
+	NSXMLNode *tempNode = currentNode;
+
+	if (([[tempNode name] isEqualToString:@"frontmatter"]) || ([[tempNode name] isEqualToString:@"bodymatter"])) 
+	{
+		tempNode = [tempNode childAtIndex:0];
+		
+	}
+
+		if([tempNode nextNode] != nil)
+		{
+			
+			//if([[tempNode nextNode] kind] == NSXMLTextKind)
+			//{	
+			//tempNode = [tempNode nextNode];
+				//NSLog(@"node name -> %@",[tempNode name]);
+			
+			
+			while ((!foundNode))
+			{
+				tempNode = [tempNode nextNode];
+				if ([specifiers containsObject:[tempNode name]])
+				{
+					if ([tempNode childCount] > 1)
+					{
+						currentNode = [tempNode childAtIndex:0];
+						foundNode = YES;
+					}
+					else 
+					{
+						currentNode = tempNode;
+						foundNode = YES;
+					}
+
+					
+				}	
+				else if([singleSpecifiers containsObject:[tempNode name]])
+				{
+					currentNode = tempNode;
+					foundNode = YES;
+				}
+				
+			}
+			
+	}
+
+	return foundNode;	
+}
 
 @end
 
@@ -284,56 +333,6 @@
 	return NO;
 }
 
-- (BOOL)moveToNextSuitableNode
-{
-	BOOL foundNode = NO;
-	NSXMLNode *tempNode = currentNode;
-
-	if (([[tempNode name] isEqualToString:@"frontmatter"]) || ([[tempNode name] isEqualToString:@"bodymatter"])) 
-	{
-		tempNode = [tempNode childAtIndex:0];
-		
-	}
-
-		if([tempNode nextNode] != nil)
-		{
-			
-			//if([[tempNode nextNode] kind] == NSXMLTextKind)
-			//{	
-			//tempNode = [tempNode nextNode];
-				//NSLog(@"node name -> %@",[tempNode name]);
-			
-			
-			while ((!foundNode))
-			{
-				tempNode = [tempNode nextNode];
-				if ([specifiers containsObject:[tempNode name]])
-				{
-					if ([tempNode childCount] > 1)
-					{
-						currentNode = [tempNode childAtIndex:0];
-						foundNode = YES;
-					}
-					else 
-					{
-						currentNode = tempNode;
-						foundNode = YES;
-					}
-
-					
-				}	
-				else if([singleSpecifiers containsObject:[tempNode name]])
-				{
-					currentNode = tempNode;
-					foundNode = YES;
-				}
-				
-			}
-			
-	}
-
-	return foundNode;	
-}
 
 @end
 

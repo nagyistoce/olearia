@@ -57,7 +57,6 @@
 
 @end
 
-
 @interface TBTextContentDoc (Information)
 
 - (BOOL)canGoNext;
@@ -68,6 +67,7 @@
 @end
 
 @interface TBTextContentDoc (Navigation)
+- (BOOL)moveToNextSuitableNode;
 
 @end
 
