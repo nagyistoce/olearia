@@ -34,7 +34,7 @@
 
 - (void)setupPluginSpecifics
 {
-	navCon = nil;
+
 }
 
 + (DTB202BookPlugin *)bookType
@@ -49,13 +49,20 @@
 	return nil;
 }
 
+- (void) dealloc
+{
+	[super dealloc];
+}
+
 - (BOOL)openBook:(NSURL *)bookURL
 {
 	
 	BOOL nccLoaded = NO;
 	BOOL navConDidLoad = NO;
 	NSURL *controlFileURL = nil;
-	_mediaFormat = UnknownMediaFormat;
+	TBControlDoc *controlDoc = nil;
+
+	
 
 	// do a sanity check first to see that we can attempt to open the URL. 
 	if([self canOpenBook:bookURL])
@@ -114,7 +121,7 @@
 			{
 				// check if the folder path has already been set
 				if (!bookData.baseFolderPath)
-					bookData.baseFolderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
+					self.bookData.baseFolderPath = [NSURL fileURLWithPath:[[controlFileURL path] stringByDeletingLastPathComponent]];
 				// the control file opened correctly
 				// get the dc:Format node string
 				NSString *bookFormatString = [controlDoc stringForXquery:@"/html/head/meta[ends-with(@name,'format')] /data(@content)" ofNode:nil];
@@ -137,33 +144,28 @@
 				controlDoc = nil;
 				
 			}
-		
-			
 		}
 		
 		if(nccLoaded)
 		{
-			_mediaFormat = [self mediaFormatFromString:[controlDoc mediaFormatString]];
-			navConDidLoad = [super loadCorrectNavControllerForBookFormat];
+			TalkingBookMediaFormat mediaFormat = [self mediaFormatFromString:[controlDoc mediaFormatString]];
+			navConDidLoad = [self loadCorrectNavControllerForBookFormat:mediaFormat];
 			
 			if (navConDidLoad)
 			{
 				
-				navCon.bookMediaFormat = _mediaFormat;
-				navCon.controlDocument = controlDoc;
+				self.navCon.bookMediaFormat = mediaFormat;
+				self.navCon.controlDocument = controlDoc;
 				controlDoc = nil;
 				
 				//[navCon moveControlPoint:nil withTime:nil];
 				
 				[navCon prepareForPlayback];
 				
-				currentPlugin = self;
+				self.currentPlugin = self;
 				
 			}
-
-			
 		}
-		
 	}
 	else
 		if(navCon)
@@ -190,64 +192,12 @@
 	return nil;
 }
 
-- (NSString *)currentPlaybackTime
-{
-	return [super currentPlaybackTime];
-}
-
-- (NSString *)currentControlPoint
-{
-	return [super currentControlPoint];
-}
-
-- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-{
-	[super jumpToControlPoint:aPoint andTime:aTime];
-}
-
 #pragma mark -
 #pragma mark Navigation
-
-- (void)nextReadingElement;
-{
-	[super nextReadingElement];
-}
-
-- (void)previousReadingElement;
-{
-	[super previousReadingElement];
-}
-
-- (void)upLevel;
-{
-	[super upLevel];
-}
-
-- (void)downLevel
-{
-	[super downLevel];
-}
-
-- (void)startPlayback
-{
-	[super startPlayback];
-}
-
-- (void)stopPlayback
-{
-	[super stopPlayback];
-}
 
 - (NSString *)FormatDescription
 {
 	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the Daisy 2.02 standard",@"Daisy 2.02 Standard description");
-}
-
-#pragma mark -
-
-- (void) dealloc
-{
-	[super dealloc];
 }
 
 @end

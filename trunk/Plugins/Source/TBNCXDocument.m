@@ -23,13 +23,12 @@
 
 @interface TBNCXDocument ()
 
-@property (readwrite, retain)	NSXMLNode		*navListNode;
+@property (readwrite, assign)	NSXMLNode		*navListNode;
 @property (readwrite, retain)	NSArray			*navTargets;
 
 - (NSUInteger)navPointsOnCurrentLevel;
 - (NSUInteger)navPointIndexOnCurrentLevel;
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode;
-
 
 @end
 
@@ -120,13 +119,13 @@
 	// check if we were given a node to jump to
 	if(fullPathToNode)
 		// set the current point to the saved one
-		currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
+		self.currentNavPoint = [[xmlControlDoc nodesForXPath:fullPathToNode error:nil] objectAtIndex:0];
 	else
 	{
 		// find the first navpoint node
 		NSArray *navmapNodes = [xmlControlDoc nodesForXPath:@"/ncx/navMap[1]/navPoint[1]" error:nil];
 		if([navmapNodes count] > 0)
-			currentNavPoint = [navmapNodes objectAtIndex:0];
+			self.currentNavPoint = [navmapNodes objectAtIndex:0];
 	}
 	
 	[self updateDataForCurrentPosition];
@@ -139,7 +138,7 @@
 		NSString *queryStr = [NSString stringWithFormat:@"/ncx[1]/navMap[1]//*[@id='%@']",anIdTag];
 		NSArray *tagNodes = nil;
 		tagNodes = [xmlControlDoc nodesForXPath:queryStr error:nil];
-		currentNavPoint = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNavPoint;
+		self.currentNavPoint = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNavPoint;
 	}
 }
 
@@ -149,13 +148,13 @@
 	
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
-		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+		self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
 		bookData.currentLevel++; // increment the level
 		didMove = YES;
 	}
 	else if([self canGoNext]) // we then check if there is another navPoint at the same level
 	{	
-		currentNavPoint = [currentNavPoint nextSibling];
+		self.currentNavPoint = [currentNavPoint nextSibling];
 		didMove = YES;
 	}
 	else if([self canGoUpLevel]) // we have reached the end of the current level so go up
@@ -164,7 +163,7 @@
 		{	
 			// get the parent then its sibling as we have already played 
 			// the parent before dropping into this level
-			currentNavPoint = [[currentNavPoint parent] nextSibling];
+			self.currentNavPoint = [[currentNavPoint parent] nextSibling];
 			bookData.currentLevel--; // decrement the current level
 			didMove = YES;
 		}
@@ -176,7 +175,7 @@
 - (void)moveToNextSegmentAtSameLevel
 {
 	// this only used when the user chooses to go to the next file on a given level
-	currentNavPoint = [currentNavPoint nextSibling];
+	self.currentNavPoint = [currentNavPoint nextSibling];
 	[self updateDataForCurrentPosition];
 }
 
@@ -188,7 +187,7 @@
 	if(NO == navigateForChapters)
 	{
 		// we have a node on this level
-		currentNavPoint = [currentNavPoint previousSibling];
+		self.currentNavPoint = [currentNavPoint previousSibling];
 	}
 	else
 	{
@@ -200,7 +199,7 @@
 		// look back through the previous nodes for a navpoint
 		while(NO == foundNode)
 		{
-			currentNavPoint = [currentNavPoint previousNode];
+			self.currentNavPoint = [currentNavPoint previousNode];
 			if([[currentNavPoint name] isEqualToString:@"navPoint"])
 				foundNode = YES;
 		}
@@ -302,7 +301,7 @@
 {
 	if([self canGoDownLevel]) // first check if we can go down a level
 	{	
-		currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
+		self.currentNavPoint = [[currentNavPoint nodesForXPath:@"navPoint" error:nil] objectAtIndex:0]; // get the first navpoint on the next level down
 		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // change the level index
 	}
 	[self updateDataForCurrentPosition];
@@ -312,7 +311,7 @@
 {
 	if([self canGoUpLevel]) // check that we can go up first
 	{	
-		currentNavPoint = [currentNavPoint parent];
+		self.currentNavPoint = [currentNavPoint parent];
 		bookData.currentLevel = [self levelOfNode:currentNavPoint]; // decrement the level index
 	}
 	[self updateDataForCurrentPosition];
@@ -415,13 +414,15 @@
 
 - (NSUInteger)navPointsOnCurrentLevel
 {
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count]; 
+	NSUInteger navPointCount = [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] count];
+	return  navPointCount;
 }
 
 - (NSUInteger)navPointIndexOnCurrentLevel
 {
 	// returns an index of the current navPoint relative to the other navPoints on the same level
-	return [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
+	NSUInteger navPointIndex = [[[currentNavPoint parent] nodesForXPath:@"navPoint" error:nil] indexOfObject:currentNavPoint];
+	return navPointIndex;
 }
 
 - (NSInteger)levelOfNode:(NSXMLNode *)aNode

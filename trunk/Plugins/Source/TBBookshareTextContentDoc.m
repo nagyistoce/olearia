@@ -46,9 +46,9 @@
 	//bookData = [TBBookData sharedBookData];
 //	
 //	
-//	_singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",nil] retain];
-//	_prefixSpecifiers = [[NSArray arrayWithObjects:@"level",@"h",nil] retain];
-//	_groupSpecifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",nil] retain];
+//	singleSpecifiers = [[NSArray arrayWithObjects:@"pagenum",@"sent",@"img",@"prodnote",@"caption",nil] retain];
+//	prefixSpecifiers = [[NSArray arrayWithObjects:@"level",@"h",nil] retain];
+//	groupSpecifiers = [[NSArray arrayWithObjects:@"p",@"imggroup",nil] retain];
 //	
 //	[[bookData talkingBookSpeechSynth] setDelegate:self];
 	
@@ -57,73 +57,13 @@
 
 - (void) dealloc
 {
-//	[_singleSpecifiers release];
-//	[_prefixSpecifiers release];
+//	[singleSpecifiers release];
+//	[prefixSpecifiers release];
 //	[xmlTextDoc release];
 	
 	[super dealloc];
 }
 
-
-//- (BOOL)openWithContentsOfURL:(NSURL *)aURL
-//{
-//	BOOL loadedOk = NO;
-//	NSError *theError = nil;
-//	
-//	xmlTextDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
-//	
-//	if(xmlTextDoc)
-//	{	
-//		
-//		
-//		NSArray *startNodes = nil;
-//		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
-//		_currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
-//		
-//		if(nil != _currentNode)
-//		{	
-//	
-//			[self moveToNextSuitableNode];
-//			[self updateDataForCurrentPosition];
-//			_endOfBook = NO;
-//			loadedOk = YES;
-//			
-//		}
-//	}
-//	else // we got a nil return so display the error to the user
-//	{
-//		NSAlert *theAlert = [NSAlert alertWithError:theError];
-//		[theAlert setMessageText:LocalizedStringInTBStdPluginBundle(@"Error Opening Text Content", @"text content open fail alert short msg")];
-//		[theAlert setInformativeText:LocalizedStringInTBStdPluginBundle(@"There was a problem opening the textual content file (.xml).\n This book may still play if it has audio content.", @"text content open fail alert long msg")];
-//		[theAlert beginSheetModalForWindow:[NSApp keyWindow] 
-//									modalDelegate:nil 
-//								  didEndSelector:nil 
-//									  contextInfo:nil];
-//	}
-//	
-//	return loadedOk;
-//}
-
-
-//- (void)startSpeakingFromIdTag:(NSString *)aTag
-//{
-//	if(bookData.talkingBookSpeechSynth.delegate != self)
-//		[[bookData talkingBookSpeechSynth] setDelegate:self];
-//	[self jumpToNodeWithIdTag:aTag];
-//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//}
-//
-//
-//- (void)startSpeaking
-//{
-//	if(bookData.talkingBookSpeechSynth.delegate != self)
-//		[[bookData talkingBookSpeechSynth] setDelegate:self];
-//	
-//	// testing purposes only
-//	bookData.hasNextSegment = YES;
-//	
-//	[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
-//}
 
 @end
 
@@ -171,14 +111,14 @@
 //		}
 //		
 //		
-//		//self.bookData.currentLevel = [self levelOfNode:_currentNavPoint];
+//		//self.bookData.currentLevel = [self levelOfNode:currentNavPoint];
 //		
 //		
 //		
 //		
 //	}
 //	
-//	//self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:_currentNavPoint];
+//	//self.bookData.sectionTitle = [self stringForXquery:@"navLabel/data(text)" ofNode:currentNavPoint];
 //
 //	[self updateDataForCurrentPosition];
 	
@@ -221,14 +161,7 @@
 {
 	// return YES if there is level? node as the next node
 	NSString *newLevelString = [NSString stringWithFormat:@"level%d",bookData.currentLevel+1];
-	return ([[[_currentNode nextNode] name] isEqualToString:newLevelString]);
-}
-
-
-- (NSString *)contentText
-{
-	
-	return _contentStr;
+	return ([[[currentNode nextNode] name] isEqualToString:newLevelString]);
 }
 
 @end
@@ -237,13 +170,13 @@
 
 - (NSUInteger)itemsOnCurrentLevel
 {
-	return [[_currentNode parent] childCount]; 
+	return [[currentNode parent] childCount]; 
 }
 
 - (NSUInteger)itemIndexOnCurrentLevel
 {
 	// returns an index of the current node relative to the other nodes on the same level
-	return [_currentNode index];
+	return [currentNode index];
 }
 
 
@@ -266,33 +199,33 @@
 //- (BOOL)moveToNextSuitableNode
 //{
 //	BOOL foundNode = NO;
-//	NSXMLNode *tempNode = [_currentNode nextNode];
+//	NSXMLNode *tempNode = [currentNode nextNode];
 //	if(tempNode != nil)
 //	{
 //		if([tempNode kind] == NSXMLTextKind)
 //		{	
-//			tempNode = ([_currentNode nextSibling]) ? [_currentNode nextSibling] : [[_currentNode parent] nextSibling];
+//			tempNode = ([currentNode nextSibling]) ? [currentNode nextSibling] : [[currentNode parent] nextSibling];
 //			if(tempNode != nil)
 //			{
-//				_currentNode = tempNode;
+//				currentNode = tempNode;
 //				return YES;
 //				
 //			}
 //		}
 //		
-//		if([_groupSpecifiers containsObject:[tempNode name]])
-//			_currentNode = [tempNode childAtIndex:0];
-//		else if([_singleSpecifiers containsObject:[tempNode name]])
+//		if([groupSpecifiers containsObject:[tempNode name]])
+//			currentNode = [tempNode childAtIndex:0];
+//		else if([singleSpecifiers containsObject:[tempNode name]])
 //		{	
-//			_currentNode = tempNode;
+//			currentNode = tempNode;
 //			foundNode = YES;
 //		}
 //		else
-//			for(NSString *aPrefix in _prefixSpecifiers)
+//			for(NSString *aPrefix in prefixSpecifiers)
 //			{
 //				if([[tempNode name] hasPrefix:aPrefix])
 //				{
-//					_currentNode = tempNode;
+//					currentNode = tempNode;
 //					foundNode = YES;
 //					break;
 //				}
@@ -305,22 +238,22 @@
 
 //- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 //{
-//	if((sender == bookData.talkingBookSpeechSynth) && (success) && (!_endOfBook))
+//	if((sender == bookData.talkingBookSpeechSynth) && (success) && (!endOfBook))
 //	{	
 //		if([self moveToNextSuitableNode])
 //		{	
 //			[self updateDataForCurrentPosition];
-//			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//			[[bookData talkingBookSpeechSynth] startSpeakingString:contentStr];
 //		}
 //		else
 //		{
-//			_contentStr = @"End of book.";
-//			_endOfBook = YES;
-//			[[bookData talkingBookSpeechSynth] startSpeakingString:_contentStr];
+//			contentStr = @"End of book.";
+//			endOfBook = YES;
+//			[[bookData talkingBookSpeechSynth] startSpeakingString:contentStr];
 //		}
 //	}
 //	else
-//		if((sender == bookData.talkingBookSpeechSynth) && (_endOfBook))
+//		if((sender == bookData.talkingBookSpeechSynth) && (endOfBook))
 //		{
 //			// remove ourselves as the speech synth delegate
 //			[[bookData talkingBookSpeechSynth] setDelegate:nil];

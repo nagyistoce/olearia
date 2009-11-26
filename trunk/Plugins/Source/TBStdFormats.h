@@ -26,7 +26,7 @@
 #import "TBStdTextView.h"
 
 
-@class TBNavigationController, TBPackageDoc, TBControlDoc;
+@class TBNavigationController;
 
 
 @interface TBStdFormats : NSObject<TBPluginInterface> 
@@ -35,15 +35,10 @@
 	TBFileUtils			*fileUtils;
 	NSArray				*validFileExtensions;
 	
-	TalkingBookMediaFormat _mediaFormat;
-	
 	IBOutlet TBStdInfoView	*infoView;
 	IBOutlet TBStdTextView	*textview;
 
 	TBNavigationController	*navCon;
-	
-	TBPackageDoc			*packageDoc;
-	TBControlDoc			*controlDoc;
 	
 	TBStdFormats			*currentPlugin;
 
@@ -52,14 +47,12 @@
 - (void)setupPluginSpecifics;
 + (id)bookType;
 - (NSXMLNode *)infoMetadataNode;
-- (BOOL)loadCorrectNavControllerForBookFormat;
+- (BOOL)loadCorrectNavControllerForBookFormat:(TalkingBookMediaFormat)theFormat;
 - (TalkingBookMediaFormat)mediaFormatFromString:(NSString *)mediaTypeString;
 
 
 @property (readonly, retain)	NSArray					*validFileExtensions;
 @property (readwrite, retain)	TBNavigationController	*navCon;
-@property (readwrite, assign)	TBPackageDoc			*packageDoc;
-@property (readwrite, assign)	TBControlDoc			*controlDoc;
 
 @property (readwrite, assign)	TBStdFormats			*currentPlugin;
 

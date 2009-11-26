@@ -26,12 +26,11 @@
 @interface TBSMILDocument : NSObject 
 {
 	
-	NSXMLNode		*_currentNode;
 	NSString		*currentNodePath;
-	
-	NSURL			*_currentFileURL;
 
-	NSXMLDocument		*_xmlSmilDoc;
+	NSXMLNode		*currentNode;
+	NSURL			*currentFileURL;
+	NSXMLDocument		*xmlSmilDoc;
 
 }
 
@@ -48,5 +47,6 @@
 - (void)updateAfterPositionChange;
 
 @property (readwrite,copy)		NSString	*currentNodePath;
+@property (readwrite, assign)	NSXMLNode	*currentNode;
 
 @end

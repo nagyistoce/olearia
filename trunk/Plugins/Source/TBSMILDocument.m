@@ -25,9 +25,9 @@
 
 @interface TBSMILDocument ()
 
-@property (readwrite, retain)   NSXMLNode			*_currentNode;
-@property (readwrite, retain)	NSXMLDocument		*_xmlSmilDoc;
-@property (readwrite, copy)		NSURL				*_currentFileURL;
+//@property (readwrite, retain)   NSXMLNode			*currentNode;
+//@property (readwrite, retain)	NSXMLDocument		*xmlSmilDoc;
+//@property (readwrite, copy)		NSURL				*currentFileURL;
 
 - (void)resetSmil;
 
@@ -49,8 +49,8 @@
 {
 	if (!(self=[super init])) return nil;
 	
-	//_currentFileURL = [[NSURL alloc] init];
-	//_currentNode = [[NSXMLNode alloc] init];
+	currentFileURL = nil;
+	currentNode = nil;
 	currentNodePath = [[NSString alloc] init];
 	
 	return self;
@@ -58,13 +58,12 @@
 
 - (void) dealloc
 {
-	[_currentFileURL release];
-	_currentFileURL = nil;
+	[currentFileURL release];
 	
-	[_xmlSmilDoc release];
-	_xmlSmilDoc = nil;
+	[xmlSmilDoc release];
 	
-	_currentNode = nil;
+	currentNode = nil;
+	[currentNodePath release];
 	currentNodePath = nil;
 		
 	[super dealloc];
@@ -72,9 +71,9 @@
 
 - (void)resetSmil;
 {
-	_currentNode = nil;
+	currentNode = nil;
 	currentNodePath = nil;
-	_xmlSmilDoc = nil;
+	xmlSmilDoc = nil;
 }
 
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL 
@@ -83,32 +82,32 @@
 	BOOL openedOk = NO;
 	
 	// check that we are opening a new file
-	if(![aURL isEqualTo:_currentFileURL])
+	if(![aURL isEqualTo:currentFileURL])
 	{
 		[self resetSmil];
-		_currentFileURL = [aURL copy];
+		currentFileURL = [aURL copy];
 		// open the URL
 		
-		_xmlSmilDoc = [[NSXMLDocument alloc] initWithContentsOfURL:_currentFileURL options:NSXMLDocumentTidyXML error:&theError];
+		xmlSmilDoc = [[NSXMLDocument alloc] initWithContentsOfURL:currentFileURL options:NSXMLDocumentTidyXML error:&theError];
 		
-		if(_xmlSmilDoc != nil)
+		if(xmlSmilDoc != nil)
 		{
 			// get the first par node
 			NSArray *nodes = nil;
-			nodes = [_xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]//audio[1]" error:nil];
+			nodes = [xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]//audio[1]" error:nil];
 			if([nodes count])
 			{
-				_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
-				if(_currentNode)
+				currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
+				if(currentNode)
 					openedOk = YES;
 			}
 			else 
 			{
-				nodes = [_xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]/*/par[1]" error:nil];
+				nodes = [xmlSmilDoc nodesForXPath:@"/smil[1]/body[1]/*/par[1]" error:nil];
 				if([nodes count])
 				{
-					_currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
-					if(_currentNode)
+					currentNode = ([nodes count]) ? [[nodes objectAtIndex:0] parent] : nil;
+					if(currentNode)
 						openedOk = YES;
 				}
 			}
@@ -132,11 +131,11 @@
 	NSMutableArray *chapMarkers = [[NSMutableArray alloc] init];
 	NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//par[audio[@src='%@']])",aFile,aFile];
 	
-	NSArray *parNodes = [[_xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil];
+	NSArray *parNodes = [[xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil];
 	if(![parNodes count])
 	{   // no par nodes found so try another approach used for smil files 
 		queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]/seq[1]/(.//audio[@src='%@'])",aFile];
-		parNodes = [NSArray arrayWithArray:[[_xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil]];
+		parNodes = [NSArray arrayWithArray:[[xmlSmilDoc rootElement] nodesForXPath:queryStr error:nil]];
 	}
 		
 		
@@ -182,7 +181,7 @@
 - (BOOL)audioAfterCurrentPosition
 {
 	NSXMLNode *nextNode = nil;
-	NSXMLNode *theNode = _currentNode;
+	NSXMLNode *theNode = currentNode;
 	
 	nextNode = [theNode nextSibling];
 	if(!nextNode) 
@@ -207,8 +206,8 @@
 			if([newAudioNodes count])
 			{   
 				NSXMLNode *tempnode = [[newAudioNodes objectAtIndex:0] parent];
-				_currentNode = tempnode;
-				currentNodePath = [_currentNode XPath];
+				currentNode = tempnode;
+				currentNodePath = [currentNode XPath];
 				return YES;
 			}
 	}
@@ -221,7 +220,7 @@
 {
 	NSError *theError;
 	if(aNodePath)
-		_currentNode = [[_xmlSmilDoc nodesForXPath:aNodePath error:&theError] objectAtIndex:0];
+		currentNode = [[xmlSmilDoc nodesForXPath:aNodePath error:&theError] objectAtIndex:0];
 }
 
 - (void)jumpToNodeWithIdTag:(NSString *)aTag
@@ -230,23 +229,23 @@
 	{	
 		NSString *queryStr = [NSString stringWithFormat:@"/smil[1]/body[1]//*[@id='%@']",aTag];
 		NSArray *tagNodes = nil;
-		tagNodes = [_xmlSmilDoc nodesForXPath:queryStr error:nil];
+		tagNodes = [xmlSmilDoc nodesForXPath:queryStr error:nil];
 		
-		_currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : _currentNode;
+		currentNode = ([tagNodes count]) ? [tagNodes objectAtIndex:0] : currentNode;
 	}
 }
 
 - (NSString *)currentIdTag
 {
 	NSArray *idTags = nil;
-	idTags = [_currentNode objectsForXQuery:@"./data(@id)" error:nil];
+	idTags = [currentNode objectsForXQuery:@"./data(@id)" error:nil];
 	
 	return ([idTags count]) ? [idTags objectAtIndex:0] : nil;
 }
 
 - (NSString *)relativeAudioFilePath
 {
-	NSArray *audioFilenames = [_currentNode objectsForXQuery:@".//audio/data(@src)" error:nil];
+	NSArray *audioFilenames = [currentNode objectsForXQuery:@".//audio/data(@src)" error:nil];
 	
 	if(([audioFilenames count]))
 	{
@@ -260,7 +259,7 @@ return nil;
 
 - (NSString *)relativeTextFilePath
 {
-	NSArray *textFilenames = [_currentNode objectsForXQuery:@".//text/data(@src)" error:nil];
+	NSArray *textFilenames = [currentNode objectsForXQuery:@".//text/data(@src)" error:nil];
 	if(([textFilenames count]))
 	{
 		if(![self isCompoundString:[textFilenames objectAtIndex:0]])
@@ -275,7 +274,7 @@ return nil;
 {
 
 	NSXMLNode *nextNode = nil;
-	NSXMLNode *theNode = _currentNode;
+	NSXMLNode *theNode = currentNode;
 	
 	nextNode = [theNode nextSibling];
 //	if(!nextNode) 
@@ -302,8 +301,8 @@ return nil;
 //		if([newAudioNodes count])
 //		{   
 //			NSXMLNode *tempnode = [[newAudioNodes objectAtIndex:0] parent];
-//			_currentNode = tempnode;
-//			currentNodePath = [_currentNode XPath];
+//			currentNode = tempnode;
+//			currentNodePath = [currentNode XPath];
 //			return YES;
 //		}
 	}
@@ -322,7 +321,7 @@ return nil;
 
 }
 
-@synthesize _xmlSmilDoc, _currentFileURL, _currentNode, currentNodePath;
+@synthesize currentNodePath, currentNode;
 
 @end
 

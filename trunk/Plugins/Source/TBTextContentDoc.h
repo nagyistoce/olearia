@@ -26,22 +26,23 @@
 {
 	TBBookData		*bookData;
 	NSXMLDocument	*xmlTextDoc;
-	NSXMLNode		*_currentNode;
-	NSString		*_contentStr;
+	NSXMLNode		*currentNode;
+	NSString		*contentText;
 
-	BOOL			_endOfBook;
-	BOOL			_firstTime;
+	BOOL			endOfBook;
+	BOOL			firstTime;
 	
-	NSArray			*_singleSpecifiers;
-	//NSArray			*_prefixSpecifiers;
-	NSArray			*_specifiers;
+	NSArray			*singleSpecifiers;
+	//NSArray			*prefixSpecifiers;
+	NSArray			*specifiers;
 }
 
 
 // setup
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL;
-//- (void)startSpeakingFromIdTag:(NSString *)aTag;
-//- (void)startSpeaking;
+
+@property (readonly,copy)		NSString	*contentText;
+@property (readwrite,assign)	NSXMLNode	*currentNode;
 
 @end
 
@@ -63,16 +64,10 @@
 - (BOOL)canGoPrev;
 - (BOOL)canGoUpLevel;
 - (BOOL)canGoDownLevel;
-- (NSString *)contentText;
 
 @end
 
 @interface TBTextContentDoc (Navigation)
-
-//- (void)moveToNextSegmentAtSameLevel;
-//- (void)moveToPreviousSegment;
-//- (void)goUpALevel;
-//- (void)goDownALevel;
 
 @end
 

@@ -22,7 +22,7 @@
 
 #import "TBNIMASPlugin.h"
 #import "TBOPFNimasDocument.h"
-#import "TBNavigationController.h"
+#import "TBTextOnlyNavigationController.h"
 
 @interface TBNIMASPlugin (Private)
 
@@ -44,11 +44,19 @@
 	return nil;
 }
 
+- (void) dealloc
+{
+	[super dealloc];
+}
+
+
 - (BOOL)openBook:(NSURL *)bookURL
 {
 	BOOL opfLoaded = NO;
 	
 	NSURL *packageFileUrl = nil;
+	//TBControlDoc *controlDoc = nil;
+	TBPackageDoc *packageDoc = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
 	if([self canOpenBook:bookURL])
@@ -74,7 +82,7 @@
 		if(packageFileUrl)
 		{
 			if(!packageDoc)
-				packageDoc = [[TBOPFNimasDocument alloc] init];
+				packageDoc = [[[TBOPFNimasDocument alloc] init] autorelease];
 			
 			if([packageDoc openWithContentsOfURL:packageFileUrl])
 			{
@@ -94,8 +102,6 @@
 					
 					[packageDoc processData];
 					
-					_mediaFormat = TextWithControlMediaFormat;
-					
 					opfLoaded = YES;
 				}
 				else 
@@ -108,16 +114,17 @@
 		
 		if(opfLoaded)
 		{
-			[super loadCorrectNavControllerForBookFormat];
+			if(!navCon)
+				navCon = [[TBTextOnlyNavigationController alloc] init];
+			
+			self.navCon.bookMediaFormat = TextWithControlMediaFormat;
 			
 			// load nimas specific nav controller here
 			
-			navCon.packageDocument = packageDoc;
-			packageDoc = nil;
-			currentPlugin = self;
+			self.navCon.packageDocument = packageDoc;
+			self.currentPlugin = self;
 			
-			//[navCon moveControlPoint:nil withTime:nil];
-			navCon.bookMediaFormat = _mediaFormat;
+			self.navCon.bookMediaFormat = TextWithControlMediaFormat;
 			[navCon prepareForPlayback];
 			
 		}
@@ -135,24 +142,9 @@
 }
 
 
-- (void)startPlayback
-{
-	[super startPlayback];
-}
-
-- (void)stopPlayback
-{
-	[super stopPlayback];
-}
-
 - (NSString *)FormatDescription
 {
 	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the NIMAS standard",@"NIMAS Standard description");
-}
-
-- (NSURL *)loadedURL
-{
-	return [super loadedURL];
 }
 
 - (BOOL)isVariant
@@ -160,51 +152,9 @@
 	return YES;
 }
 
-- (NSXMLNode *)infoMetadataNode
-{
-	return [super infoMetadataNode];
-}
-
-- (NSString *)currentPlaybackTime
-{
-	return [super currentPlaybackTime];
-}
-
-- (NSString *)currentControlPoint
-{
-	return [super currentControlPoint];
-}
-
-- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-{
-	[super jumpToControlPoint:aPoint andTime:aTime];
-}
-
 
 #pragma mark -
 #pragma mark Navigation
-
-- (void)nextReadingElement;
-{
-	[super nextReadingElement];
-}
-
-- (void)previousReadingElement;
-{
-	[super previousReadingElement];
-}
-
-- (void)upLevel;
-{
-	[super upLevel];
-}
-
-- (void)downLevel
-{
-	[super downLevel];
-}
-
-#pragma mark -
 
 
 - (void)setupPluginSpecifics
@@ -214,10 +164,6 @@
 	
 }
 
-- (void) dealloc
-{
-	[super dealloc];
-}
 
 
 

@@ -52,14 +52,14 @@ static TBBookData *sharedBookDataManager = nil;
             if ((self = [super init])) 
 			{
                 sharedBookDataManager = self;
-				m_bookTitle = [[NSString alloc] init];
-				m_bookSubject = [[NSString alloc] init];
-				m_sectionTitle = [[NSString alloc] init];
-				m_totalPlaybackTimeString = [[NSString alloc] init];
-				m_currentPlaybackTimeString = [[NSString alloc] init];
-				m_currentPageString = [[NSString alloc] init];
-				m_currentLevelString = [[NSString alloc] init];
-				m_preferredVoiceIdentifier = [[NSString alloc] init];
+				self.bookTitle = [[NSString alloc] init];
+				self.bookSubject = [[NSString alloc] init];
+				self.sectionTitle = [[NSString alloc] init];
+				self.totalPlaybackTimeString = [[NSString alloc] init];
+				self.currentPlaybackTimeString = [[NSString alloc] init];
+				self.currentPageString = [[NSString alloc] init];
+				self.currentLevelString = [[NSString alloc] init];
+				self.preferredVoiceIdentifier = [[NSString alloc] init];
             }
         }
     }
@@ -120,13 +120,13 @@ static TBBookData *sharedBookDataManager = nil;
 
 - (void)setCurrentLevel:(NSInteger)aLevel
 {
-	m_currentLevel = aLevel;
+	currentLevel = aLevel;
 	self.currentLevelString = [NSString stringWithFormat:@"%d",self.currentLevel];
 }
 
 - (void)setCurrentPageNumber:(NSInteger)aPageNum
 {
-	m_currentPageNumber = aPageNum;
+	currentPageNumber = aPageNum;
 	if(self.totalPages > 0)
 		self.currentPageString = [NSString stringWithFormat:LocalizedStringInTBFrameworkBundle(@"%d of %d",@"current Page of total pages"),self.currentPageNumber,self.totalPages];
 	else
@@ -136,37 +136,36 @@ static TBBookData *sharedBookDataManager = nil;
 
 - (void)setTotalPages:(NSInteger)totalPageNum
 {
-	m_totalPages = totalPageNum;
+	totalPages = totalPageNum;
 	if(self.totalPages > 0)
 		self.currentPageString = [NSString stringWithFormat:LocalizedStringInTBFrameworkBundle(@"%d of %d",@"current Page of total pages"),self.currentPageNumber,self.totalPages];
 	else
 		self.currentPageString = LocalizedStringInTBFrameworkBundle(@"No Page Numbers", @"no page numbers string");
 }
 
-@synthesize localBookSettingsHaveChanged = m_localBookSettingsHaveChanged;
-@synthesize baseFolderPath = m_baseFolderPath;
+@synthesize localBookSettingsHaveChanged;
+@synthesize baseFolderPath;
 
 // bindings
-@synthesize bookTitle = m_bookTitle, bookSubject = m_bookSubject;
-@synthesize sectionTitle = m_sectionTitle;
-@synthesize currentLevel = m_currentLevel, currentLevelString = m_currentLevelString;
-@synthesize currentPageNumber = m_currentPageNumber, currentPageString = m_currentPageString;
-@synthesize totalPages = m_totalPages;
-@synthesize hasNextChapter = m_hasNextChapter, hasPreviousChapter = m_hasPreviousChapter;
-@synthesize hasLevelUp = m_hasLevelUp, hasLevelDown = m_hasLevelDown;
-@synthesize hasNextSegment = m_hasNextSegment, hasPreviousSegment = m_hasPreviousSegment;
-@synthesize isPlaying = m_isPlaying;
-@synthesize totalPlaybackTimeString = m_totalPlaybackTimeString, currentPlaybackTimeString = m_currentPlaybackTimeString;
-@synthesize totalPlaybackTime = m_totalPlaybackTime, currentPlaybackTime = m_currentPlaybackTime;
+@synthesize bookTitle, bookSubject;
+@synthesize sectionTitle, currentLevel, currentLevelString;
+@synthesize currentPageNumber, currentPageString;
+@synthesize totalPages;
+@synthesize hasNextChapter, hasPreviousChapter;
+@synthesize hasLevelUp, hasLevelDown;
+@synthesize hasNextSegment, hasPreviousSegment;
+@synthesize isPlaying;
+@synthesize totalPlaybackTimeString, currentPlaybackTimeString;
+@synthesize totalPlaybackTime, currentPlaybackTime;
 
 
 // user settings
-@synthesize preferredVoiceIdentifier = m_preferredVoiceIdentifier;
-@synthesize ignoreRecordedAudioContent = m_ignoreRecordedAudioContent;
-@synthesize speakUserLevelChange = m_speakUserLevelChange;
-@synthesize includeSkippableContent = m_includeSkippableContent;
-@synthesize audioSkipDuration = m_audioSkipDuration;
-@synthesize audioPlaybackRate = m_audioPlaybackRate, audioPlaybackVolume = m_audioPlaybackVolume;
-@synthesize voicePlaybackVolume = m_voicePlaybackVolume;
+@synthesize preferredVoiceIdentifier;
+@synthesize ignoreRecordedAudioContent;
+@synthesize speakUserLevelChange;
+@synthesize includeSkippableContent;
+@synthesize audioSkipDuration;
+@synthesize audioPlaybackRate, audioPlaybackVolume;
+@synthesize voicePlaybackVolume;
 
 @end

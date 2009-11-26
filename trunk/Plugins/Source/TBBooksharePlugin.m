@@ -39,7 +39,8 @@
 	BOOL ncxLoaded = NO;
 	NSURL *controlFileURL = nil;
 	NSURL *packageFileUrl = nil;
-	_mediaFormat = UnknownMediaFormat;
+	TBControlDoc *controlDoc = nil;
+	TBPackageDoc *packageDoc = nil;
 	
 	// do a sanity check first to see that we can attempt to open the book. 
 	if([self canOpenBook:bookURL])
@@ -78,8 +79,6 @@
 						// this should not happen that often but might occasionally 
 						// with badly authored books.
 						controlFileURL = bookURL;  
-						
-						packageDoc = nil;
 					}
 				}
 			}
@@ -96,7 +95,7 @@
 				// get the dc:Format node string
 				NSString *bookFormatString = [[packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/data(*:Format)" ofNode:nil] uppercaseString];
 				
-				if(YES == (([bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2002"]) || ([bookFormatString isEqualToString:@"ANSI/NISO Z39.86-2005"]))) 
+				if(YES == (([bookFormatString hasSuffix:@"Z39.86-2002"]) || ([bookFormatString hasSuffix:@"Z39.86-2005"]))) 
 				{	
 					NSString *schemeStr = [packageDoc stringForXquery:@"/package[1]/metadata[1]/dc-metadata[1]/*:Identifier[@scheme='BKSH']/data(.)" ofNode:nil];
 					if((nil != schemeStr) && (YES == [[schemeStr lowercaseString] hasPrefix:@"bookshare"]))
@@ -112,21 +111,15 @@
 
 						[packageDoc processData];
 						
-						// we set the format here to override the unknown format found in the processData Method
-						_mediaFormat = TextWithControlMediaFormat;
-						
 						controlFileURL = [NSURL URLWithString:packageDoc.ncxFilename relativeToURL:bookData.baseFolderPath];  
 						
 						opfLoaded = YES;
 					}
-					else 
-						packageDoc = nil;
+
 				}
-				else 
-					packageDoc = nil;
+
 			}
-			else 
-				packageDoc = nil;
+
 		}
 		
 		if (controlFileURL)
@@ -145,8 +138,6 @@
 				ncxLoaded = YES;
 			}
 			
-			_mediaFormat = TextWithControlMediaFormat;
-			
 		}
 		
 		if(ncxLoaded || opfLoaded)
@@ -155,22 +146,19 @@
 			if(!navCon)
 				navCon = [[TBBookshareNavigationController alloc] init];
 			
-			_mediaFormat = TextWithControlMediaFormat;
-			navCon.bookMediaFormat = _mediaFormat;
+			self.navCon.bookMediaFormat = TextWithControlMediaFormat;
 			
 			if(opfLoaded)
 			{	
 				
-				navCon.packageDocument = packageDoc;
-				packageDoc = nil;
-				currentPlugin = self;
+				self.navCon.packageDocument = packageDoc;
+				self.currentPlugin = self;
 			}
 			
 			if(ncxLoaded)
 			{	
-				navCon.controlDocument = controlDoc;
-				controlDoc = nil;
-				currentPlugin = self;
+				self.navCon.controlDocument = controlDoc;
+				self.currentPlugin = self;
 			}
 			
 			[navCon prepareForPlayback];
@@ -199,6 +187,12 @@
 	return nil;
 }
 
+- (void) dealloc
+{
+	[super dealloc];
+}
+
+
 - (NSString *)FormatDescription
 {
 	return LocalizedStringInTBStdPluginBundle(@"This Book has been authored with the BookShare standard",@"BookShare Standard description");
@@ -213,44 +207,6 @@
 {
 	validFileExtensions = [[NSArray alloc] initWithObjects:@"opf",@"ncx",nil];
 }
-
-
-- (NSURL *)loadedURL
-{
-	return [super loadedURL];
-}
-
-- (NSXMLNode *)infoMetadataNode
-{
-	return [super infoMetadataNode];
-}
-
-- (NSString *)currentPlaybackTime
-{
-	return [super currentPlaybackTime];
-}
-
-- (NSString *)currentControlPoint
-{
-	return [super currentControlPoint];
-}
-
-//- (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime
-//{
-//	[super jumpToControlPoint:aPoint andTime:aTime];
-//}
-
-
-#pragma mark -
-#pragma mark Navigation
-
-#pragma mark -
-
-- (void) dealloc
-{
-	[super dealloc];
-}
-
 
 @end
 @implementation TBBooksharePlugin (Private)

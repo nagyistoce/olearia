@@ -24,7 +24,7 @@
 
 @protocol TBPluginInterface <NSObject>
 
-// this singleton holds all the data and interface bindings for the currently loaded book.
+// this singleton holds all the data and possible interface bindings for the currently loaded book.
 // things like title, subject, pagenumber, total pages, level, etc.
 // the plugin must instantiate it via a call to  +sharedBookData
 // read the header for more info.
@@ -100,12 +100,12 @@
 #pragma mark -
 #pragma mark Views
 
-// return an instance of the view used in the text window.
+// return an instance of the view used in the text window ornil if not used.
 // this will allow different plugins to have complete control over the display 
 // of the view
 - (NSView *)bookTextView;
 
-// return an instance of the view used in the information window.
+// return an instance of the view used in the information window or nil if not used.
 // this will allow plugins to have their own information laid out as they like
 // also will refresh the view if it is already loaded.
 - (NSView *)bookInfoView;

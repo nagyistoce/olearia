@@ -36,6 +36,8 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
+	ncxFilename = @"";
+	textContentFilename = @"";
 	
 	return self;
 }
@@ -46,6 +48,7 @@
 	xmlPackageDoc = nil;
 	ncxFilename = nil;
 	textContentFilename = nil;
+	bookData = nil;
 	
 	[super dealloc];
 }
@@ -80,7 +83,7 @@
 	if(xmlPackageDoc)
 	{
 		loadedOk = YES;
-		fileURL = [aURL copy];
+		self.fileURL = aURL;
 	}
 	else // we got a nil return so display the error to the user
 	{
@@ -126,6 +129,6 @@
 }
 
 @synthesize ncxFilename,textContentFilename,fileURL;
-@synthesize bookData;
+//@synthesize bookData;
 
 @end

@@ -37,7 +37,11 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	//	mediaFormat = UnknownMediaFormat;
+	currentNavPoint = nil;
+	currentPositionID = @"";
+	fileURL = nil;
+	
+	
 	
 	return self;
 }
@@ -46,8 +50,9 @@
 - (void) dealloc
 {
 	[currentPositionID release];
-	[currentNavPoint release];
+	currentNavPoint = nil;
 	[fileURL release];
+	bookData = nil;
 
 	[super dealloc];
 }
@@ -62,9 +67,7 @@
 	
 	NSError *theError = nil;
 	
-	[currentNavPoint release];
 	currentNavPoint = nil;
-	[fileURL release];
 	fileURL = nil;
 	
 	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
@@ -282,9 +285,9 @@
 
 }
 
+@synthesize currentNavPoint;
 @synthesize currentPositionID;
 @synthesize navigateForChapters;
-@synthesize currentNavPoint;
 @synthesize fileURL;
 
 @end

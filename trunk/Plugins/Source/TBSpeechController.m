@@ -19,8 +19,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+NSString * const TBSpeechConDidFinishSpeaking = @"TBSpeechConDidFinishSpeaking";
+
 #import "TBSpeechController.h"
-#import "TBNavigationController.h"
 
 @implementation TBSpeechController
 
@@ -31,15 +32,11 @@
 	{
 		bookData = [TBBookData sharedBookData];
 
-		_mainIsSpeaking = NO;
-		m_didUserNavigationChange = NO;
-		_stringToSpeak = [[NSString alloc] init];
-		
-		_auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoiceIdentifier] retain];
-		[_auxSpeechSynth setDelegate:self];
+		auxSpeechSynth = [[[NSSpeechSynthesizer alloc] initWithVoice:bookData.preferredVoiceIdentifier] retain];
+		[auxSpeechSynth setDelegate:self];
 		
 		[bookData addObserver:self 
-				   forKeyPath:@"preferredVoice"
+				   forKeyPath:PreferredSynthesizerVoice
 					  options:NSKeyValueObservingOptionNew
 					  context:NULL];
 		
@@ -49,7 +46,8 @@
 
 - (void) dealloc
 {
-	[_auxSpeechSynth release];
+	[bookData removeObserver:self forKeyPath:PreferredSynthesizerVoice];
+	[auxSpeechSynth release];
 	
 	[super dealloc];
 }
@@ -58,64 +56,26 @@
 {
 	if(bookData.speakUserLevelChange)
 	{	
-//		_mainIsSpeaking = [[bookData talkingBookSpeechSynth] isSpeaking];
-//		
-//		if(_mainIsSpeaking)
-//			[[bookData talkingBookSpeechSynth] pauseSpeakingAtBoundary:NSSpeechWordBoundary];
-		
-		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
+		[auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
 	}
-		
-
 }
-
-- (void)speakUserLevelChange
-{
-	if(bookData.speakUserLevelChange)
-	{	
-		_mainIsSpeaking = NO;
-//		[[bookData talkingBookSpeechSynth] stopSpeaking];
-		
-		m_didUserNavigationChange = YES;
-		[_auxSpeechSynth startSpeakingString:[NSString stringWithFormat:@"Level %d",bookData.currentLevel]];
-		
-	}
-	
-	
-}
-
 
 #pragma mark -
 #pragma mark KVO Methods
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if([keyPath isEqualToString:@"preferredVoice"])	
-		[_auxSpeechSynth setVoice:bookData.preferredVoiceIdentifier];
+	if([keyPath isEqualToString:PreferredSynthesizerVoice])	
+		[auxSpeechSynth setVoice:bookData.preferredVoiceIdentifier];
 }
 
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
-	if(sender == _auxSpeechSynth)
+	if(sender == auxSpeechSynth && success)
 	{	
-//		if(_mainIsSpeaking)
-//			[[bookData talkingBookSpeechSynth] continueSpeaking];
-//		else
-//		{	
-//			if(!m_didUserNavigationChange)
-//				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-//			else
-//			{	
-//				m_didUserNavigationChange = NO;
-//				[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-//			}
-//			
-//		}
-
+		[[NSNotificationCenter defaultCenter] postNotificationName:TBSpeechConDidFinishSpeaking object:self];
 	}
-			
-	
 }
 
 @end

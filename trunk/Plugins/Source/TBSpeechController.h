@@ -19,24 +19,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
+extern NSString * const TBSpeechConDidFinishSpeaking;
 
 @interface TBSpeechController : NSObject 
 {
 
 	TBBookData			*bookData;
 
-	NSSpeechSynthesizer *_auxSpeechSynth;
-	
-	BOOL				_mainIsSpeaking;
-	BOOL				m_didUserNavigationChange;
-	
-	NSString			*_stringToSpeak;
-
+@private	
+	NSSpeechSynthesizer *auxSpeechSynth;
 	
 }
 
 - (void)speakLevelChange;
-- (void)speakUserLevelChange;
 
 @end

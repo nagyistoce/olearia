@@ -54,51 +54,107 @@
 - (void)prepareForPlayback
 {
 	[self resetController];
-	
-	if(packageDocument)
+		if(controlDocument)
 	{
-		// depending on how the Bookshare book was authored there will be 
-		// one of 2 types of initial SMIL item
-		NSString *smilFilename = [packageDocument stringForXquery:@"(/package[1]/manifest[1]/((item[@id='SMIL'])|(item[@id='SMIL1'])))/data(@href)" ofNode:nil];
-		// do a sanity check on the extension
-		if([[smilFilename pathExtension] isEqualToString:@"smil"])
+		NSString *filename = [controlDocument contentFilenameFromCurrentNode];
+		if([[filename pathExtension] isEqualToString:@"smil"])
 		{
-			// check if the smil instance has been loaded
+			
+			
 			if(!smilDocument)
 				smilDocument = [[TBSMILDocument alloc] init];
 			
 			// check if the smil file REALLY needs to be loaded
 			// Failsafe for single smil books 
-			if(![_currentSmilFilename isEqualToString:smilFilename])
+			if(![currentSmilFilename isEqualToString:filename])
 			{
-				_currentSmilFilename = [smilFilename copy];
-				[smilDocument openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.baseFolderPath]];
+				self.currentSmilFilename = filename;
+				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
-		}
-		
-		// set the smil file to the correct start point for navigation and playback
-		_currentTag = [controlDocument currentIdTag];
-		[smilDocument jumpToNodeWithIdTag:_currentTag];
-		
-		
-		// load the text content document
-		if(nil != packageDocument.textContentFilename) 
-		{
-			if(!textDocument)
-				textDocument = [[TBBookshareTextContentDoc alloc] init];
 			
-			if(![_currentTextFilename isEqualToString:packageDocument.textContentFilename])
+			// set the smil file to the correct start point for navigation and playback
+			self.currentTag = [controlDocument currentIdTag];
+			[smilDocument jumpToNodeWithIdTag:currentTag];
+			
+			filename = [smilDocument relativeTextFilePath];
+			if(filename)
 			{
-				_currentTextFilename = [[packageDocument textContentFilename] copy];
-				[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
+				if(!textDocument)
+					textDocument = [[TBBookshareTextContentDoc alloc] init];
+				
+				if(![currentTextFilename isEqualToString:filename])
+				{
+					self.currentTextFilename = filename;
+					[textDocument openWithContentsOfURL:[NSURL URLWithString:currentTextFilename relativeToURL:bookData.baseFolderPath]];
+				}
+				[textDocument jumpToNodeWithIdTag:currentTag];
+				[textDocument updateDataAfterJump];
+				self.contentToSpeak = [[textDocument contentText] copy];
 			}
-			[textDocument jumpToNodeWithIdTag:_currentTag];
-			_contentToSpeak = [textDocument contentText];
-			[self updateAfterNavigationChange];
+			else // no audio filenames found 
+			{
+				
+			}
+
+
+
+		}
+		else
+		{
+			// no smil filename so look for the text filename in the control document
 			
 		}
 		
 	}
+	else if(packageDocument)
+	{
+		// setup for package navigation
+	}
+	
+//	if(controlDocument)
+//	{
+//		// depending on how the Bookshare book was authored there will be 
+//		// one of 2 types of initial SMIL item
+//		NSString *smilFilename = [packageDocument stringForXquery:@"(/package[1]/manifest[1]/((item[@id='SMIL'])|(item[@id='SMIL1'])))/data(@href)" ofNode:nil];
+//		// do a sanity check on the extension
+//		if([[smilFilename pathExtension] isEqualToString:@"smil"])
+//		{
+//			// check if the smil instance has been loaded
+//			if(!smilDocument)
+//				smilDocument = [[TBSMILDocument alloc] init];
+//			
+//			// check if the smil file REALLY needs to be loaded
+//			// Failsafe for single smil books 
+//			if(![_currentSmilFilename isEqualToString:smilFilename])
+//			{
+//				_currentSmilFilename = [smilFilename copy];
+//				[smilDocument openWithContentsOfURL:[NSURL URLWithString:_currentSmilFilename relativeToURL:bookData.baseFolderPath]];
+//			}
+//		}
+//		
+//		// set the smil file to the correct start point for navigation and playback
+//		_currentTag = [controlDocument currentIdTag];
+//		[smilDocument jumpToNodeWithIdTag:_currentTag];
+//		
+//		
+//		// load the text content document
+//		if(nil != packageDocument.textContentFilename) 
+//		{
+//			if(!textDocument)
+//				textDocument = [[TBBookshareTextContentDoc alloc] init];
+//			
+//			if(![_currentTextFilename isEqualToString:packageDocument.textContentFilename])
+//			{
+//				_currentTextFilename = [[packageDocument textContentFilename] copy];
+//				[textDocument openWithContentsOfURL:[NSURL URLWithString:_currentTextFilename relativeToURL:bookData.baseFolderPath]];
+//			}
+//			[textDocument jumpToNodeWithIdTag:_currentTag];
+//			_contentToSpeak = [textDocument contentText];
+//			[self updateAfterNavigationChange];
+//			
+//		}
+//		
+//	}
 	
 	
 }
@@ -176,14 +232,14 @@
 	if(controlDocument)
 	{	
 		[controlDocument goUpALevel];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	
 	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
-	[super updateAfterNavigationChange];
+	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
+	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -196,13 +252,13 @@
 	if(controlDocument)
 	{	
 		[controlDocument goDownALevel];
-		_currentTag = [controlDocument currentIdTag];
+		self.currentTag = [controlDocument currentIdTag];
 	}
 	_didUserNavigationChange = YES;
 	_mainSynthIsSpeaking = NO;
 	[self updateAfterNavigationChange];
 	
-	[textDocument jumpToNodeWithIdTag:_currentTag];
+	[textDocument jumpToNodeWithIdTag:currentTag];
 	[textDocument updateDataAfterJump];
 	
 	[self speakLevelChange];
@@ -223,16 +279,17 @@
 			if(controlDocument)
 			{
 				[controlDocument moveToNextSegment];
-				_currentTag = [controlDocument currentIdTag];
-				[textDocument jumpToNodeWithIdTag:_currentTag];
+				self.currentTag = [controlDocument currentIdTag];
+				//[controlDocument updatea
+				[textDocument jumpToNodeWithIdTag:currentTag];
 				[textDocument updateDataForCurrentPosition];
-				_contentToSpeak = [textDocument contentText];
+				self.contentToSpeak = [[textDocument contentText] copy];
 				[self startPlayback];
 				
 			}
 			
 		}
-		else 
+		else // user navigation
 		{
 			//if (smilDocument)
 //			{
@@ -241,6 +298,7 @@
 //							
 //			}
 			_didUserNavigationChange = NO;
+			[self startPlayback];
 		}
 
 		
