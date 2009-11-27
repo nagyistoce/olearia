@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,7 +47,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -252,7 +251,6 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {408, 331}}</string>
 									<reference key="NSSuperview" ref="333556343"/>
-									<reference key="NSNextKeyView" ref="17550151"/>
 									<reference key="NSDocView" ref="17550151"/>
 									<reference key="NSBGColor" ref="849388426"/>
 									<object class="NSCursor" key="NSCursor" id="129562356">
@@ -284,7 +282,6 @@
 							</object>
 							<string key="NSFrame">{{278, 45}, {410, 333}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSNextKeyView" ref="525023795"/>
 							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="399829222"/>
 							<reference key="NSHScroller" ref="797875336"/>
@@ -384,7 +381,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{708, 398}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>

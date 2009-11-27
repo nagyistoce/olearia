@@ -509,7 +509,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 - (IBAction)displayAboutPanel:(id)sender
 {
 	if(!_aboutController)
-		_aboutController = [[AboutBoxController alloc] init];
+		_aboutController = [[[AboutBoxController alloc] init] retain];
 	
 	[_aboutController showWindow:nil];
 }
