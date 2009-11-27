@@ -270,68 +270,68 @@
 
 @implementation TBBookshareNavigationController (SpeechDelegate)
 
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
-{
-	if(sender == mainSpeechSynth)
-	{	
-		if (!_didUserNavigationChange)// auto play
-		{
-			if(controlDocument)
-			{
-				[controlDocument moveToNextSegment];
-				self.currentTag = [controlDocument currentIdTag];
-				//[controlDocument updatea
-				[textDocument jumpToNodeWithIdTag:currentTag];
-				[textDocument updateDataForCurrentPosition];
-				self.contentToSpeak = [[textDocument contentText] copy];
-				[self startPlayback];
-				
-			}
-			
-		}
-		else // user navigation
-		{
-			//if (smilDocument)
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
+//{
+//	if(sender == mainSpeechSynth)
+//	{	
+//		if (!_didUserNavigationChange)// auto play
+//		{
+//			if(controlDocument)
 //			{
-//				[smilDocument nextTextPlaybackPoint];
-//				_currentTag = [smilDocument currentIdTag];
-//							
+//				[controlDocument moveToNextSegment];
+//				self.currentTag = [controlDocument currentIdTag];
+//				//[controlDocument updatea
+//				[textDocument jumpToNodeWithIdTag:currentTag];
+//				[textDocument updateDataForCurrentPosition];
+//				self.contentToSpeak = [[textDocument contentText] copy];
+//				[self startPlayback];
+//				
 //			}
-			_didUserNavigationChange = NO;
-			[self startPlayback];
-		}
+//			
+//		}
+//		else // user navigation
+//		{
+//			//if (smilDocument)
+////			{
+////				[smilDocument nextTextPlaybackPoint];
+////				_currentTag = [smilDocument currentIdTag];
+////							
+////			}
+//			_didUserNavigationChange = NO;
+//			[self startPlayback];
+//		}
+//
+//		
+//		//		if(_mainSynthIsSpeaking)
+//		//			[mainSpeechSynth continueSpeaking];
+//		//				else
+//		//				{	
+//		//				if(!_didUserNavigationChange)
+//		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+//		//					else
+//		//					{	
+//		//						_didUserNavigationChange = NO;
+//		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
+//		//				}
+//		
+//		
+//		
+//	}
+//	
+//	
+//}
 
-		
-		//		if(_mainSynthIsSpeaking)
-		//			[mainSpeechSynth continueSpeaking];
-		//				else
-		//				{	
-		//				if(!_didUserNavigationChange)
-		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-		//					else
-		//					{	
-		//						_didUserNavigationChange = NO;
-		//					[[NSNotificationCenter defaultCenter] postNotificationName:TBAuxSpeechConDidFinishSpeaking object:self];
-		//				}
-		
-		
-		
-	}
-	
-	
-}
-
-- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
-{
-	//	if(sender == mainSpeechSynth)
-	//	{
-	//		//NSLog(@"word num is %d",wordToSpeak.location);
-	//	}
-	// send a notifcation or tell the web/text view to 
-	//highlight the current word about to be spoken
-	//NSString *wordIs = [text substringWithRange:wordToSpeak];
-	//NSLog(@"speaking -> %@",wordIs);
-}
+//- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender willSpeakWord:(NSRange)wordToSpeak ofString:(NSString *)text
+//{
+//	//	if(sender == mainSpeechSynth)
+//	//	{
+//	//		//NSLog(@"word num is %d",wordToSpeak.location);
+//	//	}
+//	// send a notifcation or tell the web/text view to 
+//	//highlight the current word about to be spoken
+//	//NSString *wordIs = [text substringWithRange:wordToSpeak];
+//	//NSLog(@"speaking -> %@",wordIs);
+//}
 
 
 @end

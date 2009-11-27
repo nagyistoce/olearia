@@ -244,10 +244,14 @@
 				tempNode = [tempNode nextNode];
 				if ([specifiers containsObject:[tempNode name]])
 				{
-					if ([tempNode childCount] > 1)
+					if (([tempNode childCount] > 1))  
 					{
-						currentNode = [tempNode childAtIndex:0];
-						foundNode = YES;
+						if([[tempNode nextNode] kind] != NSXMLTextKind)
+						{
+							currentNode = [tempNode childAtIndex:0];
+							foundNode = YES;
+						}
+						
 					}
 					else 
 					{
