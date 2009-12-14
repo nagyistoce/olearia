@@ -86,16 +86,16 @@
 - (void)jumpToControlPoint:(NSString *)aPoint andTime:(NSString *)aTime;
 
 // move up a level in the book structure
-- (void)upLevel;
+- (void)moveUpALevel;
 
 // move down a level in the book structure
-- (void)downLevel;
+- (void)moveDownALevel;
 
 // forward the audio play head by the skip duration 
-- (void)nextAudioSkipPoint;
+- (void)skipAudioForwards;
 
 // rewind the audio play head by the skip duration
-- (void)previousAudioSkipPoint;
+- (void)skipAudioBackwards;
 
 #pragma mark -
 #pragma mark Views
