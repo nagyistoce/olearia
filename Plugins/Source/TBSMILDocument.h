@@ -39,7 +39,8 @@
 - (void)setCurrentNodeWithPath:(NSString *)aNodePath;
 - (void)jumpToNodeWithIdTag:(NSString *)aTag;
 - (NSString *)currentIdTag;
-- (BOOL)audioAfterCurrentPosition;
+- (BOOL)moveToAudioAfterCurrentPosition;
+- (BOOL)moveToAudioBeforeCurrentPosition;
 - (NSString *)relativeAudioFilePath;
 - (NSString *)relativeTextFilePath;
 - (void)nextTextPlaybackPoint;

@@ -188,7 +188,10 @@
 	if([[currentNode name] isEqualToString:@"pagenum"])
 	{	
 		bookData.currentPageNumber = [[currentNode stringValue] intValue];
-		self.contentText = [[NSString stringWithFormat:@"Page, %d",bookData.currentPageNumber] copy];
+		if(bookData.speakPageNumbers)
+			self.contentText = [[NSString stringWithFormat:@"Page, %d",bookData.currentPageNumber] copy];
+		else
+			[self moveToNextSuitableNode];
 	}
 	else if([self isHeadingNode:currentNode])
 	{	

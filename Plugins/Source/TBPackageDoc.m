@@ -36,8 +36,8 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	ncxFilename = @"";
-	textContentFilename = @"";
+	self.ncxFilename = @"";
+	self.textContentFilename = @"";
 	
 	return self;
 }
@@ -46,8 +46,8 @@
 {
 	
 	xmlPackageDoc = nil;
-	ncxFilename = nil;
-	textContentFilename = nil;
+	self.ncxFilename = nil;
+	self.textContentFilename = nil;
 	bookData = nil;
 	
 	[super dealloc];
@@ -72,13 +72,13 @@
 - (BOOL)openWithContentsOfURL:(NSURL *)aURL
 {
 	BOOL loadedOk = NO;
-	ncxFilename = nil;
-	textContentFilename = nil;
-	fileURL = nil;
+	self.ncxFilename = nil;
+	self.textContentFilename = nil;
+	self.fileURL = nil;
 	
 	NSError *theError = nil;
 	
-	xmlPackageDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+	xmlPackageDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError] retain];
 	
 	if(xmlPackageDoc)
 	{
@@ -129,6 +129,6 @@
 }
 
 @synthesize ncxFilename,textContentFilename,fileURL;
-//@synthesize bookData;
+
 
 @end

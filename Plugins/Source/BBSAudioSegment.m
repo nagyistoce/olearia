@@ -28,8 +28,6 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 
 @interface BBSAudioSegment () 
 
-@property (readwrite)		QTTime		audioLength;
-
 - (void)setupNotifications;
 - (void)setupAttributes;
 
@@ -43,7 +41,6 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 	self = [super init];
 	if (self != nil) 
 	{
-		audioLength = QTZeroTime;
 		_theMovie = nil;
 		_extendedChapterData = [[NSArray alloc] init];
 		noteCenter = [NSNotificationCenter defaultCenter];
@@ -103,6 +100,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 
 - (void)setupNotifications
 {
+	_loadNotificationPosted = NO;
 	
 	// watch for load state changes
 	[noteCenter addObserver:self
@@ -124,9 +122,12 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 	
 	// do a check if the movie has already completed loading
 	if([[_theMovie attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
-	{
+	{	
 		[noteCenter postNotificationName:QTMovieLoadStateDidChangeNotification object:_theMovie];
+		_loadNotificationPosted = YES;
 	}
+
+	
 	
 }
 
@@ -151,7 +152,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 		[_theMovie setCurrentTime:aTime];
 }
 
-@synthesize audioLength;
+
 
 
 @end
@@ -188,7 +189,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 
 - (BOOL)isPlaying
 {
-	return ((_theMovie) && ([_theMovie rate] > 0.0));
+	return ((_theMovie) && ([_theMovie rate] != 0.0));
 }
 
 - (QTTime)duration
@@ -318,15 +319,20 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 
 - (BOOL)addChapters:(NSArray *)someChapters 
 {
-	if (_theMovie)
+	BOOL didAddChapters = NO;
+	
+	if (_theMovie && [someChapters count])
 	{
+		
 		// get the track the chapter will be associated with
 		QTTrack *musicTrack = [[_theMovie tracksOfMediaType:QTMediaTypeSound] objectAtIndex:0];
 		NSDictionary *musicTrackDict = [NSDictionary dictionaryWithObjectsAndKeys:musicTrack, QTMovieChapterTargetTrackAttribute,nil];
 		
-		_didAddChapters = YES;
+		_isAddingChapters  = YES;
+		
 		[_theMovie addChapters:someChapters withAttributes:musicTrackDict error:nil];
-		if(([_theMovie hasChapters]))
+		didAddChapters = [_theMovie hasChapters];
+		if(didAddChapters)
 		{	
 			_extendedChapterData = [someChapters copy];
 			[_theMovie setCurrentTime:QTZeroTime];
@@ -336,7 +342,7 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 			_extendedChapterData = nil;
 	}
 	
-	return ([_theMovie hasChapters]);
+	return (didAddChapters);
 	
 }
 
@@ -371,9 +377,8 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 {
 	
 	if([notification object] == _theMovie)
-	{
 		[noteCenter postNotificationName:BBSAudioSegmentDidEndNotification object:self];		
-	}
+	
 }
 
 - (void)loadStateDidChange:(NSNotification *)notification
@@ -381,10 +386,16 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 	if([notification object] == _theMovie)
 		if([[notification name] isEqualToString:QTMovieLoadStateDidChangeNotification])
 			if([[_theMovie attributeForKey:QTMovieLoadStateAttribute] longValue] == QTMovieLoadStateComplete)
-			{	
-				[noteCenter postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:self];
-
-			}
+				if (!_loadNotificationPosted)
+					if (!_isAddingChapters) 
+					{
+						_loadNotificationPosted = YES;
+						[noteCenter postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:self];
+						
+					}
+					
+				
+			
 }
 
 
@@ -392,8 +403,11 @@ NSString * const BBSAudioSegmentLoadStateDidChangeNotification = @"BBSAudioSegme
 {
 	if(([notification object] == _theMovie))
 	{
-		if (!_didAddChapters)
+		if (!_isAddingChapters)
 			[noteCenter postNotificationName:BBSAudioSegmentChapterDidChangeNotifiction object:self];
+		else 
+			_isAddingChapters = NO;
+
 	}
 }
 

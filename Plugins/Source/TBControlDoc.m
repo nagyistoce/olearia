@@ -37,9 +37,9 @@
 	if (!(self=[super init])) return nil;
 	
 	bookData = [TBBookData sharedBookData];
-	currentNavPoint = nil;
-	currentPositionID = @"";
-	fileURL = nil;
+	self.currentNavPoint = nil;
+	self.currentPositionID = @"";
+	self.fileURL = nil;
 	
 	
 	
@@ -50,7 +50,7 @@
 - (void) dealloc
 {
 	[currentPositionID release];
-	currentNavPoint = nil;
+	self.currentNavPoint = nil;
 	[fileURL release];
 	bookData = nil;
 
@@ -67,15 +67,15 @@
 	
 	NSError *theError = nil;
 	
-	currentNavPoint = nil;
-	fileURL = nil;
+	self.currentNavPoint = nil;
+	self.fileURL = nil;
 	
-	xmlControlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError];
+	xmlControlDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:aURL options:NSXMLDocumentTidyXML error:&theError] retain];
 	
 	if((xmlControlDoc) && (!theError))
 	{	
 		loadedOk = YES;
-		fileURL = [aURL copy];
+		self.fileURL = [aURL copy];
 	}
 	else
 	{

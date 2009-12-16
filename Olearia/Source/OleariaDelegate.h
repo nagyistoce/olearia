@@ -30,6 +30,7 @@ extern NSString * const OleariaPreferredVoice;
 extern NSString * const OleariaUseVoiceForPlayback;
 extern NSString * const OleariaChapterSkipIncrement;
 extern NSString * const OleariaEnableVoiceOnLevelChange;
+extern NSString * const OleariaEnableSpokenPageNumbers;
 extern NSString * const OleariaShouldOpenLastBookRead;
 extern NSString * const OleariaShouldUseHighContrastIcons;
 extern NSString * const OleariaIgnoreBooksOnRemovableMedia;

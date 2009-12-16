@@ -176,9 +176,51 @@
 	return ([chapMarkers count]) ? (NSArray *)chapMarkers : nil;
 }
 
+// returns YES if there was an audio segment before the current one
+// and it was made the current node.
+// Otherwise returns NO
+- (BOOL)moveToAudioBeforeCurrentPosition
+{
+	NSXMLNode *previousNode = nil;
+	//NSXMLNode *theNode = currentNode;
+	
+	previousNode = [currentNode previousSibling];
+	if(!previousNode) 
+	{
+		previousNode = [[currentNode parent] previousSibling];
+		if(previousNode)
+		{	
+			if([[previousNode name] isEqualToString:@"seq"])
+				if(([[previousNode XPath] isEqualToString:@"/smil[1]/body[1]/seq[1]"]))
+					return NO;
+		}
+		else 
+			return NO;
+	}
 
+	if(([[previousNode name] isEqualToString:@"par"]) || ([[previousNode name] isEqualToString:@"seq"]))
+	{
+		NSArray *newAudioNodes = nil;
+		newAudioNodes = [previousNode nodesForXPath:@".//audio[@clip-Begin|@clipBegin]" error:nil];
+		// check we found some audio content 
+	
+			if([newAudioNodes count])
+			{   
+				NSXMLNode *tempnode = [[newAudioNodes objectAtIndex:0] parent];
+				currentNode = tempnode;
+				currentNodePath = [currentNode XPath];
+				return YES;
+			}
+	}
+	
+	return NO;
+	 
+}
 
-- (BOOL)audioAfterCurrentPosition
+// returns YES if there was an audio segment following the current one
+// and it was made the current node.
+// Otherwise returns NO
+- (BOOL)moveToAudioAfterCurrentPosition
 {
 	NSXMLNode *nextNode = nil;
 	NSXMLNode *theNode = currentNode;

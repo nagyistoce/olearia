@@ -316,12 +316,21 @@
 	[navCon previousElement];
 }
 
-- (void)upLevel
+- (void)skipAudioForwards
+{
+	[navCon jumpAudioForwardInTime];
+}
+- (void)skipAudioBackwards
+{
+	[navCon jumpAudioBackInTime];
+}
+
+- (void)moveUpALevel
 {
 	[navCon goUpLevel];
 }
 
-- (void)downLevel
+- (void)moveDownALevel
 {
 	[navCon goDownLevel];
 }

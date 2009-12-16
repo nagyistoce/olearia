@@ -93,7 +93,7 @@
 
 - (IBAction)setNewSkipDuration:(id)sender
 {
-	[[[NSApp delegate] talkingBook] setAudioSkipDuration:[sender floatValue]];
+	[[[NSApp delegate] talkingBook] setAudioSkipDuration:([sender doubleValue] * (double)60)];
 }
 
 #pragma mark -

@@ -22,17 +22,6 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 
-//typedef enum 
-//	{
-//		FullAudioFullTextMediaFormat,
-//		FullAudioPartialTextMediaFormat,
-//		AudioWithControlMediaFormat,
-//		AudioOnlyMediaFormat,
-//		FullTextPartialAudioMediaFormat,
-//		TextWithControlMediaFormat,
-//		UnknownMediaFormat
-//	} TalkingBookMediaFormat;
-
 extern NSString * const PreferredSynthesizerVoice;
 extern NSString * const AudioPlaybackRate;
 extern NSString * const AudioPlaybackVolume;
@@ -73,6 +62,7 @@ extern NSString * const AudioPlaybackVolume;
 	NSString				*preferredVoiceIdentifier;
 	BOOL					ignoreRecordedAudioContent;
 	BOOL					speakUserLevelChange;
+	BOOL					speakPageNumbers;
 	BOOL					includeSkippableContent;
 	float					audioPlaybackRate;
 	float					audioPlaybackVolume;
@@ -116,6 +106,7 @@ extern NSString * const AudioPlaybackVolume;
 @property (readwrite, copy)	NSString	*preferredVoiceIdentifier;
 @property (readwrite)		BOOL		ignoreRecordedAudioContent;
 @property (readwrite)		BOOL		speakUserLevelChange;
+@property (readwrite)		BOOL		speakPageNumbers;
 @property (readwrite)		BOOL		includeSkippableContent;
 @property (readwrite)		QTTime		audioSkipDuration;
 @property (readwrite)		float		audioPlaybackRate;

@@ -20,6 +20,8 @@
 //
 
 
+
+
 #import <Foundation/Foundation.h>
 #import <QTKit/QTTime.h>
 #import "TBTextContentDoc.h"
@@ -27,6 +29,11 @@
 
 @class TBPackageDoc, TBControlDoc, TBSMILDocument, BBSAudioSegment;
 
+typedef enum
+{
+	skipBackward = 0,
+	skipForward = 1
+} audioSkipDirection;
 
 @interface TBNavigationController : NSObject 
 {
@@ -53,6 +60,9 @@
 	BOOL				_didUserNavigationChange;
 	BOOL				_shouldJumpToTime;
 	BOOL				_mainSynthIsSpeaking;
+	BOOL				_isDoingTimeSkip;
+	audioSkipDirection	_skipDirection;
+	QTTime				_timeOffset;
 	QTTime				_timeToJumpTo;
 	
 	
