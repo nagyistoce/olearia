@@ -40,7 +40,6 @@
 - (NSString *)nextAudioSegmentFilename;
 - (NSString *)prevAudioSegmentFilename;
 
-//@property (readwrite, assign)	TBBookData			*bookData;
 @property (readwrite, copy)		NSString			*ncxFilename;
 @property (readwrite, copy)		NSString			*textContentFilename;
 @property (readonly, copy)		NSURL				*fileURL;

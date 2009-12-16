@@ -201,6 +201,8 @@
 	self.contentToSpeak = @"";
 	self.currentSmilFilename = @"";
 	self.currentTag = @"";
+	_isDoingTimeSkip = NO;
+	_skipDirection = skipForward;
 	_didUserNavigationChange = NO;
 	[mainSpeechSynth stopSpeaking];
 	[auxiliarySpeechSynth stopSpeaking];
@@ -324,20 +326,150 @@
 
 - (void)jumpAudioForwardInTime
 {
-	
+	QTTime remainingTime = QTZeroTime;
+	// make sure we are playing before trying to skip either direction
+	if(bookData.isPlaying)
+	{
+		// get the time remaining in this segment
+		remainingTime = QTTimeDecrement([audioSegment duration], [audioSegment currentTime]);		
+		// not skipping beyond segment end (yet)
+		if (!_isDoingTimeSkip)
+		{
+			// first time through we set the offset to the skip duration
+			// so it can be reduced later if required 
+			_timeOffset = bookData.audioSkipDuration;
+			// check if the time remaining is longer than or equal to the skip duration
+			if (QTTimeCompare(_timeOffset, remainingTime) <= BBSTimesAreEqual) 
+			{
+				_isDoingTimeSkip = NO;
+				// advance the current time by the skip duration
+				[audioSegment setCurrentTime:QTTimeIncrement([audioSegment currentTime], _timeOffset)];
+			}
+			else 
+			{
+				// the time to jump to is beyond the duration of this audio segment
+				// decrement the skip duration by the remaining unplayed portion of the audio segment
+				_timeOffset = QTTimeDecrement(_timeOffset, remainingTime);
+				_isDoingTimeSkip = YES;
+				_skipDirection = skipForward;
+				[noteCentre postNotificationName:BBSAudioSegmentDidEndNotification object:audioSegment];
+			}
+		}
+		else // we are now in a new audio segment  
+		{
+			// check if the time remaining is longer than or equal to the skip duration
+			if (QTTimeCompare(_timeOffset, remainingTime) <= BBSTimesAreEqual) 
+			{	
+				_isDoingTimeSkip = NO;
+				[audioSegment setCurrentTime:_timeOffset];
+				// we post a load state did change notification to force an update of the present data position
+				[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
+			}
+			else 
+			{
+				// the time to jump to is again beyond the duration of this audio segment
+				// decrement the skip duration by the remaining unplayed portion of the audio segment
+				_timeOffset = QTTimeDecrement(_timeOffset, remainingTime);
+				// post an audio segment did end notification to force loading of the next segment without 
+				// playing the current one to completion.
+				[noteCentre postNotificationName:BBSAudioSegmentDidEndNotification object:audioSegment];
+			}
+		}
+	}
 }
 
 - (void)jumpAudioBackInTime
 {
+	BOOL shouldLoadNewSegment = NO;	
+	QTTime currentPlayhead = QTZeroTime;
+	// make sure we are playing before trying to skip either direction
+	if(bookData.isPlaying)
+	{
+		// get the current playhead time of this segment
+		currentPlayhead = [audioSegment currentTime];		
+		// not skipping before segment beginning (yet)
+		if (!_isDoingTimeSkip)
+		{
+			// set the duration to skip back 
+			// only if we havent set it previously
+			if (QTTimeCompare(_timeOffset, QTZeroTime) == BBSTimesAreEqual)
+				_timeOffset = bookData.audioSkipDuration;
+			
+			// check if the time this segment has been playing is longer than the skip duration
+			if (QTTimeCompare(currentPlayhead, _timeOffset) >= BBSTimesAreEqual) 
+			{
+				_isDoingTimeSkip = NO;
+				// decrement the current time by the skip duration
+				[audioSegment setCurrentTime:QTTimeDecrement([audioSegment currentTime], _timeOffset)];
+				_timeOffset = QTZeroTime;
+			}
+			else 
+			{
+				_isDoingTimeSkip = YES;
+				_timeOffset = QTTimeDecrement(_timeOffset, currentPlayhead);
+				shouldLoadNewSegment = YES;
+				
+			}
+		}
+		else // we have already started skipping 
+		{	
+			// check if the duration of this segment is longer than the remaining skip duration
+			if (QTTimeCompare(_timeOffset, [audioSegment duration]) <= BBSTimesAreEqual) 
+			{	
+				_isDoingTimeSkip = NO;
+				[audioSegment setCurrentTime:QTTimeDecrement([audioSegment duration], _timeOffset)];
+				_timeOffset = QTZeroTime;
+				[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
+				
+			}
+			else 
+			{
+				
+				_timeOffset = QTTimeDecrement(_timeOffset, [audioSegment duration]);
+				shouldLoadNewSegment = YES;
+			}
+			
+		}
+		
+		
+		if (shouldLoadNewSegment)
+		{
+			if (smilDocument)
+			{
+				if ([smilDocument moveToAudioBeforeCurrentPosition])
+				{
+					// the time to jump to is before the start of this audio segment
+					// decrement the skip duration by the played portion of the audio segment
+					_timeOffset = QTTimeDecrement(_timeOffset, currentPlayhead);
+					_isDoingTimeSkip = YES;
+					_skipDirection = skipBackward;
+					
+					self.currentAudioFilename = smilDocument.relativeAudioFilePath;
+					self.currentTag = [smilDocument currentIdTag];
+					// sync the new position in the smil with the control document
+					if(controlDocument)
+						[controlDocument jumpToNodeWithIdTag:currentTag];
+					if(currentAudioFilename)
+						[self updateAudioFile:smilDocument.relativeAudioFilePath];
+					
+				}
+				else 
+				{
+					_isDoingTimeSkip = YES;
+					_skipDirection = skipBackward;
+					[self previousElement];
+					[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
+				}
+				
+			}
+		}
+	}	
+	
 	
 }
 
 
-
 @end
-
-
-
 
 @implementation TBNavigationController (Synchronization)
 
@@ -365,7 +497,7 @@
 				if(controlDocument)
 					[smilDocument jumpToNodeWithIdTag:currentTag];
 			}
-			//_didUserNavigationChange = NO;
+			
 		}
 		
 		self.currentAudioFilename = smilDocument.relativeAudioFilePath;
@@ -430,14 +562,21 @@
 							   selector:@selector(loadStateDidChange:) 
 								   name:BBSAudioSegmentLoadStateDidChangeNotification 
 								 object:audioSegment];
-				[noteCentre addObserver:self 
-							   selector:@selector(audioFileDidEnd:) 
-								   name:BBSAudioSegmentDidEndNotification 
-								 object:audioSegment];
-				[noteCentre addObserver:self
-							   selector:@selector(updateAfterChapterChange:) 
-								   name:BBSAudioSegmentChapterDidChangeNotifiction
-								 object:audioSegment];
+				
+				// we dont need to watch for segment end or chanpter change notifications 
+				// while fast forwarding through audio
+				if (!_isDoingTimeSkip)
+				{
+					[noteCentre addObserver:self 
+								   selector:@selector(audioFileDidEnd:) 
+									   name:BBSAudioSegmentDidEndNotification 
+									 object:audioSegment];
+					[noteCentre addObserver:self
+								   selector:@selector(updateAfterChapterChange:) 
+									   name:BBSAudioSegmentChapterDidChangeNotifiction
+									 object:audioSegment];
+				}
+
 				loadedOK = YES;
 			}
 			
@@ -526,62 +665,66 @@
 
 	if([notification object] == audioSegment)
 	{
-	//	if (!_justAddedChapters)
-//		{
-			// update the smil doc to the current tags position
-			[smilDocument jumpToNodeWithIdTag:currentTag];
-			// check for a new audio segment in the smil file
-			if([smilDocument audioAfterCurrentPosition])
-			{
-				self.currentAudioFilename = smilDocument.relativeAudioFilePath;
-				self.currentTag = [smilDocument currentIdTag];
-				// sync the new position in the smil with the control document
-				if(controlDocument)
-					[controlDocument jumpToNodeWithIdTag:currentTag];
-				if(currentAudioFilename)
-					[self updateAudioFile:smilDocument.relativeAudioFilePath];
-			}
-			else
-			{
-				if(controlDocument)
-				{
-					// update the control documents current position 
-					[controlDocument jumpToNodeWithIdTag:currentTag];
-					[controlDocument moveToNextSegment];
-					// set the tag for the new position
-					self.currentTag = [controlDocument currentIdTag];
-					[self updateAfterNavigationChange];
-				}
-			}
-			
-//		}
-//		else 
-//		{
-//			_justAddedChapters = NO;
-//		}
 
+		// update the smil doc to the current tags position
+		[smilDocument jumpToNodeWithIdTag:currentTag];
+		// check for a new audio segment in the smil file
+		if([smilDocument moveToAudioAfterCurrentPosition])
+		{
+			self.currentAudioFilename = smilDocument.relativeAudioFilePath;
+			self.currentTag = [smilDocument currentIdTag];
+			// sync the new position in the smil with the control document
+			if(controlDocument)
+				[controlDocument jumpToNodeWithIdTag:currentTag];
+			if(currentAudioFilename)
+				[self updateAudioFile:smilDocument.relativeAudioFilePath];
+		}
+		else
+		{
+			if(controlDocument)
+			{
+				// update the control documents current position in case it has changed
+				[controlDocument jumpToNodeWithIdTag:currentTag];
+				[controlDocument moveToNextSegment];
+				// set the tag for the new position
+				self.currentTag = [controlDocument currentIdTag];
+				[self updateAfterNavigationChange];
+			}
+		}
 	}
 }
 
 - (void)loadStateDidChange:(NSNotification *)notification
 {
-	
-	// add chapters if required
-	[self addChaptersToAudioSegment];
-	
-	if(!_shouldJumpToTime)
-		[audioSegment setCurrentTime:[audioSegment startTimeOfChapterWithTitle:currentTag]];
-	else
-	{	
-		[audioSegment setCurrentTime:_timeToJumpTo];
-		_shouldJumpToTime = NO;
+	if (!_isDoingTimeSkip) 
+	{
+		// add chapters if required
+		[self addChaptersToAudioSegment];
+		
+		if(!_shouldJumpToTime)
+			[audioSegment setCurrentTime:[audioSegment startTimeOfChapterWithTitle:currentTag]];
+		else
+		{	
+			[audioSegment setCurrentTime:_timeToJumpTo];
+			_shouldJumpToTime = NO;
+		}
+		
+		[self setPreferredAudioAttributes];
+		
+		
+		if(bookData.isPlaying)
+			[audioSegment play];
 	}
-	
-	[self setPreferredAudioAttributes];
-	
-	
-	if(bookData.isPlaying)
-		[audioSegment play];
+	else 
+	{
+		// skipping forward in time
+		if (_skipDirection)
+			[self jumpAudioForwardInTime]; 
+		else // skipping back
+			[self jumpAudioBackInTime];
+	}
+
+
 	
 }
 

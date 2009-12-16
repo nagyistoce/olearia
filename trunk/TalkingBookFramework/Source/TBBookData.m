@@ -162,7 +162,7 @@ static TBBookData *sharedBookDataManager = nil;
 // user settings
 @synthesize preferredVoiceIdentifier;
 @synthesize ignoreRecordedAudioContent;
-@synthesize speakUserLevelChange;
+@synthesize speakUserLevelChange, speakPageNumbers;
 @synthesize includeSkippableContent;
 @synthesize audioSkipDuration;
 @synthesize audioPlaybackRate, audioPlaybackVolume;

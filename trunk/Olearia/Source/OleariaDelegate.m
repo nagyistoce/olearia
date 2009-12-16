@@ -32,6 +32,7 @@ NSString * const OleariaPreferredVoice = @"OleariaPreferredVoice";
 NSString * const OleariaUseVoiceForPlayback = @"OleariaUseVoiceForPlayback";
 NSString * const OleariaChapterSkipIncrement = @"OleariaChapterSkipIncrement";
 NSString * const OleariaEnableVoiceOnLevelChange = @"OleariaEnableVoiceOnLevelChange";
+NSString * const OleariaEnableSpokenPageNumbers = @"OleariaEnableSpokenPageNumbers";
 NSString * const OleariaShouldOpenLastBookRead = @"OleariaShouldOpenLastBookRead";
 NSString * const OleariaShouldUseHighContrastIcons = @"OleariaShouldUseHighContrastIcons";
 NSString * const OleariaIgnoreBooksOnRemovableMedia = @"OleariaIgnoreBooksOnRemovableMedia";
@@ -91,10 +92,10 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 	// set the defaults before any book is loaded
 	// these defaults will change after the book is loaded
-	self.talkingBook.bookData.audioPlaybackRate = [_userSetDefaults floatForKey:OleariaAudioPlaybackRate];
-	self.talkingBook.bookData.audioPlaybackVolume = [_userSetDefaults floatForKey:OleariaAudioPlaybackVolume];
-	self.talkingBook.bookData.preferredVoiceIdentifier = [_userSetDefaults valueForKey:OleariaPreferredVoice];
-	[talkingBook setAudioSkipDuration:[_userSetDefaults floatForKey:OleariaChapterSkipIncrement]];
+	[[talkingBook bookData] setAudioPlaybackRate:[_userSetDefaults floatForKey:OleariaAudioPlaybackRate]];
+	[[talkingBook bookData] setAudioPlaybackVolume:[_userSetDefaults floatForKey:OleariaAudioPlaybackVolume]];
+	[[talkingBook bookData] setPreferredVoiceIdentifier:[_userSetDefaults valueForKey:OleariaPreferredVoice]];
+	[talkingBook setAudioSkipDuration:([_userSetDefaults doubleForKey:OleariaChapterSkipIncrement] * (double)60)];
 	
 	// do a check if we have old settings to update
 	if([_userSetDefaults valueForKey:@"OleariaPlaybackVoice"] != nil)
@@ -616,8 +617,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 			// set the newly loaded book to the settings that were saved for it	
 			talkingBook.bookData.audioPlaybackRate = [[savedSettings valueForKey:@"AudioRate"] floatValue];
 			talkingBook.bookData.audioPlaybackVolume = [[savedSettings valueForKey:@"AudioVolume"] floatValue];
-			talkingBook.bookData.preferredVoiceIdentifier = [savedSettings valueForKey:@"Voice"];
-			talkingBook.bookData.speakUserLevelChange = [_userSetDefaults boolForKey:OleariaEnableVoiceOnLevelChange];
+			talkingBook.bookData.preferredVoiceIdentifier = [savedSettings valueForKey:@"Voice"]; 
 				
 			[talkingBook jumpToPoint:[savedSettings valueForKey:@"PlayPosition"] andTime:[savedSettings valueForKey:@"TimePosition"]];
 						
@@ -721,6 +721,8 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	[defaultValuesDict setValue:[NSNumber numberWithBool:YES] forKey:OleariaEnableVoiceOnLevelChange];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldOpenLastBookRead];
 	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaShouldUseHighContrastIcons];
+	[defaultValuesDict setValue:[NSNumber numberWithBool:NO] forKey:OleariaEnableSpokenPageNumbers];
+	
 	
 	// set them in the shared user defaults
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -734,6 +736,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 					OleariaChapterSkipIncrement,
 					OleariaShouldUseHighContrastIcons,
 					OleariaShouldOpenLastBookRead,
+					OleariaEnableSpokenPageNumbers,
 					nil];
 	
     // get the values for the specified keys

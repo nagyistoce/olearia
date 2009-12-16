@@ -13,7 +13,7 @@
 		EE05F8890FCE439000DFB1F1 /* TBBookData.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8860FCE439000DFB1F1 /* TBBookData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE05F88B0FCE439000DFB1F1 /* TBPluginInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE1A700110167F8C0001BEDB /* TBBookInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = EE1A700010167F8C0001BEDB /* TBBookInfo.nib */; };
-		EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */; };
+		EE785C4410C8C0940095EDB2 /* TBTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE785C4310C8C0940095EDB2 /* TBTextWindow.xib */; };
 		EE8BA987100198E3000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA986100198E3000E242F /* Localizable.strings */; };
 		EE8BDC381099AE72005A7088 /* TBTalkingBookCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		EEDC6D50104CFB9000380583 /* TBBookData.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDC6D4F104CFB9000380583 /* TBBookData.m */; };
@@ -34,7 +34,7 @@
 		EE8BA984100198D6000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBookCommon.h; sourceTree = "<group>"; };
 		EEDC6D4F104CFB9000380583 /* TBBookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookData.m; sourceTree = "<group>"; };
-		EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TBTextWindow.xib; sourceTree = "<group>"; };
+		EEEE9E490FF79AA0001822EA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TBTextWindow.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				EE8BA986100198E3000E242F /* Localizable.strings */,
-				EEEE9E490FF79AA0001822EA /* TBTextWindow.xib */,
+				EE785C4310C8C0940095EDB2 /* TBTextWindow.xib */,
 				EE1A700010167F8C0001BEDB /* TBBookInfo.nib */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 			);
@@ -197,7 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE1A700110167F8C0001BEDB /* TBBookInfo.nib in Resources */,
-				EE7270A91013EE5A00FBF671 /* TBTextWindow.xib in Resources */,
+				EE785C4410C8C0940095EDB2 /* TBTextWindow.xib in Resources */,
 				EE8BA987100198E3000E242F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +241,14 @@
 				EE05F8680FCE389500DFB1F1 /* English */,
 			);
 			name = TBBookInfo.nib;
+			sourceTree = "<group>";
+		};
+		EE785C4310C8C0940095EDB2 /* TBTextWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EEEE9E490FF79AA0001822EA /* English */,
+			);
+			name = TBTextWindow.xib;
 			sourceTree = "<group>";
 		};
 		EE8BA986100198E3000E242F /* Localizable.strings */ = {
@@ -318,7 +326,7 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -361,7 +369,7 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;

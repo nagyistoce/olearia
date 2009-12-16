@@ -82,6 +82,7 @@
 	currentPlugin = nil;
 	[formatPlugins release];
 	
+	self.bookData = nil;
 	
 	[super dealloc];
 }
@@ -127,10 +128,10 @@
 	
 }
 
-
-- (void)setAudioSkipDuration:(float)newDuration
+// takes the number of seconds to skip forwards or backwards on audio segments
+- (void)setAudioSkipDuration:(double)newDuration
 {
-	self.bookData.audioSkipDuration = QTMakeTimeWithTimeInterval((double)newDuration * (double)60);
+	self.bookData.audioSkipDuration = QTMakeTimeWithTimeInterval(newDuration);
 }
 
 #pragma mark -
@@ -166,179 +167,35 @@
 
 - (void)upOneLevel
 {
-	if([currentPlugin respondsToSelector:@selector(upLevel)])
+	if([currentPlugin respondsToSelector:@selector(moveUpALevel)])
 	{
-		[currentPlugin upLevel];
+		[currentPlugin moveUpALevel];
 	}
 	
 }
 
 - (void)downOneLevel
 {
-	if([currentPlugin respondsToSelector:@selector(downLevel)])
+	if([currentPlugin respondsToSelector:@selector(moveDownALevel)])
 	{
-		[currentPlugin downLevel];
+		[currentPlugin moveDownALevel];
 	}
 }
 
 - (void)fastForwardAudio
 {
-	if([currentPlugin respondsToSelector:@selector(nextAudioSkipPoint)])
+	if([currentPlugin respondsToSelector:@selector(skipAudioForwards)])
 	{
-		
+		[currentPlugin skipAudioForwards];
 	}
-		//	if(_smilDoc)
-	//	{
-	//		if(bookData.hasNextChapter)
-	//			[_smilDoc nextChapter];
-	//
-	//	}
-	
-	//	BOOL segmentAvailable = NO;
-	//	QTTime timeOffset = QTZeroTime;
-	//	
-	//	
-	//	// check if we are moving to a chapter in the current audio file
-	//	if((_currentChapterIndex + 1) < _totalChapters)
-	//	{
-	//		_currentChapterIndex++;
-	//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
-	//	}
-	//	else 
-	//	{
-	//		if(_hasControlFile)
-	//		segmentAvailable = [_controlDoc nextSegmentIsAvailable];
-	//		
-	//		if(segmentAvailable)
-	//		{
-	//			// the next chapter will be in the next audio file
-	//
-	//			// calculate the current time left in the currently playing file 
-	//			QTTime timeLeft = QTTimeDecrement([_currentAudioFile duration], [_currentAudioFile currentTime]);
-	//			
-	//			// decrement the skip duration by how much time is left
-	//			timeOffset = QTTimeDecrement(_skipDuration, timeLeft);
-	//
-	//			[self nextSegment];
-	//			// check if there is a segment available after the one we just moved to
-	//			segmentAvailable = [_controlDoc nextSegmentIsAvailable];
-	//	
-	//			//check if the segment loaded has a shorter duration than the offset
-	//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
-	//			{
-	//				if(segmentAvailable)
-	//				{
-	//					// the current duration is shorter so decrment the offset by the duration of the segment
-	//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
-	//					
-	//					// now go to the next segment
-	//					[self nextSegment];
-	//					
-	//					// check if there is a segment available after the one we just moved to
-	//					segmentAvailable = [_controlDoc nextSegmentIsAvailable];					
-	//				}
-	//				else
-	//				{
-	//					timeOffset = QTZeroTime;
-	//				}
-	//			}
-	//			
-	//			// check that we dont have a zero time spec
-	//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
-	//			{
-	//				[_currentAudioFile setCurrentTime:timeOffset];
-	//			}
-	//		}
-	//	}
-	//	
-	//	[_currentAudioFile play];
-	//	[self updateForPosInBook];
 }
 
 - (void)fastRewindAudio
 {
-	if([currentPlugin respondsToSelector:@selector(previousAudioSkipPoint)])
+	if([currentPlugin respondsToSelector:@selector(skipAudioBackwards)])
 	{
-		
+		[currentPlugin skipAudioBackwards];
 	}
-		//	if(_smilDoc)
-	//	{
-	//		if(bookData.hasPreviousChapter)
-	//			[_smilDoc previousChapter];
-	//	}
-	
-	
-	//	BOOL segmentAvailable = NO;
-	//	
-	//	if((_currentChapterIndex - 1) >= 0)
-	//	{
-	//		_currentChapterIndex--;
-	//		[_currentAudioFile setCurrentTime:[_currentAudioFile startTimeOfChapter:_currentChapterIndex]];
-	//	}
-	//	else
-	//	{
-	//		
-	//		if(_hasControlFile)
-	//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable] ;
-	//		
-	//		if(segmentAvailable)
-	//		{
-	//			// the previous chapter will be in the previous audio file
-	//
-	//			// calculate the offset from the currently playing file 
-	//			QTTime timeOffset = QTTimeDecrement(_skipDuration, [_currentAudioFile currentTime]);
-	//			
-	//			// set the flag for reverse chapter navigation
-	//			[_controlDoc setNavigateForChapters:YES]; 
-	//			
-	//			// go to the previous segment
-	//			[self previousSegment];
-	//			
-	//			// check if there is a segment available before one we just moved to
-	//			segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
-	//			
-	//			//check if the segment loaded has a shorter duration than the offset
-	//			while((QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedAscending) && segmentAvailable)
-	//			{
-	//				if(segmentAvailable)
-	//				{
-	//					// the current duration is shorter so decrment the offset by the duration of the segment
-	//					timeOffset = QTTimeDecrement(timeOffset, [_currentAudioFile duration]);
-	//					
-	//					// set the flag for reverse chapter navigation
-	//					[_controlDoc setNavigateForChapters:YES];
-	//					
-	//					// now go to the previous segment
-	//					[self previousSegment];
-	//					
-	//					segmentAvailable = [_controlDoc PreviousSegmentIsAvailable];
-	//				}
-	//				else
-	//				{
-	//					timeOffset = QTZeroTime;
-	//				}
-	//			}
-	//			
-	//			// check that we dont have a zero time spec
-	//			if(QTTimeCompare(timeOffset, QTZeroTime) != NSOrderedSame)
-	//			{
-	//				// check that the duration is greater than the offset
-	//				if(QTTimeCompare([_currentAudioFile duration], timeOffset) == NSOrderedDescending)
-	//				{
-	//					// calculate the offset into the new current file from the end of the audio
-	//					QTTime timeToSkipTo = QTTimeDecrement([_currentAudioFile duration], timeOffset);
-	//					
-	//					// set the now current segments time position
-	//					[_currentAudioFile setCurrentTime:timeToSkipTo];
-	//					
-	//				}
-	//			}
-	//		}
-	//	}
-	//	
-	//	[_currentAudioFile play];
-	//	[self updateForPosInBook];
-	
 }
 
 - (void)gotoPage
@@ -353,7 +210,6 @@
 {
 	if(aNodePath && currentPlugin)
 		[currentPlugin jumpToControlPoint:aNodePath andTime:aTimeStr];
-	
 }
 
 - (NSString *)currentTimePosition
@@ -452,7 +308,6 @@
 }
 
 @synthesize formatPlugins, currentPlugin;
-
 @synthesize bookData;
 
 //@synthesize _controlMode;

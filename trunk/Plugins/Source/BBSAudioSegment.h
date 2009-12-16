@@ -24,15 +24,23 @@ extern NSString * const BBSAudioSegmentLoadStateDidChangeNotification;
 
 #import <QTKit/QTKit.h>
 
+
+// make time comparisons easier to understand  
+enum {
+	BBSTimeIsShorter = -1,
+	BBSTimesAreEqual,
+	BBSTimeIsLonger
+};
+typedef NSInteger BBSTimeComparisonResult;
+
 @interface BBSAudioSegment : NSObject 
 {
 	
-	QTTime					audioLength;
-
 @private 
 	NSArray					*_extendedChapterData;
 	QTMovie					*_theMovie;
-	BOOL					_didAddChapters;
+	BOOL					_isAddingChapters;
+	BOOL					_loadNotificationPosted;
 	NSNotificationCenter	*noteCenter;	
 	
 }
@@ -40,9 +48,7 @@ extern NSString * const BBSAudioSegmentLoadStateDidChangeNotification;
 - (id)initWithFile:(NSString *)fileName;
 - (BOOL)openWithFile:(NSString *)aFilename;
 
-@property (readonly)	QTTime			audioLength;
 @property (readwrite)	QTTime			currentTime;
-
 
 @end
 

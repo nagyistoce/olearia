@@ -44,13 +44,11 @@ typedef enum
 	NSMutableArray			*formatPlugins;
 	id<TBPluginInterface>	currentPlugin;
 	
-	
-	
 	//TalkingBookType		_controlMode;
 	levelControlMode		_levelNavConMode;
 	levelControlMode		_maxLevelConMode;
 	
-	TBBookData			*bookData;
+	TBBookData				*bookData;
 
 	BOOL					_hasPageNavigation;
 	BOOL					_hasPhraseNavigation;
@@ -92,10 +90,9 @@ typedef enum
 - (NSDictionary *)getCurrentPageInfo;
 - (void)setAudioPlayRate:(float)aRate;
 - (void)setAudioVolume:(float)aVolumeLevel;
-- (void)setAudioSkipDuration:(float)newDuration;
+- (void)setAudioSkipDuration:(double)newDuration;
 
-@property (readwrite, retain)		TBBookData	*bookData;
-
+@property (readwrite,assign)		TBBookData  *bookData;
 @property (readwrite)				BOOL		bookIsLoaded;
 
 @property (readonly)				BOOL		canPlay;

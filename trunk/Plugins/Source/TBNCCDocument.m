@@ -256,6 +256,8 @@
 	bookData.hasLevelDown = [self canGoDownLevel];
 	bookData.hasPreviousSegment = [self canGoPrev];
 	bookData.hasNextSegment = [self canGoNext];
+	bookData.hasNextChapter = [self nextSegmentIsAvailable];
+	bookData.hasPreviousChapter = [self PreviousSegmentIsAvailable];
 	
 }
 
