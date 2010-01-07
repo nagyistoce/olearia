@@ -23,8 +23,10 @@
 
 @interface TBTextOnlyNavigationController : TBNavigationController
 {
-	
+	NSString *currentSmilTag;
 }
+
+@property (readwrite, copy) NSString *currentSmilTag;
 
 @end
 

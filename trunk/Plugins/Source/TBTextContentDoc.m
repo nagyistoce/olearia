@@ -77,8 +77,8 @@
 	{	
 	
 		NSArray *startNodes = nil;
-		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook[1]|/dtbook3[1])/book[1]/*" error:nil];
-		self.currentNode = (startNodes) ? [startNodes objectAtIndex:0] : nil;
+		startNodes = [xmlTextDoc nodesForXPath:@"(/dtbook/book|/dtbook3/book|/html/body)/*" error:nil];
+		self.currentNode = ([startNodes count]) ? [startNodes objectAtIndex:0] : nil;
 		
 		if(nil != currentNode)
 		{	
