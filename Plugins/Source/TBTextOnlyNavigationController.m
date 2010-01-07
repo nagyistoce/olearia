@@ -65,13 +65,15 @@
 			
 			
 			if(!smilDocument)
-				smilDocument = [[TBSMILDocument alloc] init];
+				smilDocument = [[[TBSMILDocument alloc] init] retain];
 			
 			// check if the smil file REALLY needs to be loaded
 			// Failsafe for single smil books 
 			if(![currentSmilFilename isEqualToString:filename])
 			{
+				
 				self.currentSmilFilename = [filename copy];
+				//NSLog(@"smil Filename -> %@",currentSmilFilename);
 				[smilDocument openWithContentsOfURL:[NSURL URLWithString:currentSmilFilename relativeToURL:bookData.baseFolderPath]];
 			}
 			
@@ -83,7 +85,7 @@
 			if(filename)
 			{
 				if(!textDocument)
-					textDocument = [[TBTextContentDoc alloc] init];
+					textDocument = [[[TBTextContentDoc alloc] init] retain];
 				
 				if(![currentTextFilename isEqualToString:filename])
 				{
@@ -272,6 +274,8 @@
 	[textDocument updateDataForCurrentPosition];
 	
 }
+
+@synthesize currentSmilTag;	
 
 @end
 

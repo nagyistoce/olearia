@@ -64,7 +64,7 @@
 	NSMutableString *tempString = [[NSMutableString alloc] init];
 	
 	// check the default node for a title
-	[tempString setString:[self stringForXquery:@"/html/head/data(title)" ofNode:nil]]; 
+	[tempString setString:[self stringForXquery:@"/html/head/data(title)" ofNode:rootNode]]; 
 	if(!tempString) // check the alternative location
 		[tempString setString:[self stringForXquery:@"/html/head/meta[@name][ends-with(@name,'title')]/data(@content)" ofNode:nil]];
 	bookData.bookTitle = (tempString) ? tempString : LocalizedStringInTBStdPluginBundle(@"No Title", @"no title string");

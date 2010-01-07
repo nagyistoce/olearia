@@ -400,7 +400,10 @@
 			{
 				_isDoingTimeSkip = NO;
 				// decrement the current time by the skip duration
+				NSLog(@"current time -> %@",QTStringFromTime([audioSegment currentTime]));
+				QTTime newTime = QTTimeDecrement([audioSegment currentTime], _timeOffset);
 				[audioSegment setCurrentTime:QTTimeDecrement([audioSegment currentTime], _timeOffset)];
+				NSLog(@"new current time -> %@",QTStringFromTime(newTime));
 				_timeOffset = QTZeroTime;
 			}
 			else 
@@ -416,9 +419,12 @@
 			// check if the duration of this segment is longer than the remaining skip duration
 			if (QTTimeCompare(_timeOffset, [audioSegment duration]) <= BBSTimesAreEqual) 
 			{	
+				NSLog(@"current time -> %@",QTStringFromTime([audioSegment currentTime]));
 				_isDoingTimeSkip = NO;
-				[audioSegment setCurrentTime:QTTimeDecrement([audioSegment duration], _timeOffset)];
+				QTTime newTime = QTTimeDecrement([audioSegment currentTime], _timeOffset);
+				[audioSegment setCurrentTime:newTime];
 				_timeOffset = QTZeroTime;
+				NSLog(@"new current time -> %@",QTStringFromTime(newTime));
 				[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
 				
 			}
@@ -458,7 +464,7 @@
 					_isDoingTimeSkip = YES;
 					_skipDirection = skipBackward;
 					[self previousElement];
-					[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
+					//[noteCentre postNotificationName:BBSAudioSegmentLoadStateDidChangeNotification object:audioSegment];
 				}
 				
 			}

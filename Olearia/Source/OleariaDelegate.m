@@ -48,6 +48,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 - (BOOL)loadBookAtPath:(NSString *)aFilePath;
 - (void)saveCurrentBookSettings;
 - (void)updatePreV1PrefSettings;
+- (NSString *)controlFilenameFromFolder:(NSString *)aFolderPath;
 
 @property (readwrite, retain) NSMutableArray *_recentBooks;
 @property (readwrite, retain) NSString *_recentBooksPlistPath;
@@ -760,38 +761,39 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 
 - (void)removableMediaMounted:(NSNotification *)aNote
 {
+	NSString *controlFilePath = [[[NSString alloc] init]  autorelease];
 	// check that we are not ignoring removablemedia alerts
-//	if(NO == [_userSetDefaults boolForKey:OleariaIgnoreBooksOnRemovableMedia])
-//	{
-//		NSString *controlFilePath = [NSString stringWithString:[self controlFilenameFromFolder:[[aNote userInfo] valueForKey:@"NSDevicePath"]]];
-//		
-//		if(nil != controlFilePath)
-//		{
-//			// check if we are playing a book
-//			if(talkingBook.bookData.isPlaying)
-//			{
-//				// pause the audio to make the user take notice of the dialog
-//				[talkingBook pause];
-//			}
-//			
-//			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Book on Removable Media Found", @"removable media open alert short msg") 
-//											 defaultButton:NSLocalizedString(@"OK",@"ok string")
-//										   alternateButton:NSLocalizedString(@"Cancel",@"cancel string")
-//											   otherButton:nil
-//								 informativeTextWithFormat:NSLocalizedString(@"You have mounted a device containing a talking book.\nWould you like to open it?", @"removable media open alert long msg")];
-//			
-//			[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
-//			
-//			[alert beginSheetModalForWindow:mainWindow 
-//							  modalDelegate:self 
-//							 didEndSelector:@selector(removableMediaAlertDidEnd:returnCode:contextInfo:) 
-//								contextInfo:controlFilePath];
-//			
-//			
-//			
-//		}
-//		
-//	}
+	if(NO == [_userSetDefaults boolForKey:OleariaIgnoreBooksOnRemovableMedia])
+	{
+		controlFilePath = [self controlFilenameFromFolder:[[aNote userInfo] valueForKey:@"NSDevicePath"]];
+		
+		if(nil != controlFilePath)
+		{
+			// check if we are playing a book
+			if(talkingBook.bookData.isPlaying)
+			{
+				// pause the audio to make the user take notice of the dialog
+				[talkingBook pause];
+			}
+			
+			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Book found on removable media", @"removable media open alert short msg") 
+											 defaultButton:NSLocalizedString(@"OK",@"ok string")
+										   alternateButton:NSLocalizedString(@"Cancel",@"cancel string")
+											   otherButton:nil
+								 informativeTextWithFormat:NSLocalizedString(@"You have mounted a device containing a talking book.\nWould you like to open it?", @"removable media open alert long msg")];
+			
+			[alert setIcon:[NSImage imageNamed:@"olearia.icns"]];
+			
+			[alert beginSheetModalForWindow:mainWindow 
+							  modalDelegate:self 
+							 didEndSelector:@selector(removableMediaAlertDidEnd:returnCode:contextInfo:) 
+								contextInfo:controlFilePath];
+			
+			
+			
+		}
+		
+	}
 }
 
 - (void)updatePreV1PrefSettings
@@ -818,6 +820,76 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	
 
 }
+
+- (NSString *)controlFilenameFromFolder:(NSString *)aFolderPath
+{
+	//  return the full path to the control file if the path passed in is or contains a valid control document
+	//  otherwise return nil;
+	//  2.02 = ncc.html
+	//  2002/2005/V3  = .opf or .ncx
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
+	BOOL isDir;
+	NSString * controlFilename = nil;	
+	
+	// first check that the file exists
+	if ([fm fileExistsAtPath:aFolderPath isDirectory:&isDir])
+	{
+		// we have an item that exists 
+		// is it a folder?
+		if(isDir)
+		{
+			// check for a 2.02 control document
+			NSString *nccPathString = [aFolderPath stringByAppendingPathComponent:@"ncc.html"];
+			if([fm fileExistsAtPath:nccPathString])
+			{
+				controlFilename = [nccPathString copy];
+			}
+			else
+			{
+				// iterate through the items in the folder
+				// no need to search the subfolders
+				NSArray *contents = [fm contentsOfDirectoryAtPath:aFolderPath error:NULL];
+				if(nil != contents)
+				{
+					for(NSString *anItem in contents)
+					{
+						// get the extension
+						NSString *extension = [NSString stringWithString:[[anItem pathExtension] lowercaseString]];
+						// check for an opf or ncx extension
+						if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
+						{
+							controlFilename = [[aFolderPath stringByAppendingPathComponent:anItem] copy];
+							break;
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			// a file path was passed in
+			// check for a 2.02 control document
+			if([[[aFolderPath lastPathComponent] lowercaseString] isEqualToString:@"ncc.html"])
+			{
+				controlFilename = [aFolderPath copy];
+			}
+			else
+			{
+				NSString *extension = [NSString stringWithString:[[aFolderPath pathExtension] lowercaseString]];
+				// check for an opf or ncx extension
+				if(([extension isEqualToString:@"opf"]) || ([extension isEqualToString:@"ncx"]))
+				{
+					controlFilename = [aFolderPath copy];
+				}
+			}
+		}
+	}		
+	
+	return controlFilename;
+}
+
 
 @synthesize talkingBook, _recentBooks, _recentBooksPlistPath;
 
