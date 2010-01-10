@@ -29,13 +29,12 @@
 
 - (void)setupToolbar
 {
-	[self addView:generalPrefsView label:@"General"];
-	[self addView:soundPrefsView label:@"Sound"];
-	[self addView:voicePrefsView label:@"Voice"];
-	//[self addView:textPrefsView label:@"Text"];
+	[self addView:generalPrefsView label:NSLocalizedString(@"General",@"General Toolbar item title")];
+	[self addView:soundPrefsView label:NSLocalizedString(@"Sound",@"Sound Toolbar item title")];
+	[self addView:voicePrefsView label:NSLocalizedString(@"Voice",@"Voice Toolbar item title")];
+	//[self addView:textPrefsView label:NSLocalizedString(@"Text",@"Text Toolbar item title")];
 
-	[self setCrossFade:YES];
-	[self setShiftSlowsAnimation:NO];
+	
 }
 
 

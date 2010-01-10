@@ -1,23 +1,33 @@
 //
-//  DBPrefsWindowController.m
+//  BBSPrefsWindowController.m
 //
 
-#import "DBPrefsWindowController.h"
+#import "BBSPrefsWindowController.h"
 
 
-static DBPrefsWindowController *_sharedPrefsWindowController = nil;
+static BBSPrefsWindowController *_sharedPrefsWindowController = nil;
 
 
-@implementation DBPrefsWindowController
+@interface BBSPrefsWindowController (Private)
 
+- (void)toggleActivePreferenceView:(NSToolbarItem *)toolbarItem;
+- (void)displayViewForIdentifier:(NSString *)identifier animate:(BOOL)animate;
 
+@end
 
+@interface BBSPrefsWindowController (ViewTransition)
+
+- (void)crossFadeView:(NSView *)oldView withView:(NSView *)newView;
+- (NSRect)frameForView:(NSView *)view;
+
+@end
+
+@implementation BBSPrefsWindowController
 
 #pragma mark -
 #pragma mark Class Methods
 
-
-+ (DBPrefsWindowController *)sharedPrefsWindowController
++ (BBSPrefsWindowController *)sharedPrefsWindowController
 {
 	if (!_sharedPrefsWindowController) {
 		_sharedPrefsWindowController = [[self alloc] initWithWindowNibName:[self nibName]];
@@ -25,24 +35,18 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	return _sharedPrefsWindowController;
 }
 
-
-
-
+// Subclasses can override this to use a nib with a different name.
 + (NSString *)nibName
-	// Subclasses can override this to use a nib with a different name.
 {
    return @"Preferences";
 }
 
-
-
-
 #pragma mark -
 #pragma mark Setup & Teardown
 
-
+// designated initializer
 - (id)initWithWindow:(NSWindow *)window
-  // -initWithWindow: is the designated initializer for NSWindowController.
+  
 {
 	self = [super initWithWindow:nil];
 	if (self != nil) {
@@ -58,16 +62,11 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 		[viewAnimation setAnimationCurve:NSAnimationEaseInOut];
 		[viewAnimation setDelegate:self];
 		
-		[self setCrossFade:YES]; 
-		[self setShiftSlowsAnimation:YES];
 	}
 	return self;
 
 	(void)window;  // To prevent compiler warnings.
 }
-
-
-
 
 - (void)windowDidLoad
 {
@@ -87,9 +86,6 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	[[self window] setShowsToolbarButton:NO];
 }
 
-
-
-
 - (void) dealloc {
 	[toolbarIdentifiers release];
 	[toolbarViews release];
@@ -98,12 +94,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	[super dealloc];
 }
 
-
-
-
 #pragma mark -
 #pragma mark Configuration
-
 
 - (void)setupToolbar
 {
@@ -111,18 +103,12 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	// toolbar by calling -addView:label: or -addView:label:image:.
 }
 
-
-
-
 - (void)addView:(NSView *)view label:(NSString *)label
 {
 	[self addView:view
 			label:label
 			image:[NSImage imageNamed:label]];
 }
-
-
-
 
 - (void)addView:(NSView *)view label:(NSString *)label image:(NSImage *)image
 {
@@ -143,48 +129,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	[toolbarItems setObject:item forKey:identifier];
 }
 
-
-
-
-#pragma mark -
-#pragma mark Accessor Methods
-
-
-- (BOOL)crossFade
-{
-    return _crossFade;
-}
-
-
-
-
-- (void)setCrossFade:(BOOL)fade
-{
-    _crossFade = fade;
-}
-
-
-
-
-- (BOOL)shiftSlowsAnimation
-{
-    return _shiftSlowsAnimation;
-}
-
-
-
-
-- (void)setShiftSlowsAnimation:(BOOL)slows
-{
-    _shiftSlowsAnimation = slows;
-}
-
-
-
-
 #pragma mark -
 #pragma mark Overriding Methods
-
 
 - (IBAction)showWindow:(id)sender 
 {
@@ -220,12 +166,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	[super showWindow:sender];
 }
 
-
-
-
 #pragma mark -
 #pragma mark Toolbar
-
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
@@ -234,9 +176,6 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	(void)toolbar;
 }
 
-
-
-
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar 
 {
 	return toolbarIdentifiers;
@@ -244,17 +183,11 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	(void)toolbar;
 }
 
-
-
-
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
 {
 	return toolbarIdentifiers;
 	(void)toolbar;
 }
-
-
-
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)identifier willBeInsertedIntoToolbar:(BOOL)willBeInserted 
 {
@@ -263,16 +196,14 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	(void)willBeInserted;
 }
 
+@end
 
-
+@implementation BBSPrefsWindowController (Private)
 
 - (void)toggleActivePreferenceView:(NSToolbarItem *)toolbarItem
 {
 	[self displayViewForIdentifier:[toolbarItem itemIdentifier] animate:YES];
 }
-
-
-
 
 - (void)displayViewForIdentifier:(NSString *)identifier animate:(BOOL)animate
 {	
@@ -281,7 +212,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 
 		// See if there are any visible views.
 	NSView *oldView = nil;
-	if ([[contentSubview subviews] count] > 0) {
+	if ([[contentSubview subviews] count] > 0) 
+	{
 			// Get a list of all of the views in the window. Usually at this
 			// point there is just one visible view. But if the last fade
 			// hasn't finished, we need to get rid of it now before we move on.
@@ -290,9 +222,10 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 			// The first one (last one added) is our visible view.
 		oldView = [subviewsEnum nextObject];
 		
-			// Remove any others.
+		// Remove any others.
 		NSView *reallyOldView = nil;
-		while ((reallyOldView = [subviewsEnum nextObject]) != nil) {
+		while ((reallyOldView = [subviewsEnum nextObject]) != nil) 
+		{
 			[reallyOldView removeFromSuperviewWithoutNeedingDisplay];
 		}
 	}
@@ -304,9 +237,10 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 		[contentSubview addSubview:newView];
 		[[self window] setInitialFirstResponder:newView];
 
-		if (animate && [self crossFade])
+		if (animate)
 			[self crossFadeView:oldView withView:newView];
-		else {
+		else 
+		{
 			[oldView removeFromSuperviewWithoutNeedingDisplay];
 			[newView setHidden:NO];
 			[[self window] setFrame:[self frameForView:newView] display:YES animate:animate];
@@ -316,21 +250,18 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	}
 }
 
+@end
 
-
-
-#pragma mark -
-#pragma mark Cross-Fading Methods
-
+@implementation BBSPrefsWindowController (ViewTransition)
 
 - (void)crossFadeView:(NSView *)oldView withView:(NSView *)newView
 {
 	[viewAnimation stopAnimation];
 	
-    if ([self shiftSlowsAnimation] && [[[self window] currentEvent] modifierFlags] & NSShiftKeyMask)
-		[viewAnimation setDuration:1.25];
-    else
-		[viewAnimation setDuration:0.25];
+	[viewAnimation setDuration:0.4];
+	
+	// workaround for 10.6.2 where fadein does not work
+	[newView setHidden:NO];
 	
 	NSDictionary *fadeOutDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 		oldView, NSViewAnimationTargetKey,
@@ -357,9 +288,19 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	[viewAnimation setViewAnimations:animationArray];
 	[viewAnimation startAnimation];
 }
+- (NSRect)frameForView:(NSView *)view
+	// Calculate the window size for the new view.
+{
+	NSRect windowFrame = [[self window] frame];
+	NSRect contentRect = [[self window] contentRectForFrameRect:windowFrame];
+	CGFloat windowTitleAndToolbarHeight = NSHeight(windowFrame) - NSHeight(contentRect);
 
-
-
+	windowFrame.size.height = NSHeight([view frame]) + windowTitleAndToolbarHeight;
+	windowFrame.size.width = NSWidth([view frame]);
+	windowFrame.origin.y = NSMaxY([[self window] frame]) - NSHeight(windowFrame);
+	
+	return windowFrame;
+}
 
 - (void)animationDidEnd:(NSAnimation *)animation
 {
@@ -379,31 +320,22 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 		[subview removeFromSuperviewWithoutNeedingDisplay];
 	}
 
-		// This is a work-around that prevents the first
-		// toolbar icon from becoming highlighted.
-	[[self window] makeFirstResponder:nil];
-
-	(void)animation;
 }
-
-
-
-
-- (NSRect)frameForView:(NSView *)view
-	// Calculate the window size for the new view.
-{
-	NSRect windowFrame = [[self window] frame];
-	NSRect contentRect = [[self window] contentRectForFrameRect:windowFrame];
-	float windowTitleAndToolbarHeight = NSHeight(windowFrame) - NSHeight(contentRect);
-
-	windowFrame.size.height = NSHeight([view frame]) + windowTitleAndToolbarHeight;
-	windowFrame.size.width = NSWidth([view frame]);
-	windowFrame.origin.y = NSMaxY([[self window] frame]) - NSHeight(windowFrame);
-	
-	return windowFrame;
-}
-
-
-
 
 @end
+
+@implementation BBSPrefsWindowController (WindowDelegate)
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	if(sender == [self window])
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+@end
+
+

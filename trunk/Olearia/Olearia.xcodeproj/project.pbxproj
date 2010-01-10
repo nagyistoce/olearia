@@ -35,6 +35,8 @@
 		EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */; };
 		EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE436AE40E5D500F00276672 /* OleariaPrefsController.h */; };
 		EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */; };
+		EE2C585710F9D72D004EEE83 /* BBSPrefsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = EE2C585510F9D72D004EEE83 /* BBSPrefsWindowController.h */; };
+		EE2C585810F9D72D004EEE83 /* BBSPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2C585610F9D72D004EEE83 /* BBSPrefsWindowController.m */; };
 		EE3075A6104B5822005DA7DC /* StdDaisyFormats.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = EE30759C104B56E8005DA7DC /* StdDaisyFormats.plugin */; };
 		EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE436AE50E5D500F00276672 /* OleariaPrefsController.m */; };
 		EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4406010E666380002DEDBB /* ExpandingViewController.m */; };
@@ -42,8 +44,6 @@
 		EE5A13590EDB92B600398FFC /* RelaunchHelper in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = EE5A11CD0EDB912B00398FFC /* RelaunchHelper */; };
 		EE89DED60EB5BFCB0017EB9D /* Voice.png in Resources */ = {isa = PBXBuildFile; fileRef = EE89DED50EB5BFCB0017EB9D /* Voice.png */; };
 		EE8BA956100198AF000E242F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE8BA955100198AF000E242F /* Localizable.strings */; };
-		EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */; };
-		EEADAC1A102163DE006FC113 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */; };
 		EEADAC5110216903006FC113 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = EEADAC5010216903006FC113 /* General.png */; };
 		EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */; };
 		EEC1AA950E3C7BF70000512D /* made_with_cocoa.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EEC1AA940E3C7BF70000512D /* made_with_cocoa.tiff */; };
@@ -167,6 +167,8 @@
 		EE22786A0ECA51B200309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/MainWindow.nib; sourceTree = "<group>"; };
 		EE22786D0ECA51E800309491 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/About.nib; sourceTree = "<group>"; };
 		EE24ED690FCFA11D00D88546 /* TalkingBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TalkingBook.xcodeproj; path = ../TalkingBookFramework/TalkingBook.xcodeproj; sourceTree = SOURCE_ROOT; };
+		EE2C585510F9D72D004EEE83 /* BBSPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSPrefsWindowController.h; sourceTree = "<group>"; };
+		EE2C585610F9D72D004EEE83 /* BBSPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSPrefsWindowController.m; sourceTree = "<group>"; };
 		EE307597104B56E8005DA7DC /* StdDaisyFormats.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StdDaisyFormats.xcodeproj; path = ../Plugins/StdDaisyFormats.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EE394C350EA88898001DC23C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		EE436AE40E5D500F00276672 /* OleariaPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OleariaPrefsController.h; sourceTree = "<group>"; };
@@ -174,12 +176,15 @@
 		EE4406000E666380002DEDBB /* ExpandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandingViewController.h; sourceTree = "<group>"; };
 		EE4406010E666380002DEDBB /* ExpandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandingViewController.m; sourceTree = "<group>"; };
 		EE4F9293104B8BA30022653C /* StdDaisyFormats.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StdDaisyFormats.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE5178E410F972A700BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb_NO; path = Resources/nb_NO.lproj/About.nib; sourceTree = "<group>"; };
+		EE5178E510F972A700BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb_NO; path = nb_NO.lproj/Credits.rtf; sourceTree = "<group>"; };
+		EE5178E610F972A700BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb_NO; path = nb_NO.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE5178E710F972A700BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb_NO; path = Resources/nb_NO.lproj/MainWindow.nib; sourceTree = "<group>"; };
+		EE5178E810F972A700BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb_NO; path = Resources/nb_NO.lproj/Preferences.nib; sourceTree = "<group>"; };
 		EE5A11B10EDB905B00398FFC /* RelaunchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelaunchHelper.m; sourceTree = "<group>"; };
 		EE5A11CD0EDB912B00398FFC /* RelaunchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RelaunchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE89DED50EB5BFCB0017EB9D /* Voice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Voice.png; sourceTree = "<group>"; };
 		EE8BA953100198A0000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsWindowController.h; sourceTree = "<group>"; };
-		EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
 		EEADAC5010216903006FC113 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = General.png; sourceTree = "<group>"; };
 		EEAEAAC90E73A43E00A6B770 /* AboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutBoxController.h; sourceTree = "<group>"; };
 		EEAEAACA0E73A43E00A6B770 /* AboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutBoxController.m; sourceTree = "<group>"; };
@@ -352,8 +357,8 @@
 		EE4617A50DDBBE9300F2D375 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EEADAC17102163DE006FC113 /* DBPrefsWindowController.h */,
-				EEADAC18102163DE006FC113 /* DBPrefsWindowController.m */,
+				EE2C585510F9D72D004EEE83 /* BBSPrefsWindowController.h */,
+				EE2C585610F9D72D004EEE83 /* BBSPrefsWindowController.m */,
 				EE4406000E666380002DEDBB /* ExpandingViewController.h */,
 				EE4406010E666380002DEDBB /* ExpandingViewController.m */,
 				EE2159090DDB5ADE009155A1 /* OleariaDelegate.h */,
@@ -396,7 +401,7 @@
 				EE24ED430FCF9E1700D88546 /* OleariaDelegate.h in Headers */,
 				EE24ED440FCF9E1700D88546 /* OleariaPrefsController.h in Headers */,
 				EE24ED450FCF9E1700D88546 /* AboutBoxController.h in Headers */,
-				EEADAC19102163DE006FC113 /* DBPrefsWindowController.h in Headers */,
+				EE2C585710F9D72D004EEE83 /* BBSPrefsWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +468,7 @@
 				Norwegian,
 				fr,
 				no,
+				nb_NO,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Olearia */;
 			projectDirPath = "";
@@ -604,7 +610,7 @@
 				EE436AE60E5D500F00276672 /* OleariaPrefsController.m in Sources */,
 				EE4406020E666380002DEDBB /* ExpandingViewController.m in Sources */,
 				EEAEAACB0E73A43E00A6B770 /* AboutBoxController.m in Sources */,
-				EEADAC1A102163DE006FC113 /* DBPrefsWindowController.m in Sources */,
+				EE2C585810F9D72D004EEE83 /* BBSPrefsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +647,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE2278670ECA518A00309491 /* English */,
+				EE5178E810F972A700BED199 /* nb_NO */,
 			);
 			name = Preferences.nib;
 			path = ..;
@@ -650,6 +657,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE22786A0ECA51B200309491 /* English */,
+				EE5178E710F972A700BED199 /* nb_NO */,
 			);
 			name = MainWindow.nib;
 			path = ..;
@@ -659,6 +667,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE22786D0ECA51E800309491 /* English */,
+				EE5178E410F972A700BED199 /* nb_NO */,
 			);
 			name = About.nib;
 			path = ..;
@@ -668,6 +677,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA953100198A0000E242F /* English */,
+				EE5178E610F972A700BED199 /* nb_NO */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -676,6 +686,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE394C350EA88898001DC23C /* English */,
+				EE5178E510F972A700BED199 /* nb_NO */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -787,7 +798,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = "1.0 RC1";
+				APPLICATION_VERSION = "1.0 RC2";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -839,7 +850,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = "1.0 RC1";
+				APPLICATION_VERSION = "1.0 RC2";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ALTIVEC_EXTENSIONS = YES;
@@ -941,7 +952,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				APPLICATION_VERSION = "1.0 RC1";
+				APPLICATION_VERSION = "1.0 RC2";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ALTIVEC_EXTENSIONS = YES;

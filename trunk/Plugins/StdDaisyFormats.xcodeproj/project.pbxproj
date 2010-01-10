@@ -28,11 +28,11 @@
 		EE9E52AC0FC3CD1B00D0564C /* DTB2005BookPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AB0FC3CD1B00D0564C /* DTB2005BookPlugin.m */; };
 		EE9E52AF0FC3CDB400D0564C /* TBBooksharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */; };
 		EE9E53050FC3DE2700D0564C /* TBNIMASPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */; };
+		EEB2561210F97B7A00D80769 /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEB2561010F97B7A00D80769 /* TextView.xib */; };
 		EEB66B1C104374BB003378BB /* TBBookshareNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB66B1A104374BB003378BB /* TBBookshareNavigationController.m */; };
 		EEB66B29104386F6003378BB /* TBBookshareTextContentDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */; };
 		EEB7A3A50FE5D52200662B04 /* TBStdInfoViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */; };
 		EEB7A3DD0FE5EC0D00662B04 /* TBStdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB7A3DC0FE5EC0D00662B04 /* TBStdInfoView.m */; };
-		EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBF2DF10FE62426004D5771 /* TextView.xib */; };
 		EEC3D88A1099451000F375A1 /* InformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC3D8891099451000F375A1 /* InformationView.xib */; };
 		EECDD40D0FCBD56A00C0EDDC /* TBControlDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4060FCBD56A00C0EDDC /* TBControlDoc.m */; };
 		EECDD40E0FCBD56A00C0EDDC /* TBNCCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EECDD4080FCBD56A00C0EDDC /* TBNCCDocument.m */; };
@@ -105,12 +105,17 @@
 		EE9E52AE0FC3CDB400D0564C /* TBBooksharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBooksharePlugin.m; sourceTree = "<group>"; };
 		EE9E53030FC3DE2700D0564C /* TBNIMASPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNIMASPlugin.h; sourceTree = "<group>"; };
 		EE9E53040FC3DE2700D0564C /* TBNIMASPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNIMASPlugin.m; sourceTree = "<group>"; };
+		EEB2561110F97B7A00D80769 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TextView.xib; sourceTree = "<group>"; };
+		EEB2561310F97B9600D80769 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = nb_NO; path = nb_NO.lproj/ErrorLoadingTextContent.html; sourceTree = "<group>"; };
+		EEB2561410F97B9600D80769 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb_NO; path = Resources/nb_NO.lproj/InformationView.xib; sourceTree = SOURCE_ROOT; };
+		EEB2561510F97B9600D80769 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb_NO; path = nb_NO.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EEB2561610F97B9600D80769 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = nb_NO; path = nb_NO.lproj/NoTextContent.html; sourceTree = "<group>"; };
+		EEB2561710F97B9600D80769 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb_NO; path = nb_NO.lproj/TextView.xib; sourceTree = "<group>"; };
 		EEB66B1A104374BB003378BB /* TBBookshareNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookshareNavigationController.m; sourceTree = "<group>"; };
 		EEB66B1B104374BB003378BB /* TBBookshareNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareNavigationController.h; sourceTree = "<group>"; };
 		EEB66B27104386F6003378BB /* TBBookshareTextContentDoc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBBookshareTextContentDoc.m; sourceTree = "<group>"; };
 		EEB66B28104386F6003378BB /* TBBookshareTextContentDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookshareTextContentDoc.h; sourceTree = "<group>"; };
 		EEB7A3890FE5D3A800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../Resources/English.lproj/InformationView.xib; sourceTree = "<group>"; };
-		EEB7A38B0FE5D3C800662B04 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TextView.xib; sourceTree = "<group>"; };
 		EEB7A3A20FE5D52200662B04 /* TBStdInfoViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoViewItem.h; sourceTree = "<group>"; };
 		EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBStdInfoViewItem.m; sourceTree = "<group>"; };
 		EEB7A3DB0FE5EC0D00662B04 /* TBStdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBStdInfoView.h; sourceTree = "<group>"; };
@@ -178,6 +183,8 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EEB2561010F97B7A00D80769 /* TextView.xib */,
+				EEC3D8891099451000F375A1 /* InformationView.xib */,
 				EE8BA9491001980A000E242F /* Localizable.strings */,
 				EE2768920FF875FD00C3DB1C /* NoTextContent.html */,
 				EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */,
@@ -189,7 +196,7 @@
 		08FB77AFFE84173DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				EECB46E60FE645E500C5E92A /* Views */,
+				EECB46E60FE645E500C5E92A /* View Classes */,
 				EE3172CC0FE0D98A00B27804 /* Categories */,
 				EE3174BE0FE0E18500B27804 /* Controllers */,
 				EE3927900FC3F0110093CBBD /* Plugins */,
@@ -333,7 +340,6 @@
 		EEB7A3990FE5D4F400662B04 /* Information View */ = {
 			isa = PBXGroup;
 			children = (
-				EEC3D8891099451000F375A1 /* InformationView.xib */,
 				EEB7A3A20FE5D52200662B04 /* TBStdInfoViewItem.h */,
 				EEB7A3A30FE5D52200662B04 /* TBStdInfoViewItem.m */,
 				EEB7A3DB0FE5EC0D00662B04 /* TBStdInfoView.h */,
@@ -342,19 +348,18 @@
 			name = "Information View";
 			sourceTree = "<group>";
 		};
-		EECB46E60FE645E500C5E92A /* Views */ = {
+		EECB46E60FE645E500C5E92A /* View Classes */ = {
 			isa = PBXGroup;
 			children = (
 				EEB7A3990FE5D4F400662B04 /* Information View */,
 				EECB46E70FE645F900C5E92A /* Text View */,
 			);
-			name = Views;
+			name = "View Classes";
 			sourceTree = "<group>";
 		};
 		EECB46E70FE645F900C5E92A /* Text View */ = {
 			isa = PBXGroup;
 			children = (
-				EEBF2DF10FE62426004D5771 /* TextView.xib */,
 				EEEE9C8D0FF7591D001822EA /* TBStdTextView.h */,
 				EEEE9C8E0FF7591D001822EA /* TBStdTextView.m */,
 			);
@@ -441,6 +446,7 @@
 				French,
 				German,
 				no,
+				nb_NO,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* StdDaisyFormats */;
 			projectDirPath = "";
@@ -473,10 +479,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEC3D88A1099451000F375A1 /* InformationView.xib in Resources */,
-				EEBF2DF20FE62426004D5771 /* TextView.xib in Resources */,
 				EE2768940FF875FE00C3DB1C /* NoTextContent.html in Resources */,
 				EEED048D0FF9DEFA00838EBC /* ErrorLoadingTextContent.html in Resources */,
 				EE8BA94A1001980A000E242F /* Localizable.strings in Resources */,
+				EEB2561210F97B7A00D80769 /* TextView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +556,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE2768930FF875FD00C3DB1C /* English */,
+				EEB2561610F97B9600D80769 /* nb_NO */,
 			);
 			name = NoTextContent.html;
 			sourceTree = "<group>";
@@ -558,31 +565,35 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA947100197EB000E242F /* English */,
+				EEB2561510F97B9600D80769 /* nb_NO */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		EEBF2DF10FE62426004D5771 /* TextView.xib */ = {
+		EEB2561010F97B7A00D80769 /* TextView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EEB7A38B0FE5D3C800662B04 /* English */,
+				EEB2561110F97B7A00D80769 /* English */,
+				EEB2561710F97B9600D80769 /* nb_NO */,
 			);
 			name = TextView.xib;
-			path = ../Resources;
 			sourceTree = "<group>";
 		};
 		EEC3D8891099451000F375A1 /* InformationView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EEB7A3890FE5D3A800662B04 /* English */,
+				EEB2561410F97B9600D80769 /* nb_NO */,
 			);
 			name = InformationView.xib;
+			path = ../Source;
 			sourceTree = "<group>";
 		};
 		EEED048B0FF9DEFA00838EBC /* ErrorLoadingTextContent.html */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EEED048C0FF9DEFA00838EBC /* English */,
+				EEB2561310F97B9600D80769 /* nb_NO */,
 			);
 			name = ErrorLoadingTextContent.html;
 			sourceTree = "<group>";
