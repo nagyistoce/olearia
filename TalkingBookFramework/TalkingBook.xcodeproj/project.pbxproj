@@ -30,6 +30,9 @@
 		EE05F8860FCE439000DFB1F1 /* TBBookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBBookData.h; sourceTree = "<group>"; };
 		EE05F8880FCE439000DFB1F1 /* TBPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBPluginInterface.h; path = ../TBPluginInterface.h; sourceTree = SOURCE_ROOT; };
 		EE155504104B693000A20F90 /* TalkingBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TalkingBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE51791310F976F200BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb_NO; path = nb_NO.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE51791410F976F200BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb_NO; path = nb_NO.lproj/TBBookInfo.nib; sourceTree = "<group>"; };
+		EE51791510F976F200BED199 /* nb_NO */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb_NO; path = nb_NO.lproj/TBTextWindow.xib; sourceTree = "<group>"; };
 		EE5AB99E0FCF909E00D4C4B8 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		EE8BA984100198D6000E242F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EE8BDC361099AE72005A7088 /* TBTalkingBookCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBTalkingBookCommon.h; sourceTree = "<group>"; };
@@ -180,6 +183,7 @@
 				French,
 				German,
 				no,
+				nb_NO,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* TalkingBook */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -239,6 +243,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE05F8680FCE389500DFB1F1 /* English */,
+				EE51791410F976F200BED199 /* nb_NO */,
 			);
 			name = TBBookInfo.nib;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EEEE9E490FF79AA0001822EA /* English */,
+				EE51791510F976F200BED199 /* nb_NO */,
 			);
 			name = TBTextWindow.xib;
 			sourceTree = "<group>";
@@ -255,6 +261,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				EE8BA984100198D6000E242F /* English */,
+				EE51791310F976F200BED199 /* nb_NO */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

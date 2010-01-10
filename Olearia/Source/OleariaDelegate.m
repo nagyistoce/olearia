@@ -686,7 +686,7 @@ NSString * const OleariaShouldRelaunchNotification = @"OleariaShouldRelaunchNoti
 	}
 	// add the clear recent item
 	NSMenuItem *theItem = [[NSMenuItem alloc] init];
-	[theItem setTitle:@"Clear Books"];
+	[theItem setTitle:NSLocalizedString(@"Clear Books",@"Clear Books Recent menu item")];
 	[theItem setAction:@selector(clearRecentBooks)];
 	if(![_recentBooks count])
 	{	

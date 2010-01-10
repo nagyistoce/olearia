@@ -21,9 +21,9 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "DBPrefsWindowController.h"
+#import "BBSPrefsWindowController.h"
 
-@interface OleariaPrefsController : DBPrefsWindowController 
+@interface OleariaPrefsController : BBSPrefsWindowController 
 {
 	NSArray			*_availableVoices;
 		
