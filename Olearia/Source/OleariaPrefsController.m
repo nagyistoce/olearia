@@ -29,10 +29,10 @@
 
 - (void)setupToolbar
 {
-	[self addView:generalPrefsView label:NSLocalizedString(@"General",@"General Toolbar item title")];
-	[self addView:soundPrefsView label:NSLocalizedString(@"Sound",@"Sound Toolbar item title")];
-	[self addView:voicePrefsView label:NSLocalizedString(@"Voice",@"Voice Toolbar item title")];
-	//[self addView:textPrefsView label:NSLocalizedString(@"Text",@"Text Toolbar item title")];
+	[self addView:generalPrefsView label:NSLocalizedString(@"General",@"General Toolbar item title") image:[NSImage imageNamed:@"General"]];
+	[self addView:soundPrefsView label:NSLocalizedString(@"Sound",@"Sound Toolbar item title") image:[NSImage imageNamed:@"Sound"]];
+	[self addView:voicePrefsView label:NSLocalizedString(@"Voice",@"Voice Toolbar item title") image:[NSImage imageNamed:@"Voice"]];
+	//[self addView:textPrefsView label:NSLocalizedString(@"Text",@"Text Toolbar item title") image:[NSImage imageNamed:@"Text"]];
 
 	
 }
