@@ -502,7 +502,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/csh;
-			shellScript = "#!/bin/csh\n\nif ($CONFIGURATION == \"Release\") then\n\techo \"Generating Standard Plugins Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -s LocalizedStringInTBStdPluginBundle -o Resources/English.lproj Source/*.m\nendif\n";
+			shellScript = "#!/bin/csh\n\nif (($CONFIGURATION == \"Release\")) then\n\techo \"Generating Standard Plugins Localizable.strings ...\"\n\tcd \"${SRCROOT}\"\n\tgenstrings -littleEndian -q -u -s LocalizedStringInTBStdPluginBundle -o Resources/English.lproj Source/*.m\nendif\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
