@@ -30,8 +30,7 @@
 	// add our subview
     [contentView addSubview:toolsBoxView];
 	[toolsBoxView setContentView:soundView];
-	
-	
+		
 	isExpanded = NO;
 	
 }
@@ -54,14 +53,10 @@
 	else
 		windowDelta += [toolsBoxView convertSize:[toolsBoxView frame].size toView:nil].height;
 
-		//[toolsBoxView setHidden:NO];
-	//[[NSAnimationContext currentContext] setDuration:0.5];
+	
+	
 	[NSAnimationContext beginGrouping];
 	
-	//if([toolsBoxView frame].size.height > [soundView frame].size.height)
-	//	vie
-	
-	//[[toolsBoxView animator] setTitle:@"Sound"];
 	[[toolsBoxView animator] setContentView:soundView];
 	
 	
@@ -72,23 +67,12 @@
    
 	[[[toolsBoxView window] animator] setFrame:newWindowFrame display:YES animate:YES];
 	
+	[[toolsBoxView contentView] setHidden:isExpanded];
+	[toolsBoxView setHidden:isExpanded];
+	
 	[NSAnimationContext endGrouping];
 	
 	isExpanded = !isExpanded;
-	/*
-	if (windowDelta > 0) {
-        // before we start resizing the window, make sure the new size will fit onscreen
-        NSRect constrainedWindowFrame = [docWindow constrainFrameRect:newWindowFrame toScreen:[docWindow screen]];
-        if (!(NSEqualRects(constrainedWindowFrame, newWindowFrame))) {
-            // adjust window frame so it can grow by windowDelta height 
-            NSRect adjustedWindowFrame = constrainedWindowFrame;
-            adjustedWindowFrame.size.height -=  windowDelta;
-            adjustedWindowFrame.origin.y += windowDelta;
-            [docWindow setFrame:adjustedWindowFrame display:YES animate:YES];
-            newWindowFrame = constrainedWindowFrame;
-        }
-    }
-	*/
 	
 }
 
