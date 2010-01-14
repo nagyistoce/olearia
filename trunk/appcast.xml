@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>Olearia Changelog</title>
+      <link>http://olearia.googlecode.com/trunk/appcast.xml</link>
+      <description>Most recent changes with links to updates.</description>
+      <language>en</language>
+<item>
+	<title>Version 1.1</title>
+	 <description><![CDATA[
+		<h2>New Features</h2>
+		<ul>
+                <li>Added Sparkle Framework for self updating</li>
+                <li>Added Norwegian Localization</li>
+                <li>Fixed an issue where the preference window toolbar icons did not appear in languages other than english.</li>
+        </ul>
+
+		]]></description>
+<pubDate>Thu, 14 Jan 2010 15:15:43 +0800</pubDate>
+	<enclosure
+		url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
+		sparkle:version="1.1"
+		type="application/octet-stream"
+		length="3066445"
+		sparkle:dsaSignature="MC4CFQDGuVDz5rIMHhcFUD/uBn3FrFXkIgIVALj8iPNqglCsfEcLuxdTIh4zJCaY"
+	/>
+    </item>
+   </channel>
+</rss>
