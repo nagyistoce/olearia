@@ -8,6 +8,7 @@
 	  <item>
 		<title>Version 1.1</title>
 	 	<description><![CDATA[
+	 	    <h2>New In 1.1</h2>
 			<ul>
                 <li>Added Sparkle Framework for self updating</li>
                 <li>Added Norwegian Localization</li>
