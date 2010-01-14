@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>Olearia Changelog</title>
-      <link>http://olearia.googlecode.com/trunk/appcast.xml</link>
+      <link>http://olearia.googlecode.com/svn/trunk/appcast.xml</link>
       <description>Most recent changes with links to updates.</description>
       <language>en</language>
 <item>
