@@ -8,13 +8,13 @@
 	  <item>
 		<title>Version 1.1</title>
 	 	<description><![CDATA[
-	 	    <h2>New In 1.1</h2>
+	 	    <h2>New in 1.1</h2>
 			<ul>
-                <li>Added Sparkle Framework for self updating</li>
-                <li>Added Norwegian Localization</li>
+			    <li>Added self Updating via the Sparkle Framework.</li>
+                <li>Added Norwegian Localization.</li>
                 <li>Fixed an issue where the preference window toolbar icons did not appear in languages other than english.</li>
         	</ul>
-			<p>New In 1.0</p>
+			<p>New in 1.0</p>
 			<ul>
 				<li>Completely updated the entire core to accept plugins.</li>
 				<li>Updated support for 2.02, 2002, 2005 formats for Text Only, Partial Audio and Full Text Full Audio.</li>
@@ -22,15 +22,16 @@
 				<li>Fixed lots of major and minor issues throughout.</li>
 			</ul>
 		]]></description>
-		<pubDate>Thu, 14 Jan 2010 16:18:21 +0800</pubDate>
-		<enclosure
-			url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
-			sparkle:version="243"
-			sparkle:shortVersionString="1.1"
-			type="application/octet-stream"
-			length="3069982"
-			sparkle:dsaSignature="MCwCFC5NWeyjnzV3aHn1tDbo8V6cHO+ZAhQcj/SFAhnyFfjQY9B3sNyXfTTqKw=="
-		/>
+		<pubDate>Thu, 14 Jan 2010 19:09:58 +0800</pubDate>
+	<enclosure
+		url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
+		sparkle:version="247M"
+		sparkle:shortVersionString="1.1"
+		type="application/octet-stream"
+		length="3070022"
+		sparkle:dsaSignature="MC0CFH7WidBtOQWcX/tVANEe3aNEIIgyAhUAik3swyO1juWCwiwvkPsvoL0HlrY="
+	/>
+
     </item>
    </channel>
 </rss>
