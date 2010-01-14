@@ -9,30 +9,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>smil</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>SMILicons</string>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>application/smil</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>SMIL Audio Playback Control Document</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.real.smil</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>XML</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>opf</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -62,6 +38,30 @@
 			<key>NSPersistentStoreTypeKey</key>
 			<string>XML</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>smil</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SMILicons</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>application/smil</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>SMIL Audio Playback Control Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.real.smil</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -84,7 +84,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>${APPLICATION_VERSION}</string>
 	<key>CFBundleSignature</key>
-	<string>OLRA</string>
+	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string></string>
 	<key>LSEnvironment</key>
@@ -100,5 +100,9 @@
 	<string>MainWindow</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUFeedURL</key>
+	<string>http://olearia.googlecode.com/svn/trunk/appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>SparklePublicKey.pem</string>
 </dict>
 </plist>
