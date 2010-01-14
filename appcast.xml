@@ -15,15 +15,16 @@
         	</ul>
 			<p>New In 1.0</p>
 			<ul>
-				<li> Completely updated the entire core to accept plugins.</li>
-				<li> Updated support for 2.02, 2002, 2005 formats for Text Only, Partial Audio and Full Text Full Audio.</li>
-				<li> Added support for Bookshare Text Only books.</li>
-				<li> Fixed lots of major and minor issues throughout.</li>
+				<li>Completely updated the entire core to accept plugins.</li>
+				<li>Updated support for 2.02, 2002, 2005 formats for Text Only, Partial Audio and Full Text Full Audio.</li>
+				<li>Added support for Bookshare Text Only books.</li>
+				<li>Fixed lots of major and minor issues throughout.</li>
 			</ul>
 		]]></description>
 		<pubDate>Thu, 14 Jan 2010 16:18:21 +0800</pubDate>
 		<enclosure
 			url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
+			sparkle:version="243M"
 			sparkle:shortVersionString="1.1"
 			type="application/octet-stream"
 			length="3069982"
