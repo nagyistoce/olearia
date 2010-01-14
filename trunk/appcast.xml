@@ -16,13 +16,13 @@
         </ul>
 
 		]]></description>
-<pubDate>Thu, 14 Jan 2010 15:15:43 +0800</pubDate>
+<pubDate>Thu, 14 Jan 2010 16:18:21 +0800</pubDate>
 	<enclosure
 		url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
 		sparkle:version="1.1"
 		type="application/octet-stream"
-		length="3066445"
-		sparkle:dsaSignature="MC4CFQDGuVDz5rIMHhcFUD/uBn3FrFXkIgIVALj8iPNqglCsfEcLuxdTIh4zJCaY"
+		length="3069982"
+		sparkle:dsaSignature="MCwCFC5NWeyjnzV3aHn1tDbo8V6cHO+ZAhQcj/SFAhnyFfjQY9B3sNyXfTTqKw=="
 	/>
     </item>
    </channel>
