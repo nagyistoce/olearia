@@ -22,14 +22,14 @@
 				<li>Fixed lots of major and minor issues throughout.</li>
 			</ul>
 		]]></description>
-		<pubDate>Thu, 14 Jan 2010 19:09:58 +0800</pubDate>
+<pubDate>Thu, 28 Jan 2010 09:40:36 +0800</pubDate>
 	<enclosure
 		url="http://olearia.googlecode.com/files/Olearia 1.1.zip"
-		sparkle:version="248"
+		sparkle:version="251"
 		sparkle:shortVersionString="1.1"
 		type="application/octet-stream"
-		length="3070022"
-		sparkle:dsaSignature="MC0CFH7WidBtOQWcX/tVANEe3aNEIIgyAhUAik3swyO1juWCwiwvkPsvoL0HlrY="
+		length="3070027"
+		sparkle:dsaSignature="MC0CFQDJfdfRScb21EIqnsgL3pvC06kDZAIUHJRm0jhb7s+eU6wshMhUm6WyLDo="
 	/>
 
     </item>
